@@ -14,7 +14,7 @@
 	END;
 	
 
-3) 	VISUALIZAR SALIDA POR PANTALLA 
+3) VISUALIZAR SALIDA POR PANTALLA 
 	
 	--Esta linea va encima de cualquier bloque SQL
 	SET SERVEROUTPUT ON
@@ -24,7 +24,7 @@
 	END;
 	
 
-4)	VARIABLES
+4) VARIABLES
 
 	--Se puede definir, inicializar en el DECLARE y/o reescribir en BEGIN
 	SET SERVEROUTPUT ON
