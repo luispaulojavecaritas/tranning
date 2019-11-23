@@ -213,7 +213,7 @@
         DBMS_OUTPUT.PUT_LINE(DIA_SEMANA);
     END;
     
-11) Flujo de control IF, Else, Elseif, end if
+11) Flujo de Control alternativo IF, Else, Elseif, end if
 
     -- Nivel 01
 	IF <condición> THEN
@@ -274,7 +274,6 @@
     END;
     /
 
-
     --PRÁCTICA TIPO PRODUCTO
     SET SERVEROUTPUT ON
     DECLARE
@@ -297,7 +296,7 @@
     END;
     
 
-12) Comando Case 
+12) Flujo de Control alternativo Case 
     --Es un comando similar al switch de java
 
     CASE [valor_a_comparar]    
@@ -321,7 +320,78 @@
     END;
     
     
+13) Comando SEARCHED CASE    
+    --Permite hacer mejores comparaciones
+    
+    DECLARE
+        cantidad NUMBER;
+    BEGIN
+        cantidad := 5;
+        
+        CASE 
+            WHEN cantidad < 10 THEN DBMS_OUTPUT.PUT_LINE('Bajo');
+            WHEN cantidad >= 10 and  cantidad <= 20 THEN DBMS_OUTPUT.PUT_LINE('Medio');
+            WHEN cantidad > 20 THEN DBMS_OUTPUT.PUT_LINE('Alto');
+            ELSE DBMS_OUTPUT.PUT_LINE('N.A');
+        END CASE;       
+    END;
+    
+    
+        
+    SET SERVEROUTPUT ON
+    DECLARE
+      USUARIO VARCHAR2(30);
+    BEGIN
+      USUARIO:=USER;  
+    CASE USUARIO
+      WHEN 'SYS' THEN DBMS_OUTPUT.PUT_LINE('ERES SUPERADMINISTRADOR');
+      WHEN 'SYSTEM' THEN DBMS_OUTPUT.PUT_LINE('ERES ADMINISTRADOR NORMAL');
+      WHEN 'HR' THEN DBMS_OUTPUT.PUT_LINE('ERES DE RECURSOS HUMANOS');
+      ELSE DBMS_OUTPUT.PUT_LINE('USUARIO NO AUTORIZADO');
+    END CASE;
+    END;    
+    
+    
 
+14) Bucle LOOP
+    --Utilice el LOOP para realizar procesamiento interactivo basado en escogencias lógicas. La sintaxis común es
+    --Exit = permite terminar el bluque del loop
+    --Aplica: EXIT WHEN..... (RECOMENDADO)
+    
+    LOOP
+      Instrucciones;
+      ...;
+      EXIT WHEN <condición>;
+      Instrucciones;
+      ...;
+    END LOOP;
+    
+    
+    DECLARE
+        X NUMBER:= 1;
+    BEGIN
+        LOOP
+        DBMS_OUTPUT.PUT_LINE('VALOR DE X: ' || X);
+        X:=X+1;
+        IF X = 21 THEN
+            EXIT;
+        END IF;
+        END LOOP;
+    END;
+    
+    
+    
+    DECLARE
+        X NUMBER:= 1;
+    BEGIN
+        LOOP
+        DBMS_OUTPUT.PUT_LINE('VALOR DE X: ' || X);
+        X:=X+1;
+        EXIT WHEN X = 11 ;
+        END LOOP;
+    END;
+        
+        
 
     
 
