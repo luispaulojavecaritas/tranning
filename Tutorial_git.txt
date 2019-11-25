@@ -1,0 +1,45 @@
+USUARIO@DESKTOP-SVAS3B4 MINGW64 /d/USUARIO/Desktop
+$ git --version
+git version 2.24.0.windows.2
+
+*********VERIFICAR SI EXISTE ALGUNA CLAVE SSH EN LA PC******************
+USUARIO@DESKTOP-SVAS3B4 MINGW64 /d/USUARIO/Desktop
+$ cd ~/.ssh
+bash: cd: /c/Users/USUARIO/.ssh: No such file or directory
+
+*********CREAR CLAVE SSH EN LA PC******************
+USUARIO@DESKTOP-SVAS3B4 MINGW64 /d/USUARIO/Desktop
+$ ssh-keygen
+Generating public/private rsa key pair.
+Enter file in which to save the key (/c/Users/USUARIO/.ssh/id_rsa):
+Created directory '/c/Users/USUARIO/.ssh'.
+Enter passphrase (empty for no passphrase):
+Enter same passphrase again:
+Your identification has been saved in /c/Users/USUARIO/.ssh/id_rsa.
+Your public key has been saved in /c/Users/USUARIO/.ssh/id_rsa.pub.
+The key fingerprint is:
+SHA256:RKuP7O95fhVkoZDefZpfkxiUMhOv9V0X/ebL9niKB/U USUARIO@DESKTOP-SVAS3B4
+The key's randomart image is:
++---[RSA 3072]----+
+|        . .o. oo.|
+|       . ..=.+o o|
+|        o. .**  +|
+|       o  . +.= B|
+|      . S  . .oXo|
+|     . o    ..+oE|
+|      o .    o..+|
+|     .   .. ...=o|
+|      .o+o....+oo|
++----[SHA256]-----+
+
+*********VISUALIZAR LA CLAVE SSH EN LA PC******************
+USUARIO@DESKTOP-SVAS3B4 MINGW64 /d/USUARIO/Desktop
+$ cat ~/.ssh/id_rsa.pub
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC7Pp/yxiBqCzZf7QOw9dANjD/8UAqz2XS11aHAvsYLj33gyB2fjGHDuwBJ++QxoKHVLkhruSjTX+IyeVHZChCvtDq1cWbp1VG0GhLISnUdOGiTcUajEOW6M5crbsxAPpEyNL3q/7BR35Ia4rEsINE/eca/xYZv4m11u0nYESS4Ys9RqmdfXHd7XIGx9OyrP6Fa0CtXERvG0ZwVuq4tuY2DAhJWgzj+vLNOIPfehLddUbqUjWxRCqUvDmzfpw1mKqg9STfn4OpFE5Os1CypW1eSZqX76nDaHYJkLiPESqefVrFzgtKA/ciOWwyjUdjt4BD1lhaiQeRdWTaRmywhvXk6kC8yGkP9mvg5qD+YroKe01IHAiQenCEQwSBxG1nhWfaqjTREw21YyWqDisTyvQcXNFFjMpJ7nLIOUCzaDcOxCneYmXM7nOcXox9E6tNNPeYlU2MKlFyjuqnoLBhad7PeqSqWw6UiEwQpZG7othiGOr6bASGAcLsCbxNa6hBTNZs= USUARIO@DESKTOP-SVAS3B4
+
+*********CONFIGURACIONES GENERALES USER AND EMAIL******************
+USUARIO@DESKTOP-SVAS3B4 MINGW64 /d/USUARIO/Desktop
+$ git config --global user.name "Paulo Jave"
+
+USUARIO@DESKTOP-SVAS3B4 MINGW64 /d/USUARIO/Desktop
+$ git config --global user.email paulo.jave.caritas@gmail.com

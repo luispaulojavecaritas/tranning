@@ -540,7 +540,163 @@
         end loop;
     end;
     
+18) Comando goto
+    --La declaración GOTO le permite transferir el control a un bloque o declaración etiquetados. Lo siguiente ilustra la sintaxis de la declaración GOTO:
+    GOTO label_name;
+    --label_name = es el nombre de una etiqueta que identifica la declaración de destino. En el programa, rodeas el nombre de la etiqueta con corchetes angulares de doble cierre como se muestra a continuación:
+    <<label_name>>;
+    --No es recomendable aplicar proque rompe la programacion  estructurada
+    
+    
+    BEGIN
+      GOTO second_message;
+     
+      <<first_message>>
+      DBMS_OUTPUT.PUT_LINE( 'Hello' );
+      GOTO the_end;
+     
+      <<second_message>>
+      DBMS_OUTPUT.PUT_LINE( 'PL/SQL GOTO Demo' );
+      GOTO first_message;
+     
+      <<the_end>>
+      DBMS_OUTPUT.PUT_LINE( 'and good bye...' );
+    END;
+    
+    
+    declare
+        p varchar2(30);
+        n pls_integer := 5;
+    begin
+        for j in 2..round(sqrt(n)) loop
+            if n mod j = 0 then
+                p:= ' No es un numero primo';
+                goto impresion;
+            end if;
+        end loop;
+        
+         p:= ' Es un numero primo';
+         
+         <<impresion>>
+         DBMS_OUTPUT.PUT_LINE(to_char(n)||p);
+    end;
+    
+    
+20) Practica de bucles
 
+    -- PRÁCTICA1- TABLAS DE MULTIPLICAR
+    --Tabla de multiplicar con loop, while y for
+    DECLARE
+       X NUMBER;
+       Z NUMBER;
+    BEGIN
+        X:=1;
+        Z:=1;
+        LOOP
+            EXIT WHEN X=11;
+            DBMS_OUTPUT.PUT_LINE('Tabla de multiplicar del :'||x);
+            LOOP
+               EXIT WHEN Z=11;           
+               DBMS_OUTPUT.PUT_LINE(X*Z);
+               Z:=Z+1;
+            END LOOP;
+            Z:=0;
+            X:=X+1;
+        END LOOP;
+    END;
+    
+    DECLARE
+       X NUMBER;
+       Z NUMBER;
+    BEGIN
+        X:=1;
+        Z:=1;
+       WHILE X<11 LOOP
+        DBMS_OUTPUT.PUT_LINE('Tabla de multiplicar del :'||x);
+        WHILE Z<11 LOOP
+            DBMS_OUTPUT.PUT_LINE(X*Z);
+               Z:=Z+1;
+        END LOOP;
+        Z:=0;
+            X:=X+1;
+        END LOOP;
+    END;
+    
+    
+    BEGIN
+       FOR X IN 1..10  LOOP
+        DBMS_OUTPUT.PUT_LINE('Tabla de multiplicar del :'||x);
+            FOR Z IN 1..10 LOOP
+                DBMS_OUTPUT.PUT_LINE(X*Z);
+            END LOOP;
+        END LOOP;
+    END;
+    
+
+    --PRACTICA2- FRASE AL REVES
+    DECLARE
+        FRASE VARCHAR2(100);
+        LIMITE NUMBER;
+        CONTADOR NUMBER;
+        FRASE_AL_REVES VARCHAR2(100);
+    BEGIN
+        FRASE:='ESTO ES UNA PRUEBA DE FRASE';
+        LIMITE:=LENGTH(FRASE);
+        WHILE LIMITE>0 LOOP
+            FRASE_AL_REVES:=FRASE_AL_REVES||SUBSTR(FRASE,LIMITE,1);
+            LIMITE:=LIMITE-1;
+        END LOOP;
+            DBMS_OUTPUT.PUT_LINE(FRASE_AL_REVES);
+    END;
+    
+    
+    --PRACTICA 3. SALIR SI HAY UNA X
+    DECLARE
+        FRASE VARCHAR2(100);
+        LIMITE NUMBER;
+        CONTADOR NUMBER;
+        FRASE_AL_REVES VARCHAR2(100);
+    BEGIN
+        FRASE:='ESTO ES UNA PRUEBA DE XMEN';
+        LIMITE:=LENGTH(FRASE);
+        WHILE LIMITE>0 LOOP
+            EXIT WHEN UPPER((SUBSTR(FRASE,LIMITE,1)))='X';
+            FRASE_AL_REVES:=FRASE_AL_REVES||SUBSTR(FRASE,LIMITE,1);
+            LIMITE:=LIMITE-1;
+        END LOOP;
+        DBMS_OUTPUT.PUT_LINE(FRASE_AL_REVES);
+    END;
+    
+    
+    --PRACTICA4- ASTERISCOS
+    DECLARE
+        NOMBRE VARCHAR2(100);
+        ASTERISCOS VARCHAR2(100);
+    BEGIN
+        NOMBRE:='ALBERTO';
+        FOR I IN 1..LENGTH(NOMBRE) LOOP
+            ASTERISCOS:=ASTERISCOS||'*'; 
+        END LOOP;
+        DBMS_OUTPUT.PUT_LINE(NOMBRE ||'-->'||ASTERISCOS);
+    END;
+    
+       
+    --PRACTICA 5- MULTIPLOS DE 4
+    DECLARE
+        INICIO NUMBER;
+        FINAL NUMBER;
+    BEGIN
+      INICIO:=1;
+      FINAL:=10;
+      FOR I IN INICIO..FINAL LOOP
+        IF MOD(I,4)=0 THEN
+            DBMS_OUTPUT.PUT_LINE(I);
+        END IF;
+       END LOOP;
+    END;
+    
+    
+21)
 
     
     
