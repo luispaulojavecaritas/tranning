@@ -6,7 +6,7 @@
 	ALTER USER HR IDENTIFIED BY HR;
 
 	
-2) BLOQUE ANONIMO PARA PLSQL
+2) BLOQUE ANONIMO PARA PLSQL:
 
 	--Este bloque necesita minimo una linea
 	BEGIN
@@ -393,6 +393,152 @@
         
         
 
+
+15) Bucle LOOP - Blucles Anidados
+    -- el <<xxxxx>>, por encima de un loop, se comporta com un nombre a o tag que se puede llamar y diferenciar
+
+    declare
+        s PLS_INTEGER := 0;
+        i PLS_INTEGER := 0;
+        j PLS_INTEGER;
+    
+    begin
+        <<padre>> --etiqueta del buble padre, nombre y/o etiqueta
+        loop
+            i := i+1;
+            j := 100;
+            DBMS_OUTPUT.PUT_LINE('Padre: ' || i);
+            <<hijo>>  --etiqueta del buble hijo
+            loop
+                exit padre when (i>3);
+                DBMS_OUTPUT.PUT_LINE('Hijo: ' || j);
+                j := j+1;
+                exit hijo when (j>105);
+            end loop hijo;
+        end loop padre;
+        DBMS_OUTPUT.PUT_LINE('FIN!!!!');
+    end;
+    
+
+
+
+15) Clausula CONTINUE
+    --Lo que hace es repetir un bucle segun la condicion 
+    
+    declare
+        x number := 0;
+    begin
+        loop -- Aqui regresamos cuando se ejecuta el continue
+        DBMS_OUTPUT.PUT_LINE('LOOP: x= ' || TO_CHAR(x));
+        x := x+1;
+        if x<3 then
+            continue;
+        end if;
+        DBMS_OUTPUT.PUT_LINE('DESPUES DEL CONTINUE: x= ' ||TO_CHAR(x));
+        exit when x =5;
+    end loop;
+    DBMS_OUTPUT.PUT_LINE('DESPUES DEL LOOP: x= ' ||TO_CHAR(x));
+    end;
+    
+    
+    declare
+        x number := 0;
+    begin
+        loop -- Aqui regresamos cuando se ejecuta el continue
+        DBMS_OUTPUT.PUT_LINE('LOOP: x= ' || TO_CHAR(x));
+        x := x+1;
+        continue when x<3;
+        DBMS_OUTPUT.PUT_LINE('DESPUES DEL CONTINUE: x= ' ||TO_CHAR(x));
+        exit when x =5;
+    end loop;
+    DBMS_OUTPUT.PUT_LINE('DESPUES DEL LOOP: x= ' ||TO_CHAR(x));
+    end;
+    
+    
+16) Buble FORD
+    --La variable es numerico, es la regla principal
+    --La variable es convertida a PLS_INTEGER de manera automatica
+    --La variable es la unica en todo PLSQL que no necesita declaracion, solo eso, tambien solo es reconocida dentro del for
+
+	--FOR numérico Utilice este ciclo para realizar iteraciones sobre un rango de números.    
+    FOR <variable> IN <inicio>..<fin> LOOP
+      Instrucciones;
+      ...;
+    END LOOP;
+    	
+    --FOR con cursores: Este es un tipo que combina el control de cursores y el uso de ciclos para recorrerlo. Acá no hace falta abrir y cerrar el cursor directamente, sino que el FOR se encarga de ello.
+    CURSOR c_line_item IS
+    (estatuto SQL)
+    BEGIN
+      FOR rec_info IN c_line_item LOOP
+       Intrucciones;
+      END LOOP;
+    END;
+    --Véase que uno declara el rec_info, que para los efectos es un registro de tipo c_line_item (%ROWTYPE), el cual no es necesario declararlo, sino que se crean como una variable local al FOR. Por último, el FOR realiza de forma implícita el FETCH sobre el rec_info.
+    
+    
+    begin
+        for i in 1..10 loop
+            DBMS_OUTPUT.PUT_LINE(i);
+        end loop;
+    end;
+    
+    --El reverse hace lo mismo ppero ya no de izquierda a derecha sino de derecha a izquierda
+    begin
+        for i in reverse 1..10 loop
+            DBMS_OUTPUT.PUT_LINE(i);
+        end loop;
+    end;
+    
+    --Aplicacion del exit when, para poder interrumpir el buble for
+    begin
+        for i in 1..10 loop
+            DBMS_OUTPUT.PUT_LINE(i);
+            exit when i =5;
+        end loop;
+    end;
+    
+    --La varible del for solo tiene interpretacion y alcance deltro del loop del for
+    declare
+        i varchar2(10) := 'Hola';
+    begin
+        for i in 1..10 loop
+            DBMS_OUTPUT.PUT_LINE(i);
+            exit when i =5;
+        end loop;
+        DBMS_OUTPUT.PUT_LINE(i);
+    end;
+    
+
+17) Bucle while
+
+    --Este verifica una condición, que mientras sea verdadera se mantiene en el ciclo. La sintaxis es la siguiente:
+    
+    WHILE <condición> LOOP
+      Instrucciones;
+      ...;
+    END LOOP;
+    
+    declare
+        done boolean := false;
+        x number := 0;
+    begin
+        while x<10 loop
+            DBMS_OUTPUT.PUT_LINE(x);
+            x:=x+1;
+            exit when x=5;
+        end loop;
+        
+        while done loop
+            DBMS_OUTPUT.PUT_LINE('No pasa por aqui');
+            done:=true;
+        end loop;
+        
+        while not done loop
+            DBMS_OUTPUT.PUT_LINE('Ha pasado por aqui');
+            done:=true;
+        end loop;
+    end;
     
 
 
