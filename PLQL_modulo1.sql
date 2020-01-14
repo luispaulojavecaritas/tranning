@@ -1093,5 +1093,260 @@ END;
       WHEN OTHERS THEN
         DBMS_OUTPUT.PUT_LINE('Error indefinido');
     END;
+    
+33) 
+/*Crear una Excepción personalizada denominada CONTROL_REGIONES.
+o Debe dispararse cuando al insertar o modificar una región queramos poner una clave superior a 200. Por ejemplo usando una variable con ese valor.
+o En ese caso debe generar un texto indicando algo así como “Codigo no permitido. Debe ser inferior a 200”
+o Recordemos que las excepciones personalizadas deben dispararse de forma manual con el RAISE.*/
+
+
+SET SERVEROUTPUT ON
+DECLARE
+    CONTROL_REGIONES EXCEPTION;
+    CODIGO NUMBER:=201;
+BEGIN
+    if codigo > 200 then
+        raise control_regiones;
+    else
+        INSERT INTO regions VALUES (CODIGO,'PRUEBA');
+    end if;
+exception
+    when control_regiones then
+        dbms_output.put_line('El codigo debe ser inferior a 200');
+    when others then
+        dbms_output.put_line(SQLcode);
+        dbms_output.put_line(SQLERRM);
+END;
+/
+
+34) Las excepciones ambitos
+-- Si el hijo arroja una excepcion y no esta tratada en el hijo lo buscar en padre
+--Si los controla el hijo no debe ser tartada de nuevo en el padre
+-- pero si nolo encuentra en el padre sale error.
+
+
+DECLARE
+   
+   regn NUMBER;
+   regt varchar2(200);
+BEGIN
+   regn:=101;
+   regt:='ASIA';
+   DECLARE 
+     reg_max EXCEPTION;
+   BEGIN
+       IF regn > 100 THEN
+             RAISE reg_max;  
+       ELSE
+           insert into regions values (regn,regt);
+           commit;
+       END IF;
+    EXCEPTION
+    WHEN reg_max THEN  
+        DBMS_OUTPUT.PUT_LINE('La region no puede ser mayor de 100.BLOQUE HIJO');
+    END;
+EXCEPTION
+/*  WHEN reg_max THEN  
+    DBMS_OUTPUT.PUT_LINE('La region no puede ser mayor de 100.');*/
+  WHEN OTHERS THEN
+    DBMS_OUTPUT.PUT_LINE('Error indefinido');
+END;
+
+
+35) RAISE_APPLICATION_ERROR
+-- Permite debolver un error personalizado y paramos el programa
+--Aqui no se considera exceptions
+
+DECLARE   
+   regn NUMBER;
+   regt varchar2(200);
+BEGIN
+   regn:=101;
+   regt:='ASIA';
+   iF regn > 100 THEN
+       -- EL CODIGO DEBE ESTAR ENTRE -20000 Y -20999
+       RAISE_APPLICATION_ERROR(-20001,'LA ID NO PUEDE SER MAYOR DE 100');  
+    ELSE
+       insert into regions values (regn,regt);
+       commit;
+    END IF;
+END;
+
+
+36) Ejercicio de raise application error
+/*Modificar la practica anterior para disparar un error con RAISE_APPLICATION en vez de con PUT_LINE. Esto permite que la aplicación pueda capturar y gestionar el error que devuelve el PL/SQL*/
+
+SET SERVEROUTPUT ON
+DECLARE
+    CONTROL_REGIONES EXCEPTION;
+    CODIGO NUMBER:=201;
+BEGIN
+    if codigo > 200 then
+        raise control_regiones;
+    else
+        INSERT INTO REGIONS VALUES (CODIGO,'PRUEBA');
+    end if;
+    exception
+        when control_regiones then
+            RAISE_APPLICATION_ERROR(-20001,'El codigo debe ser inferior a 200');
+
+        when others then
+            dbms_output.put_line(SQLcode);
+            dbms_output.put_line(SQLERRM);
+END;
+
+37) Colecciones y tipos compuestos - Records
+-- Pemite crear colecciones personalizadas e inclusive dentro de las mismas se puede usar el %ROWTYPE
+
+SET SERVEROUTPUT ON
+DECLARE
+    --Aqui creamos el esquema del record
+    TYPE empleado IS RECORD (
+    nombre varchar2(100),
+    salario number, 
+    fecha employees.hire_date%type,
+    datos employees%ROWTYPE
+    );
+    
+    -- Creamos una instancia del record
+    emple1 empleado;
+    
+BEGIN
+    SELECT  * INTO emple1.datos
+    FROM employees WHERE employee_id = 100;
+    
+    emple1.nombre := emple1.datos.first_name || ' ' || emple1.datos.last_name;
+    emple1.salario := emple1.datos.salary * 0.80;
+    emple1.fecha := emple1.datos.hire_date;
+    
+    dbms_output.put_line(emple1.nombre);
+    dbms_output.put_line(emple1.salario);
+    dbms_output.put_line(emple1.fecha);
+    dbms_output.put_line(emple1.datos.first_name);
+    
+END;
+
+38) Inserts y updates con PL/SQL records
+
+-- Creamos una tabla para pruebas
+create table regiones as select * from regions where region_id =0;
+
+--ejemplo de insert con rowtype
+declare
+    reg1 regions%ROWTYPE;
+begin
+    select * into reg1 from regions where region_id=1;
+    --Insert
+    insert into regiones values reg1;
+end;
+
+--ejemplo de update con rowtype
+declare
+    reg1 regions%ROWTYPE;
+begin
+    reg1.region_id := 1;
+    reg1.region_name := 'America';
+    --Insert
+    UPDATE  regiones SET ROW = reg1 where region_id = 1;
+end;
+
+
+39) Colecciones y tipos compuestos:
+--A diferencia de rowtype que solo aplica a una sola fila, las colecciones aplica a mas filas, similar a un array en programacion
+--Tipos de colecciones: Associative arrays, nested tables y varrays.
+
+--Associative arrays (INDEX BY tables)
+    --Colecciones de PL/SQL de dos columnas: clave primaria (tipo entero o cadena) y valores(escalar o record)
+    --Son dinamicos se pueden crear las posiciones automaticamente
+    --Sintaxis:
+    TYPE nombre IS TABLE OF
+    TIPO COLUMNA
+    INDEX BY PLS_INTEGER|BINARY_INTEGER|VARCHAR2(X);
+    
+    VARIABLE TIPO;
+    
+    --Ejemplo:
+    TYPE departamentos IS TABLE OF 
+    departments.department_name%TYPE 
+    INDEX BY PLS_INTEGER;
+    
+    TYPE empleados IS TABLE OF 
+    employees%ROWTYPE 
+    INDEX BY PLS_INTEGER;
+    
+    
+    depas  departamentos;
+    emple empleados;
+    
+    --Acceso al array (N - posicion): 
+        --Si es de tipo escalar: ARRAY(N)
+        --Si es de tipo complejo - rowtype: ARRAY(N).CAMPO
+        
+        --Ejemplo
+        
+        --Tipo simple:
+        depas(1) := 'INFORMATICA';
+        depas(2) := 'RRHH';
+        dbms_output.put_line(depas(1));
+        dbms_output.put_line(depas(2));
+        
+        --Tipo simple:
+        SELECT * into emple(1) from employees where employee_id =100;
+        dbms_output.put_line(emple(1).first_name);
+    --Metodos de los Arrays:
+        --EXISTS(N): detectar si existe un elemento
+        --COUNT: numero de elementos
+        --FIRST: devuelve el indice mas pequeño
+        --LAST: devuelve el indice mas alto
+        --PRIOR(N): devuelve el indice anterior a N
+        --NEXT(N): devuelve el indice posterior a N
+        --DELETE: borra todo
+        --DELETE(N): borra el indice N
+        --DELETE(M,N): borra un indice M a N - un rango
+        
+    --Ejemplo:
+    
+    DECLARE
+    
+        TYPE departamentos IS TABLE OF 
+        departments.department_name%TYPE 
+        INDEX BY PLS_INTEGER;
+        
+        TYPE empleados IS TABLE OF 
+        employees%ROWTYPE 
+        INDEX BY PLS_INTEGER;
+        
+        depas  departamentos;
+        emple empleados;
+    
+    BEGIN
+        --Tippo simple
+        depas(1) := 'INFORMATICA';
+        depas(2) := 'RRHH';
+        dbms_output.put_line(depas(1));
+        dbms_output.put_line(depas(2));
+        dbms_output.put_line(depas.LAST);
+        dbms_output.put_line(depas.FIRST);
+        
+        IF depas.EXISTS(3) THEN
+            dbms_output.put_line(depas(3));
+        ELSE
+            dbms_output.put_line('Ese valor no existe');
+        END IF;
+        
+        --Tipo compuesto
+        SELECT * into emple(1) from employees where employee_id =100;
+        dbms_output.put_line(emple(1).first_name);
+
+    END;
+    
+    --Ejemplo con nultiples filas
+    DECLARE
+    BEGIN
+    END;
+    
+
+
 
     
