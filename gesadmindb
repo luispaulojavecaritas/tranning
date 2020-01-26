@@ -1,0 +1,183 @@
+CREATE DATABASE gesadmindb;
+
+CREATE TABLE Tipo_Documento (
+    Id int NOT NULL AUTO_INCREMENT,
+    Descripcion varchar2(50) NOT NULL,
+    Estado int NOT NULL,
+	Estado int NOT NULL,
+	Registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT PK_TipoDocumento PRIMARY KEY (ID)
+	);
+	
+CREATE TABLE Sexo (
+    Id int NOT NULL AUTO_INCREMENT,
+    Descripcion varchar2(50) NOT NULL,
+    Estado int NOT NULL,
+	Registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT PK_Sexo PRIMARY KEY (ID)
+	);
+
+CREATE TABLE Pais (
+    Id int NOT NULL AUTO_INCREMENT,
+    Descripcion varchar2(50) NOT NULL,
+    Estado int NOT NULL,
+	Registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT PK_Pais PRIMARY KEY (ID)
+	);
+	
+CREATE TABLE Bloque (
+    Id int NOT NULL AUTO_INCREMENT,
+    Descripcion varchar2(50) NOT NULL,
+    Estado int NOT NULL,
+	Registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT PK_Bloque PRIMARY KEY (ID)
+	);
+	
+CREATE TABLE Puesto (
+    Id int NOT NULL AUTO_INCREMENT,
+    Descripcion varchar2(50) NOT NULL,
+    Estado int NOT NULL,
+	Id_Bloque int NOT NULL,
+	Registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT PK_Puesto PRIMARY KEY (ID)
+	);	
+	
+CREATE TABLE Tipo_Estatus (
+    Id int NOT NULL AUTO_INCREMENT,
+    Descripcion varchar2(50) NOT NULL,
+    Estado int NOT NULL,
+	Registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT PK_Tipo_Estatus PRIMARY KEY (ID)
+	);	
+	
+CREATE TABLE Puesto_Persona (
+    Id int NOT NULL AUTO_INCREMENT,
+    Descripcion varchar2(50) NOT NULL,
+    Estado int NOT NULL,
+	Id_Puesto int NOT NULL,
+	Id_Persona int NOT NULL,
+	Id_Tipo_Estatus int NOT NULL,
+	Registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT PK_Puesto_Persona PRIMARY KEY (ID)
+	);	
+
+CREATE TABLE Persona (
+    Id int NOT NULL AUTO_INCREMENT,
+    Nombre varchar2(50) NOT NULL,
+    Paterno varchar2(50),
+	Materno varchar2(50),
+	Id_Tipo_Documento int NOT NULL,
+	Nro_Documento int NOT NULL,
+	Id_Pais int NOT NULL,
+	Direccion varchar2(100),
+	Telefono_Fijo varchar2(10),
+	Telefono_Celular varchar2(10),
+	Correo_Electronico varchar2(50),
+	Id_Sexo int NOT NULL,
+	Registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT PK_Persona PRIMARY KEY (ID)
+	);	
+	
+CREATE TABLE Proveedor (
+    Id int NOT NULL AUTO_INCREMENT,
+	RUC int NOT NULL,
+    Razon_Social varchar2(100) NOT NULL,
+	Domicilio_Fiscal varchar2(100),
+    Rubro varchar2(50),
+	Telefono_Fijo varchar2(10),
+	Telefono_Celular varchar2(10),
+	Correo_Electronico varchar2(50),
+	Estado int NOT NULL,
+	Registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT PK_TipoProveedor PRIMARY KEY (ID)
+	);
+
+CREATE TABLE Contacto_Proveedor (
+    Id int NOT NULL AUTO_INCREMENT,
+	Id_Proveedor int NOT NULL,
+	Id_Persona int NOT NULL,
+	Estado int NOT NULL,
+	Registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT PK_Contacto_Proveedor PRIMARY KEY (ID)
+	);	
+
+
+CREATE TABLE Egreso (
+    Id int NOT NULL AUTO_INCREMENT,
+	Descripcion varchar2(100) NOT NULL,
+	Estado int NOT NULL,
+	Registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT PK_Egreso PRIMARY KEY (ID)
+	);
+	
+	
+CREATE TABLE Ingreso (
+    Id int NOT NULL AUTO_INCREMENT,
+	Descripcion varchar2(100) NOT NULL,
+	Estado int NOT NULL,
+	Registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT PK_Ingreso PRIMARY KEY (ID)
+	);
+	
+CREATE TABLE Situacion_Orden (
+    Id int NOT NULL AUTO_INCREMENT,
+	Descripcion varchar2(100) NOT NULL,
+	Estado int NOT NULL,
+	Registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT PK_SituacionOrden PRIMARY KEY (ID)
+	);
+	
+CREATE TABLE Orden_Pago (
+    Id int NOT NULL AUTO_INCREMENT,
+	Descripcion varchar2(100) NOT NULL,
+	Monto double NOT NULL,
+	Fecha_Vencimiento Date,
+	Fecha_Pago TIMESTAMP,
+	Id_Proveedor int NOT NULL,
+	Id_Situacion int NOT NULL,
+	Estado int NOT NULL,
+	Registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT PK_OrdenPago PRIMARY KEY (ID)
+	);
+	
+CREATE TABLE Orden_Cobranza (
+    Id int NOT NULL AUTO_INCREMENT,
+	Descripcion varchar2(100) NOT NULL,
+	Monto double NOT NULL,
+	Fecha_Vencimiento Date,
+	Fecha_Pago TIMESTAMP,
+	Id_Puesto int NOT NULL,
+	Id_Situacion int NOT NULL,
+	Estado int NOT NULL,
+	Registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT PK_OrdenCobranza PRIMARY KEY (ID)
+	);
+	
+CREATE TABLE Tipo_Movimiento (
+    Id int NOT NULL AUTO_INCREMENT,
+	Descripcion varchar2(100) NOT NULL,
+	Estado int NOT NULL,
+	Registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT PK_TipoMovimiento PRIMARY KEY (ID)
+	);
+	
+CREATE TABLE Movimiento (
+    Id int NOT NULL AUTO_INCREMENT,
+	Id_Tipo_Movimiento int NOT NULL,
+	Codigo_Orden int NOT NULL,
+	Id_Persona_Responsable_Operacion int NOT NULL,
+	Estado int NOT NULL,
+	Registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT PK_Movimiento PRIMARY KEY (ID)
+	);
+	
+
+CREATE TABLE Usuario (
+    id int NOT NULL AUTO_INCREMENT,
+	Id_Persona int NOT NULL,
+	usuario varchar2(50) NOT NULL,
+	clave varchar2(50) NOT NULL,
+	Estado int NOT NULL,
+	Registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT PK_Usuario PRIMARY KEY (ID)
+	);
