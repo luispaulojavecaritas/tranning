@@ -1,95 +1,99 @@
+-- Creacion de base de datos gesadmindb
 CREATE DATABASE gesadmindb;
 
+-- Utilizacion de base de datos creada - gesadmindb
+USE gesadmindb;
+
+-- Creacion de tablas
 CREATE TABLE Tipo_Documento (
     Id int NOT NULL AUTO_INCREMENT,
-    Descripcion varchar2(50) NOT NULL,
+    Descripcion nvarchar(50) NOT NULL,
     Estado int NOT NULL,
-	Estado int NOT NULL,
 	Registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT PK_TipoDocumento PRIMARY KEY (ID)
+    CONSTRAINT PK_Tipo_Documento PRIMARY KEY (Id)
 	);
 	
 CREATE TABLE Sexo (
     Id int NOT NULL AUTO_INCREMENT,
-    Descripcion varchar2(50) NOT NULL,
+    Descripcion nvarchar(50) NOT NULL,
     Estado int NOT NULL,
 	Registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT PK_Sexo PRIMARY KEY (ID)
+    CONSTRAINT PK_Sexo PRIMARY KEY (Id)
 	);
 
 CREATE TABLE Pais (
     Id int NOT NULL AUTO_INCREMENT,
-    Descripcion varchar2(50) NOT NULL,
+    Descripcion nvarchar(50) NOT NULL,
     Estado int NOT NULL,
 	Registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT PK_Pais PRIMARY KEY (ID)
+    CONSTRAINT PK_Pais PRIMARY KEY (Id)
 	);
 	
 CREATE TABLE Bloque (
     Id int NOT NULL AUTO_INCREMENT,
-    Descripcion varchar2(50) NOT NULL,
+    Descripcion nvarchar(50) NOT NULL,
     Estado int NOT NULL,
 	Registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT PK_Bloque PRIMARY KEY (ID)
-	);
-	
+    CONSTRAINT PK_Bloque PRIMARY KEY (Id)
+	);    
+    
 CREATE TABLE Puesto (
     Id int NOT NULL AUTO_INCREMENT,
-    Descripcion varchar2(50) NOT NULL,
+    Descripcion nvarchar(50) NOT NULL,
     Estado int NOT NULL,
 	Id_Bloque int NOT NULL,
 	Registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT PK_Puesto PRIMARY KEY (ID)
+    CONSTRAINT PK_Puesto PRIMARY KEY (Id)
 	);	
 	
 CREATE TABLE Tipo_Estatus (
     Id int NOT NULL AUTO_INCREMENT,
-    Descripcion varchar2(50) NOT NULL,
+    Descripcion nvarchar(50) NOT NULL,
     Estado int NOT NULL,
 	Registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT PK_Tipo_Estatus PRIMARY KEY (ID)
+    CONSTRAINT PK_Tipo_Estatus PRIMARY KEY (Id)
 	);	
 	
 CREATE TABLE Puesto_Persona (
     Id int NOT NULL AUTO_INCREMENT,
-    Descripcion varchar2(50) NOT NULL,
+    Descripcion nvarchar(50) NOT NULL,
     Estado int NOT NULL,
 	Id_Puesto int NOT NULL,
 	Id_Persona int NOT NULL,
 	Id_Tipo_Estatus int NOT NULL,
 	Registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT PK_Puesto_Persona PRIMARY KEY (ID)
+    CONSTRAINT PK_Puesto_Persona PRIMARY KEY (Id)
 	);	
 
 CREATE TABLE Persona (
     Id int NOT NULL AUTO_INCREMENT,
-    Nombre varchar2(50) NOT NULL,
-    Paterno varchar2(50),
-	Materno varchar2(50),
+    Nombre nvarchar(50) NOT NULL,
+    Paterno nvarchar(50),
+	Materno nvarchar(50),
 	Id_Tipo_Documento int NOT NULL,
 	Nro_Documento int NOT NULL,
 	Id_Pais int NOT NULL,
-	Direccion varchar2(100),
-	Telefono_Fijo varchar2(10),
-	Telefono_Celular varchar2(10),
-	Correo_Electronico varchar2(50),
+	Direccion nvarchar(100),
+	Telefono_Fijo nvarchar(10),
+	Telefono_Celular nvarchar(10),
+	Correo_Electronico nvarchar(50),
 	Id_Sexo int NOT NULL,
 	Registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT PK_Persona PRIMARY KEY (ID)
+    CONSTRAINT PK_Persona PRIMARY KEY (Id)
 	);	
 	
 CREATE TABLE Proveedor (
     Id int NOT NULL AUTO_INCREMENT,
 	RUC int NOT NULL,
-    Razon_Social varchar2(100) NOT NULL,
-	Domicilio_Fiscal varchar2(100),
-    Rubro varchar2(50),
-	Telefono_Fijo varchar2(10),
-	Telefono_Celular varchar2(10),
-	Correo_Electronico varchar2(50),
+    Razon_Social nvarchar(100) NOT NULL,
+	Domicilio_Fiscal nvarchar(100),
+    Rubro nvarchar(50),
+	Telefono_Fijo nvarchar(10),
+	Telefono_Celular nvarchar(10),
+	Correo_Electronico nvarchar(50),
 	Estado int NOT NULL,
 	Registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT PK_TipoProveedor PRIMARY KEY (ID)
+    CONSTRAINT PK_Proveedor PRIMARY KEY (Id)
 	);
 
 CREATE TABLE Contacto_Proveedor (
@@ -98,86 +102,127 @@ CREATE TABLE Contacto_Proveedor (
 	Id_Persona int NOT NULL,
 	Estado int NOT NULL,
 	Registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT PK_Contacto_Proveedor PRIMARY KEY (ID)
+    CONSTRAINT PK_Contacto_Proveedor PRIMARY KEY (Id)
 	);	
-
 
 CREATE TABLE Egreso (
     Id int NOT NULL AUTO_INCREMENT,
-	Descripcion varchar2(100) NOT NULL,
+	Descripcion nvarchar(100) NOT NULL,
 	Estado int NOT NULL,
 	Registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT PK_Egreso PRIMARY KEY (ID)
+    CONSTRAINT PK_Egreso PRIMARY KEY (Id)
 	);
 	
 	
 CREATE TABLE Ingreso (
     Id int NOT NULL AUTO_INCREMENT,
-	Descripcion varchar2(100) NOT NULL,
+	Descripcion nvarchar(100) NOT NULL,
 	Estado int NOT NULL,
 	Registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT PK_Ingreso PRIMARY KEY (ID)
+    CONSTRAINT PK_Ingreso PRIMARY KEY (Id)
 	);
-	
+    
+CREATE TABLE Tipo_Orden (
+    Id int NOT NULL AUTO_INCREMENT,
+	Descripcion nvarchar(100) NOT NULL,
+	Estado int NOT NULL,
+	Registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT PK_Tipo_Orden PRIMARY KEY (Id)
+	);
+    
 CREATE TABLE Situacion_Orden (
     Id int NOT NULL AUTO_INCREMENT,
-	Descripcion varchar2(100) NOT NULL,
+	Descripcion nvarchar(100) NOT NULL,
 	Estado int NOT NULL,
 	Registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT PK_SituacionOrden PRIMARY KEY (ID)
+    CONSTRAINT PK_Situacion_Orden PRIMARY KEY (Id)
 	);
 	
-CREATE TABLE Orden_Pago (
+CREATE TABLE Orden(
     Id int NOT NULL AUTO_INCREMENT,
-	Descripcion varchar2(100) NOT NULL,
+	Descripcion nvarchar(100) NOT NULL,
 	Monto double NOT NULL,
 	Fecha_Vencimiento Date,
 	Fecha_Pago TIMESTAMP,
-	Id_Proveedor int NOT NULL,
-	Id_Situacion int NOT NULL,
+    Id_Tipo_Orden int NOT NULL,
+    Id_Situacion_Orden int NOT NULL,
+	Id_Proveedor int,	
+    Id_Puesto int,
+    Id_Persona_Responsable_Operacion int,
 	Estado int NOT NULL,
 	Registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT PK_OrdenPago PRIMARY KEY (ID)
+    CONSTRAINT PK_Orden PRIMARY KEY (Id)
 	);
-	
-CREATE TABLE Orden_Cobranza (
-    Id int NOT NULL AUTO_INCREMENT,
-	Descripcion varchar2(100) NOT NULL,
-	Monto double NOT NULL,
-	Fecha_Vencimiento Date,
-	Fecha_Pago TIMESTAMP,
-	Id_Puesto int NOT NULL,
-	Id_Situacion int NOT NULL,
-	Estado int NOT NULL,
-	Registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT PK_OrdenCobranza PRIMARY KEY (ID)
-	);
-	
-CREATE TABLE Tipo_Movimiento (
-    Id int NOT NULL AUTO_INCREMENT,
-	Descripcion varchar2(100) NOT NULL,
-	Estado int NOT NULL,
-	Registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT PK_TipoMovimiento PRIMARY KEY (ID)
-	);
-	
+    
 CREATE TABLE Movimiento (
     Id int NOT NULL AUTO_INCREMENT,
-	Id_Tipo_Movimiento int NOT NULL,
-	Codigo_Orden int NOT NULL,
-	Id_Persona_Responsable_Operacion int NOT NULL,
+	Id_Orden int NOT NULL,
 	Estado int NOT NULL,
 	Registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT PK_Movimiento PRIMARY KEY (ID)
+    CONSTRAINT PK_Movimiento PRIMARY KEY (Id)
 	);
-	
-
+    
 CREATE TABLE Usuario (
-    id int NOT NULL AUTO_INCREMENT,
+    Id int NOT NULL AUTO_INCREMENT,
 	Id_Persona int NOT NULL,
-	usuario varchar2(50) NOT NULL,
-	clave varchar2(50) NOT NULL,
+	usuario nvarchar(50) NOT NULL,
+	clave nvarchar(50) NOT NULL,
 	Estado int NOT NULL,
 	Registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT PK_Usuario PRIMARY KEY (ID)
+    CONSTRAINT PK_Usuario PRIMARY KEY (Id)
 	);
+    
+    
+-- Creacion de Llaves foraneas
+ALTER TABLE Puesto ADD CONSTRAINT FK_Puesto_Bloque FOREIGN KEY (Id_Bloque) REFERENCES Bloque(Id);
+
+ALTER TABLE Puesto_Persona ADD CONSTRAINT FK_PuestoPersona_Puesto FOREIGN KEY (Id_Puesto) REFERENCES Puesto(Id);
+ALTER TABLE Puesto_Persona ADD CONSTRAINT FK_PuestoPersona_Persona FOREIGN KEY (Id_Persona) REFERENCES Persona(Id);
+ALTER TABLE Puesto_Persona ADD CONSTRAINT FK_PuestoPersona_TipoEstatus FOREIGN KEY (Id_Tipo_Estatus) REFERENCES Tipo_Estatus(Id);
+
+ALTER TABLE Persona ADD CONSTRAINT FK_Persona_TipoDocumento FOREIGN KEY (Id_Tipo_Documento) REFERENCES Tipo_Documento(Id);
+ALTER TABLE Persona ADD CONSTRAINT FK_Persona_Pais FOREIGN KEY (Id_Pais) REFERENCES Pais(Id);
+ALTER TABLE Persona ADD CONSTRAINT FK_Persona_Sexo FOREIGN KEY (Id_Sexo) REFERENCES Sexo(Id);
+
+ALTER TABLE Contacto_Proveedor ADD CONSTRAINT FK_ContactoProveedor_Persona FOREIGN KEY (Id_Persona) REFERENCES Persona(Id);
+ALTER TABLE Contacto_Proveedor ADD CONSTRAINT FK_ContactoProveedor_Proveedor FOREIGN KEY (Id_Proveedor) REFERENCES Proveedor(Id);
+
+ALTER TABLE Orden ADD CONSTRAINT FK_Orden_Proveedor FOREIGN KEY (Id_Proveedor) REFERENCES Proveedor(Id);
+ALTER TABLE Orden ADD CONSTRAINT FK_Orden_Puesto FOREIGN KEY (Id_Puesto) REFERENCES Puesto(Id);
+ALTER TABLE Orden ADD CONSTRAINT FK_Orden_TipoOrden FOREIGN KEY (Id_Tipo_Orden) REFERENCES Situacion_Orden(Id);
+ALTER TABLE Orden ADD CONSTRAINT FK_Orden_SituacionOrden FOREIGN KEY (Id_Situacion_Orden) REFERENCES Situacion_Orden(Id);
+ALTER TABLE Orden ADD CONSTRAINT FK_Orden_PersonaResponsableOperacion FOREIGN KEY (Id_Persona_Responsable_Operacion) REFERENCES Persona(Id);
+
+ALTER TABLE Movimiento ADD CONSTRAINT FK_Movimiento_IdOrden FOREIGN KEY (Id_Orden) REFERENCES Orden(Id);
+
+ALTER TABLE Usuario ADD CONSTRAINT FK_Usuario_Persona FOREIGN KEY (Id_Persona) REFERENCES Persona(Id);
+
+
+-- Insercion de data
+INSERT INTO Pais (Descripcion, Estado) VALUES ('PERU', 1);
+INSERT INTO Pais (Descripcion, Estado) VALUES ('ARGENTINA', 1);
+INSERT INTO Pais (Descripcion, Estado) VALUES ('BOLIVIA', 1);
+INSERT INTO Pais (Descripcion, Estado) VALUES ('COLOMBIA', 1);
+INSERT INTO Pais (Descripcion, Estado) VALUES ('VENEZUELA', 1);
+
+
+INSERT INTO Sexo (Descripcion, Estado) VALUES ('MASCULINO', 1);
+INSERT INTO Sexo (Descripcion, Estado) VALUES ('FEMENINO', 1);
+
+INSERT INTO Situacion_Orden (Descripcion, Estado) VALUES ('PENDIENTE', 1);
+INSERT INTO Situacion_Orden (Descripcion, Estado) VALUES ('REALIZADO', 1);
+INSERT INTO Situacion_Orden (Descripcion, Estado) VALUES ('VENCIDO', 1);
+
+INSERT INTO Tipo_Documento (Descripcion, Estado) VALUES ('DNI', 1);
+INSERT INTO Tipo_Documento (Descripcion, Estado) VALUES ('CARNET EXTRANJERIA', 1);
+INSERT INTO Tipo_Documento (Descripcion, Estado) VALUES ('PASAPORTE', 1);
+INSERT INTO Tipo_Documento (Descripcion, Estado) VALUES ('PTP', 1);
+
+INSERT INTO Tipo_Estatus (Descripcion, Estado) VALUES ('PROPIETARIO', 1);
+INSERT INTO Tipo_Estatus (Descripcion, Estado) VALUES ('INQUILINO', 1);
+INSERT INTO Tipo_Estatus (Descripcion, Estado) VALUES ('ADMINISTRATIVO', 1);
+INSERT INTO Tipo_Estatus (Descripcion, Estado) VALUES ('PRESIDENTE', 1);
+
+INSERT INTO Tipo_Orden (Descripcion, Estado) VALUES ('ORDEN DE PAGO', 1);
+INSERT INTO Tipo_Orden (Descripcion, Estado) VALUES ('ORDEN DE COBRANZA', 1);
+    

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="GestionMercadoPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>pe.com.cc_sarita.entity.TipoEstatus</class>
+    <class>pe.com.cc_sarita.entity.Pais</class>
+    <class>pe.com.cc_sarita.entity.Persona</class>
+    <class>pe.com.cc_sarita.entity.PuestoPersona</class>
+    <class>pe.com.cc_sarita.entity.Ingreso</class>
+    <class>pe.com.cc_sarita.entity.Movimiento</class>
+    <class>pe.com.cc_sarita.entity.SituacionOrden</class>
+    <class>pe.com.cc_sarita.entity.TipoDocumento</class>
+    <class>pe.com.cc_sarita.entity.TipoOrden</class>
+    <class>pe.com.cc_sarita.entity.Egreso</class>
+    <class>pe.com.cc_sarita.entity.ContactoProveedor</class>
+    <class>pe.com.cc_sarita.entity.Bloque</class>
+    <class>pe.com.cc_sarita.entity.Proveedor</class>
+    <class>pe.com.cc_sarita.entity.Usuario</class>
+    <class>pe.com.cc_sarita.entity.Sexo</class>
+    <class>pe.com.cc_sarita.entity.Orden</class>
+    <class>pe.com.cc_sarita.entity.Puesto</class>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/gesadmindb?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC"/>
+      <property name="javax.persistence.jdbc.user" value="root"/>
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+      <property name="javax.persistence.jdbc.password" value="31548378"/>
+    </properties>
+  </persistence-unit>
+</persistence>
