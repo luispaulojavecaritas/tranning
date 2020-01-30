@@ -189,9 +189,12 @@ ALTER TABLE Contacto_Proveedor ADD CONSTRAINT FK_ContactoProveedor_Proveedor FOR
 
 ALTER TABLE Orden ADD CONSTRAINT FK_Orden_Proveedor FOREIGN KEY (Id_Proveedor) REFERENCES Proveedor(Id);
 ALTER TABLE Orden ADD CONSTRAINT FK_Orden_Puesto FOREIGN KEY (Id_Puesto) REFERENCES Puesto(Id);
-ALTER TABLE Orden ADD CONSTRAINT FK_Orden_TipoOrden FOREIGN KEY (Id_Tipo_Orden) REFERENCES Situacion_Orden(Id);
+ALTER TABLE Orden ADD CONSTRAINT FK_Orden_TipoOrden FOREIGN KEY (Id_Tipo_Orden) REFERENCES Tipo_Orden(Id);
 ALTER TABLE Orden ADD CONSTRAINT FK_Orden_SituacionOrden FOREIGN KEY (Id_Situacion_Orden) REFERENCES Situacion_Orden(Id);
 ALTER TABLE Orden ADD CONSTRAINT FK_Orden_PersonaResponsableOperacion FOREIGN KEY (Id_Persona_Responsable_Operacion) REFERENCES Persona(Id);
+
+ALTER TABLE Orden
+DROP FOREIGN KEY FK_Orden_TipoOrden;
 
 ALTER TABLE Movimiento ADD CONSTRAINT FK_Movimiento_IdOrden FOREIGN KEY (Id_Orden) REFERENCES Orden(Id);
 
@@ -225,4 +228,4 @@ INSERT INTO Tipo_Estatus (Descripcion, Estado) VALUES ('PRESIDENTE', 1);
 
 INSERT INTO Tipo_Orden (Descripcion, Estado) VALUES ('ORDEN DE PAGO', 1);
 INSERT INTO Tipo_Orden (Descripcion, Estado) VALUES ('ORDEN DE COBRANZA', 1);
-    
+

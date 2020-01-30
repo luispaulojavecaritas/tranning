@@ -7,18 +7,15 @@ package pe.com.cc_sarita.entity;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 import java.util.Objects;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
+import javax.persistence.FetchType; 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -53,19 +50,19 @@ public class Orden implements Serializable {
     private Date registro;
     @JoinColumn(name = "Id_Persona_Responsable_Operacion", referencedColumnName = "Id")
     @ManyToOne(fetch = FetchType.EAGER)
-    private Persona idPersonaResponsableOperacion;
+    private Persona personaResponsableOperacion;
     @JoinColumn(name = "Id_Proveedor", referencedColumnName = "Id")
     @ManyToOne(fetch = FetchType.EAGER)
-    private Proveedor idProveedor;
+    private Proveedor proveedor;
     @JoinColumn(name = "Id_Puesto", referencedColumnName = "Id")
     @ManyToOne(fetch = FetchType.EAGER)
-    private Puesto idPuesto;
+    private Puesto puesto;
     @JoinColumn(name = "Id_Situacion_Orden", referencedColumnName = "Id")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    private SituacionOrden idSituacionOrden;
+    private SituacionOrden situacionOrden;
     @JoinColumn(name = "Id_Tipo_Orden", referencedColumnName = "Id")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    private SituacionOrden idTipoOrden;
+    private TipoOrden tipoOrden;
 
     public Orden() {
     }
@@ -137,46 +134,47 @@ public class Orden implements Serializable {
         this.registro = registro;
     }
 
-    public Persona getIdPersonaResponsableOperacion() {
-        return idPersonaResponsableOperacion;
+    public Persona getPersonaResponsableOperacion() {
+        return personaResponsableOperacion;
     }
 
-    public void setIdPersonaResponsableOperacion(Persona idPersonaResponsableOperacion) {
-        this.idPersonaResponsableOperacion = idPersonaResponsableOperacion;
+    public void setPersonaResponsableOperacion(Persona personaResponsableOperacion) {
+        this.personaResponsableOperacion = personaResponsableOperacion;
     }
 
-    public Proveedor getIdProveedor() {
-        return idProveedor;
+    public Proveedor getProveedor() {
+        return proveedor;
     }
 
-    public void setIdProveedor(Proveedor idProveedor) {
-        this.idProveedor = idProveedor;
+    public void setProveedor(Proveedor proveedor) {
+        this.proveedor = proveedor;
     }
 
-    public Puesto getIdPuesto() {
-        return idPuesto;
+    public Puesto getPuesto() {
+        return puesto;
     }
 
-    public void setIdPuesto(Puesto idPuesto) {
-        this.idPuesto = idPuesto;
+    public void setPuesto(Puesto puesto) {
+        this.puesto = puesto;
     }
 
-    public SituacionOrden getIdSituacionOrden() {
-        return idSituacionOrden;
+    public SituacionOrden getSituacionOrden() {
+        return situacionOrden;
     }
 
-    public void setIdSituacionOrden(SituacionOrden idSituacionOrden) {
-        this.idSituacionOrden = idSituacionOrden;
+    public void setSituacionOrden(SituacionOrden situacionOrden) {
+        this.situacionOrden = situacionOrden;
     }
 
-    public SituacionOrden getIdTipoOrden() {
-        return idTipoOrden;
+    public TipoOrden getTipoOrden() {
+        return tipoOrden;
     }
 
-    public void setIdTipoOrden(SituacionOrden idTipoOrden) {
-        this.idTipoOrden = idTipoOrden;
+    public void setTipoOrden(TipoOrden tipoOrden) {
+        this.tipoOrden = tipoOrden;
     }
-
+    
+    
     @Override
     public int hashCode() {
         int hash = 7;
@@ -204,7 +202,7 @@ public class Orden implements Serializable {
 
     @Override
     public String toString() {
-        return "Orden{" + "id=" + id + ", descripcion=" + descripcion + ", monto=" + monto + ", fechaVencimiento=" + fechaVencimiento + ", fechaPago=" + fechaPago + ", estado=" + estado + ", registro=" + registro + ", idPersonaResponsableOperacion=" + idPersonaResponsableOperacion + ", idProveedor=" + idProveedor + ", idPuesto=" + idPuesto + ", idSituacionOrden=" + idSituacionOrden + ", idTipoOrden=" + idTipoOrden + '}';
+        return "Orden{" + "id=" + id + ", descripcion=" + descripcion + ", monto=" + monto + ", fechaVencimiento=" + fechaVencimiento + ", fechaPago=" + fechaPago + ", estado=" + estado + ", registro=" + registro + ", personaResponsableOperacion=" + personaResponsableOperacion + ", proveedor=" + proveedor + ", puesto=" + puesto + ", situacionOrden=" + situacionOrden + ", tipoOrden=" + tipoOrden + '}';
     }
     
     

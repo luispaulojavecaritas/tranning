@@ -44,7 +44,7 @@ public class Usuario implements Serializable {
     private Date registro;
     @JoinColumn(name = "Id_Persona", referencedColumnName = "Id")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    private Persona idPersona;
+    private Persona persona;
 
     public Usuario() {
     }
@@ -100,12 +100,12 @@ public class Usuario implements Serializable {
         this.registro = registro;
     }
 
-    public Persona getIdPersona() {
-        return idPersona;
+    public Persona getPersona() {
+        return persona;
     }
 
-    public void setIdPersona(Persona idPersona) {
-        this.idPersona = idPersona;
+    public void setPersona(Persona persona) {
+        this.persona = persona;
     }
 
     @Override
@@ -135,7 +135,7 @@ public class Usuario implements Serializable {
 
     @Override
     public String toString() {
-        return "Usuario{" + "id=" + id + ", usuario=" + usuario + ", clave=" + clave + ", estado=" + estado + ", registro=" + registro + ", idPersona=" + idPersona + '}';
+        return "Usuario{" + "id=" + id + ", usuario=" + usuario + ", clave=" + clave + ", estado=" + estado + ", registro=" + registro + ", persona=" + persona + '}';
     }
     
 }

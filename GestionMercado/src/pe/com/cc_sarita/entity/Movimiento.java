@@ -40,7 +40,7 @@ public class Movimiento implements Serializable {
     private Date registro;
     @JoinColumn(name = "Id_Orden", referencedColumnName = "Id")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    private Orden idOrden;
+    private Orden orden;
 
     public Movimiento() {
     }
@@ -78,12 +78,12 @@ public class Movimiento implements Serializable {
         this.registro = registro;
     }
 
-    public Orden getIdOrden() {
-        return idOrden;
+    public Orden getOrden() {
+        return orden;
     }
 
-    public void setIdOrden(Orden idOrden) {
-        this.idOrden = idOrden;
+    public void setOrden(Orden orden) {
+        this.orden = orden;
     }
 
     @Override
@@ -113,7 +113,7 @@ public class Movimiento implements Serializable {
 
     @Override
     public String toString() {
-        return "Movimiento{" + "id=" + id + ", estado=" + estado + ", registro=" + registro + ", idOrden=" + idOrden + '}';
+        return "Movimiento{" + "id=" + id + ", estado=" + estado + ", registro=" + registro + ", orden=" + orden + '}';
     }
     
 }

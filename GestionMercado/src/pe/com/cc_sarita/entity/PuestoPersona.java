@@ -42,13 +42,13 @@ public class PuestoPersona implements Serializable {
     private Date registro;
     @JoinColumn(name = "Id_Persona", referencedColumnName = "Id")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    private Persona idPersona;
+    private Persona persona;
     @JoinColumn(name = "Id_Puesto", referencedColumnName = "Id")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    private Puesto idPuesto;
+    private Puesto puesto;
     @JoinColumn(name = "Id_Tipo_Estatus", referencedColumnName = "Id")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    private TipoEstatus idTipoEstatus;
+    private TipoEstatus tipoEstatus;
 
     public PuestoPersona() {
     }
@@ -95,28 +95,28 @@ public class PuestoPersona implements Serializable {
         this.registro = registro;
     }
 
-    public Persona getIdPersona() {
-        return idPersona;
+    public Persona getPersona() {
+        return persona;
     }
 
-    public void setIdPersona(Persona idPersona) {
-        this.idPersona = idPersona;
+    public void setPersona(Persona persona) {
+        this.persona = persona;
     }
 
-    public Puesto getIdPuesto() {
-        return idPuesto;
+    public Puesto getPuesto() {
+        return puesto;
     }
 
-    public void setIdPuesto(Puesto idPuesto) {
-        this.idPuesto = idPuesto;
+    public void setPuesto(Puesto puesto) {
+        this.puesto = puesto;
     }
 
-    public TipoEstatus getIdTipoEstatus() {
-        return idTipoEstatus;
+    public TipoEstatus getTipoEstatus() {
+        return tipoEstatus;
     }
 
-    public void setIdTipoEstatus(TipoEstatus idTipoEstatus) {
-        this.idTipoEstatus = idTipoEstatus;
+    public void setTipoEstatus(TipoEstatus tipoEstatus) {
+        this.tipoEstatus = tipoEstatus;
     }
 
     @Override
@@ -146,7 +146,7 @@ public class PuestoPersona implements Serializable {
 
     @Override
     public String toString() {
-        return "PuestoPersona{" + "id=" + id + ", descripcion=" + descripcion + ", estado=" + estado + ", registro=" + registro + ", idPersona=" + idPersona + ", idPuesto=" + idPuesto + ", idTipoEstatus=" + idTipoEstatus + '}';
+        return "PuestoPersona{" + "id=" + id + ", descripcion=" + descripcion + ", estado=" + estado + ", registro=" + registro + ", persona=" + persona + ", puesto=" + puesto + ", tipoEstatus=" + tipoEstatus + '}';
     }
 
     

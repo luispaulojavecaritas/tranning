@@ -56,13 +56,13 @@ public class Persona implements Serializable {
     private Date registro;
     @JoinColumn(name = "Id_Pais", referencedColumnName = "Id")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    private Pais idPais;
+    private Pais pais;
     @JoinColumn(name = "Id_Sexo", referencedColumnName = "Id")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    private Sexo idSexo;
+    private Sexo sexo;
     @JoinColumn(name = "Id_Tipo_Documento", referencedColumnName = "Id")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    private TipoDocumento idTipoDocumento;
+    private TipoDocumento tipoDocumento;
 
 
     public Persona() {
@@ -158,28 +158,28 @@ public class Persona implements Serializable {
         this.registro = registro;
     }
     
-    public Pais getIdPais() {
-        return idPais;
+    public Pais getPais() {
+        return pais;
     }
 
-    public void setIdPais(Pais idPais) {
-        this.idPais = idPais;
+    public void setPais(Pais pais) {
+        this.pais = pais;
     }
 
-    public Sexo getIdSexo() {
-        return idSexo;
+    public Sexo getSexo() {
+        return sexo;
     }
 
-    public void setIdSexo(Sexo idSexo) {
-        this.idSexo = idSexo;
+    public void setSexo(Sexo sexo) {
+        this.sexo = sexo;
     }
 
-    public TipoDocumento getIdTipoDocumento() {
-        return idTipoDocumento;
+    public TipoDocumento getTipoDocumento() {
+        return tipoDocumento;
     }
 
-    public void setIdTipoDocumento(TipoDocumento idTipoDocumento) {
-        this.idTipoDocumento = idTipoDocumento;
+    public void setTipoDocumento(TipoDocumento tipoDocumento) {
+        this.tipoDocumento = tipoDocumento;
     }
 
     @Override
@@ -209,7 +209,7 @@ public class Persona implements Serializable {
 
     @Override
     public String toString() {
-        return "Persona{" + "id=" + id + ", nombre=" + nombre + ", paterno=" + paterno + ", materno=" + materno + ", nroDocumento=" + nroDocumento + ", direccion=" + direccion + ", telefonoFijo=" + telefonoFijo + ", telefonoCelular=" + telefonoCelular + ", correoElectronico=" + correoElectronico + ", registro=" + registro + ", idPais=" + idPais + ", idSexo=" + idSexo + ", idTipoDocumento=" + idTipoDocumento + '}';
+        return "Persona{" + "id=" + id + ", nombre=" + nombre + ", paterno=" + paterno + ", materno=" + materno + ", nroDocumento=" + nroDocumento + ", direccion=" + direccion + ", telefonoFijo=" + telefonoFijo + ", telefonoCelular=" + telefonoCelular + ", correoElectronico=" + correoElectronico + ", registro=" + registro + ", pais=" + pais + ", sexo=" + sexo + ", tipoDocumento=" + tipoDocumento + '}';
     }
     
     

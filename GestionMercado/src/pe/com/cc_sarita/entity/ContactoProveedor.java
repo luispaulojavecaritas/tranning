@@ -40,10 +40,10 @@ public class ContactoProveedor implements Serializable {
     private Date registro;
     @JoinColumn(name = "Id_Persona", referencedColumnName = "Id")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    private Persona idPersona;
+    private Persona persona;
     @JoinColumn(name = "Id_Proveedor", referencedColumnName = "Id")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    private Proveedor idProveedor;
+    private Proveedor proveedor;
 
     public ContactoProveedor() {
     }
@@ -81,20 +81,20 @@ public class ContactoProveedor implements Serializable {
         this.registro = registro;
     }
 
-    public Persona getIdPersona() {
-        return idPersona;
+    public Persona getPersona() {
+        return persona;
     }
 
-    public void setIdPersona(Persona idPersona) {
-        this.idPersona = idPersona;
+    public void setPersona(Persona persona) {
+        this.persona = persona;
     }
 
-    public Proveedor getIdProveedor() {
-        return idProveedor;
+    public Proveedor getProveedor() {
+        return proveedor;
     }
 
-    public void setIdProveedor(Proveedor idProveedor) {
-        this.idProveedor = idProveedor;
+    public void setProveedor(Proveedor proveedor) {
+        this.proveedor = proveedor;
     }
 
     @Override
@@ -124,7 +124,7 @@ public class ContactoProveedor implements Serializable {
 
     @Override
     public String toString() {
-        return "ContactoProveedor{" + "id=" + id + ", estado=" + estado + ", registro=" + registro + ", idPersona=" + idPersona + ", idProveedor=" + idProveedor + '}';
+        return "ContactoProveedor{" + "id=" + id + ", estado=" + estado + ", registro=" + registro + ", persona=" + persona + ", proveedor=" + proveedor + '}';
     }
     
     

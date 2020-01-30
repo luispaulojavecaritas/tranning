@@ -42,7 +42,7 @@ public class Puesto implements Serializable {
     private Date registro;
     @JoinColumn(name = "Id_Bloque", referencedColumnName = "Id")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    private Bloque idBloque;
+    private Bloque bloque;
 
     public Puesto() {
     }
@@ -89,12 +89,12 @@ public class Puesto implements Serializable {
         this.registro = registro;
     }
 
-    public Bloque getIdBloque() {
-        return idBloque;
+    public Bloque getBloque() {
+        return bloque;
     }
 
-    public void setIdBloque(Bloque idBloque) {
-        this.idBloque = idBloque;
+    public void setBloque(Bloque bloque) {
+        this.bloque = bloque;
     }    
 
     @Override
@@ -124,7 +124,7 @@ public class Puesto implements Serializable {
     
     @Override
     public String toString() {
-        return "Puesto{" + "id=" + id + ", descripcion=" + descripcion + ", estado=" + estado + ", registro=" + registro + ", idBloque=" + idBloque + '}';
+        return "Puesto{" + "id=" + id + ", descripcion=" + descripcion + ", estado=" + estado + ", registro=" + registro + ", bloque=" + bloque + '}';
     }
     
 }
