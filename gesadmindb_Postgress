@@ -5,32 +5,39 @@ CREATE DATABASE gesadmindb;
 USE gesadmindb;
 
 -- creacion de tablas
+CREATE TABLE periodo (
+    id serial PRIMARY KEY,
+    descripcion varchar(50) NOT NULL,
+    estado int NOT NULL,
+	registro timestamp DEFAULT CURRENT_TIMESTAMP
+	);
+	
 CREATE TABLE tipo_documento (
     id serial PRIMARY KEY,
     descripcion varchar(50) NOT NULL,
     estado int NOT NULL,
-	registro timestamp DEFAULT CURRENT_TIMESTAMP,
+	registro timestamp DEFAULT CURRENT_TIMESTAMP
 	);
 	
 CREATE TABLE sexo (
     id serial PRIMARY KEY,
     descripcion varchar(50) NOT NULL, 
     estado int NOT NULL,
-	registro timestamp DEFAULT CURRENT_TIMESTAMP,
+	registro timestamp DEFAULT CURRENT_TIMESTAMP
 	);
 
 CREATE TABLE pais (
     id serial PRIMARY KEY,
     descripcion varchar(50) NOT NULL,
     estado int NOT NULL,
-	registro timestamp DEFAULT CURRENT_TIMESTAMP,
+	registro timestamp DEFAULT CURRENT_TIMESTAMP
 	);
 	
 CREATE TABLE bloque (
     id serial PRIMARY KEY,
     descripcion varchar(50) NOT NULL,
     estado int NOT NULL,
-	registro timestamp DEFAULT CURRENT_TIMESTAMP,
+	registro timestamp DEFAULT CURRENT_TIMESTAMP
 	);    
     
 CREATE TABLE puesto (
@@ -38,14 +45,14 @@ CREATE TABLE puesto (
     descripcion varchar(50) NOT NULL,
     estado int NOT NULL,
 	id_bloque int NOT NULL,
-	registro timestamp DEFAULT CURRENT_TIMESTAMP,
+	registro timestamp DEFAULT CURRENT_TIMESTAMP
 	);	
 	
 CREATE TABLE tipo_estatus (
     id serial PRIMARY KEY,
     descripcion varchar(50) NOT NULL,
     estado int NOT NULL,
-	registro timestamp DEFAULT CURRENT_TIMESTAMP,
+	registro timestamp DEFAULT CURRENT_TIMESTAMP
 	);	
 	
 CREATE TABLE puesto_persona (
@@ -55,7 +62,7 @@ CREATE TABLE puesto_persona (
 	id_puesto int NOT NULL,
 	id_persona int NOT NULL,
 	id_tipo_estatus int NOT NULL,
-	registro timestamp DEFAULT CURRENT_TIMESTAMP,
+	registro timestamp DEFAULT CURRENT_TIMESTAMP
 	);	
 
 CREATE TABLE persona (
@@ -71,7 +78,7 @@ CREATE TABLE persona (
 	telefono_celular varchar(10),
 	correo_electronico varchar(50),
 	id_sexo int NOT NULL,
-	registro timestamp DEFAULT CURRENT_TIMESTAMP,
+	registro timestamp DEFAULT CURRENT_TIMESTAMP
 	);	
 	
 CREATE TABLE proveedor (
@@ -84,7 +91,7 @@ CREATE TABLE proveedor (
 	telefono_celular varchar(10),
 	correo_electronico varchar(50),
 	estado int NOT NULL,
-	registro timestamp DEFAULT CURRENT_TIMESTAMP,
+	registro timestamp DEFAULT CURRENT_TIMESTAMP
 	);
 
 CREATE TABLE contacto_proveedor (
@@ -92,14 +99,14 @@ CREATE TABLE contacto_proveedor (
 	id_proveedor int NOT NULL,
 	id_persona int NOT NULL,
 	estado int NOT NULL,
-	registro timestamp DEFAULT CURRENT_TIMESTAMP,
+	registro timestamp DEFAULT CURRENT_TIMESTAMP
 	);	
 
 CREATE TABLE egreso (
     id serial PRIMARY KEY,
 	descripcion varchar(100) NOT NULL,
 	estado int NOT NULL,
-	registro timestamp DEFAULT CURRENT_TIMESTAMP,
+	registro timestamp DEFAULT CURRENT_TIMESTAMP
 	);
 	
 	
@@ -107,21 +114,21 @@ CREATE TABLE ingreso (
     id serial PRIMARY KEY,
 	descripcion varchar(100) NOT NULL,
 	estado int NOT NULL,
-	registro timestamp DEFAULT CURRENT_TIMESTAMP,
+	registro timestamp DEFAULT CURRENT_TIMESTAMP
 	);
     
 CREATE TABLE tipo_orden (
     id serial PRIMARY KEY,
 	descripcion varchar(100) NOT NULL,
 	estado int NOT NULL,
-	registro timestamp DEFAULT CURRENT_TIMESTAMP,
+	registro timestamp DEFAULT CURRENT_TIMESTAMP
 	);
     
 CREATE TABLE situacion_orden (
     id serial PRIMARY KEY,
 	descripcion varchar(100) NOT NULL,
 	estado int NOT NULL,
-	registro timestamp DEFAULT CURRENT_TIMESTAMP,
+	registro timestamp DEFAULT CURRENT_TIMESTAMP
 	);
 	
 CREATE TABLE orden(
@@ -130,20 +137,42 @@ CREATE TABLE orden(
 	monto double NOT NULL,
 	fecha_vencimiento date,
 	fecha_pago timestamp,
+	id_periodo int NOT NULL,
     id_tipo_orden int NOT NULL,
     id_situacion_orden int NOT NULL,
-	id_proveedor int,	
-    id_puesto int,
+	id_proveedor int NOT NULL,	
+    id_puesto int NOT NULL,
     id_persona_responsable_operacion int,
 	estado int NOT NULL,
-	registro timestamp DEFAULT CURRENT_TIMESTAMP,
+	registro timestamp DEFAULT CURRENT_TIMESTAMP
 	);
     
 CREATE TABLE movimiento (
-    id serial PRIMARY KEY,
-	id_orden int NOT NULL,
+    id serial PRIMARY KEY,	
+	orden_id int NOT NULL,
+	orden_tipo varchar(50),
+	orden_descripcion varchar(150),
+	orden_situacion varchar(50),
+	orden_fecha_vencimiento varchar(50),
+	orden_fecha_pago varchar(50),
+	orden_importe varchar(50),
+	periodo varchar(50),
+	proveedor_ruc varchar(50),
+	proveedor_razon_social varchar(200),
+	puesto varchar(50),
+	bloque varchar(50),
+	persona_tipo_doc varchar(50),
+	persona_nro_doc varchar(50),
+	persona_nombre varchar(50),
+	persona_paterno varchar(50),
+	persona_materno varchar(50),
+	persona_pais varchar(50),
+	persona_sexo varchar(50),
+	persona_celular varchar(50),
+	persona_fijo varchar(50),
+	persona_correo varchar(50),
 	estado int NOT NULL,
-	registro timestamp DEFAULT CURRENT_TIMESTAMP,
+	registro timestamp DEFAULT CURRENT_TIMESTAMP
 	);
     
 CREATE TABLE usuario (
@@ -152,7 +181,7 @@ CREATE TABLE usuario (
 	usuario varchar(50) NOT NULL,
 	clave varchar(50) NOT NULL,
 	estado int NOT NULL,
-	registro timestamp DEFAULT CURRENT_TIMESTAMP,
+	registro timestamp DEFAULT CURRENT_TIMESTAMP
 	);
     
     
@@ -175,11 +204,11 @@ alter table orden add constraint fk_orden_puesto foreign key (id_puesto) referen
 alter table orden add constraint fk_orden_tipoorden foreign key (id_tipo_orden) references tipo_orden(id);
 alter table orden add constraint fk_orden_situacionorden foreign key (id_situacion_orden) references situacion_orden(id);
 alter table orden add constraint fk_orden_personaresponsableoperacion foreign key (id_persona_responsable_operacion) references persona(id);
+alter table orden add constraint fk_orden_periodo foreign key (id_periodo) references periodo(id);
 
-alter table orden
-drop foreign key fk_orden_tipoorden;
+-- alter table orden drop foreign key fk_orden_tipoorden;
 
-alter table movimiento add constraint fk_movimiento_idorden foreign key (id_orden) references orden(id);
+-- alter table movimiento add constraint fk_movimiento_idorden foreign key (id_orden) references orden(id);
 
 alter table usuario add constraint fk_usuario_persona foreign key (id_persona) references persona(id);
 
