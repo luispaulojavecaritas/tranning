@@ -1,0 +1,248 @@
+-- creacion de base de datos gesadmindb
+CREATE DATABASE gesadmindb;
+
+-- utilizacion de base de datos creada - gesadmindb
+USE gesadmindb;
+
+-- creacion de tablas
+CREATE TABLE periodo (
+    id serial PRIMARY KEY,
+    descripcion varchar(50) NOT NULL,
+    estado int NOT NULL,
+	registro timestamp DEFAULT CURRENT_TIMESTAMP
+	);
+	
+CREATE TABLE tipo_documento (
+    id serial PRIMARY KEY,
+    descripcion varchar(50) NOT NULL,
+    estado int NOT NULL,
+	registro timestamp DEFAULT CURRENT_TIMESTAMP
+	);
+	
+CREATE TABLE sexo (
+    id serial PRIMARY KEY,
+    descripcion varchar(50) NOT NULL, 
+    estado int NOT NULL,
+	registro timestamp DEFAULT CURRENT_TIMESTAMP
+	);
+
+CREATE TABLE pais (
+    id serial PRIMARY KEY,
+    descripcion varchar(50) NOT NULL,
+    estado int NOT NULL,
+	registro timestamp DEFAULT CURRENT_TIMESTAMP
+	);
+	
+CREATE TABLE bloque (
+    id serial PRIMARY KEY,
+    descripcion varchar(50) NOT NULL,
+    estado int NOT NULL,
+	registro timestamp DEFAULT CURRENT_TIMESTAMP
+	);    
+    
+CREATE TABLE puesto (
+    id serial PRIMARY KEY,
+    descripcion varchar(50) NOT NULL,
+    estado int NOT NULL,
+	id_bloque int NOT NULL,
+	registro timestamp DEFAULT CURRENT_TIMESTAMP
+	);	
+	
+CREATE TABLE tipo_estatus (
+    id serial PRIMARY KEY,
+    descripcion varchar(50) NOT NULL,
+    estado int NOT NULL,
+	registro timestamp DEFAULT CURRENT_TIMESTAMP
+	);	
+	
+CREATE TABLE puesto_persona (
+    id serial PRIMARY KEY,
+    descripcion varchar(50) NOT NULL,
+    estado int NOT NULL,
+	id_puesto int NOT NULL,
+	id_persona int NOT NULL,
+	id_tipo_estatus int NOT NULL,
+	registro timestamp DEFAULT CURRENT_TIMESTAMP
+	);	
+
+CREATE TABLE persona (
+    id serial PRIMARY KEY,
+    nombre varchar(50) NOT NULL,
+    paterno varchar(50),
+	materno varchar(50),
+	id_tipo_documento int NOT NULL,
+	nro_documento int NOT NULL,
+	id_pais int NOT NULL,
+	direccion varchar(100),
+	telefono_fijo varchar(10),
+	telefono_celular varchar(10),
+	correo_electronico varchar(50),
+	id_sexo int NOT NULL,
+	estado int NOT NULL,
+	registro timestamp DEFAULT CURRENT_TIMESTAMP
+	);	
+	
+CREATE TABLE proveedor (
+    id serial PRIMARY KEY,
+	ruc int NOT NULL,
+    razon_social varchar(100) NOT NULL,
+	domicilio_fiscal varchar(100),
+    rubro varchar(50),
+	telefono_fijo varchar(10),
+	telefono_celular varchar(10),
+	correo_electronico varchar(50),
+	estado int NOT NULL,
+	registro timestamp DEFAULT CURRENT_TIMESTAMP
+	);
+
+CREATE TABLE contacto_proveedor (
+    id serial PRIMARY KEY,
+	id_proveedor int NOT NULL,
+	id_persona int NOT NULL,
+	estado int NOT NULL,
+	registro timestamp DEFAULT CURRENT_TIMESTAMP
+	);	
+
+CREATE TABLE egreso (
+    id serial PRIMARY KEY,
+	descripcion varchar(100) NOT NULL,
+	estado int NOT NULL,
+	registro timestamp DEFAULT CURRENT_TIMESTAMP
+	);
+	
+	
+CREATE TABLE ingreso (
+    id serial PRIMARY KEY,
+	descripcion varchar(100) NOT NULL,
+	estado int NOT NULL,
+	registro timestamp DEFAULT CURRENT_TIMESTAMP
+	);
+    
+CREATE TABLE tipo_orden (
+    id serial PRIMARY KEY,
+	descripcion varchar(100) NOT NULL,
+	estado int NOT NULL,
+	registro timestamp DEFAULT CURRENT_TIMESTAMP
+	);
+    
+CREATE TABLE situacion_orden (
+    id serial PRIMARY KEY,
+	descripcion varchar(100) NOT NULL,
+	estado int NOT NULL,
+	registro timestamp DEFAULT CURRENT_TIMESTAMP
+	);
+	
+CREATE TABLE orden(
+    id serial PRIMARY KEY,
+	descripcion varchar(100) NOT NULL,
+	monto double NOT NULL,
+	fecha_vencimiento date,
+	fecha_pago timestamp,
+	id_periodo int NOT NULL,
+    id_tipo_orden int NOT NULL,
+    id_situacion_orden int NOT NULL,
+	id_proveedor int NOT NULL,	
+    id_puesto int NOT NULL,
+    id_persona_responsable_operacion int,
+	estado int NOT NULL,
+	registro timestamp DEFAULT CURRENT_TIMESTAMP
+	);
+    
+CREATE TABLE movimiento (
+    id serial PRIMARY KEY,	
+	orden_id int NOT NULL,
+	orden_tipo varchar(50),
+	orden_descripcion varchar(150),
+	orden_situacion varchar(50),
+	orden_fecha_vencimiento varchar(50),
+	orden_fecha_pago varchar(50),
+	orden_importe varchar(50),
+	periodo varchar(50),
+	proveedor_ruc varchar(50),
+	proveedor_razon_social varchar(200),
+	puesto varchar(50),
+	bloque varchar(50),
+	persona_tipo_doc varchar(50),
+	persona_nro_doc varchar(50),
+	persona_nombre varchar(50),
+	persona_paterno varchar(50),
+	persona_materno varchar(50),
+	persona_pais varchar(50),
+	persona_sexo varchar(50),
+	persona_celular varchar(50),
+	persona_fijo varchar(50),
+	persona_correo varchar(50),
+	estado int NOT NULL,
+	registro timestamp DEFAULT CURRENT_TIMESTAMP
+	);
+    
+CREATE TABLE usuario (
+    id serial PRIMARY KEY,
+	id_persona int NOT NULL,
+	usuario varchar(50) NOT NULL,
+	clave varchar(50) NOT NULL,
+	rol varchar(50), 
+	estado int NOT NULL,
+	registro timestamp DEFAULT CURRENT_TIMESTAMP
+	);
+    
+    
+-- creacion de llaves foraneas
+alter table puesto add constraint fk_puesto_bloque foreign key (id_bloque) references bloque(id);
+
+alter table puesto_persona add constraint fk_puestopersona_puesto foreign key (id_puesto) references puesto(id);
+alter table puesto_persona add constraint fk_puestopersona_persona foreign key (id_persona) references persona(id);
+alter table puesto_persona add constraint fk_puestopersona_tipoestatus foreign key (id_tipo_estatus) references tipo_estatus(id);
+
+alter table persona add constraint fk_persona_tipodocumento foreign key (id_tipo_documento) references tipo_documento(id);
+alter table persona add constraint fk_persona_pais foreign key (id_pais) references pais(id);
+alter table persona add constraint fk_persona_sexo foreign key (id_sexo) references sexo(id);
+
+alter table contacto_proveedor add constraint fk_contactoproveedor_persona foreign key (id_persona) references persona(id);
+alter table contacto_proveedor add constraint fk_contactoproveedor_proveedor foreign key (id_proveedor) references proveedor(id);
+
+alter table orden add constraint fk_orden_proveedor foreign key (id_proveedor) references proveedor(id);
+alter table orden add constraint fk_orden_puesto foreign key (id_puesto) references puesto(id);
+alter table orden add constraint fk_orden_tipoorden foreign key (id_tipo_orden) references tipo_orden(id);
+alter table orden add constraint fk_orden_situacionorden foreign key (id_situacion_orden) references situacion_orden(id);
+alter table orden add constraint fk_orden_personaresponsableoperacion foreign key (id_persona_responsable_operacion) references persona(id);
+alter table orden add constraint fk_orden_periodo foreign key (id_periodo) references periodo(id);
+
+-- alter table orden drop foreign key fk_orden_tipoorden;
+
+-- alter table movimiento add constraint fk_movimiento_idorden foreign key (id_orden) references orden(id);
+
+alter table usuario add constraint fk_usuario_persona foreign key (id_persona) references persona(id);
+
+
+-- insercion de data
+insert into pais (descripcion, estado) values ('PERU', 1);
+insert into pais (descripcion, estado) values ('ARGENTINA', 1);
+insert into pais (descripcion, estado) values ('BOLIVIA', 1);
+insert into pais (descripcion, estado) values ('COLOMBIA', 1);
+insert into pais (descripcion, estado) values ('VENEZUELA', 1);
+
+
+insert into sexo (descripcion, estado) values ('MASCULINO', 1);
+insert into sexo (descripcion, estado) values ('FEMENINO', 1);
+
+insert into situacion_orden (descripcion, estado) values ('PENDIENTE', 1);
+insert into situacion_orden (descripcion, estado) values ('REALIZADO', 1);
+insert into situacion_orden (descripcion, estado) values ('VENCIDO', 1);
+
+insert into tipo_documento (descripcion, estado) values ('DNI', 1);
+insert into tipo_documento (descripcion, estado) values ('CARNET EXTRANJERIA', 1);
+insert into tipo_documento (descripcion, estado) values ('PASAPORTE', 1);
+insert into tipo_documento (descripcion, estado) values ('PTP', 1);
+
+insert into tipo_estatus (descripcion, estado) values ('PROPIETARIO', 1);
+insert into tipo_estatus (descripcion, estado) values ('INQUILINO', 1);
+insert into tipo_estatus (descripcion, estado) values ('ADMINISTRATIVO', 1);
+insert into tipo_estatus (descripcion, estado) values ('PRESIDENTE', 1);
+
+insert into tipo_orden (descripcion, estado) values ('ORDEN DE PAGO', 1);
+insert into tipo_orden (descripcion, estado) values ('ORDEN DE COBRANZA', 1);
+
+insert into persona (nombre, paterno, materno, id_tipo_documento, nro_documento, id_pais, direccion, telefono_fijo, telefono_celular, correo_electronico, id_sexo, estado) values ('LUIS PAULO', 'JAVE', 'CARITAS', 1, '70498682', 1, 'MZ. B LT. 6 ASOC. VIV. SAN FRANCISCO 4TA ETAPA - CARABAYLLO', '4304588', '987814050', 'PAULO.JAVE.CARITAS@GMAIL.COM', 1, 1);
+
+insert into usuario (id_persona, usuario, clave, estado, rol) values (1, "70498682", "123456", 1, "ROLE_ADMIN"); 

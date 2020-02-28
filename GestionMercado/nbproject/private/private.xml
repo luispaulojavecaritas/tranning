@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/D:/GIT%20PROYECTOS/tranning/GestionMercado/src/pe/com/cc_sarita/dao/OrdenDao.java</file>
+            <file>file:/D:/GIT%20PROYECTOS/tranning/GestionMercado/src/pe/com/cc_sarita/transfer/MovimientoTransfer.java</file>
+            <file>file:/D:/GIT%20PROYECTOS/tranning/GestionMercado/src/pe/com/cc_sarita/transfer/OrdenTransfer.java</file>
+            <file>file:/D:/GIT%20PROYECTOS/tranning/GestionMercado/src/pe/com/cc_sarita/dao/MovimientoDao.java</file>
+            <file>file:/D:/GIT%20PROYECTOS/tranning/GestionMercado/src/pe/com/cc_sarita/dao/PaisDao.java</file>
+            <file>file:/D:/GIT%20PROYECTOS/tranning/GestionMercado/src/pe/com/cc_sarita/dao/SexoDao.java</file>
+            <file>file:/D:/GIT%20PROYECTOS/tranning/GestionMercado/src/pe/com/cc_sarita/entity/Persona.java</file>
+            <file>file:/D:/GIT%20PROYECTOS/tranning/GestionMercado/src/pe/com/cc_sarita/transfer/PersonaTransfer.java</file>
+            <file>file:/D:/GIT%20PROYECTOS/tranning/GestionMercado/src/pe/com/cc_sarita/entity/Orden.java</file>
+            <file>file:/D:/GIT%20PROYECTOS/tranning/GestionMercado/src/pe/com/cc_sarita/transfer/ContactoProveedorTransfer.java</file>
+        </group>
+    </open-files>
+</project-private>
