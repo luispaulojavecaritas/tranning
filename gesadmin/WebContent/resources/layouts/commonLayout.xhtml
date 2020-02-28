@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title><ui:insert name="titlepage">Passarella</ui:insert></title>
+        <link href="#{resource['css/default.css']}" rel="stylesheet" type="text/css"/>
+        <link rel="shortcut icon" type="image/x-icon" href="#{resource['images/favicon.ico']}"/>
+        <ui:insert name="header-scripts"></ui:insert>
+    </h:head>
+    <h:body>
+
+        <p:layout fullPage="true">
+
+            <p:layoutUnit position="north" size="130" resizable="true" >
+                <div style="background-color: #D20005; height: 100%;">
+                    <ui:insert name="north">
+                        <ui:include src="northcommon.xhtml" />
+                    </ui:insert>
+                </div>
+
+            </p:layoutUnit>
+
+            <p:layoutUnit position="south" size="100"  resizable="false" >
+                <ui:insert name="south">
+                    <ui:include src="southcommon.xhtml" />
+                </ui:insert>
+            </p:layoutUnit>
+
+
+
+            <p:layoutUnit position="center">
+                <ui:insert name="center">
+                </ui:insert>                
+            </p:layoutUnit>
+
+        </p:layout>
+
+
+    </h:body>
+</html>

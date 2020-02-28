@@ -1,0 +1,60 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="content">
+        <div class="Container100">
+            <div class="">
+                <div class="Container100">
+                    <div class="Container100">
+                        <div class="">
+                            <div class="Container100 TexAlCenter"><i class="icon-mountains14 Red Fs130 MarTop20" style="line-height:1 !important;"></i></div>
+                            <h1 class="TexAlCenter Fs40 Red">Titan Documentation</h1>
+                            <div class="EmptyBox40"></div>
+
+                            <p:panel styleClass="">
+                                <div class="Fs20 TexAlCenter Red">Font Families</div>
+                                <div class="EmptyBox10"></div>
+                                <p:panelGrid columns="3" styleClass="Wid100">
+                                    <h:outputText value="Class Group" styleClass="Orange Fs20 Wid30"/>
+                                    <h:outputText value="Class Name" styleClass="Orange Fs20 Wid30"/>
+                                    <h:outputText value="Instructions" styleClass="Orange Fs20 Wid40"/>
+
+                                    <h:outputText value="Font Family" styleClass="Fs20" escape="false"/>
+                                    <h:outputText value="FontMerriWeatherBold &lt;br /&gt; 
+                                                        FontMerriWeatherItalic &lt;br /&gt;
+                                                        FontMerriWeatherLight &lt;br /&gt;
+                                                        FontMerriWeatherRegular &lt;br /&gt;
+
+                                                        FontSourceSansBold &lt;br /&gt;
+                                                        FontSourceSansItalic &lt;br /&gt;
+                                                        FontSourceSansLight &lt;br /&gt;
+                                                        FontSourceSansRegular" styleClass="Blue" escape="false"/>
+                                    <h:outputText value="Thick text. &lt;br /&gt; &lt;br /&gt;" escape="false"/>
+                                </p:panelGrid>
+                            </p:panel>
+                            <p:panel styleClass=" TexAlCenter OvHidden">
+                                <div class="Container25 FontMerriWeatherBold Fs20">FontMerriWeatherBold</div>
+                                <div class="Container25 FontMerriWeatherItalic Fs20">FontMerriWeatherItalic</div>
+                                <div class="Container25 FontMerriWeatherRegular Fs20">FontMerriWeatherRegular</div>
+                                <div class="Container25 FontMerriWeatherLight Fs20">FontMerriWeatherLight</div>
+                                
+                                <div class="Container25 FontSourceSansBold Fs20">FontSourceSansBold</div>
+                                <div class="Container25 FontSourceSansItalic Fs20">FontSourceSansItalic</div>
+                                <div class="Container25 FontSourceSansRegular Fs20">FontSourceSansRegular</div>
+                                <div class="Container25 FontSourceSansLight Fs20">FontSourceSansLight</div>
+                            </p:panel>
+
+
+                            <div class="EmptyBox60"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+
+</ui:composition>

@@ -17,6 +17,8 @@ public interface ContactoProveedorDao {
     
     
     public List<ContactoProveedorTransfer> findByProveedorId(Integer id); 
+    
+    public List<ContactoProveedor> findByIdProveedor(Integer idProveedor); 
   
     public void create (ContactoProveedor entidad); 
     

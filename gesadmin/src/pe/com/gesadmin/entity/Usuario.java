@@ -26,6 +26,8 @@ public class Usuario implements Serializable {
 	private Timestamp registro;
 
 	private String usuario;
+	
+	private String rol;
 
 	//uni-directional many-to-one association to Persona
 	@ManyToOne
@@ -84,6 +86,14 @@ public class Usuario implements Serializable {
 		this.persona = persona;
 	}
 
+	public String getRol() {
+		return rol;
+	}
+
+	public void setRol(String rol) {
+		this.rol = rol;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -111,8 +121,8 @@ public class Usuario implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Usuario [id=" + id + ", clave=" + clave + ", estado=" + estado + ", registro=" + registro + ", usuario="
-				+ usuario + ", persona=" + persona + "]";
+		return "Usuario [id=" + id + ", clave=" + clave + ", estado=" + estado + ", registro=" + registro + ", "
+				+ "usuario="+ usuario + ", rol=" + rol + ", persona=" + persona + "]";
 	}
 	
 	

@@ -15,7 +15,7 @@ import pe.com.gesadmin.transfer.OrdenTransfer;
  */
 public interface OrdenDao {
     
-    public List<Orden> findAll();    
+    public List<Orden> findByPeriodoId(Integer idPeriodo);    
     
     public List<OrdenTransfer> findTransferAll(); 
   

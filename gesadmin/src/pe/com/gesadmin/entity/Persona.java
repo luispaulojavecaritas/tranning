@@ -40,6 +40,8 @@ public class Persona implements Serializable {
 
 	@Column(name="telefono_fijo")
 	private String telefonoFijo;
+	
+	private Integer estado;
 
 	//uni-directional many-to-one association to Pais
 	@ManyToOne
@@ -165,6 +167,16 @@ public class Persona implements Serializable {
 	public void setTipoDocumento(TipoDocumento tipoDocumento) {
 		this.tipoDocumento = tipoDocumento;
 	}
+	
+	
+
+	public Integer getEstado() {
+		return estado;
+	}
+
+	public void setEstado(Integer estado) {
+		this.estado = estado;
+	}
 
 	@Override
 	public int hashCode() {
@@ -196,7 +208,7 @@ public class Persona implements Serializable {
 		return "Persona [id=" + id + ", correoElectronico=" + correoElectronico + ", direccion=" + direccion
 				+ ", materno=" + materno + ", nombre=" + nombre + ", nroDocumento=" + nroDocumento + ", paterno="
 				+ paterno + ", registro=" + registro + ", telefonoCelular=" + telefonoCelular + ", telefonoFijo="
-				+ telefonoFijo + ", pais=" + pais + ", sexo=" + sexo + ", tipoDocumento=" + tipoDocumento + "]";
+				+ telefonoFijo + ", pais=" + pais + ", sexo=" + sexo + ", tipoDocumento=" + tipoDocumento + ", estado=" + estado + "]";
 	}
 	
 	

@@ -2,7 +2,20 @@
 <faces-config
     xmlns="http://xmlns.jcp.org/xml/ns/javaee"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_3.xsd"
-    version="2.3">
+    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
+    version="2.2">
 
+	<component>
+		<component-type>org.primefaces.component.TitanMenu</component-type>
+		<component-class>org.primefaces.titan.component.menu.TitanMenu</component-class> 
+	</component>
+
+	<render-kit>
+		<renderer>
+			<component-family>org.primefaces.component</component-family>
+			<renderer-type>org.primefaces.component.TitanMenuRenderer</renderer-type>
+			<renderer-class>org.primefaces.titan.component.menu.TitanMenuRenderer</renderer-class>
+		</renderer>
+	</render-kit>
+ 
 </faces-config>

@@ -1,0 +1,41 @@
+<ui:composition 
+
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+    
+
+        <!-- TOPBAR -->
+        <div id="layout-topbar">
+
+            <!-- LOGO -->
+            <a href="" id="logo">
+                <h:graphicImage name="images/logo_pnp.png" id="forFlying" library="titan-layout" />
+                <h:graphicImage name="images/logo_pnp.png" id="forFixed"  library="titan-layout" />
+            </a>
+
+            <!-- MENUBUTTON -->
+            <a id="menu-button"> <i class="icon-chevron-down"></i> </a>
+
+            <!-- SEARCH -->
+
+            <!-- TOPBAR LINKS -->
+            <a id="topmenu-button"> <i class="icon-list2"></i> </a>
+
+
+
+            <!-- MENU COVER -->
+            <div id="layout-menu-cover">
+                <ui:include src="layoutmenu.xhtml" />
+            </div>
+            
+        </div>
+    
+        <!-- TOPMENU -->
+        <ul id="top-menu">
+            <li><p:outputLabel value="#{usuarioSesionBean.usuario.persona.nombre} #{usuarioSesionBean.usuario.persona.paterno} #{usuarioSesionBean.usuario.persona.materno} " style="color:#FFFFFF;"/><a href="#{request.contextPath}/springSecurityLogout" style="color: #87CEFA"><i class="fa fa-sign-out"></i> (Cerrar Sesion)</a></li>
+        </ul>
+    
+</ui:composition>

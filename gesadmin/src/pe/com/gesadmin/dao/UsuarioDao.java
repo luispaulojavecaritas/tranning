@@ -25,4 +25,6 @@ public interface UsuarioDao {
     
     public Usuario findById (Integer id);
     
+    public List<Usuario> findByUsuario (String usuario);
+    
 }

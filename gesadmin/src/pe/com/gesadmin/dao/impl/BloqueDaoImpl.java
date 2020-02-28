@@ -19,10 +19,9 @@ public class BloqueDaoImpl implements BloqueDao{
 	@Override
 	public List<Bloque> findAll() {
 		// TODO Auto-generated method stub
-		String query = "select new pe.com.gesadmin.entity.Bloque(b.id, b.descripcion, b.estado) FROM Bloque b where b.estado = 1";
-        TypedQuery tq = em.createQuery(query, Bloque.class);
+		String query = "select b FROM Bloque b";
+        TypedQuery<Bloque> tq = em.createQuery(query, Bloque.class);
         List<Bloque> lista = tq.getResultList();
-        em.close();
         return lista;
 	}
 
@@ -41,10 +40,7 @@ public class BloqueDaoImpl implements BloqueDao{
 	@Override
 	public Bloque findById(Integer id) {
 		// TODO Auto-generated method stub
-		String query = "select b from Bloque b where b.id = :id";
-        TypedQuery<Bloque> typedQuery = em.createQuery(query, Bloque.class);
-        typedQuery.setParameter("id", id);
-        return typedQuery.getSingleResult();
+		return em.find(Bloque.class, id);
 	}
 
 }

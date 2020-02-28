@@ -17,6 +17,8 @@ public interface PersonaDao {
     
     public List<Persona> findAll();    
     
+    public List<Persona> findByNroDoc(String nroDoc); 
+    
     public List<PersonaTransfer> findTransferAll(); 
   
     public void create (Persona entidad); 

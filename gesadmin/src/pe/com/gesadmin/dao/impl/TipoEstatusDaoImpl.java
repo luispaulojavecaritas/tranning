@@ -2,6 +2,7 @@ package pe.com.gesadmin.dao.impl;
 
 import java.util.List;
 
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -9,6 +10,7 @@ import javax.persistence.TypedQuery;
 import pe.com.gesadmin.dao.TipoEstatusDao;
 import pe.com.gesadmin.entity.TipoEstatus;
 
+@Stateless
 public class TipoEstatusDaoImpl implements TipoEstatusDao {
 	
 	@PersistenceContext(unitName = "gesadminPU")
@@ -17,10 +19,9 @@ public class TipoEstatusDaoImpl implements TipoEstatusDao {
 	@Override
 	public List<TipoEstatus> findAll() {
 		// TODO Auto-generated method stub
-		String query = "select new pe.com.gesadmin.entity.TipoEstatus(b.id, b.descripcion, b.estado) FROM TipoEstatus b where b.estado = 1";
-        TypedQuery tq = em.createQuery(query, TipoEstatus.class);
+		String query = "select b FROM TipoEstatus b";
+        TypedQuery<TipoEstatus> tq = em.createQuery(query, TipoEstatus.class);
         List<TipoEstatus> lista = tq.getResultList();
-        em.close();
         return lista;
 	}
 
@@ -39,10 +40,7 @@ public class TipoEstatusDaoImpl implements TipoEstatusDao {
 	@Override
 	public TipoEstatus findById(Integer id) {
 		// TODO Auto-generated method stub
-		String query = "select b from TipoEstatus b where b.id = :id";
-        TypedQuery<TipoEstatus> typedQuery = em.createQuery(query, TipoEstatus.class);
-        typedQuery.setParameter("id", id);
-        return typedQuery.getSingleResult();
+		return em.find(TipoEstatus.class, id);
 	}
 
 

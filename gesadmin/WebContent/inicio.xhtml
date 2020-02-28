@@ -1,0 +1,147 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="head">
+		<style type="text/css">
+body {
+	background-color: #F1F1F1;
+}
+</style>
+	</ui:define>
+	
+	<f:metadata>
+		<f:event type="preRenderView"
+			listener="#{usuarioSesionBean.recuperarDatosUsuario()}" />
+	</f:metadata>
+
+	<ui:define name="content">
+
+		<div class="Section">
+
+			<div class="Container100 ShadowEffect WhiteBack">
+
+				<div class="Container100 ui-fluid">
+					<div class="Container100">
+						<div
+							class="Wid100 MarAuto DispBlock OvHidden FontMerriWeatherRegular BlueDarkest TexAlCenter"
+							style="font-size: 3.0rem; padding-top: 0rem; padding-bottom: 0rem;">Administracion de Servicios Web</div>
+						<div class="Wid100 OvHidden" style="height: 5rem;"></div>
+
+						<p:fieldset legend="Servicios administrados por la PCM - PIDE"
+							toggleable="true" toggleSpeed="500">
+							<div class="Wid100 MarAuto">
+								<div class="ContainerIndent">
+
+									<div class="Container33 Responsive50">
+										<div class="ContainerIndent">
+											<p:commandLink
+												action="administrador/administradores.xhtml?faces-redirect=true">
+												<div
+													class="Container100 BlueDarkerBack White TexAlCenter  Zoom1point05x">
+													<div class="EmptyBox5"></div>
+													<i class="icon-bulb Fs50"></i>
+													<div class="EmptyBox10"></div>
+													<div class="FontRobotoLight Fs16 DispBlock ClearBoth">Administradores</div>
+												</div>
+											</p:commandLink>
+										</div>
+									</div>
+
+									<div class="Container33 Responsive50">
+										<div class="ContainerIndent">
+											<p:commandLink action="seguridad/clientes.xhtml?faces-redirect=true">
+												<div
+													class="Container100 BlueDarkerBack White TexAlCenter  Zoom1point05x">
+													<div class="EmptyBox5"></div>
+													<i class="icon-bulb Fs50"></i>
+													<div class="EmptyBox10"></div>
+													<div class="FontRobotoLight Fs16 DispBlock ClearBoth">Clientes</div>
+												</div>
+											</p:commandLink>
+										</div>
+									</div>
+
+									<div class="Container33 Responsive50">
+										<div class="ContainerIndent">
+											<p:commandLink action="seguridad/servicios.xhtml?faces-redirect=true">
+												<div
+													class="Container100 BlueDarkerBack White TexAlCenter  Zoom1point05x">
+													<div class="EmptyBox5"></div>
+													<i class="icon-bulb Fs50"></i>
+													<div class="EmptyBox10"></div>
+													<div class="FontRobotoLight Fs16 DispBlock ClearBoth">Servicios</div>
+												</div>
+											</p:commandLink>
+										</div>
+									</div>
+
+									<div class="Container33 Responsive50">
+										<div class="ContainerIndent">
+											<p:commandLink action="seguridad/origen_dato.xhtml?faces-redirect=true">
+												<div
+													class="Container100 BlueDarkerBack White TexAlCenter  Zoom1point05x">
+													<div class="EmptyBox5"></div>
+													<i class="icon-bulb Fs50"></i>
+													<div class="EmptyBox10"></div>
+													<div class="FontRobotoLight Fs16 DispBlock ClearBoth">Origen de dato</div>
+												</div>
+											</p:commandLink>
+										</div>
+									</div>
+
+									<div class="Container33 Responsive50">
+										<div class="ContainerIndent">
+											<p:commandLink action="seguridad/origen_entidad.xhtml?faces-redirect=true">
+												<div
+													class="Container100 BlueDarkerBack White TexAlCenter  Zoom1point05x">
+													<div class="EmptyBox5"></div>
+													<i class="icon-bulb Fs50"></i>
+													<div class="EmptyBox10"></div>
+													<div class="FontRobotoLight Fs16 DispBlock ClearBoth">Origen de Entidad</div>
+												</div>
+											</p:commandLink>
+										</div>
+									</div>
+
+									<div class="Container33 Responsive50">
+										<div class="ContainerIndent">
+											<p:commandLink action="seguridad/tipo_dato.xhtml?faces-redirect=true">
+												<div
+													class="Container100 BlueDarkerBack White TexAlCenter  Zoom1point05x">
+													<div class="EmptyBox5"></div>
+													<i class="icon-bulb Fs50"></i>
+													<div class="EmptyBox10"></div>
+													<div class="FontRobotoLight Fs16 DispBlock ClearBoth">Tipo de Dato</div>
+												</div>
+											</p:commandLink>
+										</div>
+									</div>
+									
+									<div class="Container33 Responsive50">
+										<div class="ContainerIndent">
+											<p:commandLink action="seguridad/tipo_documento.xhtml?faces-redirect=true">
+												<div
+													class="Container100 BlueDarkerBack White TexAlCenter  Zoom1point05x">
+													<div class="EmptyBox5"></div>
+													<i class="icon-bulb Fs50"></i>
+													<div class="EmptyBox10"></div>
+													<div class="FontRobotoLight Fs16 DispBlock ClearBoth">Tipo de Documento</div>
+												</div>
+											</p:commandLink>
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</p:fieldset>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</ui:define>
+
+</ui:composition>

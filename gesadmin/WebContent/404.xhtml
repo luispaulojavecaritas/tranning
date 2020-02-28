@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <f:facet name="first">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+            <meta name="apple-mobile-web-app-capable" content="yes" />
+        </f:facet>
+        <title>PrimeFaces Titan - 404</title>
+    </h:head>
+
+    <h:body styleClass="BlueBody RedDarkBack" style="background-image:url(#{resource['titan-layout:images/loginback.svg']}); background-size:cover; background-position:right top;  background-attachment:fixed;">
+        
+        <div class="Container30 WhiteBack DispTable Hei100 OvAuto Responsive ShadowEffect">
+            <div class="Container100">
+                <div class="EmptyBox10"></div>
+                <a href="dashboard.xhtml"><h:graphicImage name="images/logo.svg" library="titan-layout" styleClass="Wid30" style="min-width:150px;"/></a>
+                
+                <div class="EmptyBox20"></div>
+                <div class="Container100 FontSourceSansBold Fs30 Red">Page Not Found ! <i class="icon-issue-reopened Red Fright"></i></div>
+                <div class="Separator"></div>
+                <div class="EmptyBox20"></div>
+                <span class="Container100 Gray Fs50 FontSourceSansLight">404 !</span>
+                <div class="Container100 GrayLightest FontSourceSansLight Fs20">
+                    Sorry, but the resource you are looking for has not been found.
+                    <div class="EmptyBox5"></div> Please contact system administrator.
+                </div>
+                
+                <div class="Container100 ui-fluid">
+                    <p:inputText placeholder="Email"/>
+                    <div class="EmptyBox10"></div>
+                    <p:inputTextarea placeholder="Your Opinions"/>
+                </div>
+                <div class="Container50 Responsive50"></div>
+                <div class="Container50 Responsive50 ui-fluid">
+                    <p:button value="Send To Admin" styleClass="GreenButton"/>
+                </div>
+
+            </div>
+        </div>
+
+        
+        <h:outputStylesheet name="css/core-layout.css" library="titan-layout" />
+        <h:outputStylesheet name="css/animate.css" library="titan-layout" />
+        <h:outputStylesheet name="css/titan-font.css" library="titan-layout" />
+        <h:outputStylesheet name="css/font-awesome.css" library="titan-layout" />
+        <h:outputStylesheet name="css/titan-layout.css" library="titan-layout" />
+    </h:body>
+
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jstl/core">
+
+<h:head>
+	<f:facet name="first">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="viewport"
+			content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+	</f:facet>
+	<title>PrimeFaces Titan - Login Page</title>
+</h:head>
+
+<h:body styleClass="BlueBody GrayDarkBack"
+	style="background-image:url(#{resource['titan-layout:images/loginback.svg']}); background-size:cover; background-position:right top;  background-attachment:fixed;">
+	<div
+		class="Container30 WhiteBack DispTable Hei100 OvAuto Responsive ShadowEffect">
+		<div class="Container100">
+			<div class="EmptyBox10"></div>
+			<div class="Container100" align="center">
+				<a href=""><h:graphicImage name="images/logo_pnp.png"
+						library="titan-layout" styleClass="Wid30" style="min-width:230px" /></a>
+			</div>
+
+			<div class="Container100 FontSourceSansLight Fs30 BlueDarker">
+				Sistema de Gestión de Servicios Web  <i class="icon-organization Fright GrayLightest"></i>
+			</div>
+			<div class="Separator"></div>
+			<span class="Container100 Gray Fs20 FontSourceSansLight">Iniciar
+				sesión en su cuenta</span>
+			<div class="EmptyBox20"></div>
+
+			<form action="#{request.contextPath}/springSecurityLogin"
+				method="POST" autocomplete="off">
+
+				<div class="Container100 ui-fluid">
+					<div class="DispBlock FontSourceSansBold Gray Fs16">Nombre de
+						usuario</div>
+					<div class="EmptyBox10"></div>
+					<input type="text" name="usernameE"
+						placeholder="Ingrese su nombre de usuario"
+						class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" />
+
+				</div>
+
+				<div class="Container100 ui-fluid">
+					<div class="DispBlock FontSourceSansBold Gray Fs16">Clave de
+						acceso</div>
+					<div class="EmptyBox10"></div>
+					<input type="password" name="passwordE"
+						placeholder="Ingrese su clave de acceso"
+						class="ui-inputfield ui-password ui-widget ui-state-default ui-corner-all" />
+				</div>
+
+				<div class="Container100 Responsive100 ui-fluid">
+					<input type="submit" value="Iniciar"
+						class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only GreenButton ui-state-hover"
+						style="height: 45px" /> 
+					<div class="EmptyBox5"/>
+						<input type="submit"
+						value="¿Olvido su clave?"
+						class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only RedButton ui-state-hover"
+						style="height: 45px" />
+				</div>
+				<div class="Container100 ui-fluid">
+					<c:if test="${param.status=='error'}">
+						<i class="fa fa-sign-in Fs20 Red" title="Credenciales invalidas">
+							Usuario y/o clave invalido</i>
+					</c:if>
+					<c:if test="${param.status=='logout'}">
+						<i class="fa fa-sign-out Fs20 Red" title="Sesion finalizada">
+							Cierre de sesion satisfactorio</i>
+					</c:if>
+				</div>
+			</form>
+
+			<div class="EmptyBox20"></div>
+			<div class="Separator"></div>
+			<div class="EmptyBox10"></div>
+
+
+			<div class="Container100 ui-fluid">
+				<p:button value="¿Olvidó su clave?" styleClass="RedButton"
+					rendered="false" />
+			</div>
+
+
+		</div>
+	</div>
+
+
+	<h:outputStylesheet name="css/core-layout.css" library="titan-layout" />
+	<h:outputStylesheet name="css/animate.css" library="titan-layout" />
+	<h:outputStylesheet name="css/titan-font.css" library="titan-layout" />
+	<h:outputStylesheet name="css/font-awesome.css" library="titan-layout" />
+	<h:outputStylesheet name="css/titan-layout.css" library="titan-layout" />
+</h:body>
+
+</html>

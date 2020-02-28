@@ -14,7 +14,9 @@ import pe.com.gesadmin.entity.Proveedor;
  */
 public interface ProveedorDao {
     
-    public List<Proveedor> findAll();    
+    public List<Proveedor> findAll();  
+    
+    public List<Proveedor> findByRuc(String ruc);
     
     public void create (Proveedor entidad); 
     

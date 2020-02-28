@@ -7,7 +7,6 @@ package pe.com.gesadmin.dao;
 
 import java.util.List;
 import pe.com.gesadmin.entity.Movimiento;
-import pe.com.gesadmin.transfer.MovimientoTransfer;
 
 /**
  *
@@ -15,9 +14,8 @@ import pe.com.gesadmin.transfer.MovimientoTransfer;
  */
 public interface MovimientoDao {
     
-    public List<Movimiento> findAll();    
     
-    public List<MovimientoTransfer> findTransferAll(); 
+    public List<Movimiento> findByPeriodo(String periodo); 
   
     public void create (Movimiento entidad); 
     

@@ -1,0 +1,67 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://primefaces.org/titan">
+
+	<h:form id="menuform">
+
+		<pt:menu widgetVar="TitanMenu">
+
+			<p:submenu id="pt_mantenimiento_catalogo"
+				label="Manteniemiento Entidades Catalogo" icon="icon-layers">
+				<p:menuitem id="pt_man_bloque" value="Bloque" icon="icon-dashboard"
+					outcome="/mantenimiento_catalogo/mantenimiento_bloque" />
+				<p:menuitem id="pt_man_egreso" value="Egreso" icon="icon-dashboard"
+					outcome="/mantenimiento_catalogo/mantenimiento_egreso" />
+				<p:menuitem id="pt_man_ingreso" value="Ingreso"
+					icon="icon-dashboard"
+					outcome="/mantenimiento_catalogo/mantenimiento_ingreso" />
+				<p:menuitem id="pt_man_pais" value="Pais" icon="icon-dashboard"
+					outcome="/mantenimiento_catalogo/mantenimiento_pais" />
+				<p:menuitem id="pt_man_periodo" value="Periodo"
+					icon="icon-dashboard"
+					outcome="/mantenimiento_catalogo/mantenimiento_periodo" />
+				<p:menuitem id="pt_man_sexo" value="Sexo" icon="icon-dashboard"
+					outcome="/mantenimiento_catalogo/mantenimiento_sexo" />
+				<p:menuitem id="pt_man_situacion_orden" value="Situacion Orden"
+					icon="icon-dashboard"
+					outcome="/mantenimiento_catalogo/mantenimiento_situacion_orden" />
+				<p:menuitem id="pt_man_tipo_documento" value="Tipo Documento"
+					icon="icon-dashboard"
+					outcome="/mantenimiento_catalogo/mantenimiento_tipo_documento" />
+				<p:menuitem id="pt_man_tipo_estatus" value="Tipo Estatus"
+					icon="icon-dashboard"
+					outcome="/mantenimiento_catalogo/mantenimiento_tipo_estatus" />
+				<p:menuitem id="pt_man_tipo_orden" value="Tipo Orden"
+					icon="icon-dashboard"
+					outcome="/mantenimiento_catalogo/mantenimiento_tipo_orden" />
+			</p:submenu>
+			
+			<p:submenu id="pt_mantenimiento_relaciones"
+				label="Manteniemiento Entidades Relacionadas" icon="icon-layers">
+				<p:menuitem id="pt_man_persona" value="Tipo Orden"
+					icon="icon-dashboard"
+					outcome="/mantenimiento_relaciones/mantenimiento_persona" />
+				<p:menuitem id="pt_man_puesto" value="Tipo Orden"
+					icon="icon-dashboard"
+					outcome="/mantenimiento_relaciones/mantenimiento_puesto" />
+				<p:menuitem id="pt_man_puesto_persona" value="Tipo Orden"
+					icon="icon-dashboard"
+					outcome="/mantenimiento_relaciones/mantenimiento_puesto_persona_situacion" />
+				<p:menuitem id="pt_man_proveedor" value="Tipo Orden"
+					icon="icon-dashboard"
+					outcome="/mantenimiento_relaciones/mantenimiento_proveedor" />
+				<p:menuitem id="pt_man_proveedor_contacto" value="Tipo Orden"
+					icon="icon-dashboard"
+					outcome="/mantenimiento_relaciones/mantenimiento_proveedor_persona_contacto" />
+			</p:submenu>
+
+
+
+		</pt:menu>
+
+	</h:form>
+
+</ui:composition>

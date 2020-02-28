@@ -2,6 +2,7 @@ package pe.com.gesadmin.dao.impl;
 
 import java.util.List;
 
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -9,6 +10,7 @@ import javax.persistence.TypedQuery;
 import pe.com.gesadmin.dao.ProveedorDao;
 import pe.com.gesadmin.entity.Proveedor;
 
+@Stateless
 public class ProveedorDaoImpl implements ProveedorDao{
 	
 	@PersistenceContext(unitName = "gesadminPU")
@@ -17,10 +19,9 @@ public class ProveedorDaoImpl implements ProveedorDao{
 	@Override
 	public List<Proveedor> findAll() {
 		// TODO Auto-generated method stub
-		String query = "select new pe.com.gesadmin.entity.Proveedor(b.id, b.descripcion, b.estado) FROM Proveedor b where b.estado = 1";
-        TypedQuery tq = em.createQuery(query, Proveedor.class);
+		String query = "select b FROM Proveedor b";
+        TypedQuery<Proveedor> tq = em.createQuery(query, Proveedor.class);
         List<Proveedor> lista = tq.getResultList();
-        em.close();
         return lista;
 	}
 
@@ -39,10 +40,16 @@ public class ProveedorDaoImpl implements ProveedorDao{
 	@Override
 	public Proveedor findById(Integer id) {
 		// TODO Auto-generated method stub
-		String query = "select b from Proveedor b where b.id = :id";
-        TypedQuery<Proveedor> typedQuery = em.createQuery(query, Proveedor.class);
-        typedQuery.setParameter("id", id);
-        return typedQuery.getSingleResult();
+		 return em.find(Proveedor.class, id);
+	}
+
+	@Override
+	public List<Proveedor> findByRuc(String ruc) {
+		// TODO Auto-generated method stub
+		String query = "select b FROM Proveedor b where b.estado = 1 and b.ruc = :ruc";
+        TypedQuery<Proveedor> tq = em.createQuery(query, Proveedor.class);
+        tq.setParameter("ruc", ruc);
+        return tq.getResultList();
 	}
 
 

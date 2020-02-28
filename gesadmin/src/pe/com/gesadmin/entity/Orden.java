@@ -59,6 +59,10 @@ public class Orden implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="id_tipo_orden", referencedColumnName = "id")
 	private TipoOrden tipoOrden;
+	
+	@ManyToOne
+	@JoinColumn(name="id_periodo", referencedColumnName = "id")
+	private Periodo periodo;
 
 	public Orden() {
 		persona = new Persona();
@@ -164,6 +168,14 @@ public class Orden implements Serializable {
 		this.tipoOrden = tipoOrden;
 	}
 
+	public Periodo getPeriodo() {
+		return periodo;
+	}
+
+	public void setPeriodo(Periodo periodo) {
+		this.periodo = periodo;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -194,7 +206,7 @@ public class Orden implements Serializable {
 		return "Orden [id=" + id + ", descripcion=" + descripcion + ", estado=" + estado + ", fechaPago=" + fechaPago
 				+ ", fechaVencimiento=" + fechaVencimiento + ", monto=" + monto + ", registro=" + registro
 				+ ", persona=" + persona + ", proveedor=" + proveedor + ", puesto=" + puesto + ", situacionOrden="
-				+ situacionOrden + ", tipoOrden=" + tipoOrden + "]";
+				+ situacionOrden + ", tipoOrden=" + tipoOrden + ", periodo=" + periodo + "]";
 	}
 	
 	

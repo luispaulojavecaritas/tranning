@@ -12,113 +12,162 @@ package pe.com.gesadmin.transfer;
 public class ContactoProveedorTransfer {
 
     private String id;
-    private String proveeRuc;
-    private String proveeRazonSocial;
-    private String contacTipoDoc;
-    private String contacNroDoc;
-    private String contacNombre;
-    private String contacFijo;
-    private String contacCelular;
-    private String contacCorreo;
+    private String perTipoDoc;
+    private String perNroDoc;
+    private String perNombre;
+    private String perPaterno;
+    private String perMaterno;
+    private String perPais;
+    private String perSexo;
+    private String perCelular;
+    private String perFijo;
+    private String perCorreo;
+    private String proveRuc;
+    private String proveRazonSocial;
+    private String proveCelular;
+    private String proveFijo;
+    private String proveCorreo;
 
     public ContactoProveedorTransfer() {
     }
 
-    public ContactoProveedorTransfer(String id) {
-        this.id = id;
-    }
+	public String getId() {
+		return id;
+	}
 
-    public ContactoProveedorTransfer(String id, String proveeRuc, String proveeRazonSocial, String contacTipoDoc, String contacNroDoc, String contacNombre, String contacFijo, String contacCelular, String contacCorreo) {
-        this.id = id;
-        this.proveeRuc = proveeRuc;
-        this.proveeRazonSocial = proveeRazonSocial;
-        this.contacTipoDoc = contacTipoDoc;
-        this.contacNroDoc = contacNroDoc;
-        this.contacNombre = contacNombre;
-        this.contacFijo = contacFijo;
-        this.contacCelular = contacCelular;
-        this.contacCorreo = contacCorreo;
-    }
+	public void setId(String id) {
+		this.id = id;
+	}
 
-    public String getId() {
-        return id;
-    }
+	public String getPerTipoDoc() {
+		return perTipoDoc;
+	}
 
-    public void setId(String id) {
-        this.id = id;
-    }
+	public void setPerTipoDoc(String perTipoDoc) {
+		this.perTipoDoc = perTipoDoc;
+	}
 
-    public String getProveeRuc() {
-        return proveeRuc;
-    }
+	public String getPerNroDoc() {
+		return perNroDoc;
+	}
 
-    public void setProveeRuc(String proveeRuc) {
-        this.proveeRuc = proveeRuc;
-    }
+	public void setPerNroDoc(String perNroDoc) {
+		this.perNroDoc = perNroDoc;
+	}
 
-    public String getProveeRazonSocial() {
-        return proveeRazonSocial;
-    }
+	public String getPerNombre() {
+		return perNombre;
+	}
 
-    public void setProveeRazonSocial(String proveeRazonSocial) {
-        this.proveeRazonSocial = proveeRazonSocial;
-    }
+	public void setPerNombre(String perNombre) {
+		this.perNombre = perNombre;
+	}
 
-    public String getContacTipoDoc() {
-        return contacTipoDoc;
-    }
+	public String getPerPaterno() {
+		return perPaterno;
+	}
 
-    public void setContacTipoDoc(String contacTipoDoc) {
-        this.contacTipoDoc = contacTipoDoc;
-    }
+	public void setPerPaterno(String perPaterno) {
+		this.perPaterno = perPaterno;
+	}
 
-    public String getContacNroDoc() {
-        return contacNroDoc;
-    }
+	public String getPerMaterno() {
+		return perMaterno;
+	}
 
-    public void setContacNroDoc(String contacNroDoc) {
-        this.contacNroDoc = contacNroDoc;
-    }
+	public void setPerMaterno(String perMaterno) {
+		this.perMaterno = perMaterno;
+	}
 
-    public String getContacNombre() {
-        return contacNombre;
-    }
+	public String getPerPais() {
+		return perPais;
+	}
 
-    public void setContacNombre(String contacNombre) {
-        this.contacNombre = contacNombre;
-    }
+	public void setPerPais(String perPais) {
+		this.perPais = perPais;
+	}
 
-    public String getContacFijo() {
-        return contacFijo;
-    }
+	public String getPerSexo() {
+		return perSexo;
+	}
 
-    public void setContacFijo(String contacFijo) {
-        this.contacFijo = contacFijo;
-    }
+	public void setPerSexo(String perSexo) {
+		this.perSexo = perSexo;
+	}
 
-    public String getContacCelular() {
-        return contacCelular;
-    }
+	public String getPerCelular() {
+		return perCelular;
+	}
 
-    public void setContacCelular(String contacCelular) {
-        this.contacCelular = contacCelular;
-    }
+	public void setPerCelular(String perCelular) {
+		this.perCelular = perCelular;
+	}
 
-    public String getContacCorreo() {
-        return contacCorreo;
-    }
+	public String getPerFijo() {
+		return perFijo;
+	}
 
-    public void setContacCorreo(String contacCorreo) {
-        this.contacCorreo = contacCorreo;
-    }
+	public void setPerFijo(String perFijo) {
+		this.perFijo = perFijo;
+	}
 
-    @Override
-    public String toString() {
-        return "ContactoProveedorTransfer{" + "id=" + id + ", proveeRuc=" + proveeRuc + ", proveeRazonSocial=" + proveeRazonSocial + ", contacTipoDoc=" + contacTipoDoc + ", contacNroDoc=" + contacNroDoc + ", contacNombre=" + contacNombre + ", contacFijo=" + contacFijo + ", contacCelular=" + contacCelular + ", contacCorreo=" + contacCorreo + '}';
-    }
+	public String getPerCorreo() {
+		return perCorreo;
+	}
+
+	public void setPerCorreo(String perCorreo) {
+		this.perCorreo = perCorreo;
+	}
+
+	public String getProveRuc() {
+		return proveRuc;
+	}
+
+	public void setProveRuc(String proveRuc) {
+		this.proveRuc = proveRuc;
+	}
+
+	public String getProveRazonSocial() {
+		return proveRazonSocial;
+	}
+
+	public void setProveRazonSocial(String proveRazonSocial) {
+		this.proveRazonSocial = proveRazonSocial;
+	}
+
+	public String getProveCelular() {
+		return proveCelular;
+	}
+
+	public void setProveCelular(String proveCelular) {
+		this.proveCelular = proveCelular;
+	}
+
+	public String getProveFijo() {
+		return proveFijo;
+	}
+
+	public void setProveFijo(String proveFijo) {
+		this.proveFijo = proveFijo;
+	}
+
+	public String getProveCorreo() {
+		return proveCorreo;
+	}
+
+	public void setProveCorreo(String proveCorreo) {
+		this.proveCorreo = proveCorreo;
+	}
+
+	@Override
+	public String toString() {
+		return "ContactoProveedorTransfer [id=" + id + ", perTipoDoc=" + perTipoDoc + ", perNroDoc=" + perNroDoc
+				+ ", perNombre=" + perNombre + ", perPaterno=" + perPaterno + ", perMaterno=" + perMaterno
+				+ ", perPais=" + perPais + ", perSexo=" + perSexo + ", perCelular=" + perCelular + ", perFijo="
+				+ perFijo + ", perCorreo=" + perCorreo + ", proveRuc=" + proveRuc + ", proveRazonSocial="
+				+ proveRazonSocial + ", proveCelular=" + proveCelular + ", proveFijo=" + proveFijo + ", proveCorreo="
+				+ proveCorreo + "]";
+	}
     
     
-    
-    
-
 }

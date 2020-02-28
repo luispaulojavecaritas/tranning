@@ -34,18 +34,21 @@ public class ContactoProveedorDaoImpl implements ContactoProveedorDao{
 	@Override
 	public ContactoProveedor findById(Integer id) {
 		// TODO Auto-generated method stub
-		String query = "select b from ContactoProveedor b where b.id = :id";
-        TypedQuery<ContactoProveedor> typedQuery = em.createQuery(query, ContactoProveedor.class);
-        typedQuery.setParameter("id", id);
-        return typedQuery.getSingleResult();
+		return em.find(ContactoProveedor.class, id);
+
 	}
 
 	@Override
 	public List<ContactoProveedorTransfer> findByProveedorId(Integer id) {
 		// TODO Auto-generated method stub
-		String query = "select cp.id, per.nombre, per.paterno, per.materno, per.telefono_celular, "
-				+ "per.telefono_fijo, per.nro_documento, pai.descripcion, sex.descripcion, "
-				+ "pro.ruc, pro.razon_social "
+		String query = "select "
+				+ "cp.id, "
+				+ "td.descripcion, "
+				+ "per.nro_documento, per.nombre, per.paterno, per.materno, "
+				+ "per.telefono_celular, per.telefono_fijo, per.correo_electronico, "
+				+ "pai.descripcion, "
+				+ "sex.descripcion, "
+				+ "pro.ruc, pro.razon_social, pro.telefono_celular, pro.telefono_fijo, pro.correo_electronico "
 				+ "from "
 				+ "contacto_proveedor cp "
 				+ "left join persona per on cp.id_persona = per.id "
@@ -67,33 +70,22 @@ public class ContactoProveedorDaoImpl implements ContactoProveedorDao{
 			List<ContactoProveedorTransfer> lista = new ArrayList<>();
 			for (Object[] obj : resultado) {
 				ContactoProveedorTransfer tarnsfer = new ContactoProveedorTransfer();
-				tarnsfer.setCodigo(obj[0].toString() + "");
-				tarnsfer.setFechemision(obj[1].toString() + "");
-				tarnsfer.setFechiniciotrans(obj[2].toString() + "");
-				tarnsfer.setDireccpuntopartida(obj[3].toString() + "");
-				tarnsfer.setDireccpuntollegada(obj[4].toString() + "");
-				tarnsfer.setDestirazonsocial(obj[5].toString() + "");
-				tarnsfer.setDestiruc(obj[6].toString() + "");
-				tarnsfer.setMarca(obj[7].toString() + "");
-				tarnsfer.setNroplaca(obj[8].toString() + "");
-				tarnsfer.setConstanciainscripcion(obj[9].toString() + "");
-				tarnsfer.setNrolicconducir(obj[10].toString() + "");
-				tarnsfer.setEmptransnombre(obj[11].toString() + "");
-				tarnsfer.setEmpruc(obj[12].toString() + "");
-				tarnsfer.setMot1(" ");
-				tarnsfer.setMot2(" ");
-				tarnsfer.setMot3(" ");
-				tarnsfer.setMot4(" ");
-				tarnsfer.setMot5(" ");
-				tarnsfer.setMot6(" ");
-				tarnsfer.setMot7(" ");
-				tarnsfer.setMot8(" ");
-				tarnsfer.setMot9(" ");
-				tarnsfer.setMot10(" ");
-				tarnsfer.setMot11(" ");
-				tarnsfer.setMot12(" ");
-				tarnsfer.setMot13(" ");
-				tarnsfer.setMototros(" ");
+				tarnsfer.setId(obj[0].toString() + "");
+				tarnsfer.setPerTipoDoc(obj[1].toString() + "");
+				tarnsfer.setPerNroDoc(obj[2].toString() + "");
+				tarnsfer.setPerNombre(obj[3].toString() + "");
+				tarnsfer.setPerPaterno(obj[4].toString() + "");
+				tarnsfer.setPerMaterno(obj[5].toString() + "");
+				tarnsfer.setPerCelular(obj[6].toString() + "");
+				tarnsfer.setPerFijo(obj[7].toString() + "");
+				tarnsfer.setPerCorreo(obj[8].toString() + "");
+				tarnsfer.setPerPais(obj[9].toString() + "");
+				tarnsfer.setPerSexo(obj[10].toString() + "");
+				tarnsfer.setProveRuc(obj[11].toString() + "");
+				tarnsfer.setProveRazonSocial(obj[12].toString() + "");
+				tarnsfer.setProveCelular(obj[13].toString() + "");
+				tarnsfer.setProveFijo(obj[14].toString() + "");
+				tarnsfer.setProveCorreo(obj[15].toString() + "");
 				lista.add(tarnsfer);
 			}
 
@@ -104,6 +96,16 @@ public class ContactoProveedorDaoImpl implements ContactoProveedorDao{
 			}
 
 		}
+	}
+
+	@Override
+	public List<ContactoProveedor> findByIdProveedor(Integer idProveedor) {
+		// TODO Auto-generated method stub
+		String query = "Select b FROM ContactoProveedor b where b.proveedor.id = :idProveedor";
+		TypedQuery<ContactoProveedor> tq = em.createQuery(query, ContactoProveedor.class);
+		tq.setParameter("idProveedor", idProveedor);
+		List<ContactoProveedor> lista = tq.getResultList();
+		return lista;
 	}
 
 }

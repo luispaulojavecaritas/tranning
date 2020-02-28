@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<f:facet name="first">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="viewport"
+			content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+	</f:facet>
+	<title>PrimeFaces Titan - Responsive Layout</title>
+
+	<h:outputScript name="js/equalize.js" library="titan-layout" />
+	<h:outputScript name="js/layout.js" library="titan-layout" />
+
+	<script type="text/javascript">
+
+            function cerrarsesion() {
+                location.href = '#{request.contextPath}/springSecurityLogout';
+            }
+
+
+    </script>
+
+	<script type="text/javascript">
+								        PrimeFaces.locales['es'] = {
+								                closeText: 'Cerrar',
+								                prevText: 'Anterior',
+								                nextText: 'Siguiente',
+								                monthNames: ['Enero','Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+								                monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun','Jul','Ago','Sep','Oct','Nov','Dic'],
+								                dayNames: ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'],
+								                dayNamesShort: ['Dom','Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+								                dayNamesMin: ['D','L','M','M','J','V','S'],
+								                weekHeader: 'Semana',
+								                firstDay: 1,
+								                isRTL: false,
+								                showMonthAfterYear: false,
+								                yearSuffix: '',
+								                timeOnlyTitle: 'Sólo hora',
+								                timeText: 'Tiempo',
+								                hourText: 'Hora',
+								                minuteText: 'Minuto',
+								                secondText: 'Segundo',
+								                currentText: 'Fecha actual',
+								                ampm: false,
+								                month: 'Mes',
+								                week: 'Semana',
+								                day: 'Día',
+								                allDayText : 'Todo el día'
+								        };        
+    </script>
+
+	<ui:insert name="head" />
+</h:head>
+
+<h:body styleClass="FlyingTopbar WideMenu">
+
+	<div id="layout-topbar-cover">
+		<ui:include src="topbar.xhtml" />
+	</div>
+
+
+	<div id="layout-portlets-cover">
+		<ui:insert name="content">
+                Template
+            </ui:insert>
+	</div>
+
+	<ui:include src="footer.xhtml" />
+
+
+	<p:ajaxStatus onstart="PF('statusDialog').show()"
+		onsuccess="PF('statusDialog').hide()" />
+
+	<p:growl id="messages" showDetail="false" sticky="false"
+		autoUpdate="true" />
+
+	<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
+		closable="false" resizable="false" showHeader="false">
+		<p:graphicImage name="images/loading01.gif" library="titan-layout" />
+	</p:dialog>
+
+
+	<h:outputStylesheet name="css/core-layout.css" library="titan-layout" />
+	<h:outputStylesheet name="css/animate.css" library="titan-layout" />
+	<h:outputStylesheet name="css/font-awesome.css" library="titan-layout" />
+	<h:outputStylesheet name="css/titan-font.css" library="titan-layout" />
+	<h:outputStylesheet name="css/titan-layout.css" library="titan-layout" />
+
+	<h:form id="frmTemplate">
+		<p:growl id="messages" showDetail="false" sticky="false"
+			autoUpdate="true" />
+		<p:idleMonitor>
+			<p:ajax event="idle" listener="#{sesionCerrar.onIdle()}" />
+		</p:idleMonitor>
+	</h:form>
+</h:body>
+
+</html>

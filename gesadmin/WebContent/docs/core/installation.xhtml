@@ -1,0 +1,92 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="content">
+        <div class="Container100">
+            <div class="">
+                <div class="Container100">
+                    <div class="Container100">
+                        <div class="">
+                            <div class="Container100 TexAlCenter"><i class="icon-mountains14 Red Fs130 MarTop20" style="line-height:1 !important;"></i></div>
+                            <h1 class="TexAlCenter Fs40 Red">Titan Documentation</h1>
+                            <div class="EmptyBox40"></div>
+                            <p:panel styleClass="TexAlCenter">
+                                <div class="Fs20 TexAlCenter Red">Installation</div>
+                                <p>
+                                    Titan provides a main <i>template.xhtml</i> and additional <i>layoutmenu.xhtml</i>, <i>topbar.xhtml</i>, <i>footer.xhtml</i> files for the base layout. These 4 files must be placed under
+                                    WEB-INF folder. Provided empty-page.xhtml is a sample content page using the main template.xhtml that defines "content" as the main ui:define placeholder. Other required resources are the css, js, image and font files that are located
+                                    inside resources/titan-layout folder, simply copy the titan-layout folder to your %WEB-APP-FOLDER%/resources folder so that final path would be %WEB-APP-FOLDER%/titan-layout/. Please
+                                    refer to demo app or maven project of the demo app as the reference.
+                                </p>
+                                <p>
+                                    Theme is a regular PrimeFaces theme and setup is simple as defining primefaces.THEME context parameter in web.xml as "titan", refer to <a style="color:#e90c45" href="http://www.primefaces.org/themes">themes page</a> for more information.
+                                </p>
+                                
+                                <div class="Fs20 TexAlCenter Red">BoxedLayout Mode</div>
+                                <p>
+                                    Adding <span class="FontSourceSansBold Green">'BoxedLayout'</span> class to body tag applies a padding to the each side of the content to narrow down the interface instead of spanning 100% width. 
+                                </p>
+                                
+                                <div class="Fs20 TexAlCenter Red">Topbar Modes</div>
+                                <p>
+                                    Titan Layout has 2 different topbar modes, 'Fixed Topbar' and 'Flying Topbar'. In fixed mode, menu scrolls along with the page thus kept in viewport and in flying mode
+                                    menu position is static.<br/>
+                                    Class names to apply the body tag are, <span class="FontSourceSansBold Green"> 'FixedTopbar' or 'FlyingTopbar'</span><br/><br/>
+                                    <span class="RedBack FontSourceSansBold White">Important Note : You can use only one of these two classes .</span>
+                                </p>
+                                
+                                <div class="Fs20 TexAlCenter Red">Menu Modes</div>
+                                <p>
+                                    There are two alternatives for menu modes; WideMenu and SlimMenu.
+                                    <br/>  Class names to apply the body tag are, <span class="FontSourceSansBold Green">'WideMenu'</span> and <span class="FontSourceSansBold Green">'SlimMenu'</span><br/><br/>
+                                    <span class="RedBack FontSourceSansBold White">Important Note : You can use only one of these two classes .</span>
+                                </p>
+                                
+                                <div class="Fs20 TexAlCenter Red">Core Layout</div>
+                                <p>
+                                    Core Layout is a set of CSS classes used to create responsive grid layouts with additional utilities. Titan uses Core Layout internally, however for grid layout
+                                    you may also choose another utility like <a class="Blue" href="http://www.primefaces.org/showcase/ui/panel/grid.xhtml">Grid CSS</a> or <a class="Blue" href="http://getbootstrap.com/examples/grid/">Bootstrap Grid</a>.
+                                </p>
+                                
+                                <div class="Fs20 TexAlCenter Red">Migration Guide</div>
+                                <div class="EmptyBox10"></div>
+                                <div class="Fs15 red">1.1.1 to 1.1.2</div>
+                                <ul>
+                                    <li>- Replace theme jar with the new jar.</li>
+                                    <li>- Replace TitanMenu.java with the new TitanMenu.java.</li>
+                                </ul>
+                                <div class="EmptyBox10"></div>
+                                <div class="Fs15 red">1.1 to 1.1.1</div>
+                                <ul>
+                                    <li>- Update titan-layout.css, titan-layout.less, core-layout.css and layout.js</li>
+                                    <li>- Replace theme jar with the new jar.</li>
+                                    <li>- Replace TitanMenuRenderer.java with the new TitanMenuRenderer.java.</li>
+                                    <li>- Replace TitanMenu.java with the new TitanMenu.java.</li>
+                                </ul>
+                                <div class="EmptyBox10"></div>
+                                <div class="Fs15 red">1.0.1 to 1.1</div>
+                                <ul>
+                                    <li>- Replace theme jar with the new jar.</li>
+                                </ul>
+                                
+                                <div class="EmptyBox10"></div>
+                                <div class="Fs15 red">1.0 to 1.0.1</div>
+                                <ul>
+                                    <li>- Update titan-layout.css, titan-layout.less, core-layout.css and template.xhtml</li>
+                                    <li>- Replace theme jar with the new jar.</li>
+                                    <li>- Replace TitanMenuRenderer.java with the new TitanMenuRenderer.java.</li>
+                                    <li>- Replace Titan font files with the new Titan font files.(titan-layout/fonts/*)</li>
+                                </ul>
+                            </p:panel>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+
+</ui:composition>

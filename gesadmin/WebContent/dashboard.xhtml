@@ -1,0 +1,482 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="subheader">
+        Dashboard
+    </ui:define>
+
+    <ui:define name="content">
+
+        <div class="Section">
+
+            <div class="Container100 NoIndent">
+                <div class="Container25 Responsive50 SmallIndent">
+                    <div class="Container100 BlueDarkerBack Zoom1point05x">
+                        <div class="Container20 Responsive100"><i class="icon-light-bulb White Fs50"></i></div>
+                        <div class="Container80 Responsive100">
+                            <div class="FontMerriWeatherBold Fs18 White">Codes Toolbox</div>
+                            <div class="EmptyBox10"></div>
+                            <a href="#" class="TurquoiseLight FontSourceSansRegular Fs16 DispBlock UnderlineHover">For JSP</a>
+                            <a href="#" class="TurquoiseLight FontSourceSansRegular Fs16 DispBlock UnderlineHover">For JSP MVC</a>
+                            <a href="#" class="TurquoiseLight FontSourceSansRegular Fs16 DispBlock UnderlineHover">For PHP</a>
+                            <a href="#" class="TurquoiseLight FontSourceSansRegular Fs16 DispBlock UnderlineHover">For ASP.NET Ajax</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="Container25 Responsive50 SmallIndent">
+                    <div class="Container100 GreenBack Zoom1point05x">
+                        <div class="Container20"><i class="icon-plug White Fs50"></i></div>
+                        <div class="Container80 Responsive100">
+                            <div class="FontMerriWeatherBold Fs18 White">Mobile App Tools</div>
+                            <div class="EmptyBox10"></div>
+                            <a href="#" class="TurquoiseLight FontSourceSansRegular Fs16 DispBlock UnderlineHover">For iOS</a>
+                            <a href="#" class="TurquoiseLight FontSourceSansRegular Fs16 DispBlock UnderlineHover">For Android</a>
+                            <a href="#" class="TurquoiseLight FontSourceSansRegular Fs16 DispBlock UnderlineHover">For BlackberryOS</a>
+                            <a href="#" class="TurquoiseLight FontSourceSansRegular Fs16 DispBlock UnderlineHover">For Windows Phone</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="Container25 Responsive50 SmallIndent">
+                    <div class="Container100 RedDarkBack Zoom1point05x">
+                        <div class="Container20"><i class="icon-dashboard White Fs50"></i></div>
+                        <div class="Container80 Responsive100">
+                            <div class="FontMerriWeatherBold Fs18 White">CMS And Analytics</div>
+                            <div class="EmptyBox10"></div>
+                            <a href="#" class="TurquoiseLight FontSourceSansRegular Fs16 DispBlock UnderlineHover">For iOS</a>
+                            <a href="#" class="TurquoiseLight FontSourceSansRegular Fs16 DispBlock UnderlineHover">For Android</a>
+                            <a href="#" class="TurquoiseLight FontSourceSansRegular Fs16 DispBlock UnderlineHover">For BlackberryOS</a>
+                            <a href="#" class="TurquoiseLight FontSourceSansRegular Fs16 DispBlock UnderlineHover">For Windows Phone</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="Container25 Responsive50 SmallIndent">
+                    <div class="Container100 BlueBack Zoom1point05x">
+                        <div class="Container20"><i class="icon-flame White Fs50"></i></div>
+                        <div class="Container80 Responsive100">
+                            <div class="FontMerriWeatherBold Fs18 White">Software Quality</div>
+                            <div class="EmptyBox10"></div>
+                            <a href="#" class="TurquoiseLight FontSourceSansRegular Fs16 DispBlock UnderlineHover">UX Tests</a>
+                            <a href="#" class="TurquoiseLight FontSourceSansRegular Fs16 DispBlock UnderlineHover">Point And Click Tests</a>
+                            <a href="#" class="TurquoiseLight FontSourceSansRegular Fs16 DispBlock UnderlineHover">Continuous Integration</a>
+                            <a href="#" class="TurquoiseLight FontSourceSansRegular Fs16 DispBlock UnderlineHover">Source Control</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="Container100 NoIndent">
+
+                <div class="Container20 Responsive50 SmallIndent">
+                    <div class="Container100 BlueDarkerBack TexAlCenter ui-fluid">
+                        <div class="Container100"><i class="icon-database White Fs60"></i></div>
+                        <div class="Container100">
+                            <div class="FontSourceSansRegular Fs16 White">Databases</div>
+                            <div class="EmptyBox20"></div>
+                            <p:button value="Get Now" styleClass="BlueButton Fleft"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="Container20 Responsive50 SmallIndent">
+                    <div class="Container100 BlueDarkerBack TexAlCenter ui-fluid">
+                        <div class="Container100"><i class="icon-gist-secret Red Fs60"></i></div>
+                        <div class="Container100">
+                            <div class="FontSourceSansRegular Fs16 White">Security Infrastructure</div>
+                            <div class="EmptyBox20"></div>
+                            <p:button value="Get Now" styleClass="BlueButton Fleft"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="Container20 Responsive50 SmallIndent">
+                    <div class="Container100 BlueDarkerBack TexAlCenter ui-fluid">
+                        <div class="Container100"><i class="icon-cabinet2 BlueCool Fs60"></i></div>
+                        <div class="Container100">
+                            <div class="FontSourceSansRegular Fs16 White">Content Management</div>
+                            <div class="EmptyBox20"></div>
+                            <p:button value="Get Now" styleClass="BlueButton Fleft"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="Container20 Responsive50 SmallIndent">
+                    <div class="Container100 BlueDarkerBack TexAlCenter ui-fluid">
+                        <div class="Container100"><i class="icon-shipping GoldLight Fs60"></i></div>
+                        <div class="Container100">
+                            <div class="FontSourceSansRegular Fs16 White">E-Commerce Tools</div>
+                            <div class="EmptyBox20"></div>
+                            <p:button value="Get Now" styleClass="BlueButton Fleft"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="Container20 Responsive50 SmallIndent">
+                    <div class="Container100 BlueDarkerBack TexAlCenter ui-fluid">
+                        <div class="Container100"><i class="icon-broadcast TurquoiseLight Fs60"></i></div>
+                        <div class="Container100">
+                            <div class="FontSourceSansRegular Fs16 White">Social Integration</div>
+                            <div class="EmptyBox20"></div>
+                            <p:button value="Get Now" styleClass="BlueButton Fleft"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="Section GrayLightBack">
+
+            <div class="Container100 PadLeftRightZero">
+
+                <div class="Container33 Responsive50 SmallIndent">
+                    <div class="Container100 ui-fluid WhiteBack " style="border:solid 1px #D6D7D9;">
+                        <div class="Container50 Responsive100">
+                            <span class="DispBlock FontSourceSansBold Gray Fs15">Titan VPN Server Load</span>
+                            <div class="EmptyBox30"></div>
+                            <h:graphicImage name="images/chart2.svg" library="titan-layout" styleClass="Wid100"/>
+                        </div>
+                        <div class="Container10"></div>
+                        <div class="Container40 Responsive100 TexAlCenter">
+                            <span class="FontSourceSansRegular Fs40 Red">95%</span>
+                            <div class="EmptyBox10"></div>
+                            <p:button value="Restart Server" styleClass="RedButton"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="Container33 Responsive50 SmallIndent">
+                    <div class="Container100 ui-fluid WhiteBack " style="border:solid 1px #D6D7D9;">
+                        <div class="Container50 Responsive100">
+                            <span class="DispBlock FontSourceSansBold Gray Fs15">Titan Security Server Load</span>
+                            <div class="EmptyBox30"></div>
+                            <h:graphicImage name="images/chart2.svg" library="titan-layout" styleClass="Wid100"/>
+                        </div>
+                        <div class="Container10"></div>
+                        <div class="Container40 Responsive100 TexAlCenter">
+                            <span class="FontSourceSansRegular Fs40 Green">12%</span>
+                            <div class="EmptyBox10"></div>
+                            <p:button value="Restrict Server" styleClass="GreenButton"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="Container33 Responsive50 SmallIndent">
+                    <div class="Container100 ui-fluid WhiteBack " style="border:solid 1px #D6D7D9;">
+                        <div class="Container50 Responsive100">
+                            <span class="DispBlock FontSourceSansBold Gray Fs15">Titan Mail App Server Load</span>
+                            <div class="EmptyBox30"></div>
+                            <h:graphicImage name="images/chart2.svg" library="titan-layout" styleClass="Wid100"/>
+                        </div>
+                        <div class="Container10"></div>
+                        <div class="Container40 Responsive100 TexAlCenter">
+                            <span class="FontSourceSansRegular Fs40 Gold">58%</span>
+                            <div class="EmptyBox10"></div>
+                            <p:button value="Restrict Server" styleClass="GoldButton"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="Container33 Responsive50 SmallIndent">
+                    <div class="Container100 ui-fluid WhiteBack " style="border:solid 1px #D6D7D9;">
+                        <div class="Container50 Responsive100">
+                            <span class="DispBlock FontSourceSansBold Gray Fs15">Titan TODOs Server Load</span>
+                            <div class="EmptyBox30"></div>
+                            <h:graphicImage name="images/chart2.svg" library="titan-layout" styleClass="Wid100"/>
+                        </div>
+                        <div class="Container10"></div>
+                        <div class="Container40 Responsive100 TexAlCenter">
+                            <span class="FontSourceSansRegular Fs40 Red">82%</span>
+                            <div class="EmptyBox10"></div>
+                            <p:button value="Restart Server" styleClass="RedButton"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="Container33 Responsive50 SmallIndent">
+                    <div class="Container100 ui-fluid WhiteBack " style="border:solid 1px #D6D7D9;">
+                        <div class="Container50 Responsive100">
+                            <span class="DispBlock FontSourceSansBold Gray Fs15">Titan Checklist Server Load</span>
+                            <div class="EmptyBox30"></div>
+                            <h:graphicImage name="images/chart2.svg" library="titan-layout" styleClass="Wid100"/>
+                        </div>
+                        <div class="Container10"></div>
+                        <div class="Container40 Responsive100 TexAlCenter">
+                            <span class="FontSourceSansRegular Fs40 Red">97%</span>
+                            <div class="EmptyBox10"></div>
+                            <p:button value="Restart Server" styleClass="RedButton"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="Container33 Responsive50 SmallIndent">
+                    <div class="Container100 ui-fluid WhiteBack " style="border:solid 1px #D6D7D9;">
+                        <div class="Container50 Responsive100">
+                            <span class="DispBlock FontSourceSansBold Gray Fs15">Titan Contacts Server Load</span>
+                            <div class="EmptyBox30"></div>
+                            <h:graphicImage name="images/chart2.svg" library="titan-layout" styleClass="Wid100"/>
+                        </div>
+                        <div class="Container10"></div>
+                        <div class="Container40 Responsive100 TexAlCenter">
+                            <span class="FontSourceSansRegular Fs40 Blue">34%</span>
+                            <div class="EmptyBox10"></div>
+                            <p:button value="Restrict Server" styleClass="BlueButton"/>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="Container75 SmallIndent Responsive100">
+
+                <div class="Container100 PadLeftRightZero">
+                    <div class="Container100 WhiteBack Flex FlexWrap" style="border:solid 1px #D6D7D9;">
+
+                        <!-- Reports -->
+                        <div class="Container25 BlueBack Responsive50 Flex FlexWrap" style="border:solid 1px #D6D7D9;">
+                            <div class="Container80 FontSourceSansBold Fs18 White">
+                                <div class="EmptyBox5 ShowOnMobile"></div>
+                                REPORTS
+                                <div class="EmptyBox5 ShowOnMobile"></div>
+                            </div>
+                            <div class="Container20"><i class="icon-graph White Fs24 Fright"></i></div>
+
+                            <div class="Container100 GoldLightestBack FontSourceSansBold " style="border-bottom:solid 1px #D6D7D9;">
+                                <div class="EmptyBox5"></div>
+                                <span class="BlueDarker Fs14 DispBlock">Mobile Apps Download Reports </span>
+                                <div class="EmptyBox5"></div>
+                                <span class="FontSourceSansRegular Fs12">Consectetur augue leo suspendisse vehicula <br/> ultrices primis sed dis tincidunt facilisi.</span>
+                                <div class="EmptyBox5"></div>
+                                <span class="Gray Fs12 DispBlock">Reporter : Robert Randall - Sr. iOS Developer</span>
+                                <i class="icon-envelope2 GrayLightest Fright Fs16"></i>
+                                <div class="EmptyBox5"></div>
+                            </div>
+                            <div class="Container100 WhiteBack FontSourceSansBold " style="border-bottom:solid 1px #D6D7D9;">
+                                <div class="EmptyBox5"></div>
+                                <span class="BlueDarker Fs14 DispBlock">Daily Downloads Reports </span>
+                                <div class="EmptyBox5"></div>
+                                <span class="FontSourceSansRegular Fs12">Consectetur augue leo suspendisse vehicula <br/> ultrices primis sed dis tincidunt facilisi.</span>
+                                <div class="EmptyBox5"></div>
+                                <span class="Gray Fs12 DispBlock">Reporter : Robert Randall - Sr. iOS Developer</span>
+                                <i class="icon-envelope Turquoise Fright Fs16"></i>
+                                <div class="EmptyBox5"></div>
+                            </div>
+                            <div class="Container100 WhiteBack FontSourceSansBold " style="border-bottom:solid 1px #D6D7D9;">
+                                <div class="EmptyBox5"></div>
+                                <span class="Red Fs14 DispBlock">Titan Checklist App Bug Fixes Reports </span>
+                                <div class="EmptyBox5"></div>
+                                <span class="FontSourceSansRegular Fs12">Consectetur augue leo suspendisse vehicula <br/> ultrices primis sed dis tincidunt facilisi.</span>
+                                <div class="EmptyBox5"></div>
+                                <span class="Gray Fs12 DispBlock">Reporter : Robert Randall - Sr. iOS Developer</span>
+                                <i class="icon-envelope Red Fright Fs16"></i>
+                                <div class="EmptyBox5"></div>
+                            </div>
+                            <div class="Container100 WhiteBack FontSourceSansBold " style="border-bottom:solid 1px #D6D7D9;">
+                                <div class="EmptyBox5"></div>
+                                <span class="BlueDarker Fs14 DispBlock">Daily Downloads Reports </span>
+                                <div class="EmptyBox5"></div>
+                                <span class="FontSourceSansRegular Fs12">Consectetur augue leo suspendisse vehicula <br/> ultrices primis sed dis tincidunt facilisi.</span>
+                                <div class="EmptyBox5"></div>
+                                <span class="Gray Fs12 DispBlock">Reporter : Robert Randall - Sr. iOS Developer</span>
+                                <i class="icon-envelope Turquoise Fright Fs16"></i>
+                                <div class="EmptyBox5"></div>
+                            </div>
+
+                            <div class="Container100 TurquoiseLightBack TexAlCenter CursPointer">
+                                <i class="icon-loop-alt1 Blue"></i>
+                            </div>
+                        </div>
+
+                        <!-- Report Details -->
+                        <div class="Container50 BlueBack Responsive50 Flex FlexWrap" style="border:solid 1px #D6D7D9;">
+                            <div class="Container80 FontSourceSansBold Fs18 White">
+                                <div class="EmptyBox5 ShowOnMobile"></div>
+                                Report Details - <span class="Turquoise">' Mobile Apps Download Reports '</span>
+                                <div class="EmptyBox5 ShowOnMobile"></div>
+                            </div>
+                            <div class="Container20"><i class="icon-clippy White Fs24 Fright"></i></div>
+                            <div class="Container100 GreenLightBack White FontSourceSansBold Fs14">Mobile Apps Download Reports</div>
+                            <div class="Container100 WhiteBack FontSourceSansBold" style="border-bottom:solid 1px #D6D7D9;">
+                                <div class="EmptyBox5"></div>
+                                <h:form id="form">
+                                    <p:dataTable id="singleDT" var="car" value="#{dtSelectionView.cars7}" selectionMode="single" selection="#{dtSelectionView.selectedCar}" rowKey="#{car.id}"
+                                                 rows="13" paginator="false" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                 rowsPerPageTemplate="5,10,15" emptyMessage="No cars found with given criteria" reflow="true">
+
+
+                                        <p:ajax event="rowSelect" update=":form:carDetail" oncomplete="PF('carDialog').show()" />
+
+                                        <p:column headerText="App Name" sortBy="#{car.id}" footerText="Id">
+                                            <h:outputText value="#{car.id}" />
+                                        </p:column>
+                                        <p:column headerText="Platform And SDK" sortBy="#{car.year}" footerText="Year">
+                                            <h:outputText value="#{car.year}" />
+                                        </p:column>
+                                        <p:column headerText="Downloads" sortBy="#{car.brand}" footerText="Brand">
+                                            <h:outputText value="#{car.brand}" />
+                                        </p:column>
+                                    </p:dataTable>
+
+                                    <p:dialog header="Car Info" widgetVar="carDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" responsive="true">
+                                        <p:outputPanel id="carDetail" style="text-align:center;">
+                                            <p:panelGrid  columns="2" rendered="#{not empty dtSelectionView.selectedCar}" layout="grid" styleClass="ui-panelgrid-blank">
+                                                <f:facet name="header">
+                                                    <p:graphicImage name="demo/images/car/#{dtSelectionView.selectedCar.brand}-big.gif"/> 
+                                                </f:facet>
+
+                                                <h:outputText value="Id:" style="font-weight: bold"/>
+                                                <h:outputText value="#{dtSelectionView.selectedCar.id}" />
+
+                                                <h:outputText value="Year" style="font-weight: bold"/>
+                                                <h:outputText value="#{dtSelectionView.selectedCar.year}" />
+
+                                                <h:outputText value="Color:" style="font-weight: bold"/>
+                                                <h:outputText value="#{dtSelectionView.selectedCar.color}" style="color:#{dtSelectionView.selectedCar.color}"/>
+
+                                                <h:outputText value="Price" style="font-weight: bold"/>
+                                                <h:outputText value="\$#{dtSelectionView.selectedCar.price}" />
+                                            </p:panelGrid>
+                                        </p:outputPanel>
+                                    </p:dialog>
+                                </h:form>
+                                <div class="EmptyBox5"></div>
+                            </div>
+
+                            <div class="Container100 BlueLightBack">
+                                <p:button value="Delete" icon="fa fa-trash" styleClass="RedButton"/>
+                                <p:button value="Print" icon="fa fa-print" styleClass="GreenButton"/>
+                            </div>
+                        </div>
+
+                        <!-- Report Send To.. -->
+                        <div class="Container25 BlueBack Responsive50 Flex FlexWrap" style="border:solid 1px #D6D7D9;">
+                            <div class="Container80 FontSourceSansBold Fs18 White">
+                                <div class="EmptyBox5 ShowOnMobile"></div>
+                                Send To..
+                                <div class="EmptyBox5 ShowOnMobile"></div>
+                            </div>
+                            <div class="Container20"><i class="icon-repo-push White Fs24 Fright"></i></div>
+                            <div class="Container100 WhiteBack FontSourceSansBold " style="border-bottom:solid 1px #D6D7D9;">
+                                <div class="EmptyBox5"></div>
+                                <p:selectBooleanCheckbox value="accept" itemLabel="" styleClass="Fleft"/>
+                                <span class="BlueDarker Fs14 DispBlock Fright TexAlRight">Frank Underwood
+                                    <span class="Gray Fs12 DispBlock">Sr. Project Manager</span></span>
+                                <div class="EmptyBox5"></div>
+                            </div>
+                            <div class="Container100 WhiteBack FontSourceSansBold " style="border-bottom:solid 1px #D6D7D9;">
+                                <div class="EmptyBox5"></div>
+                                <p:selectBooleanCheckbox value="accept" itemLabel="" styleClass="Fleft"/>
+                                <span class="BlueDarker Fs14 DispBlock Fright TexAlRight">Claire Underwood
+                                    <span class="Gray Fs12 DispBlock">Sr. Project Manager</span></span>
+                                <div class="EmptyBox5"></div>
+                            </div>
+                            <div class="Container100 WhiteBack FontSourceSansBold " style="border-bottom:solid 1px #D6D7D9;">
+                                <div class="EmptyBox5"></div>
+                                <p:selectBooleanCheckbox value="accept" itemLabel="" styleClass="Fleft"/>
+                                <span class="BlueDarker Fs14 DispBlock Fright TexAlRight">Doug Stamper
+                                    <span class="Gray Fs12 DispBlock">Jr. Project Manager</span></span>
+                                <div class="EmptyBox5"></div>
+                            </div>
+                            <div class="Container100 WhiteBack FontSourceSansBold " style="border-bottom:solid 1px #D6D7D9;">
+                                <div class="EmptyBox5"></div>
+                                <p:selectBooleanCheckbox value="accept" itemLabel="" styleClass="Fleft"/>
+                                <span class="BlueDarker Fs14 DispBlock Fright TexAlRight">Remy Danton
+                                    <span class="Gray Fs12 DispBlock">Sr. Marketing Manager</span></span>
+                                <div class="EmptyBox5"></div>
+                            </div>
+                            <div class="Container100 WhiteBack FontSourceSansBold " style="border-bottom:solid 1px #D6D7D9;">
+                                <div class="EmptyBox5"></div>
+                                <p:selectBooleanCheckbox value="accept" itemLabel="" styleClass="Fleft"/>
+                                <span class="BlueDarker Fs14 DispBlock Fright TexAlRight">Doug Stamper
+                                    <span class="Gray Fs12 DispBlock">Jr. Project Manager</span></span>
+                                <div class="EmptyBox5"></div>
+                            </div>
+                            <div class="Container100 WhiteBack FontSourceSansBold " style="border-bottom:solid 1px #D6D7D9;">
+                                <div class="EmptyBox5"></div>
+                                <p:selectBooleanCheckbox value="accept" itemLabel="" styleClass="Fleft"/>
+                                <span class="BlueDarker Fs14 DispBlock Fright TexAlRight">Remy Danton
+                                    <span class="Gray Fs12 DispBlock">Sr. Marketing Manager</span></span>
+                                <div class="EmptyBox5"></div>
+                            </div>
+                            <div class="Container100 WhiteBack FontSourceSansBold " style="border-bottom:solid 1px #D6D7D9;">
+                                <div class="EmptyBox5"></div>
+                                <p:selectBooleanCheckbox value="accept" itemLabel="" styleClass="Fleft"/>
+                                <span class="BlueDarker Fs14 DispBlock Fright TexAlRight">Doug Stamper
+                                    <span class="Gray Fs12 DispBlock">Jr. Project Manager</span></span>
+                                <div class="EmptyBox5"></div>
+                            </div>
+
+                            <div class="Container100 GrayLightBack TexAlCenter ui-fluid">
+                                <p:button value="Send To Users" styleClass="GreenButton"/>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="Container25 SmallIndent Responsive100">
+                <div class="Container100 PadLeftRightZero">
+                    <div class="Container100 TurquoiseBack">
+                        <div class="Container100">
+                            <i class="icon-checked Fs60 Fright TurquoiseLight"></i>
+                            <span class="FontSourceSansBold White Fs20">Titan Checklist App Created Lists</span>
+                            <span class="FontSourceSansBold White Fs50 DispBlock">2.456.890</span>
+                            <span class="FontSourceSansLight White Fs16 DispBlock">Totally created lists from USA</span>
+                        </div>
+                    </div>
+                    <div class="Container100 GoldBack">
+                        <div class="Container100">
+                            <i class="icon-mail-read Fs60 Fright GoldLightest"></i>
+                            <span class="FontSourceSansBold White Fs20">Titan Mail App Downloads</span>
+                            <span class="FontSourceSansBold White Fs50 DispBlock">872.774</span>
+                            <span class="FontSourceSansLight White Fs16 DispBlock">Totally downloaded from Europe</span>
+                        </div>
+                    </div>
+                    <div class="Container100 BlueDarkestBack">
+                        <div class="Container100">
+                            <i class="icon-ruby Fs60 Fright BlueDarker"></i>
+                            <span class="FontSourceSansBold White Fs20">Titan Mobile VPN New Users</span>
+                            <span class="FontSourceSansBold White Fs50 DispBlock">23.226.473</span>
+                            <span class="FontSourceSansLight White Fs16 DispBlock">All new users from around The World</span>
+                        </div>
+                    </div>
+                    <div class="Container100 GrayBack">
+                        <div class="Container100">
+                            <i class="icon-badge2 Fs60 Fright GrayDark"></i>
+                            <span class="FontSourceSansBold White Fs20">Titan Security Server Downloads</span>
+                            <span class="FontSourceSansBold White Fs50 DispBlock">1.447.356</span>
+                            <span class="FontSourceSansLight White Fs16 DispBlock">Totally downloaded from Europe and USA</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="Section BlueDarkestBack">
+            <div class="Container60 Responsive50 PadLeftRightZero0">
+                <h:graphicImage name="images/widechart.svg" library="titan-layout" styleClass="Wid100"/>
+            </div>
+            <div class="Container40 Responsive50 PadLeftRightZero">
+                <div class="Container100">
+                    <div class="Container100 ui-fluid" style="border:solid 1px #D6D7D9;">
+                        <div class="Container50 Responsive100">
+                            <span class="DispBlock FontSourceSansBold White Fs15">Titan VPN Server Load</span>
+                            <div class="EmptyBox30"></div>
+                            <h:graphicImage name="images/chart2.svg" library="titan-layout" styleClass="Wid100"/>
+                        </div>
+                        <div class="Container10"></div>
+                        <div class="Container40 Responsive100 TexAlCenter">
+                            <span class="FontSourceSansRegular Fs40 Red">95%</span>
+                            <div class="EmptyBox10"></div>
+                            <p:button value="Restart Server" styleClass="RedButton"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </ui:define>
+
+</ui:composition>

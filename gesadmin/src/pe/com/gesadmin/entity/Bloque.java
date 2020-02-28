@@ -33,8 +33,6 @@ public class Bloque implements Serializable {
 		this.descripcion = descripcion;
 	}
 
-
-
 	public Integer getId() {
 		return this.id;
 	}
