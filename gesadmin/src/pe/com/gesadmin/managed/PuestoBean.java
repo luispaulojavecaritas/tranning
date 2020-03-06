@@ -13,8 +13,11 @@ import javax.faces.context.FacesContext;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.UnselectEvent;
 
+import pe.com.gesadmin.entity.Bloque;
 import pe.com.gesadmin.entity.Puesto;
+import pe.com.gesadmin.service.BloqueService;
 import pe.com.gesadmin.service.PuestoService;
+import pe.com.gesadmin.service.impl.BloqueServiceImpl;
 import pe.com.gesadmin.service.impl.PuestoServiceImpl;
 
 
@@ -31,15 +34,22 @@ public class PuestoBean {
 
 	@EJB
 	private PuestoService servicio = new PuestoServiceImpl();
+	
+	@EJB
+	private BloqueService bloqueService = new BloqueServiceImpl();
+	
+	private List<Bloque> listaBloque  = new ArrayList<>();
 
 	public PuestoBean() {
 		// TODO Auto-generated constructor stub
 		filtro = null;
+		entidad = new Puesto();
 	}
 
 	@PostConstruct
 	public void init() {
 		listarEntidad();
+		listarBloque();
 	}
 
 	public List<Puesto> getLista() {
@@ -84,6 +94,19 @@ public class PuestoBean {
 
 	public void setFiltro(String filtro) {
 		this.filtro = filtro;
+	}
+	
+
+	public void setBloqueService(BloqueService bloqueService) {
+		this.bloqueService = bloqueService;
+	}
+
+	public List<Bloque> getListaBloque() {
+		return listaBloque;
+	}
+
+	public void setListaBloque(List<Bloque> listaBloque) {
+		this.listaBloque = listaBloque;
 	}
 
 	public String guardar() {
@@ -169,6 +192,20 @@ public class PuestoBean {
 		}
 		
 		listafiltro = lista;
+	}
+	
+	
+	public void listarBloque() {
+		listaBloque = new ArrayList<>();
+		try {
+			listaBloque = bloqueService.listar();
+		} catch (Exception e) {
+			// TODO: handle exception
+			listaBloque = null;
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", "Problemas al recuperar lista de Bloques"));
+		}
+		
 	}
 
 	public void onRowSelect(SelectEvent event) {
