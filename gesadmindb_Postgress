@@ -135,7 +135,7 @@ CREATE TABLE situacion_orden (
 CREATE TABLE orden(
     id serial PRIMARY KEY,
 	descripcion varchar(100) NOT NULL,
-	monto double NOT NULL,
+	monto decimal NOT NULL,
 	fecha_vencimiento date,
 	fecha_pago timestamp,
 	id_periodo int NOT NULL,
@@ -245,4 +245,4 @@ insert into tipo_orden (descripcion, estado) values ('ORDEN DE COBRANZA', 1);
 
 insert into persona (nombre, paterno, materno, id_tipo_documento, nro_documento, id_pais, direccion, telefono_fijo, telefono_celular, correo_electronico, id_sexo, estado) values ('LUIS PAULO', 'JAVE', 'CARITAS', 1, '70498682', 1, 'MZ. B LT. 6 ASOC. VIV. SAN FRANCISCO 4TA ETAPA - CARABAYLLO', '4304588', '987814050', 'PAULO.JAVE.CARITAS@GMAIL.COM', 1, 1);
 
-insert into usuario (id_persona, usuario, clave, estado, rol) values (1, "70498682", "123456", 1, "ROLE_ADMIN"); 
+insert into usuario (id_persona, usuario, clave, estado, rol) values (1, '70498682', '123456', 1, 'ROLE_ADMIN'); 
