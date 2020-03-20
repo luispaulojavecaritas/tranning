@@ -13,88 +13,95 @@ import javax.faces.context.FacesContext;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.UnselectEvent;
 
-import pe.com.gesadmin.entity.ContactoProveedor;
+import pe.com.gesadmin.entity.Bloque;
 import pe.com.gesadmin.entity.Persona;
-import pe.com.gesadmin.entity.Proveedor;
-import pe.com.gesadmin.service.ContactoProveedorService;
+import pe.com.gesadmin.entity.Puesto;
+import pe.com.gesadmin.entity.PuestoPersona;
+import pe.com.gesadmin.entity.TipoEstatus;
+import pe.com.gesadmin.service.BloqueService;
 import pe.com.gesadmin.service.PersonaService;
-import pe.com.gesadmin.service.ProveedorService;
-import pe.com.gesadmin.service.impl.ContactoProveedorServiceImpl;
+import pe.com.gesadmin.service.PuestoPersonaService;
+import pe.com.gesadmin.service.PuestoService;
+import pe.com.gesadmin.service.TipoEstatusService;
+import pe.com.gesadmin.service.impl.BloqueServiceImpl;
 import pe.com.gesadmin.service.impl.PersonaServiceImpl;
-import pe.com.gesadmin.service.impl.ProveedorServiceImpl;
+import pe.com.gesadmin.service.impl.PuestoPersonaServiceImpl;
+import pe.com.gesadmin.service.impl.PuestoServiceImpl;
+import pe.com.gesadmin.service.impl.TipoEstatusServiceImpl;
 
 
 @ManagedBean
 @ViewScoped
-public class ContactoProveedorBean {
+public class PuestoPersonaEstatusBean {
 
-	private List<ContactoProveedor> lista = new ArrayList<>();
-	private List<ContactoProveedor> listafiltro;
-	private ContactoProveedor entidad = new ContactoProveedor();
-	private ContactoProveedor entidadseleccionada = new ContactoProveedor();
+	private List<PuestoPersona> lista = new ArrayList<>();
+	private List<PuestoPersona> listafiltro;
+	private PuestoPersona entidad = new PuestoPersona();
+	private PuestoPersona entidadseleccionada = new PuestoPersona();
 
 	private String filtro;
 
 	@EJB
-	private ContactoProveedorService servicio = new ContactoProveedorServiceImpl();
-	
-	private List<Proveedor> listaProveedor = new ArrayList<>();
-	private List<Persona> listaPersona = new ArrayList<>();
+	private PuestoPersonaService servicio = new   PuestoPersonaServiceImpl();
 	
 	@EJB
-	private PersonaService personaService = new  PersonaServiceImpl();
+	private PuestoService puestoService = new PuestoServiceImpl();
 	
 	@EJB
-	private ProveedorService proveedorService = new  ProveedorServiceImpl();
+	private PersonaService personaService = new PersonaServiceImpl();
 	
+	@EJB
+	private TipoEstatusService tipoEstatusService = new TipoEstatusServiceImpl();
+	
+	private List<Puesto> listaPuestos  = new ArrayList<>();
+	private List<Persona> listaPersonas  = new ArrayList<>();
+	private List<TipoEstatus> listaTipoEstatus  = new ArrayList<>();
 
-	public ContactoProveedorBean() {
+	public PuestoPersonaEstatusBean() {
 		// TODO Auto-generated constructor stub
 		filtro = null;
-		entidad = new ContactoProveedor();
+		entidad = new PuestoPersona();
 	}
 
 	@PostConstruct
 	public void init() {
 		listarEntidad();
 		listarPersonas();
-		listarProveedores();
+		listarPuestos();
+		listarTipoEstatus();
 	}
 
-	public List<ContactoProveedor> getLista() {
+	
+	public List<PuestoPersona> getLista() {
 		return lista;
 	}
 
-	public void setLista(List<ContactoProveedor> lista) {
+	public void setLista(List<PuestoPersona> lista) {
 		this.lista = lista;
 	}
 
-	public List<ContactoProveedor> getListafiltro() {
+	public List<PuestoPersona> getListafiltro() {
 		return listafiltro;
 	}
 
-	public void setListafiltro(List<ContactoProveedor> listafiltro) {
+	public void setListafiltro(List<PuestoPersona> listafiltro) {
 		this.listafiltro = listafiltro;
 	}
 
-	public ContactoProveedor getEntidad() {
+	public PuestoPersona getEntidad() {
 		return entidad;
 	}
 
-	public void setEntidad(ContactoProveedor entidad) {
+	public void setEntidad(PuestoPersona entidad) {
 		this.entidad = entidad;
 	}
 
-	public ContactoProveedor getEntidadseleccionada() {
+	public PuestoPersona getEntidadseleccionada() {
 		return entidadseleccionada;
 	}
 
-	public void setEntidadseleccionada(ContactoProveedor entidadseleccionada) {
+	public void setEntidadseleccionada(PuestoPersona entidadseleccionada) {
 		this.entidadseleccionada = entidadseleccionada;
-	}
-
-	public void setServicio(ContactoProveedorService servicio) {
-		this.servicio = servicio;
 	}
 
 	public String getFiltro() {
@@ -105,41 +112,59 @@ public class ContactoProveedorBean {
 		this.filtro = filtro;
 	}
 
-	public List<Proveedor> getListaProveedor() {
-		return listaProveedor;
+	public List<Puesto> getListaPuestos() {
+		return listaPuestos;
 	}
 
-	public void setListaProveedor(List<Proveedor> listaProveedor) {
-		this.listaProveedor = listaProveedor;
+	public void setListaPuestos(List<Puesto> listaPuestos) {
+		this.listaPuestos = listaPuestos;
 	}
 
-	public List<Persona> getListaPersona() {
-		return listaPersona;
+	public List<Persona> getListaPersonas() {
+		return listaPersonas;
 	}
 
-	public void setListaPersona(List<Persona> listaPersona) {
-		this.listaPersona = listaPersona;
+	public void setListaPersonas(List<Persona> listaPersonas) {
+		this.listaPersonas = listaPersonas;
+	}
+
+	public List<TipoEstatus> getListaTipoEstatus() {
+		return listaTipoEstatus;
+	}
+
+	public void setListaTipoEstatus(List<TipoEstatus> listaTipoEstatus) {
+		this.listaTipoEstatus = listaTipoEstatus;
+	}
+
+	public void setServicio(PuestoPersonaService servicio) {
+		this.servicio = servicio;
+	}
+
+	public void setPuestoService(PuestoService puestoService) {
+		this.puestoService = puestoService;
 	}
 
 	public void setPersonaService(PersonaService personaService) {
 		this.personaService = personaService;
 	}
 
-	public void setProveedorService(ProveedorService proveedorService) {
-		this.proveedorService = proveedorService;
+	public void setTipoEstatusService(TipoEstatusService tipoEstatusService) {
+		this.tipoEstatusService = tipoEstatusService;
 	}
 
 	public String guardar() {
 		
-		ContactoProveedor contactoProveedor = new ContactoProveedor();
-		contactoProveedor = entidad;
-		contactoProveedor.setPersona(new Persona(entidad.getPersona().getId()));
-		contactoProveedor.setProveedor(new Proveedor(entidad.getProveedor().getId()));
+		PuestoPersona puestoPersona = new PuestoPersona();
+		puestoPersona = entidad;
+		puestoPersona.setPersona(new Persona(entidad.getPersona().getId())); 
+		puestoPersona.setPuesto(new Puesto(entidad.getPuesto().getId()));
+		puestoPersona.setTipoEstatus(new TipoEstatus(entidad.getTipoEstatus().getId()));
+		
 
-		if (contactoProveedor.getId() == null) {
+		if (puestoPersona.getId() == null) {
 			System.out.println("A guardar");
 			try {
-				servicio.crear(contactoProveedor);
+				servicio.crear(puestoPersona);
 				FacesContext.getCurrentInstance().addMessage(null,
 						new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro creado", ""));
 			} catch (Exception e) {
@@ -150,7 +175,7 @@ public class ContactoProveedorBean {
 		} else {
 			System.out.println("A actualizar");
 			try {
-				servicio.actualizar(contactoProveedor);
+				servicio.actualizar(puestoPersona);
 				FacesContext.getCurrentInstance().addMessage(null,
 						new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro actualizado", ""));
 			} catch (Exception e) {
@@ -165,7 +190,7 @@ public class ContactoProveedorBean {
 	}
 
 	public String eliminar() {
-
+		
 		if (entidad.getId() == null) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_WARN, "Seleccione registro a eliminar", ""));
@@ -192,7 +217,7 @@ public class ContactoProveedorBean {
 
 	public void recuperar() {
 
-		entidad = new ContactoProveedor();
+		entidad = new PuestoPersona();
 
 		try {
 			entidad = servicio.recuperar(entidadseleccionada.getId());
@@ -218,11 +243,51 @@ public class ContactoProveedorBean {
 		
 		listafiltro = lista;
 	}
+	
+	
+	public void listarPersonas() {
+		listaPersonas = new ArrayList<>();
+		try {
+			listaPersonas = personaService.listar();
+		} catch (Exception e) {
+			// TODO: handle exception
+			listaPersonas = null;
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", "Problemas al recuperar lista de Bloques"));
+		}
+		
+	}
+	
+	public void listarPuestos() {
+		listaPuestos = new ArrayList<>();
+		try {
+			listaPuestos = puestoService.listar();
+		} catch (Exception e) {
+			// TODO: handle exception
+			listaPuestos = null;
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", "Problemas al recuperar lista de Bloques"));
+		}
+		
+	}
+	
+	public void listarTipoEstatus() {
+		listaTipoEstatus = new ArrayList<>();
+		try {
+			listaTipoEstatus = tipoEstatusService.listar();
+		} catch (Exception e) {
+			// TODO: handle exception
+			listaTipoEstatus = null;
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", "Problemas al recuperar lista de Bloques"));
+		}
+		
+	}
 
 	public void onRowSelect(SelectEvent event) {
 		if (entidadseleccionada == null) {
-			entidad = new ContactoProveedor();
-			entidadseleccionada = new ContactoProveedor();
+			entidad = new PuestoPersona();
+			entidadseleccionada = new PuestoPersona();
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_WARN, "No se selecciono ningun registro", ""));
 		} else {
@@ -233,15 +298,15 @@ public class ContactoProveedorBean {
 	}
 
 	public void onRowUnselect(UnselectEvent event) {
-		entidad = new ContactoProveedor();
-		entidadseleccionada = new ContactoProveedor();
+		entidad = new PuestoPersona();
+		entidadseleccionada = new PuestoPersona();
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO, "Se anulo seleccion de registro ", ""));
 	}
 
 	public void limpiar() {
-		entidad = new ContactoProveedor();
-		entidadseleccionada = new ContactoProveedor();
+		entidad = new PuestoPersona();
+		entidadseleccionada = new PuestoPersona();
 		
 		listafiltro = lista;
 
@@ -257,47 +322,13 @@ public class ContactoProveedorBean {
 		listafiltro = new ArrayList<>();
 		System.out.println("Texto a filtra: " + filtro);
 		for (int i = 0; i <= lista.size() - 1; i++) {
-			if (lista.get(i).getProveedor().getRazonSocial().contains(filtro) || 
-					lista.get(i).getProveedor().getRuc().toString().contains(filtro) || 
-					lista.get(i).getPersona().getNroDocumento().toString().contains(filtro) || 
-					lista.get(i).getPersona().getNombre().contains(filtro) || 
-					lista.get(i).getPersona().getPaterno().contains(filtro) || 
-					lista.get(i).getPersona().getMaterno().contains(filtro)) {
+			if (lista.get(i).getDescripcion().contains(filtro)) {
 				System.out.println("lista: " + lista.get(i).toString());
 				listafiltro.add(lista.get(i));
 			}
 		}
 		filtro = null;
 		return "";
-	}
-	
-	
-	
-	public void listarPersonas() {
-
-		listaPersona = new ArrayList<>();
-		try {
-			listaPersona = personaService.listar();
-		} catch (Exception e) {
-			// TODO: handle exception
-			listaPersona = null;
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", "Problemas al recuperar lista de personas"));
-		}
-	}
-	
-	
-	public void listarProveedores() {
-
-		listaProveedor = new ArrayList<>();
-		try {
-			listaProveedor = proveedorService.listar();
-		} catch (Exception e) {
-			// TODO: handle exception
-			listaProveedor = null;
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", "Problemas al recuperar lista de personas"));
-		}
 	}
 
 }

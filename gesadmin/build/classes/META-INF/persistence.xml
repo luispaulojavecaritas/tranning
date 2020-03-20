@@ -6,7 +6,7 @@
 	<persistence-unit name="gesadminPU"
 		transaction-type="JTA">
 		<provider> org.eclipse.persistence.jpa.PersistenceProvider </provider>
-		<jta-data-source>jdbc_GesadminPool</jta-data-source>
+		<jta-data-source>jdbc.gesadmindbPool</jta-data-source>
 		<class>pe.com.gesadmin.entity.Bloque</class>
 		<class>pe.com.gesadmin.entity.ContactoProveedor</class>
 		<class>pe.com.gesadmin.entity.Egreso</class>

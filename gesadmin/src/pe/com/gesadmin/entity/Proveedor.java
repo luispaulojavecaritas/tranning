@@ -34,7 +34,7 @@ public class Proveedor implements Serializable {
 
 	private String rubro;
 
-	private Integer ruc;
+	private String ruc;
 
 	@Column(name="telefono_celular")
 	private String telefonoCelular;
@@ -43,6 +43,10 @@ public class Proveedor implements Serializable {
 	private String telefonoFijo;
 
 	public Proveedor() {
+	}
+
+	public Proveedor(Integer id) {
+		this.id = id;
 	}
 
 	public Integer getId() {
@@ -101,11 +105,11 @@ public class Proveedor implements Serializable {
 		this.rubro = rubro;
 	}
 
-	public Integer getRuc() {
+	public String getRuc() {
 		return this.ruc;
 	}
 
-	public void setRuc(Integer ruc) {
+	public void setRuc(String ruc) {
 		this.ruc = ruc;
 	}
 

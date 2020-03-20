@@ -35,6 +35,7 @@ public class ProveedorBean {
 	public ProveedorBean() {
 		// TODO Auto-generated constructor stub
 		filtro = null;
+		entidad = new Proveedor();
 	}
 
 	@PostConstruct
@@ -87,11 +88,14 @@ public class ProveedorBean {
 	}
 
 	public String guardar() {
+		
+		Proveedor proveedor = new Proveedor();
+		proveedor = entidad;
 
-		if (entidad.getId() == null) {
+		if (proveedor.getId() == null) {
 			System.out.println("A guardar");
 			try {
-				servicio.crear(entidad);
+				servicio.crear(proveedor);
 				FacesContext.getCurrentInstance().addMessage(null,
 						new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro creado", ""));
 			} catch (Exception e) {
@@ -102,7 +106,7 @@ public class ProveedorBean {
 		} else {
 			System.out.println("A actualizar");
 			try {
-				servicio.actualizar(entidad);
+				servicio.actualizar(proveedor);
 				FacesContext.getCurrentInstance().addMessage(null,
 						new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro actualizado", ""));
 			} catch (Exception e) {

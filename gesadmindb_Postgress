@@ -57,7 +57,7 @@ CREATE TABLE tipo_estatus (
 	
 CREATE TABLE puesto_persona (
     id serial PRIMARY KEY,
-    descripcion varchar(50) NOT NULL,
+    descripcion varchar(50),
     estado int NOT NULL,
 	id_puesto int NOT NULL,
 	id_persona int NOT NULL,
@@ -84,7 +84,7 @@ CREATE TABLE persona (
 	
 CREATE TABLE proveedor (
     id serial PRIMARY KEY,
-	ruc int NOT NULL,
+	ruc varchar(50) NOT NULL,
     razon_social varchar(100) NOT NULL,
 	domicilio_fiscal varchar(100),
     rubro varchar(50),
@@ -208,11 +208,31 @@ alter table orden add constraint fk_orden_situacionorden foreign key (id_situaci
 alter table orden add constraint fk_orden_personaresponsableoperacion foreign key (id_persona_responsable_operacion) references persona(id);
 alter table orden add constraint fk_orden_periodo foreign key (id_periodo) references periodo(id);
 
+alter table usuario add constraint fk_usuario_persona foreign key (id_persona) references persona(id);
+
+--creacion restriccion de clave unica
+alter table periodo ADD CONSTRAINT periodo_uniqueKey UNIQUE (descripcion);
+alter table bloque ADD CONSTRAINT bloque_uniqueKey UNIQUE (descripcion);
+alter table pais ADD CONSTRAINT pais_uniqueKey UNIQUE (descripcion);
+alter table sexo ADD CONSTRAINT sexo_uniqueKey UNIQUE (descripcion);
+
+
+
+
+
+
+
+
+
+
+
+
 -- alter table orden drop foreign key fk_orden_tipoorden;
 
 -- alter table movimiento add constraint fk_movimiento_idorden foreign key (id_orden) references orden(id);
+-- ALTER TABLE proveedor ALTER COLUMN ruc TYPE varchar(50);
 
-alter table usuario add constraint fk_usuario_persona foreign key (id_persona) references persona(id);
+
 
 
 -- insercion de data

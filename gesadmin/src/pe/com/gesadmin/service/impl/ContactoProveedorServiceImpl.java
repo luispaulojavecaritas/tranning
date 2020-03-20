@@ -47,4 +47,10 @@ public class ContactoProveedorServiceImpl implements ContactoProveedorService {
 		return contactoProveedorDao.findByIdProveedor(idProveedor);
 	}
 
+	@Override
+	public List<ContactoProveedor> listar() {
+		// TODO Auto-generated method stub
+		return contactoProveedorDao.findAll();
+	}
+
 }

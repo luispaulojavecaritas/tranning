@@ -43,4 +43,14 @@ public class BloqueDaoImpl implements BloqueDao{
 		return em.find(Bloque.class, id);
 	}
 
+	@Override
+	public List<Bloque> findByDescripcion(String bloque) {
+		// TODO Auto-generated method stub
+		String query = "select b FROM Bloque b where b.descripcion = :bloque";
+        TypedQuery<Bloque> tq = em.createQuery(query, Bloque.class);
+        tq.setParameter(bloque, "bloque");
+        List<Bloque> lista = tq.getResultList();
+        return lista;
+	}
+
 }

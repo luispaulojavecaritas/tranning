@@ -39,6 +39,10 @@ public class Puesto implements Serializable {
 		this.descripcion = descripcion;
 	}
 
+	public Puesto(Integer id) {
+		this.id = id;
+	}
+
 	public Integer getId() {
 		return this.id;
 	}

@@ -22,4 +22,6 @@ public interface BloqueDao {
     
     public Bloque findById (Integer id); 
     
+    public List<Bloque> findByDescripcion(String bloque);
+    
 }

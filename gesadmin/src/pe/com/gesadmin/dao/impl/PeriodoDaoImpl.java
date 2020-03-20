@@ -43,5 +43,13 @@ public class PeriodoDaoImpl implements PeriodoDao{
 		return em.find(Periodo.class, id);
 	}
 
+	@Override
+	public void updateEstado() {
+		// TODO Auto-generated method stub
+		String query = "update periodo set estado = 0";
+		em.createNativeQuery(query).executeUpdate();
+		
+	}
+
 
 }

@@ -64,6 +64,10 @@ public class Persona implements Serializable {
 		tipoDocumento = new TipoDocumento();
 	}
 
+	public Persona(Integer id) {
+		this.id = id;
+	}
+
 	public Integer getId() {
 		return this.id;
 	}

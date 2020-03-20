@@ -13,10 +13,18 @@ import javax.faces.context.FacesContext;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.UnselectEvent;
 
+import pe.com.gesadmin.entity.Pais;
 import pe.com.gesadmin.entity.Persona;
+import pe.com.gesadmin.entity.Sexo;
+import pe.com.gesadmin.entity.TipoDocumento;
+import pe.com.gesadmin.service.PaisService;
 import pe.com.gesadmin.service.PersonaService;
+import pe.com.gesadmin.service.SexoService;
+import pe.com.gesadmin.service.TipoDocumentoService;
+import pe.com.gesadmin.service.impl.PaisServiceImpl;
 import pe.com.gesadmin.service.impl.PersonaServiceImpl;
-
+import pe.com.gesadmin.service.impl.SexoServiceImpl;
+import pe.com.gesadmin.service.impl.TipoDocumentoServiceImpl;
 
 @ManagedBean
 @ViewScoped
@@ -32,14 +40,30 @@ public class PersonaBean {
 	@EJB
 	private PersonaService servicio = new PersonaServiceImpl();
 
+	private List<TipoDocumento> listaTipoDocumento = new ArrayList<>();
+	private List<Pais> listaPais = new ArrayList<>();
+	private List<Sexo> listaSexo = new ArrayList<>();
+
+	@EJB
+	private TipoDocumentoService tipoDocumentoService = new TipoDocumentoServiceImpl();
+	@EJB
+	private PaisService paisService = new PaisServiceImpl();
+	@EJB
+	private SexoService sexoService = new SexoServiceImpl();
+
 	public PersonaBean() {
 		// TODO Auto-generated constructor stub
 		filtro = null;
+		entidad = new Persona();
+		
 	}
 
 	@PostConstruct
 	public void init() {
 		listarEntidad();
+		listarPais();
+		listarSexo();
+		listarTipoDocumento();
 	}
 
 	public List<Persona> getLista() {
@@ -86,12 +110,54 @@ public class PersonaBean {
 		this.filtro = filtro;
 	}
 
+	public List<TipoDocumento> getListaTipoDocumento() {
+		return listaTipoDocumento;
+	}
+
+	public void setListaTipoDocumento(List<TipoDocumento> listaTipoDocumento) {
+		this.listaTipoDocumento = listaTipoDocumento;
+	}
+
+	public List<Pais> getListaPais() {
+		return listaPais;
+	}
+
+	public void setListaPais(List<Pais> listaPais) {
+		this.listaPais = listaPais;
+	}
+
+	public List<Sexo> getListaSexo() {
+		return listaSexo;
+	}
+
+	public void setListaSexo(List<Sexo> listaSexo) {
+		this.listaSexo = listaSexo;
+	}
+
+	public void setTipoDocumentoService(TipoDocumentoService tipoDocumentoService) {
+		this.tipoDocumentoService = tipoDocumentoService;
+	}
+
+	public void setPaisService(PaisService paisService) {
+		this.paisService = paisService;
+	}
+
+	public void setSexoService(SexoService sexoService) {
+		this.sexoService = sexoService;
+	}
+
 	public String guardar() {
 
-		if (entidad.getId() == null) {
+		Persona persona = new Persona();
+		persona = entidad;
+		persona.setPais(new Pais(entidad.getPais().getId()));
+		persona.setSexo(new Sexo(entidad.getSexo().getId()));
+		persona.setTipoDocumento(new TipoDocumento(entidad.getTipoDocumento().getId()));
+
+		if (persona.getId() == null) {
 			System.out.println("A guardar");
 			try {
-				servicio.crear(entidad);
+				servicio.crear(persona);
 				FacesContext.getCurrentInstance().addMessage(null,
 						new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro creado", ""));
 			} catch (Exception e) {
@@ -102,7 +168,7 @@ public class PersonaBean {
 		} else {
 			System.out.println("A actualizar");
 			try {
-				servicio.actualizar(entidad);
+				servicio.actualizar(persona);
 				FacesContext.getCurrentInstance().addMessage(null,
 						new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro actualizado", ""));
 			} catch (Exception e) {
@@ -167,7 +233,7 @@ public class PersonaBean {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", "Problemas al recuperar registros"));
 		}
-		
+
 		listafiltro = lista;
 	}
 
@@ -194,7 +260,7 @@ public class PersonaBean {
 	public void limpiar() {
 		entidad = new Persona();
 		entidadseleccionada = new Persona();
-		
+
 		listafiltro = lista;
 
 	}
@@ -209,14 +275,56 @@ public class PersonaBean {
 		listafiltro = new ArrayList<>();
 		System.out.println("Texto a filtra: " + filtro);
 		for (int i = 0; i <= lista.size() - 1; i++) {
-			if (lista.get(i).getNombre().contains(filtro) || lista.get(i).getPaterno().contains(filtro) 
-					|| lista.get(i).getMaterno().contains(filtro) || lista.get(i).getNroDocumento().toString().contains(filtro)) {
+			if (lista.get(i).getNombre().contains(filtro) || lista.get(i).getPaterno().contains(filtro)
+					|| lista.get(i).getMaterno().contains(filtro)
+					|| lista.get(i).getNroDocumento().toString().contains(filtro)) {
 				System.out.println("lista: " + lista.get(i).toString());
 				listafiltro.add(lista.get(i));
 			}
 		}
 		filtro = null;
 		return "";
+	}
+
+	public void listarPais() {
+
+		listaPais = new ArrayList<>();
+		try {
+			listaPais = paisService.listar();
+		} catch (Exception e) {
+			// TODO: handle exception
+			listaPais = null;
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", "Problemas al recuperar lista de pais"));
+		}
+
+	}
+
+	public void listarSexo() {
+
+		listaSexo = new ArrayList<>();
+		try {
+			listaSexo = sexoService.listar();
+		} catch (Exception e) {
+			// TODO: handle exception
+			listaSexo = null;
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", "Problemas al recuperar lista de sexo"));
+		}
+	}
+
+	public void listarTipoDocumento() {
+
+		listaTipoDocumento = new ArrayList<>();
+		try {
+			listaTipoDocumento = tipoDocumentoService.listar();
+		} catch (Exception e) {
+			// TODO: handle exception
+			listaTipoDocumento = null;
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.",
+					"Problemas al recuperar lista de tipo de documento"));
+		}
+
 	}
 
 }

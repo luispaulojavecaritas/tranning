@@ -23,6 +23,8 @@ public interface ContactoProveedorService {
     public List<ContactoProveedorTransfer> listarPorIdProveedor(Integer idProveedor); 
     
     public List<ContactoProveedor> listarIdProveedor(Integer idProveedor); 
+    
+    public List<ContactoProveedor> listar();
 
   
     public void crear (ContactoProveedor entidad); 

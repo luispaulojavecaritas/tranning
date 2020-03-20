@@ -28,6 +28,10 @@ public class Sexo implements Serializable {
 	public Sexo() {
 	}
 
+	public Sexo(Integer id) {
+		this.id = id;
+	}
+
 	public Sexo(Integer id, String descripcion) {
 		this.id = id;
 		this.descripcion = descripcion;

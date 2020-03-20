@@ -32,6 +32,11 @@ public class Pais implements Serializable {
 		this.id = id;
 		this.descripcion = descripcion;
 	}
+	
+
+	public Pais(Integer id) {
+		this.id = id;
+	}
 
 	public Integer getId() {
 		return this.id;

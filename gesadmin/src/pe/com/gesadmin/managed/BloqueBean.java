@@ -90,15 +90,17 @@ public class BloqueBean {
 
 		if (entidad.getId() == null) {
 			System.out.println("A guardar");
-			try {
+			try { 
 				servicio.crear(entidad);
 				FacesContext.getCurrentInstance().addMessage(null,
 						new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro creado", ""));
 			} catch (Exception e) {
 				// TODO: handle exception
+				System.out.println("Excepcion: " + e.getCause().toString());
 				FacesContext.getCurrentInstance().addMessage(null,
 						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al crear registro", ""));
 			}
+
 		} else {
 			System.out.println("A actualizar");
 			try {

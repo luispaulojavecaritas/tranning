@@ -4,28 +4,31 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.sql.Timestamp;
 
-
 /**
  * The persistent class for the bloque database table.
  * 
  */
 @Entity
-@NamedQuery(name="Bloque.findAll", query="SELECT b FROM Bloque b")
+@NamedQuery(name = "Bloque.findAll", query = "SELECT b FROM Bloque b")
 public class Bloque implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
 	private String descripcion;
 
 	private Integer estado;
 
-	@Column(insertable=false, updatable=false)
+	@Column(insertable = false, updatable = false)
 	private Timestamp registro;
 
 	public Bloque() {
+	}
+
+	public Bloque(Integer id) {
+		this.id = id;
 	}
 
 	public Bloque(Integer id, String descripcion) {
@@ -95,7 +98,5 @@ public class Bloque implements Serializable {
 		return "Bloque [id=" + id + ", descripcion=" + descripcion + ", estado=" + estado + ", registro=" + registro
 				+ "]";
 	}
-	
-	
 
 }

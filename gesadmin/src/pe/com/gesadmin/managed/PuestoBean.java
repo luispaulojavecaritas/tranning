@@ -110,11 +110,15 @@ public class PuestoBean {
 	}
 
 	public String guardar() {
+		
+		Puesto puesto = new Puesto();
+		puesto = entidad;
+		puesto.setBloque(new Bloque(entidad.getBloque().getId()));
 
-		if (entidad.getId() == null) {
+		if (puesto.getId() == null) {
 			System.out.println("A guardar");
 			try {
-				servicio.crear(entidad);
+				servicio.crear(puesto);
 				FacesContext.getCurrentInstance().addMessage(null,
 						new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro creado", ""));
 			} catch (Exception e) {
@@ -125,7 +129,7 @@ public class PuestoBean {
 		} else {
 			System.out.println("A actualizar");
 			try {
-				servicio.actualizar(entidad);
+				servicio.actualizar(puesto);
 				FacesContext.getCurrentInstance().addMessage(null,
 						new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro actualizado", ""));
 			} catch (Exception e) {
@@ -140,7 +144,7 @@ public class PuestoBean {
 	}
 
 	public String eliminar() {
-
+		
 		if (entidad.getId() == null) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_WARN, "Seleccione registro a eliminar", ""));

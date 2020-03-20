@@ -25,6 +25,9 @@ public class PeriodoServiceImpl implements PeriodoService {
 	@Override
 	public void crear(Periodo entidad) {
 		// TODO Auto-generated method stub
+		periodoDao.updateEstado();
+		
+		entidad.setEstado(1);
 		periodoDao.create(entidad);
 	}
 

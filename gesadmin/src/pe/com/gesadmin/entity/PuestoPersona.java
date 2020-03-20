@@ -47,6 +47,10 @@ public class PuestoPersona implements Serializable {
 		tipoEstatus = new TipoEstatus();
 	}
 
+	public PuestoPersona(Integer id) {
+		this.id = id;
+	}
+
 	public Integer getId() {
 		return this.id;
 	}

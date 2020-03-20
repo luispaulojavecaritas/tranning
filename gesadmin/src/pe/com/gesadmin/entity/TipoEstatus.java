@@ -29,6 +29,10 @@ public class TipoEstatus implements Serializable {
 	public TipoEstatus() {
 	}
 
+	public TipoEstatus(Integer id) {
+		this.id = id;
+	}
+
 	public TipoEstatus(Integer id, String descripcion) {
 		this.id = id;
 		this.descripcion = descripcion;

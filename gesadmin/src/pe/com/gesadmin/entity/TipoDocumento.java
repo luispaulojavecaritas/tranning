@@ -29,6 +29,10 @@ public class TipoDocumento implements Serializable {
 	public TipoDocumento() {
 	}
 
+	public TipoDocumento(Integer id) {
+		this.id = id;
+	}
+
 	public TipoDocumento(Integer id, String descripcion) {
 		this.id = id;
 		this.descripcion = descripcion;

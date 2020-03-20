@@ -11,6 +11,7 @@ import javax.persistence.TypedQuery;
 
 import pe.com.gesadmin.dao.ContactoProveedorDao;
 import pe.com.gesadmin.entity.ContactoProveedor;
+import pe.com.gesadmin.entity.Egreso;
 import pe.com.gesadmin.transfer.ContactoProveedorTransfer;
 
 @Stateless
@@ -106,6 +107,15 @@ public class ContactoProveedorDaoImpl implements ContactoProveedorDao{
 		tq.setParameter("idProveedor", idProveedor);
 		List<ContactoProveedor> lista = tq.getResultList();
 		return lista;
+	}
+
+	@Override
+	public List<ContactoProveedor> findAll() {
+		// TODO Auto-generated method stub
+		String query = "select b FROM ContactoProveedor b";
+        TypedQuery<ContactoProveedor> tq = em.createQuery(query, ContactoProveedor.class);
+        List<ContactoProveedor> lista = tq.getResultList();
+        return lista;
 	}
 
 }
