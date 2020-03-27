@@ -101,30 +101,40 @@ body {
 
 									<p:outputLabel for="txtvar9" value="Telefono celular:" />
 									<p:inputText id="txtvar9"
-										value="#{personaBean.entidad.telefonoCelular}" required="true"
-										requiredMessage="Ingrese telefono celular"
+										value="#{personaBean.entidad.telefonoCelular}"
+										required="false" requiredMessage="Ingrese telefono celular"
 										label="telefono celular"
-										onkeyup="this.value = this.value.toUpperCase();" />
+										onkeyup="this.value = this.value.toUpperCase();" maxlength="9">
+										<f:validateDoubleRange minimum="000000000" maximum="999999999" />
+										<f:validateLength minimum="9" />
+									</p:inputText>
 
 									<p:outputLabel for="txtvar10" value="Telefono fijo" />
 									<p:inputText id="txtvar10"
-										value="#{personaBean.entidad.telefonoFijo}" required="true"
+										value="#{personaBean.entidad.telefonoFijo}" required="false"
 										requiredMessage="Ingrese telefono fijo" label="telefono fijo"
-										onkeyup="this.value = this.value.toUpperCase();" />
-										
+										onkeyup="this.value = this.value.toUpperCase();" maxlength="9">
+										<f:validateDoubleRange minimum="000000000" maximum="999999999" />
+										<f:validateLength minimum="9" />
+									</p:inputText>
+
 									<p:outputLabel for="txtvar11" value="Correo electronico:" />
 									<p:inputText id="txtvar11"
-										value="#{personaBean.entidad.correoElectronico}" required="true"
-										requiredMessage="Ingrese correo electronico" label="correo electronico"
-										onkeyup="this.value = this.value.toUpperCase();" />
+										value="#{personaBean.entidad.correoElectronico}"
+										required="false" requiredMessage="Ingrese correo electronico"
+										label="correo electronico"
+										onkeyup="this.value = this.value.toUpperCase();">
+										<f:validateRegex
+											pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+									</p:inputText>
 
 									<p:outputLabel for="txtvar12" value="Direccion:" />
 									<p:inputText id="txtvar12"
 										value="#{personaBean.entidad.direccion}" required="true"
 										requiredMessage="Ingrese direccion" label="direccion"
 										onkeyup="this.value = this.value.toUpperCase();" />
-										
-										
+
+
 									<p:outputLabel for="txtvar13" value="Estado: " />
 									<p:selectOneMenu id="txtvar13"
 										value="#{personaBean.entidad.estado}" required="true"
