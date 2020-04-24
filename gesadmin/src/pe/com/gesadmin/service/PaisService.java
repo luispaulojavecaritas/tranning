@@ -21,6 +21,8 @@ public interface PaisService {
     
     public List<Pais> listar(); 
     
+    public List<Pais> listarActivo();
+    
     public void crear (Pais entidad); 
     
     public void actualizar (Pais entidad); 

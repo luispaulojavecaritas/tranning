@@ -52,5 +52,11 @@ public class ContactoProveedorServiceImpl implements ContactoProveedorService {
 		// TODO Auto-generated method stub
 		return contactoProveedorDao.findAll();
 	}
+	
+	@Override
+	public List<ContactoProveedor> listarActivo() {
+		// TODO Auto-generated method stub
+		return contactoProveedorDao.findAllActive();
+	}
 
 }

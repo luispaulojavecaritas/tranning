@@ -21,6 +21,12 @@ public class SexoServiceImpl implements SexoService {
 		// TODO Auto-generated method stub
 		return sexoDao.findAll();
 	}
+	
+	@Override
+	public List<Sexo> listarActivo() {
+		// TODO Auto-generated method stub
+		return sexoDao.findAllActive();
+	}
 
 	@Override
 	public void crear(Sexo entidad) {

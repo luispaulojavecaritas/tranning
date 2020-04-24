@@ -40,41 +40,48 @@ body {
 									<p:outputLabel for="txtvar2" value="RUC:" />
 									<p:inputText id="txtvar2" value="#{proveedorBean.entidad.ruc}"
 										required="true" requiredMessage="Ingrese ruc" label="ruc"
-										onkeyup="this.value = this.value.toUpperCase();" />
+										onkeyup="this.value = this.value.toUpperCase();"
+										maxlength="11">
+										<f:validateRegex pattern="^[0-9]{11}$" />
+									</p:inputText>
 
 									<p:outputLabel for="txtvar3" value="Razon Social:" />
-									<p:inputText id="txtvar3" value="#{proveedorBean.entidad.razonSocial}"
-										required="true" requiredMessage="Ingrese Razon Social" label="razon social"
+									<p:inputText id="txtvar3"
+										value="#{proveedorBean.entidad.razonSocial}" required="true"
+										requiredMessage="Ingrese razon social" label="razon social"
 										onkeyup="this.value = this.value.toUpperCase();" />
 
 									<p:outputLabel for="txtvar4" value="Rubro:" />
-									<p:inputText id="txtvar4" value="#{proveedorBean.entidad.rubro}"
-										required="true" requiredMessage="Ingrese rubro" label="rubro"
+									<p:inputText id="txtvar4"
+										value="#{proveedorBean.entidad.rubro}" required="true"
+										requiredMessage="Ingrese rubro" label="rubro"
 										onkeyup="this.value = this.value.toUpperCase();" />
 
 									<p:outputLabel for="txtvar5" value="Telefono celular:" />
 									<p:inputText id="txtvar5"
-										value="#{proveedorBean.entidad.telefonoCelular}" required="true"
-										requiredMessage="Ingrese telefono celular"
+										value="#{proveedorBean.entidad.telefonoCelular}"
+										required="false" requiredMessage="Ingrese telefono celular"
 										label="telefono celular"
-										onkeyup="this.value = this.value.toUpperCase();" />
+										onkeyup="this.value = this.value.toUpperCase();" maxlength="9" />
 
 									<p:outputLabel for="txtvar6" value="Telefono fijo" />
 									<p:inputText id="txtvar6"
-										value="#{proveedorBean.entidad.telefonoFijo}" required="true"
+										value="#{proveedorBean.entidad.telefonoFijo}" required="false"
 										requiredMessage="Ingrese telefono fijo" label="telefono fijo"
-										onkeyup="this.value = this.value.toUpperCase();" />
-										
+										onkeyup="this.value = this.value.toUpperCase();" maxlength="7" />
+
 									<p:outputLabel for="txtvar7" value="Correo electronico:" />
 									<p:inputText id="txtvar7"
-										value="#{proveedorBean.entidad.correoElectronico}" required="true"
-										requiredMessage="Ingrese correo electronico" label="correo electronico"
+										value="#{proveedorBean.entidad.correoElectronico}"
+										required="false" requiredMessage="Ingrese correo electronico"
+										label="correo electronico"
 										onkeyup="this.value = this.value.toUpperCase();" />
 
 									<p:outputLabel for="txtvar8" value="Domicilio Fiscal:" />
 									<p:inputText id="txtvar8"
-										value="#{proveedorBean.entidad.domicilioFiscal}" required="true"
-										requiredMessage="Ingrese domicilio fiscal" label="domicilio fiscal"
+										value="#{proveedorBean.entidad.domicilioFiscal}"
+										required="true" requiredMessage="Ingrese domicilio fiscal"
+										label="domicilio fiscal"
 										onkeyup="this.value = this.value.toUpperCase();" />
 
 									<p:outputLabel for="txtvar9" value="Estado: " />

@@ -16,6 +16,8 @@ public interface PaisDao {
     
     public List<Pais> findAll(); 
     
+    public List<Pais> findAllActive(); 
+    
     public void create (Pais entidad); 
     
     public void update (Pais entidad); 

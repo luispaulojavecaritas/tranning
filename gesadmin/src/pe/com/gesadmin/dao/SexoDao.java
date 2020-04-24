@@ -16,6 +16,8 @@ public interface SexoDao {
     
     public List<Sexo> findAll(); 
     
+    public List<Sexo> findAllActive(); 
+    
     public void create (Sexo entidad); 
     
     public void update (Sexo entidad); 

@@ -22,37 +22,28 @@ public class Movimiento implements Serializable {
 
 	private Integer estado;
 
-	@Column(name="orden_descripcion")
-	private String ordenDescripcion;
+	@Column(name="operacion_descripcion")
+	private String operacionDescripcion;
 
-	@Column(name="orden_fecha_pago")
-	private String ordenFechaPago;
+	@Column(name="operacion_fecha_pago")
+	private String operacionFechaPago;
 
-	@Column(name="orden_fecha_vencimiento")
-	private String ordenFechaVencimiento;
+	@Column(name="operacion_fecha_vencimiento")
+	private String operacionFechaVencimiento;
 
-	@Column(name="orden_id")
-	private Integer ordenId;
+	@Column(name="operacion_id")
+	private Integer operacionId;
 
-	@Column(name="orden_importe")
-	private String ordenImporte;
+	@Column(name="operacion_importe")
+	private Double operacionImporte;
 
-	@Column(name="orden_situacion")
-	private String ordenSituacion;
+	@Column(name="operacion_situacion")
+	private String operacionSituacion;
 
-	@Column(name="orden_tipo")
-	private String ordenTipo;
+	@Column(name="operacion_tipo")
+	private String operacionTipo;
 
 	private String periodo;
-
-	@Column(name="persona_celular")
-	private String personaCelular;
-
-	@Column(name="persona_correo")
-	private String personaCorreo;
-
-	@Column(name="persona_fijo")
-	private String personaFijo;
 
 	@Column(name="persona_materno")
 	private String personaMaterno;
@@ -63,14 +54,8 @@ public class Movimiento implements Serializable {
 	@Column(name="persona_nro_doc")
 	private String personaNroDoc;
 
-	@Column(name="persona_pais")
-	private String personaPais;
-
 	@Column(name="persona_paterno")
 	private String personaPaterno;
-
-	@Column(name="persona_sexo")
-	private String personaSexo;
 
 	@Column(name="persona_tipo_doc")
 	private String personaTipoDoc;
@@ -80,6 +65,9 @@ public class Movimiento implements Serializable {
 
 	@Column(name="proveedor_ruc")
 	private String proveedorRuc;
+	
+	@Column(name = "anio_fiscal")
+	private String anio_fiscal;
 
 	private String puesto;
 
@@ -92,43 +80,9 @@ public class Movimiento implements Serializable {
 	public Movimiento(Integer id) {
 		this.id = id;
 	}
-	
-
-	public Movimiento(Integer id, String bloque, Integer estado, String ordenDescripcion, String ordenFechaPago,
-			String ordenFechaVencimiento, Integer ordenId, String ordenImporte, String ordenSituacion, String ordenTipo,
-			String periodo, String personaCelular, String personaCorreo, String personaFijo, String personaMaterno,
-			String personaNombre, String personaNroDoc, String personaPais, String personaPaterno, String personaSexo,
-			String personaTipoDoc, String proveedorRazonSocial, String proveedorRuc, String puesto,
-			Timestamp registro) {
-		this.id = id;
-		this.bloque = bloque;
-		this.estado = estado;
-		this.ordenDescripcion = ordenDescripcion;
-		this.ordenFechaPago = ordenFechaPago;
-		this.ordenFechaVencimiento = ordenFechaVencimiento;
-		this.ordenId = ordenId;
-		this.ordenImporte = ordenImporte;
-		this.ordenSituacion = ordenSituacion;
-		this.ordenTipo = ordenTipo;
-		this.periodo = periodo;
-		this.personaCelular = personaCelular;
-		this.personaCorreo = personaCorreo;
-		this.personaFijo = personaFijo;
-		this.personaMaterno = personaMaterno;
-		this.personaNombre = personaNombre;
-		this.personaNroDoc = personaNroDoc;
-		this.personaPais = personaPais;
-		this.personaPaterno = personaPaterno;
-		this.personaSexo = personaSexo;
-		this.personaTipoDoc = personaTipoDoc;
-		this.proveedorRazonSocial = proveedorRazonSocial;
-		this.proveedorRuc = proveedorRuc;
-		this.puesto = puesto;
-		this.registro = registro;
-	}
 
 	public Integer getId() {
-		return this.id;
+		return id;
 	}
 
 	public void setId(Integer id) {
@@ -136,7 +90,7 @@ public class Movimiento implements Serializable {
 	}
 
 	public String getBloque() {
-		return this.bloque;
+		return bloque;
 	}
 
 	public void setBloque(String bloque) {
@@ -144,103 +98,79 @@ public class Movimiento implements Serializable {
 	}
 
 	public Integer getEstado() {
-		return this.estado;
+		return estado;
 	}
 
 	public void setEstado(Integer estado) {
 		this.estado = estado;
 	}
 
-	public String getOrdenDescripcion() {
-		return this.ordenDescripcion;
+	public String getOperacionDescripcion() {
+		return operacionDescripcion;
 	}
 
-	public void setOrdenDescripcion(String ordenDescripcion) {
-		this.ordenDescripcion = ordenDescripcion;
+	public void setOperacionDescripcion(String operacionDescripcion) {
+		this.operacionDescripcion = operacionDescripcion;
 	}
 
-	public String getOrdenFechaPago() {
-		return this.ordenFechaPago;
+	public String getOperacionFechaPago() {
+		return operacionFechaPago;
 	}
 
-	public void setOrdenFechaPago(String ordenFechaPago) {
-		this.ordenFechaPago = ordenFechaPago;
+	public void setOperacionFechaPago(String operacionFechaPago) {
+		this.operacionFechaPago = operacionFechaPago;
 	}
 
-	public String getOrdenFechaVencimiento() {
-		return this.ordenFechaVencimiento;
+	public String getOperacionFechaVencimiento() {
+		return operacionFechaVencimiento;
 	}
 
-	public void setOrdenFechaVencimiento(String ordenFechaVencimiento) {
-		this.ordenFechaVencimiento = ordenFechaVencimiento;
+	public void setOperacionFechaVencimiento(String operacionFechaVencimiento) {
+		this.operacionFechaVencimiento = operacionFechaVencimiento;
 	}
 
-	public Integer getOrdenId() {
-		return this.ordenId;
+	public Integer getOperacionId() {
+		return operacionId;
 	}
 
-	public void setOrdenId(Integer ordenId) {
-		this.ordenId = ordenId;
+	public void setOperacionId(Integer operacionId) {
+		this.operacionId = operacionId;
 	}
 
-	public String getOrdenImporte() {
-		return this.ordenImporte;
+	public Double getOperacionImporte() {
+		return operacionImporte;
 	}
 
-	public void setOrdenImporte(String ordenImporte) {
-		this.ordenImporte = ordenImporte;
+	public void setOperacionImporte(Double operacionImporte) {
+		this.operacionImporte = operacionImporte;
 	}
 
-	public String getOrdenSituacion() {
-		return this.ordenSituacion;
+	public String getOperacionSituacion() {
+		return operacionSituacion;
 	}
 
-	public void setOrdenSituacion(String ordenSituacion) {
-		this.ordenSituacion = ordenSituacion;
+	public void setOperacionSituacion(String operacionSituacion) {
+		this.operacionSituacion = operacionSituacion;
 	}
 
-	public String getOrdenTipo() {
-		return this.ordenTipo;
+	public String getOperacionTipo() {
+		return operacionTipo;
 	}
 
-	public void setOrdenTipo(String ordenTipo) {
-		this.ordenTipo = ordenTipo;
+	public void setOperacionTipo(String operacionTipo) {
+		this.operacionTipo = operacionTipo;
 	}
 
 	public String getPeriodo() {
-		return this.periodo;
+		return periodo;
 	}
 
 	public void setPeriodo(String periodo) {
 		this.periodo = periodo;
 	}
 
-	public String getPersonaCelular() {
-		return this.personaCelular;
-	}
-
-	public void setPersonaCelular(String personaCelular) {
-		this.personaCelular = personaCelular;
-	}
-
-	public String getPersonaCorreo() {
-		return this.personaCorreo;
-	}
-
-	public void setPersonaCorreo(String personaCorreo) {
-		this.personaCorreo = personaCorreo;
-	}
-
-	public String getPersonaFijo() {
-		return this.personaFijo;
-	}
-
-	public void setPersonaFijo(String personaFijo) {
-		this.personaFijo = personaFijo;
-	}
-
 	public String getPersonaMaterno() {
-		return this.personaMaterno;
+		return personaMaterno;
 	}
 
 	public void setPersonaMaterno(String personaMaterno) {
@@ -248,7 +178,7 @@ public class Movimiento implements Serializable {
 	}
 
 	public String getPersonaNombre() {
-		return this.personaNombre;
+		return personaNombre;
 	}
 
 	public void setPersonaNombre(String personaNombre) {
@@ -256,39 +186,23 @@ public class Movimiento implements Serializable {
 	}
 
 	public String getPersonaNroDoc() {
-		return this.personaNroDoc;
+		return personaNroDoc;
 	}
 
 	public void setPersonaNroDoc(String personaNroDoc) {
 		this.personaNroDoc = personaNroDoc;
 	}
 
-	public String getPersonaPais() {
-		return this.personaPais;
-	}
-
-	public void setPersonaPais(String personaPais) {
-		this.personaPais = personaPais;
-	}
-
 	public String getPersonaPaterno() {
-		return this.personaPaterno;
+		return personaPaterno;
 	}
 
 	public void setPersonaPaterno(String personaPaterno) {
 		this.personaPaterno = personaPaterno;
 	}
 
-	public String getPersonaSexo() {
-		return this.personaSexo;
-	}
-
-	public void setPersonaSexo(String personaSexo) {
-		this.personaSexo = personaSexo;
-	}
-
 	public String getPersonaTipoDoc() {
-		return this.personaTipoDoc;
+		return personaTipoDoc;
 	}
 
 	public void setPersonaTipoDoc(String personaTipoDoc) {
@@ -296,7 +210,7 @@ public class Movimiento implements Serializable {
 	}
 
 	public String getProveedorRazonSocial() {
-		return this.proveedorRazonSocial;
+		return proveedorRazonSocial;
 	}
 
 	public void setProveedorRazonSocial(String proveedorRazonSocial) {
@@ -304,15 +218,23 @@ public class Movimiento implements Serializable {
 	}
 
 	public String getProveedorRuc() {
-		return this.proveedorRuc;
+		return proveedorRuc;
 	}
 
 	public void setProveedorRuc(String proveedorRuc) {
 		this.proveedorRuc = proveedorRuc;
 	}
 
+	public String getAnio_fiscal() {
+		return anio_fiscal;
+	}
+
+	public void setAnio_fiscal(String anio_fiscal) {
+		this.anio_fiscal = anio_fiscal;
+	}
+
 	public String getPuesto() {
-		return this.puesto;
+		return puesto;
 	}
 
 	public void setPuesto(String puesto) {
@@ -320,51 +242,16 @@ public class Movimiento implements Serializable {
 	}
 
 	public Timestamp getRegistro() {
-		return this.registro;
+		return registro;
 	}
 
 	public void setRegistro(Timestamp registro) {
 		this.registro = registro;
 	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Movimiento other = (Movimiento) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
-	}
-
-	@Override
-	public String toString() {
-		return "Movimiento [id=" + id + ", bloque=" + bloque + ", estado=" + estado + ", ordenDescripcion="
-				+ ordenDescripcion + ", ordenFechaPago=" + ordenFechaPago + ", ordenFechaVencimiento="
-				+ ordenFechaVencimiento + ", ordenId=" + ordenId + ", ordenImporte=" + ordenImporte
-				+ ", ordenSituacion=" + ordenSituacion + ", ordenTipo=" + ordenTipo + ", periodo=" + periodo
-				+ ", personaCelular=" + personaCelular + ", personaCorreo=" + personaCorreo + ", personaFijo="
-				+ personaFijo + ", personaMaterno=" + personaMaterno + ", personaNombre=" + personaNombre
-				+ ", personaNroDoc=" + personaNroDoc + ", personaPais=" + personaPais + ", personaPaterno="
-				+ personaPaterno + ", personaSexo=" + personaSexo + ", personaTipoDoc=" + personaTipoDoc
-				+ ", proveedorRazonSocial=" + proveedorRazonSocial + ", proveedorRuc=" + proveedorRuc + ", puesto="
-				+ puesto + ", registro=" + registro + "]";
-	}
+	
+	
+	
+	
 	
 
 }

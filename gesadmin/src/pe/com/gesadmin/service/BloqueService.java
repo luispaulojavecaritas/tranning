@@ -21,6 +21,8 @@ public interface BloqueService {
     
     public List<Bloque> listar(); 
     
+    public List<Bloque> listarActivo();
+    
     public void crear (Bloque entidad); 
     
     public void actualizar (Bloque entidad); 

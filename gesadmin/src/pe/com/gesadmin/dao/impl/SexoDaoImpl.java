@@ -24,6 +24,15 @@ public class SexoDaoImpl implements SexoDao {
         List<Sexo> lista = tq.getResultList();
         return lista;
 	}
+	
+	@Override
+	public List<Sexo> findAllActive() {
+		// TODO Auto-generated method stub
+		String query = "select b FROM Sexo b where b.estado = 1";
+        TypedQuery<Sexo> tq = em.createQuery(query, Sexo.class);
+        List<Sexo> lista = tq.getResultList();
+        return lista;
+	}
 
 	@Override
 	public void create(Sexo entidad) {

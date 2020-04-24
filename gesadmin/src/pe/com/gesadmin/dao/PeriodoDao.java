@@ -16,6 +16,10 @@ public interface PeriodoDao {
     
     public List<Periodo> findAll(); 
     
+    public List<Periodo> findAllActive(); 
+    
+    public List<Periodo> findByIdAnioFiscal(Integer idAnioFiscal); 
+    
     public void create (Periodo entidad); 
     
     public void update (Periodo entidad); 
@@ -23,6 +27,8 @@ public interface PeriodoDao {
     public Periodo findById (Integer id); 
     
     public void updateEstado();
+    
+    public void updateEstadoAfterCreateAnioFiscal();
     
     
 }

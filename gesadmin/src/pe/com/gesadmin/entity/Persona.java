@@ -63,7 +63,7 @@ public class Persona implements Serializable {
 		sexo = new Sexo();
 		tipoDocumento = new TipoDocumento();
 	}
-
+	
 	public Persona(Integer id) {
 		this.id = id;
 	}

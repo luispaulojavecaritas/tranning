@@ -29,6 +29,16 @@ public class PersonaDaoImpl implements PersonaDao{
 	}
 	
 	@Override
+	public List<Persona> findAllActive() {
+		// TODO Auto-generated method stub
+		List<Persona> lista = new ArrayList<>();
+		String query = "SELECT b FROM Persona b where b.estado = 1";
+		TypedQuery<Persona> tq = em.createQuery(query, Persona.class);
+		lista = tq.getResultList();
+		return lista;
+	}
+	
+	@Override
 	public List<Persona> findByNroDoc(String nroDoc) {
 		// TODO Auto-generated method stub
 		List<Persona> lista = new ArrayList<>();

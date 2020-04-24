@@ -24,6 +24,15 @@ public class ProveedorDaoImpl implements ProveedorDao{
         List<Proveedor> lista = tq.getResultList();
         return lista;
 	}
+	
+	@Override
+	public List<Proveedor> findAllActive() {
+		// TODO Auto-generated method stub
+		String query = "select b FROM Proveedor b where b.estado = 1";
+        TypedQuery<Proveedor> tq = em.createQuery(query, Proveedor.class);
+        List<Proveedor> lista = tq.getResultList();
+        return lista;
+	}
 
 	@Override
 	public void create(Proveedor entidad) {
@@ -49,6 +58,22 @@ public class ProveedorDaoImpl implements ProveedorDao{
 		String query = "select b FROM Proveedor b where b.estado = 1 and b.ruc = :ruc";
         TypedQuery<Proveedor> tq = em.createQuery(query, Proveedor.class);
         tq.setParameter("ruc", ruc);
+        return tq.getResultList();
+	}
+
+	@Override
+	public List<Proveedor> findByRucIsSarita() {
+		// TODO Auto-generated method stub
+		String query = "select b FROM Proveedor b where b.estado = 1 and b.ruc = '20503825911'";
+        TypedQuery<Proveedor> tq = em.createQuery(query, Proveedor.class);
+        return tq.getResultList();
+	}
+
+	@Override
+	public List<Proveedor> findByRucNotIsSarita() {
+		// TODO Auto-generated method stub
+		String query = "select b FROM Proveedor b where b.estado = 1 and b.ruc <> '20503825911'";
+        TypedQuery<Proveedor> tq = em.createQuery(query, Proveedor.class);
         return tq.getResultList();
 	}
 

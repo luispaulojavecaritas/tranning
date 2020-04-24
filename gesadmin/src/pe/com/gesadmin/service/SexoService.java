@@ -21,6 +21,8 @@ public interface SexoService {
     
     public List<Sexo> listar(); 
     
+    public List<Sexo> listarActivo(); 
+    
     public void crear (Sexo entidad); 
     
     public void actualizar (Sexo entidad); 

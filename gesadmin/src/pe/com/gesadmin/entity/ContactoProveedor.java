@@ -38,6 +38,10 @@ public class ContactoProveedor implements Serializable {
 		proveedor = new Proveedor();
 		persona = new Persona();
 	}
+	
+	public ContactoProveedor(Integer id) {
+		this.id = id;
+	}
 
 	public Integer getId() {
 		return this.id;

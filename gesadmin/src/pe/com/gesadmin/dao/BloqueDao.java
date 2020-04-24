@@ -16,6 +16,8 @@ public interface BloqueDao {
     
     public List<Bloque> findAll(); 
     
+    public List<Bloque> findAllActive(); 
+    
     public void create (Bloque entidad); 
     
     public void update (Bloque entidad); 

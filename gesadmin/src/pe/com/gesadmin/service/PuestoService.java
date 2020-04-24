@@ -22,6 +22,10 @@ public interface PuestoService {
        
     public List<Puesto> listar();    
     
+    public List<Puesto> listarActivo();  
+    
+    public List<Puesto> listarFiltro(boolean flag);
+    
     public List<PuestoTransfer> listarTransfer(); 
   
     public void crear (Puesto entidad); 

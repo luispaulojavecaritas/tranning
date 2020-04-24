@@ -22,6 +22,12 @@ public class TipoDocumentoServiceImpl implements TipoDocumentoService {
 		// TODO Auto-generated method stub
 		return tipoDocumentoDao.findAll();
 	}
+	
+	@Override
+	public List<TipoDocumento> listarActivo() {
+		// TODO Auto-generated method stub
+		return tipoDocumentoDao.findAllActive();
+	}
 
 	@Override
 	public void crear(TipoDocumento entidad) {

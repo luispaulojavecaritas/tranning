@@ -16,6 +16,8 @@ public interface TipoDocumentoDao {
     
     public List<TipoDocumento> findAll(); 
     
+    public List<TipoDocumento> findAllActive(); 
+    
     public void create (TipoDocumento entidad); 
     
     public void update (TipoDocumento entidad); 

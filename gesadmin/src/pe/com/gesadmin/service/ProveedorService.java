@@ -21,7 +21,11 @@ public interface ProveedorService {
     
     public List<Proveedor> listar();  
     
+    public List<Proveedor> listarActivo();
+    
     public List<Proveedor> ListarPorRucProveedor(String ruc);
+    
+    public List<Proveedor> ListarFiltro(boolean flag);
     
     public void crear (Proveedor entidad); 
     

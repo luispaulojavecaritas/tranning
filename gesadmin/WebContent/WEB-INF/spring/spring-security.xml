@@ -11,9 +11,10 @@
         <intercept-url pattern="/login*" access="permitAll" />
         <intercept-url pattern="/access-denied.xhtml" access="isAuthenticated()" />
         <intercept-url pattern="/inicio.xhtml" access="isAuthenticated()" />
-        <intercept-url pattern="/seguridad/*" access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')" />
+        <intercept-url pattern="/seguridad/*" access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')" />        
         <intercept-url pattern="/mantenimiento_catalogo/*" access="hasRole('ROLE_ADMIN')" /> 
         <intercept-url pattern="/mantenimiento_relaciones/*" access="hasRole('ROLE_ADMIN')" /> 
+        <intercept-url pattern="/operaciones/*" access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')" />
         <intercept-url pattern="/cuenta/*" access="isAuthenticated()"/> 
         
         <form-login login-page="/login.xhtml" 

@@ -21,6 +21,12 @@ public class PaisServiceImpl implements PaisService {
 		// TODO Auto-generated method stub
 		return paisDao.findAll();
 	}
+	
+	@Override
+	public List<Pais> listarActivo() {
+		// TODO Auto-generated method stub
+		return paisDao.findAllActive();
+	}
 
 	@Override
 	public void crear(Pais entidad) {

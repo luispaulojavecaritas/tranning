@@ -22,6 +22,12 @@ public class PersonaServiceImpl implements PersonaService {
 		// TODO Auto-generated method stub
 		return personaDao.findAll();
 	}
+	
+	@Override
+	public List<Persona> listarActivo() {
+		// TODO Auto-generated method stub
+		return personaDao.findAllActive();
+	}
 
 	@Override
 	public List<Persona> listarPorNroDoc(String nroDoc) {

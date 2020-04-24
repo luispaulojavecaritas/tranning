@@ -20,6 +20,10 @@ import pe.com.gesadmin.entity.Movimiento;
 public interface MovimientoService {
       
     public List<Movimiento> listarPorIdPeriodo(String periodo); 
+    
+    public List<Movimiento> listar(); 
+    
+    public List<Movimiento> listarActivo(); 
   
     public void crear (Movimiento entidad); 
     

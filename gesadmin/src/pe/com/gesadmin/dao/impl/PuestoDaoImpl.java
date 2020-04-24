@@ -27,6 +27,15 @@ public class PuestoDaoImpl implements PuestoDao {
 	}
 	
 	@Override
+	public List<Puesto> findAllActive() {
+		// TODO Auto-generated method stub
+		String query = "select b FROM Puesto b where b.estado = 1";
+        TypedQuery<Puesto> tq = em.createQuery(query, Puesto.class);
+        List<Puesto> lista = tq.getResultList();
+        return lista;
+	}
+	
+	@Override
 	public List<PuestoTransfer> findTransferAll() {
 		// TODO Auto-generated method stub
 		return null;
@@ -49,6 +58,24 @@ public class PuestoDaoImpl implements PuestoDao {
 	public Puesto findById(Integer id) {
 		// TODO Auto-generated method stub
 		 return em.find(Puesto.class, id);
+	}
+
+	@Override
+	public List<Puesto> findByBoqueIsADM() {
+		// TODO Auto-generated method stub
+		String query = "select b FROM Puesto b where b.estado = 1 and b.bloque.descripcion = 'ADM'";
+        TypedQuery<Puesto> tq = em.createQuery(query, Puesto.class);
+        List<Puesto> lista = tq.getResultList();
+        return lista;
+	}
+
+	@Override
+	public List<Puesto> findByBoqueNotIsADM() {
+		// TODO Auto-generated method stub
+		String query = "select b FROM Puesto b where b.estado = 1 and b.bloque.descripcion <> 'ADM'";
+        TypedQuery<Puesto> tq = em.createQuery(query, Puesto.class);
+        List<Puesto> lista = tq.getResultList();
+        return lista;
 	}
 
 	

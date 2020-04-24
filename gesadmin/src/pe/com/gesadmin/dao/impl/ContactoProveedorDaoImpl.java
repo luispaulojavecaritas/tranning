@@ -11,7 +11,7 @@ import javax.persistence.TypedQuery;
 
 import pe.com.gesadmin.dao.ContactoProveedorDao;
 import pe.com.gesadmin.entity.ContactoProveedor;
-import pe.com.gesadmin.entity.Egreso;
+import pe.com.gesadmin.entity.CategoriaOperacion;
 import pe.com.gesadmin.transfer.ContactoProveedorTransfer;
 
 @Stateless
@@ -38,7 +38,7 @@ public class ContactoProveedorDaoImpl implements ContactoProveedorDao{
 		return em.find(ContactoProveedor.class, id);
 
 	}
-
+	
 	@Override
 	public List<ContactoProveedorTransfer> findByProveedorId(Integer id) {
 		// TODO Auto-generated method stub
@@ -98,21 +98,31 @@ public class ContactoProveedorDaoImpl implements ContactoProveedorDao{
 
 		}
 	}
-
+	
 	@Override
 	public List<ContactoProveedor> findByIdProveedor(Integer idProveedor) {
 		// TODO Auto-generated method stub
-		String query = "Select b FROM ContactoProveedor b where b.proveedor.id = :idProveedor";
+		String query = "Select b FROM ContactoProveedor b where b.proveedor.id = :idProveedor and b.estado = 1";
 		TypedQuery<ContactoProveedor> tq = em.createQuery(query, ContactoProveedor.class);
 		tq.setParameter("idProveedor", idProveedor);
 		List<ContactoProveedor> lista = tq.getResultList();
 		return lista;
 	}
+	
 
 	@Override
 	public List<ContactoProveedor> findAll() {
 		// TODO Auto-generated method stub
 		String query = "select b FROM ContactoProveedor b";
+        TypedQuery<ContactoProveedor> tq = em.createQuery(query, ContactoProveedor.class);
+        List<ContactoProveedor> lista = tq.getResultList();
+        return lista;
+	}
+	
+	@Override
+	public List<ContactoProveedor> findAllActive() {
+		// TODO Auto-generated method stub
+		String query = "select b FROM ContactoProveedor b where b.estado = 1";
         TypedQuery<ContactoProveedor> tq = em.createQuery(query, ContactoProveedor.class);
         List<ContactoProveedor> lista = tq.getResultList();
         return lista;

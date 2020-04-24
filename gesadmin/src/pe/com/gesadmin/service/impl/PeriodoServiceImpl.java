@@ -21,6 +21,12 @@ public class PeriodoServiceImpl implements PeriodoService {
 		// TODO Auto-generated method stub
 		return periodoDao.findAll();
 	}
+	
+	@Override
+	public List<Periodo> listarActivo() {
+		// TODO Auto-generated method stub
+		return periodoDao.findAllActive();
+	}
 
 	@Override
 	public void crear(Periodo entidad) {
@@ -41,6 +47,12 @@ public class PeriodoServiceImpl implements PeriodoService {
 	public Periodo recuperar(Integer id) {
 		// TODO Auto-generated method stub
 		return periodoDao.findById(id);
+	}
+
+	@Override
+	public List<Periodo> listarPorIdAnioFiscal(Integer idAnioFiscal) {
+		// TODO Auto-generated method stub
+		return periodoDao.findByIdAnioFiscal(idAnioFiscal);
 	}
 
 }

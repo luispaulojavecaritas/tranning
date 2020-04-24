@@ -21,6 +21,10 @@ public interface PeriodoService {
     
     public List<Periodo> listar(); 
     
+    public List<Periodo> listarActivo(); 
+    
+    public List<Periodo> listarPorIdAnioFiscal(Integer idAnioFiscal); 
+    
     public void crear (Periodo entidad); 
     
     public void actualizar (Periodo entidad); 

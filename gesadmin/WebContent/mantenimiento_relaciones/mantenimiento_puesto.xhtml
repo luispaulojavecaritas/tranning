@@ -41,17 +41,18 @@ body {
 									<p:inputText id="txtvar2"
 										value="#{puestoBean.entidad.descripcion}" required="true"
 										requiredMessage="Ingrese descripcion" label="descripcion"
-										onkeyup="this.value = this.value.toUpperCase();" />
+										onkeyup="this.value = this.value.toUpperCase();" maxlength="6">
+										<f:validateRegex pattern="^[_A-Za-z0-9]{1,3}[_A-Za-z]{1,3}$"/>
+									</p:inputText>
 
 									<p:outputLabel for="txtvar3" value="Bloque:" />
 									<p:selectOneMenu id="txtvar3"
-										value="#{puestoBean.entidad.bloque.id}"
-										required="true" requiredMessage="Seleccione estado"
-										label="bloque" filter="true" filterMatchMode="contains">
+										value="#{puestoBean.entidad.bloque.id}" required="true"
+										requiredMessage="Seleccione bloque" label="bloque"
+										filter="true" filterMatchMode="contains">
 										<f:selectItem itemLabel="Seleccione" itemValue="" />
-										<f:selectItems value="#{puestoBean.listaBloque}"
-											var="lista" itemLabel="#{lista.descripcion}"
-											itemValue="#{lista.id}" />
+										<f:selectItems value="#{puestoBean.listaBloque}" var="lista"
+											itemLabel="#{lista.descripcion}" itemValue="#{lista.id}" />
 									</p:selectOneMenu>
 
 

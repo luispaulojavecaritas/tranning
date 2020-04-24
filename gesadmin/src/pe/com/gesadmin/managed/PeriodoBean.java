@@ -13,8 +13,11 @@ import javax.faces.context.FacesContext;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.UnselectEvent;
 
+import pe.com.gesadmin.entity.AnioFiscal;
 import pe.com.gesadmin.entity.Periodo;
+import pe.com.gesadmin.service.AnioFiscalService;
 import pe.com.gesadmin.service.PeriodoService;
+import pe.com.gesadmin.service.impl.AnioFiscalServiceImpl;
 import pe.com.gesadmin.service.impl.PeriodoServiceImpl;
 
 
@@ -26,20 +29,27 @@ public class PeriodoBean {
 	private List<Periodo> listafiltro;
 	private Periodo entidad = new Periodo();
 	private Periodo entidadseleccionada = new Periodo();
+	
+	private List<AnioFiscal> listaAnioFiscal = new ArrayList<>();
 
 	private String filtro;
 
 	@EJB
 	private PeriodoService servicio = new PeriodoServiceImpl();
+	
+	@EJB
+	private AnioFiscalService anioFiscalService  = new AnioFiscalServiceImpl();
 
 	public PeriodoBean() {
 		// TODO Auto-generated constructor stub
 		filtro = null;
+		entidad = new Periodo();
 	}
 
 	@PostConstruct
 	public void init() {
 		listarEntidad();
+		listarAnioFiscal();
 	}
 
 	public List<Periodo> getLista() {
@@ -86,6 +96,18 @@ public class PeriodoBean {
 		this.filtro = filtro;
 	}
 
+	public List<AnioFiscal> getListaAnioFiscal() {
+		return listaAnioFiscal;
+	}
+
+	public void setListaAnioFiscal(List<AnioFiscal> listaAnioFiscal) {
+		this.listaAnioFiscal = listaAnioFiscal;
+	}
+
+	public void setAnioFiscalService(AnioFiscalService anioFiscalService) {
+		this.anioFiscalService = anioFiscalService;
+	}
+
 	public String guardar() {
 
 		if (entidad.getId() == null) {
@@ -111,6 +133,7 @@ public class PeriodoBean {
 						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al actualizar registro", ""));
 			}
 		}
+		
 		limpiar();
 		listarEntidad();
 		return "";
@@ -216,6 +239,18 @@ public class PeriodoBean {
 		}
 		filtro = null;
 		return "";
+	}
+	
+	public void listarAnioFiscal() {
+		
+		try {
+			listaAnioFiscal = anioFiscalService.listarActivo();
+		} catch (Exception e) {
+			// TODO: handle exception
+			listaAnioFiscal = null;
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", "Problemas al recuperar registros anio fiscal"));
+		}
 	}
 
 }

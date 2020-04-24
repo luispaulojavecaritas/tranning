@@ -2,6 +2,7 @@ package pe.com.gesadmin.managed;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -16,7 +17,7 @@ import org.primefaces.event.UnselectEvent;
 import pe.com.gesadmin.entity.Proveedor;
 import pe.com.gesadmin.service.ProveedorService;
 import pe.com.gesadmin.service.impl.ProveedorServiceImpl;
-
+import pe.com.gesadmin.util.Constante;
 
 @ManagedBean
 @ViewScoped
@@ -41,6 +42,7 @@ public class ProveedorBean {
 	@PostConstruct
 	public void init() {
 		listarEntidad();
+		entidad = new Proveedor();
 	}
 
 	public List<Proveedor> getLista() {
@@ -88,9 +90,74 @@ public class ProveedorBean {
 	}
 
 	public String guardar() {
-		
+
 		Proveedor proveedor = new Proveedor();
 		proveedor = entidad;
+
+		System.out.println("Datos de proveedor: " + proveedor.toString());
+
+		if (proveedor.getTelefonoCelular() == null || proveedor.getTelefonoCelular().trim() == "" || proveedor.getTelefonoCelular().isEmpty()) {
+			System.out.println("No se valida telefono celular");
+			proveedor.setTelefonoCelular(null);
+		} else {
+			System.out.println("Se procede a validar teléfono celular");
+
+			Matcher matcher = Constante.CELULAR_PATTERN.matcher(proveedor.getTelefonoCelular());
+
+			if (!matcher.matches()) {
+				System.out.println("No cumple formato");
+
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Formato de teléfono celular inválido", ""));
+				listarEntidad();
+				return "";
+
+			} else {
+				System.out.println("Si cumple formato");
+			}
+		}
+		
+		if (proveedor.getTelefonoFijo() == null || proveedor.getTelefonoFijo().trim() == "" || proveedor.getTelefonoFijo().isEmpty()) {
+			System.out.println("No se valida telefono fijo");
+			proveedor.setTelefonoFijo(null);
+		} else {
+			System.out.println("Se procede a validar teléfono fijo");
+
+			Matcher matcher = Constante.FIJO_PATTERN.matcher(proveedor.getTelefonoFijo());
+
+			if (!matcher.matches()) {
+				System.out.println("No cumple formato");
+
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Formato de teléfono fijo inválido", ""));
+				listarEntidad();
+				return "";
+
+			} else {
+				System.out.println("Si cumple formato");
+			}
+		}
+		
+		if (proveedor.getCorreoElectronico() == null || proveedor.getCorreoElectronico().trim() == "" || proveedor.getCorreoElectronico().isEmpty()) {
+			System.out.println("No se valida correo electronico");
+			proveedor.setCorreoElectronico(null);
+		} else {
+			System.out.println("Se procede a validar correo electronico");
+
+			Matcher matcher = Constante.EMAIL_PATTERN.matcher(proveedor.getCorreoElectronico());
+
+			if (!matcher.matches()) {
+				System.out.println("No cumple formato");
+
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Formato de correo electrónico inválido", ""));
+				listarEntidad();
+				return "";
+
+			} else {
+				System.out.println("Si cumple formato");
+			}
+		}
 
 		if (proveedor.getId() == null) {
 			System.out.println("A guardar");
@@ -171,7 +238,7 @@ public class ProveedorBean {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", "Problemas al recuperar registros"));
 		}
-		
+
 		listafiltro = lista;
 	}
 
@@ -198,7 +265,7 @@ public class ProveedorBean {
 	public void limpiar() {
 		entidad = new Proveedor();
 		entidadseleccionada = new Proveedor();
-		
+
 		listafiltro = lista;
 
 	}

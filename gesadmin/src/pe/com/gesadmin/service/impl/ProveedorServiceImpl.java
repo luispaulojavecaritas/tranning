@@ -21,6 +21,12 @@ public class ProveedorServiceImpl implements ProveedorService {
 		// TODO Auto-generated method stub
 		return proveedorDao.findAll();
 	}
+	
+	@Override
+	public List<Proveedor> listarActivo() {
+		// TODO Auto-generated method stub
+		return proveedorDao.findAllActive();
+	}
 
 	@Override
 	public List<Proveedor> ListarPorRucProveedor(String ruc) {
@@ -44,6 +50,16 @@ public class ProveedorServiceImpl implements ProveedorService {
 	public Proveedor recuperar(Integer id) {
 		// TODO Auto-generated method stub
 		return proveedorDao.findById(id);
+	}
+
+	@Override
+	public List<Proveedor> ListarFiltro(boolean flag) {
+		// TODO Auto-generated method stub
+		if(flag) {
+			return proveedorDao.findByRucNotIsSarita();
+		}else {
+			return proveedorDao.findByRucIsSarita();
+		}
 	}
 
 }

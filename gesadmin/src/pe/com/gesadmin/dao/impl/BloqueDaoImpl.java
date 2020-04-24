@@ -24,6 +24,15 @@ public class BloqueDaoImpl implements BloqueDao{
         List<Bloque> lista = tq.getResultList();
         return lista;
 	}
+	
+	@Override
+	public List<Bloque> findAllActive() {
+		// TODO Auto-generated method stub
+		String query = "select b FROM Bloque b where b.estado = 1";
+        TypedQuery<Bloque> tq = em.createQuery(query, Bloque.class);
+        List<Bloque> lista = tq.getResultList();
+        return lista;
+	}
 
 	@Override
 	public void create(Bloque entidad) {

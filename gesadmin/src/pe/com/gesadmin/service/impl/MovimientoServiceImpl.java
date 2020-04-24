@@ -21,6 +21,18 @@ public class MovimientoServiceImpl implements MovimientoService {
 		// TODO Auto-generated method stub
 		return movimientoDao.findByPeriodo(periodo);
 	}
+	
+	@Override
+	public List<Movimiento> listar() {
+		// TODO Auto-generated method stub
+		return movimientoDao.findAll();
+	}
+	
+	@Override
+	public List<Movimiento> listarActivo() {
+		// TODO Auto-generated method stub
+		return movimientoDao.findAllActive();
+	}
 
 	@Override
 	public void crear(Movimiento entidad) {

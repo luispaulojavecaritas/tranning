@@ -35,6 +35,7 @@ public class PaisBean {
 	public PaisBean() {
 		// TODO Auto-generated constructor stub
 		filtro = null;
+		entidad = new Pais();
 	}
 
 	@PostConstruct

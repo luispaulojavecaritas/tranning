@@ -40,6 +40,7 @@ public class SexoBean {
 	@PostConstruct
 	public void init() {
 		listarEntidad();
+		entidad = new Sexo();
 	}
 
 	public List<Sexo> getLista() {

@@ -40,6 +40,7 @@ public class UsuarioBean {
 	@PostConstruct
 	public void init() {
 		listarEntidad();
+		entidad = new Usuario();
 	}
 
 	public List<Usuario> getLista() {

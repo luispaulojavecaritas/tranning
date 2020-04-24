@@ -16,6 +16,10 @@ public interface MovimientoDao {
     
     
     public List<Movimiento> findByPeriodo(String periodo); 
+    
+    public List<Movimiento> findAll(); 
+    
+    public List<Movimiento> findAllActive(); 
   
     public void create (Movimiento entidad); 
     

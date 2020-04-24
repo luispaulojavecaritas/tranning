@@ -40,6 +40,7 @@ public class TipoDocumentoBean {
 	@PostConstruct
 	public void init() {
 		listarEntidad();
+		entidad = new TipoDocumento();
 	}
 
 	public List<TipoDocumento> getLista() {

@@ -1,5 +1,6 @@
 package pe.com.gesadmin.managed;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +9,9 @@ import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.UnselectEvent;
@@ -114,6 +117,17 @@ public class PuestoBean {
 		Puesto puesto = new Puesto();
 		puesto = entidad;
 		puesto.setBloque(new Bloque(entidad.getBloque().getId()));
+		
+		boolean verificarcion = verificarCorrespondencia(entidad.getDescripcion(), entidad.getBloque().getId());
+		
+		if(verificarcion) {
+			System.out.println("SI existe correspondencia");
+		}else {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_WARN, "Descripcion no coincide con bloque", ""));
+			listarEntidad();
+			return "";
+		}
 
 		if (puesto.getId() == null) {
 			System.out.println("A guardar");
@@ -233,9 +247,11 @@ public class PuestoBean {
 	}
 
 	public void limpiar() {
+		entidad = null;
 		entidad = new Puesto();
+		entidadseleccionada = null;
 		entidadseleccionada = new Puesto();
-		
+				
 		listafiltro = lista;
 
 	}
@@ -257,6 +273,20 @@ public class PuestoBean {
 		}
 		filtro = null;
 		return "";
+	}
+	
+	public boolean verificarCorrespondencia(String descripcionPuesto, Integer bloqueId) {
+		
+		Bloque bloque = bloqueService.recuperar(bloqueId);
+		
+		if (descripcionPuesto.contains(bloque.getDescripcion())) {
+			System.out.println("Si coincide");
+			return true;
+		}else {
+			System.out.println("No coincide");
+			return false;
+		}
+		
 	}
 
 }

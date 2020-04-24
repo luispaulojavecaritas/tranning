@@ -22,6 +22,13 @@ public class PuestoServiceImpl implements PuestoService {
 		// TODO Auto-generated method stub
 		return puestoDao.findAll();
 	}
+	
+	@Override
+	public List<Puesto> listarActivo() {
+		// TODO Auto-generated method stub
+		return puestoDao.findAllActive();
+	}
+
 
 	@Override
 	public List<PuestoTransfer> listarTransfer() {
@@ -45,6 +52,16 @@ public class PuestoServiceImpl implements PuestoService {
 	public Puesto recuperar(Integer id) {
 		// TODO Auto-generated method stub
 		return puestoDao.findById(id);
+	}
+
+	@Override
+	public List<Puesto> listarFiltro(boolean flag) {
+		// TODO Auto-generated method stub
+		if(flag) {
+			return puestoDao.findByBoqueNotIsADM();
+		}else {
+			return puestoDao.findByBoqueIsADM();
+		}
 	}
 
 }

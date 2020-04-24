@@ -28,14 +28,13 @@ public class Pais implements Serializable {
 	public Pais() {
 	}
 
+	public Pais(Integer id) {
+		this.id = id;
+	}
+
 	public Pais(Integer id, String descripcion) {
 		this.id = id;
 		this.descripcion = descripcion;
-	}
-	
-
-	public Pais(Integer id) {
-		this.id = id;
 	}
 
 	public Integer getId() {

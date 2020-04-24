@@ -24,6 +24,15 @@ public class TipoDocumentoDaoImpl implements TipoDocumentoDao {
         List<TipoDocumento> lista = tq.getResultList();
         return lista;
 	}
+	
+	@Override
+	public List<TipoDocumento> findAllActive() {
+		// TODO Auto-generated method stub
+		String query = "select b FROM TipoDocumento b where b.estado = 1";
+        TypedQuery<TipoDocumento> tq = em.createQuery(query, TipoDocumento.class);
+        List<TipoDocumento> lista = tq.getResultList();
+        return lista;
+	}
 
 	@Override
 	public void create(TipoDocumento entidad) {

@@ -25,6 +25,15 @@ public class PaisDaoImpl implements PaisDao{
         List<Pais> lista = tq.getResultList();
         return lista;
 	}
+	
+	@Override
+	public List<Pais> findAllActive() {
+		// TODO Auto-generated method stub        
+        String query = "select b FROM Pais b where b.estado = 1";
+        TypedQuery<Pais> tq = em.createQuery(query, Pais.class);
+        List<Pais> lista = tq.getResultList();
+        return lista;
+	}
 
 	@Override
 	public void create(Pais entidad) {

@@ -10,6 +10,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.eclipse.persistence.exceptions.DatabaseException;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.UnselectEvent;
 
@@ -35,6 +36,7 @@ public class BloqueBean {
 	public BloqueBean() {
 		// TODO Auto-generated constructor stub
 		filtro = null;
+		entidad = new Bloque();
 	}
 
 	@PostConstruct
@@ -94,6 +96,7 @@ public class BloqueBean {
 				servicio.crear(entidad);
 				FacesContext.getCurrentInstance().addMessage(null,
 						new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro creado", ""));
+				
 			} catch (Exception e) {
 				// TODO: handle exception
 				System.out.println("Excepcion: " + e.getCause().toString());

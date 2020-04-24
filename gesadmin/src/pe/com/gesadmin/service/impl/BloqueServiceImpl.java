@@ -21,6 +21,12 @@ public class BloqueServiceImpl implements BloqueService {
 		// TODO Auto-generated method stub
 		return bloqueDao.findAll();
 	}
+	
+	@Override
+	public List<Bloque> listarActivo() {
+		// TODO Auto-generated method stub
+		return bloqueDao.findAllActive();
+	}
 
 	@Override
 	public void crear(Bloque entidad) {

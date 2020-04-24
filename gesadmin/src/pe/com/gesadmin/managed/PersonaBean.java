@@ -2,6 +2,8 @@ package pe.com.gesadmin.managed;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -9,9 +11,12 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.validator.ValidatorException;
 
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.UnselectEvent;
+
+import com.oracle.wls.shaded.org.apache.bcel.classfile.Constant;
 
 import pe.com.gesadmin.entity.Pais;
 import pe.com.gesadmin.entity.Persona;
@@ -25,6 +30,8 @@ import pe.com.gesadmin.service.impl.PaisServiceImpl;
 import pe.com.gesadmin.service.impl.PersonaServiceImpl;
 import pe.com.gesadmin.service.impl.SexoServiceImpl;
 import pe.com.gesadmin.service.impl.TipoDocumentoServiceImpl;
+import pe.com.gesadmin.util.Constante;
+import pe.com.gesadmin.util.EmailValidator;
 
 @ManagedBean
 @ViewScoped
@@ -153,6 +160,71 @@ public class PersonaBean {
 		persona.setPais(new Pais(entidad.getPais().getId()));
 		persona.setSexo(new Sexo(entidad.getSexo().getId()));
 		persona.setTipoDocumento(new TipoDocumento(entidad.getTipoDocumento().getId()));
+		
+		System.out.println("Datos de persona: " + persona.toString());
+		
+		if(persona.getCorreoElectronico() == null || persona.getCorreoElectronico().trim()=="" || persona.getCorreoElectronico().isEmpty()) {
+			System.out.println("No se valida correo electronico");
+			persona.setCorreoElectronico(null);
+		}else {
+			System.out.println("Se procede a validar correo electronico");
+			
+			Matcher matcher = Constante.EMAIL_PATTERN.matcher(persona.getCorreoElectronico());
+
+			if (!matcher.matches()) {
+				System.out.println("No cumple formato");
+				
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Formato de correo inválido", ""));
+				listarEntidad();
+				return "";
+				
+			}else {
+				System.out.println("Si cumple formato");
+			}
+		}
+		
+		if(persona.getTelefonoCelular() == null || persona.getTelefonoCelular().trim()=="" || persona.getTelefonoCelular().isEmpty()) {
+			System.out.println("No se valida telefono celular");
+			persona.setTelefonoCelular(null);
+		}else {
+			System.out.println("Se procede a validar telefono celular");
+			
+			Matcher matcher = Constante.CELULAR_PATTERN.matcher(persona.getTelefonoCelular());
+
+			if (!matcher.matches()) {
+				System.out.println("No cumple formato");
+				
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Formato de telefono celular inválido, se espera nueve digitos numéricos", ""));
+				listarEntidad();
+				return "";
+				
+			}else {
+				System.out.println("Si cumple formato");
+			}
+		}
+		
+		if(persona.getTelefonoFijo() == null || persona.getTelefonoFijo().trim()=="" || persona.getTelefonoFijo().isEmpty()) {
+			System.out.println("No se valida telefono fijo");
+			persona.setTelefonoFijo(null);
+		}else {
+			System.out.println("Se procede a validar telefono fijo");
+			
+			Matcher matcher = Constante.FIJO_PATTERN.matcher(persona.getTelefonoFijo());
+
+			if (!matcher.matches()) {
+				System.out.println("No cumple formato");
+				
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Formato de telefono fijo inválido, se espera siete digitos numéricos", ""));
+				listarEntidad();
+				return "";
+				
+			}else {
+				System.out.println("Si cumple formato");
+			}
+		}
 
 		if (persona.getId() == null) {
 			System.out.println("A guardar");
@@ -326,5 +398,6 @@ public class PersonaBean {
 		}
 
 	}
+	
 
 }

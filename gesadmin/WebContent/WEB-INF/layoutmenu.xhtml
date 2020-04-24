@@ -11,51 +11,85 @@
 
 			<p:submenu id="pt_mantenimiento_catalogo"
 				label="Manteniemiento Entidades Catalogo" icon="icon-layers">
+
+				<p:menuitem id="pt_man_anio_fiscal" value="Año Fiscal"
+					icon="icon-dashboard"
+					outcome="/mantenimiento_catalogo/mantenimiento_anio_fiscal" />
+
 				<p:menuitem id="pt_man_bloque" value="Bloque" icon="icon-dashboard"
 					outcome="/mantenimiento_catalogo/mantenimiento_bloque" />
-				<p:menuitem id="pt_man_egreso" value="Egreso" icon="icon-dashboard"
-					outcome="/mantenimiento_catalogo/mantenimiento_egreso" />
-				<p:menuitem id="pt_man_ingreso" value="Ingreso"
+
+				<p:menuitem id="pt_man_cargo" value="Cargo" icon="icon-dashboard"
+					outcome="/mantenimiento_catalogo/mantenimiento_cargo" />
+
+				<p:menuitem id="pt_man_estatus_operacion" value="Estatus Operacion"
 					icon="icon-dashboard"
-					outcome="/mantenimiento_catalogo/mantenimiento_ingreso" />
+					outcome="/mantenimiento_catalogo/mantenimiento_estatus_operacion" />
+
 				<p:menuitem id="pt_man_pais" value="Pais" icon="icon-dashboard"
 					outcome="/mantenimiento_catalogo/mantenimiento_pais" />
-				<p:menuitem id="pt_man_periodo" value="Periodo"
-					icon="icon-dashboard"
-					outcome="/mantenimiento_catalogo/mantenimiento_periodo" />
+
 				<p:menuitem id="pt_man_sexo" value="Sexo" icon="icon-dashboard"
 					outcome="/mantenimiento_catalogo/mantenimiento_sexo" />
-				<p:menuitem id="pt_man_situacion_orden" value="Situacion Orden"
-					icon="icon-dashboard"
-					outcome="/mantenimiento_catalogo/mantenimiento_situacion_orden" />
+
 				<p:menuitem id="pt_man_tipo_documento" value="Tipo Documento"
 					icon="icon-dashboard"
 					outcome="/mantenimiento_catalogo/mantenimiento_tipo_documento" />
-				<p:menuitem id="pt_man_tipo_estatus" value="Tipo Estatus"
+
+
+				<p:menuitem id="pt_man_tipo_operacion" value="Tipo Operacion"
 					icon="icon-dashboard"
-					outcome="/mantenimiento_catalogo/mantenimiento_tipo_estatus" />
-				<p:menuitem id="pt_man_tipo_orden" value="Tipo Orden"
-					icon="icon-dashboard"
-					outcome="/mantenimiento_catalogo/mantenimiento_tipo_orden" />
+					outcome="/mantenimiento_catalogo/mantenimiento_tipo_operacion" />
+
 			</p:submenu>
-			
+
+
 			<p:submenu id="pt_mantenimiento_relaciones"
 				label="Manteniemiento Entidades Relacionadas" icon="icon-layers">
+
+				<p:menuitem id="pt_man_categoria_operacion"
+					value="Categoria Operacion" icon="icon-dashboard"
+					outcome="/mantenimiento_relaciones/mantenimiento_categoria_operacion" />
+
+				<p:menuitem id="pt_man_periodo" value="Periodo"
+					icon="icon-dashboard"
+					outcome="/mantenimiento_relaciones/mantenimiento_periodo" />
+
 				<p:menuitem id="pt_man_persona" value="Persona"
 					icon="icon-dashboard"
 					outcome="/mantenimiento_relaciones/mantenimiento_persona" />
-				<p:menuitem id="pt_man_puesto" value="Puesto"
-					icon="icon-dashboard"
-					outcome="/mantenimiento_relaciones/mantenimiento_puesto" />
-				<p:menuitem id="pt_man_puesto_persona" value="Puesto Persona Situacion"
-					icon="icon-dashboard"
-					outcome="/mantenimiento_relaciones/mantenimiento_puesto_persona_situacion" />
+
 				<p:menuitem id="pt_man_proveedor" value="Proveedor"
 					icon="icon-dashboard"
 					outcome="/mantenimiento_relaciones/mantenimiento_proveedor" />
-				<p:menuitem id="pt_man_proveedor_contacto" value="Proveedor Persona Contacto"
-					icon="icon-dashboard"
+
+				<p:menuitem id="pt_man_proveedor_contacto"
+					value="Proveedor Persona Contacto" icon="icon-dashboard"
 					outcome="/mantenimiento_relaciones/mantenimiento_proveedor_persona_contacto" />
+
+				<p:menuitem id="pt_man_puesto" value="Puesto" icon="icon-dashboard"
+					outcome="/mantenimiento_relaciones/mantenimiento_puesto" />
+
+				<p:menuitem id="pt_man_puesto_persona_cargo"
+					value="Puesto Persona Cargo" icon="icon-dashboard"
+					outcome="/mantenimiento_relaciones/mantenimiento_puesto_persona_cargo" />
+
+			</p:submenu>
+
+			<p:submenu id="pt_operaciones" label="Operaciones" icon="icon-layers">
+
+				<p:menuitem id="pt_ges_operacion" value="Gestion Operaciones"
+					icon="icon-dashboard" outcome="/operaciones/gestion_operacion" />
+
+				<p:menuitem id="pt_pag_operacion" value="Efectuar Pago Operacion"
+					icon="icon-dashboard" outcome="/operaciones/efectuar_operacion" />
+					
+				<p:menuitem id="pt_can_operacion" value="Cancelar Pago Operacion"
+					icon="icon-dashboard" outcome="/operaciones/cancelar_pago_operacion" />
+					
+				<p:menuitem id="pt_con_operacion" value="Consulta Estado Operacion"
+					icon="icon-dashboard" outcome="/operaciones/consultar_operacion" />
+
 			</p:submenu>
 
 

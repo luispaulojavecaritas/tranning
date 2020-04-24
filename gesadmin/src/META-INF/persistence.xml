@@ -9,22 +9,22 @@
 		<jta-data-source>jdbc.gesadmindbPool</jta-data-source>
 		<class>pe.com.gesadmin.entity.Bloque</class>
 		<class>pe.com.gesadmin.entity.ContactoProveedor</class>
-		<class>pe.com.gesadmin.entity.Egreso</class>
-		<class>pe.com.gesadmin.entity.Ingreso</class>
-		<class>pe.com.gesadmin.entity.Orden</class>
+		<class>pe.com.gesadmin.entity.CategoriaOperacion</class>
+		<class>pe.com.gesadmin.entity.Operacion</class>
 		<class>pe.com.gesadmin.entity.Pais</class>
 		<class>pe.com.gesadmin.entity.Persona</class>
 		<class>pe.com.gesadmin.entity.Proveedor</class>
 		<class>pe.com.gesadmin.entity.Puesto</class>
-		<class>pe.com.gesadmin.entity.PuestoPersona</class>
+		<class>pe.com.gesadmin.entity.PuestoPersonaCargo</class>
 		<class>pe.com.gesadmin.entity.Sexo</class>
-		<class>pe.com.gesadmin.entity.SituacionOrden</class>
+		<class>pe.com.gesadmin.entity.EstatusOperacion</class>
 		<class>pe.com.gesadmin.entity.TipoDocumento</class>
-		<class>pe.com.gesadmin.entity.TipoEstatus</class>
-		<class>pe.com.gesadmin.entity.TipoOrden</class>
+		<class>pe.com.gesadmin.entity.Cargo</class>
+		<class>pe.com.gesadmin.entity.TipoOperacion</class>
 		<class>pe.com.gesadmin.entity.Usuario</class>
 		<class>pe.com.gesadmin.entity.Periodo</class>
 		<class>pe.com.gesadmin.entity.Movimiento</class>
+		<class>pe.com.gesadmin.entity.AnioFiscal</class>
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 		<shared-cache-mode>NONE</shared-cache-mode>
 	</persistence-unit>

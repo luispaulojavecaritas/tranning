@@ -1,0 +1,269 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="head">
+		<style type="text/css">
+body {
+	background-color: #F1F1F1;
+}
+</style>
+	</ui:define>
+
+	<ui:define name="content">
+
+		<div class="Section">
+
+			<div class="Container100 ShadowEffect WhiteBack">
+
+				<div class="Container100 ui-fluid">
+					<div class="Container100">
+						<div
+							class="Wid100 MarAuto DispBlock OvHidden FontMerriWeatherRegular BlueDarkest TexAlCenter"
+							style="font-size: 3.0rem; padding-top: 0rem; padding-bottom: 0rem;">EFECTUAR
+							OPERACION</div>
+						<div class="Wid100 OvHidden" style="height: 1rem;"></div>
+
+						<h:form id="frm1">
+							<f:passThroughAttribute name="autocomplete" value="off" />
+							<div class="Container80 Responsive100">
+								<p:panelGrid columns="4" id="pnl"
+									columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+									layout="grid" styleClass="ui-panelgrid-blank"
+									style="border:0px none; background-color:transparent;">
+
+
+									<p:outputLabel for="txtvar1" value="Año Fiscal: " />
+									<p:selectOneMenu id="txtvar1"
+										value="#{operacionPagoBean.idAnioFiscal}" required="true"
+										requiredMessage="Seleccione año fiscal" label="año fiscal"
+										filter="true" filterMatchMode="contains">
+										<f:selectItem itemLabel="Seleccione" itemValue="" />
+										<f:selectItems value="#{operacionPagoBean.listaAnioFiscal}"
+											var="lista" itemLabel="#{lista.descripcion}"
+											itemValue="#{lista.id}" />
+
+										<p:ajax listener="#{operacionPagoBean.listarPeriodo()}"
+											update="frm1" />
+
+									</p:selectOneMenu>
+
+									<p:outputLabel for="txtvar2" value="Periodo:" />
+									<p:selectOneMenu id="txtvar2"
+										value="#{operacionPagoBean.idPeriodo}" required="true"
+										requiredMessage="Seleccione periodo" label="periodo"
+										filter="true" filterMatchMode="contains">
+										<f:selectItem itemLabel="Seleccione" itemValue="" />
+										<f:selectItems value="#{operacionPagoBean.listaPeriodo}"
+											var="lista" itemLabel="#{lista.descripcion}"
+											itemValue="#{lista.id}" />
+									</p:selectOneMenu>
+
+									<p:outputLabel for="txtvar3" value="Deudor" />
+									<p:selectOneMenu id="txtvar3"
+										value="#{operacionPagoBean.idPuesto}" required="true"
+										requiredMessage="Seleccione deudor" label="deudor"
+										filter="true" filterMatchMode="contains">
+										<f:selectItem itemLabel="Seleccione" itemValue="" />
+										<f:selectItems value="#{operacionPagoBean.listaPuesto}"
+											var="lista" itemLabel="#{lista.descripcion}"
+											itemValue="#{lista.id}" />
+									</p:selectOneMenu>
+								</p:panelGrid>
+							</div>
+
+							<div class="Container20 Responsive100">
+								<p:commandButton value="Consultar"
+									actionListener="#{operacionPagoBean.listarEntidad()}"
+									update="frm1 frm2 frm3 message" icon="fa fa-save"
+									styleClass="GreenButton" />
+								<div class="EmptyBox5" />
+								<p:commandButton value="Limpiar"
+									actionListener="#{operacionPagoBean.limpiar()}"
+									update="frm1 frm2 message frm3" icon="fa fa-refresh"
+									styleClass="GoldButton" process="@this" immediate="true" />
+							</div>
+						</h:form>
+
+						<div class="EmptyBox10" />
+
+
+						<h:form id="frm3">
+							<div class="Container100 Responsive100">
+								<p:panel id="panel" header="Información Detallada de Operacion "
+									rendered="#{operacionPagoBean.booDetalle}"
+									style="margin-bottom:20px">
+									<p:panelGrid columns="4"
+										columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+										layout="grid" styleClass="ui-panelgrid-blank"
+										style="border:0px none; background-color:transparent;">
+
+										<p:outputLabel value="Id: " />
+										<h:outputText
+											value="#{operacionPagoBean.entidadseleccionada.id}" />
+
+										<p:outputLabel value="Tipo Operacion: " />
+										<h:outputText
+											value="#{operacionPagoBean.entidadseleccionada.tipoOperacion.descripcion}" />
+
+										<p:outputLabel value="Categoría Operacion: " />
+										<h:outputText
+											value="#{operacionPagoBean.entidadseleccionada.categoriaOperacion.descripcion}" />
+
+										<p:outputLabel value="Descripcion:" />
+										<h:outputText
+											value="#{operacionPagoBean.entidadseleccionada.descripcion}" />
+
+										<p:outputLabel value="Periodo" />
+										<h:outputText
+											value="#{operacionPagoBean.entidadseleccionada.periodo.descripcion} - #{operacionPagoBean.entidadseleccionada.periodo.anioFiscal.descripcion}" />
+
+										<p:outputLabel value="Deudor:" />
+										<h:outputText
+											value="#{operacionPagoBean.entidadseleccionada.puesto.descripcion}" />
+
+										<p:outputLabel value="Acreedor:" />
+										<h:outputText
+											value="#{operacionPagoBean.entidadseleccionada.proveedor.razonSocial}" />
+
+										<p:outputLabel value="Fecha Creacion Operacion:" />
+										<h:outputText
+											value="#{operacionPagoBean.entidadseleccionada.registro}">
+											<f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss"
+												timeZone="GMT-5" />
+										</h:outputText>
+
+										<p:outputLabel value="Ultimo Dia de Pago" />
+										<h:outputText
+											value="#{operacionPagoBean.entidadseleccionada.fechaVencimiento}">
+											<f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss"
+												timeZone="GMT-5" />
+										</h:outputText>
+
+
+										<p:outputLabel value="Estatus Operacion:" />
+										<h:outputText
+											value="#{operacionPagoBean.entidadseleccionada.estatusOperacion.descripcion}" />
+
+										<p:outputLabel value="Efectúa Pago: " />
+										<p:selectOneMenu value="#{operacionPagoBean.idPersona}"
+											required="true"
+											requiredMessage="Seleccione persona que efectúa el pago"
+											
+											label="responsable pago" filter="true"
+											filterMatchMode="contains">
+											<f:selectItem itemLabel="Seleccione" itemValue="" />
+											<f:selectItems
+												value="#{operacionPagoBean.listaPuestoPersonaCargo}"
+												var="lista"
+												itemLabel="#{lista.persona.nombre} #{lista.persona.paterno} #{lista.persona.materno} - #{lista.cargo.descripcion}"
+												itemValue="#{lista.persona.id}" />
+										</p:selectOneMenu>
+
+									</p:panelGrid>
+
+										<p:commandButton value="Registrar Pago"
+											actionListener="#{operacionPagoBean.registrar_Pago()}"
+											update="frm1 frm2 frm3 message" icon="fa fa-save"
+											styleClass="GreenButton" />
+								</p:panel>
+							</div>
+						</h:form>
+
+
+						<div class="Container100 ui-fluid">
+							<p:messages id="message" autoUpdate="false" closable="true" />
+						</div>
+
+
+						<div class="EmptyBox10" />
+						<h:form id="frm2">
+							<f:passThroughAttribute name="autocomplete" value="off" />
+
+							<p:panel id="panFiltro" header="Lista de operaciones registrados">
+								<div class="Container">
+									<div class="Container60 Responsive100"></div>
+									<div class="Container40 Responsive100">
+										<p:panelGrid columns="2" layout="grid"
+											styleClass="ui-panelgrid-blank"
+											style="border:0px none; background-color:transparent;">
+											<p:inputText id="counter" value="#{operacionPagoBean.filtro}"
+												placeholder="Filtrar registros"
+												onkeyup="this.value = this.value.toUpperCase();" />
+											<p:commandButton value="Filtar"
+												action="#{operacionPagoBean.filtrar()}"
+												update="frm2 message" />
+										</p:panelGrid>
+									</div>
+
+
+									<div class="Container100 Responsive100">
+
+										<p:dataTable id="tbl" var="per"
+											value="#{operacionPagoBean.listafiltro}"
+											selectionMode="single"
+											selection="#{operacionPagoBean.entidadseleccionada}"
+											rowKey="#{per.id}" rows="25" paginator="true"
+											paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+											rowsPerPageTemplate="25,50,75"
+											emptyMessage="No se encontraron registros" reflow="true">
+
+											<p:ajax event="rowSelect"
+												listener="#{operacionPagoBean.onRowSelect}"
+												update="frm1 frm2 frm3" />
+											<p:ajax event="rowUnselect"
+												listener="#{operacionPagoBean.onRowUnselect}"
+												update="frm1 frm2 frm3" />
+
+											<p:column headerText="Periodo - Anio Fiscal">
+												<h:outputText
+													value="#{per.periodo.descripcion} - #{per.periodo.anioFiscal.descripcion}" />
+											</p:column>
+
+											<p:column headerText="Categoria">
+												<h:outputText value="#{per.categoriaOperacion.descripcion}" />
+											</p:column>
+
+											<p:column headerText="Deudor">
+												<h:outputText value="#{per.puesto.descripcion}" />
+											</p:column>
+
+											<p:column headerText="Beneficiario">
+												<h:outputText value="#{per.proveedor.razonSocial}" />
+											</p:column>
+
+											<p:column headerText="Monto">
+												<h:outputText value="#{per.monto}">
+													<f:convertNumber type="currency" currencySymbol="S/."
+														maxIntegerDigits="20" maxFractionDigits="2" />
+												</h:outputText>
+											</p:column>
+											
+											<p:column headerText="Estatus">
+												<h:outputText value="#{per.estatusOperacion.descripcion}" />
+											</p:column>											
+
+											<p:column headerText="Fecha registro">
+												<h:outputText value="#{per.registro}">
+													<f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss"
+														timeZone="GMT-5" />
+												</h:outputText>
+											</p:column>
+
+										</p:dataTable>
+									</div>
+								</div>
+							</p:panel>
+						</h:form>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+	</ui:define>
+
+</ui:composition>

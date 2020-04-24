@@ -16,7 +16,13 @@ import pe.com.gesadmin.transfer.PuestoTransfer;
 public interface PuestoDao {
     
     
-    public List<Puesto> findAll();    
+    public List<Puesto> findAll();  
+    
+    public List<Puesto> findAllActive(); 
+        
+    public List<Puesto> findByBoqueIsADM(); 
+    
+    public List<Puesto> findByBoqueNotIsADM(); 
     
     public List<PuestoTransfer> findTransferAll(); 
   

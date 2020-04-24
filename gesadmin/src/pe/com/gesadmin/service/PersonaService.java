@@ -22,6 +22,8 @@ public interface PersonaService {
     
     public List<Persona> listar();    
     
+    public List<Persona> listarActivo();  
+    
     public List<Persona> listarPorNroDoc(String nroDoc); 
     
     public List<PersonaTransfer> listarTransfer(); 

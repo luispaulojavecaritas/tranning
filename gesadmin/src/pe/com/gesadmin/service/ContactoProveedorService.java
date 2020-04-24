@@ -25,7 +25,8 @@ public interface ContactoProveedorService {
     public List<ContactoProveedor> listarIdProveedor(Integer idProveedor); 
     
     public List<ContactoProveedor> listar();
-
+    
+    public List<ContactoProveedor> listarActivo();
   
     public void crear (ContactoProveedor entidad); 
     

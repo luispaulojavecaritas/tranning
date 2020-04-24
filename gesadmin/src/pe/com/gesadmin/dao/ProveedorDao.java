@@ -16,7 +16,13 @@ public interface ProveedorDao {
     
     public List<Proveedor> findAll();  
     
+    public List<Proveedor> findAllActive(); 
+    
     public List<Proveedor> findByRuc(String ruc);
+    
+    public List<Proveedor> findByRucIsSarita();
+    
+    public List<Proveedor> findByRucNotIsSarita();
     
     public void create (Proveedor entidad); 
     

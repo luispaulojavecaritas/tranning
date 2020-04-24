@@ -80,10 +80,7 @@ public class UsuarioSesionBean implements Serializable{
 		HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
 		session.invalidate(); // Cierre de sesion
 		RequestContext.getCurrentInstance().execute("iraLogin()");
-
 	}
-	
-	
 	
 
 }

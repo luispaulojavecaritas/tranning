@@ -21,6 +21,8 @@ public interface TipoDocumentoService {
     
     public List<TipoDocumento> listar(); 
     
+    public List<TipoDocumento> listarActivo(); 
+    
     public void crear (TipoDocumento entidad); 
     
     public void actualizar (TipoDocumento entidad); 

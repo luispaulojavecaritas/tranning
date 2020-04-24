@@ -27,6 +27,26 @@ public class MovimientoDaoImpl implements MovimientoDao{
 		lista = tq.getResultList();
 		return lista;
 	}
+	
+	@Override
+	public List<Movimiento> findAll() {
+		// TODO Auto-generated method stub
+		List<Movimiento> lista = new ArrayList<>();
+		String query = "SELECT b FROM Movimiento b";
+		TypedQuery<Movimiento> tq = em.createQuery(query, Movimiento.class);
+		lista = tq.getResultList();
+		return lista;
+	}
+	
+	@Override
+	public List<Movimiento> findAllActive() {
+		// TODO Auto-generated method stub
+		List<Movimiento> lista = new ArrayList<>();
+		String query = "SELECT b FROM Movimiento b where b.estado = 1";
+		TypedQuery<Movimiento> tq = em.createQuery(query, Movimiento.class);
+		lista = tq.getResultList();
+		return lista;
+	}
 
 	@Override
 	public void create(Movimiento entidad) {
