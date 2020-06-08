@@ -302,6 +302,12 @@ body {
 														maxIntegerDigits="20" maxFractionDigits="2" />
 												</h:outputText>
 											</p:column>
+											<p:column headerText="Estado">
+												<h:outputText value="#{per.estatusOperacion.descripcion}">
+													<f:convertNumber type="currency" currencySymbol="S/."
+														maxIntegerDigits="20" maxFractionDigits="2" />
+												</h:outputText>
+											</p:column>
 
 											<p:column headerText="Fecha registro">
 												<h:outputText value="#{per.registro}">

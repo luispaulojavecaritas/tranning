@@ -31,21 +31,20 @@ body {
 							<div class="Container80 Responsive100">
 								<p:panelGrid columns="4"
 									columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
-									layout="grid" styleClass="ui-panelgrid-blank"
-									style="border:0px none; background-color:transparent;">
+									layout="grid" styleClass="ui-panelgrid-blank">
 
 									<p:outputLabel value="Id:" />
 									<h:outputText value="#{contactoProveedorBean.entidad.id}" />
 
 									<p:outputLabel for="txtvar2" value="Proveedor:" />
-									<p:selectOneMenu id="txtvar2"
+									<p:selectOneMenu id="txtvar2" 
 										value="#{contactoProveedorBean.entidad.proveedor.id}"
 										required="true" requiredMessage="Seleccione proveedor"
 										label="proveedor" filter="true" filterMatchMode="contains">
 										<f:selectItem itemLabel="Seleccione" itemValue="" />
 										<f:selectItems value="#{contactoProveedorBean.listaProveedor}"
 											var="lista" itemLabel="#{lista.razonSocial}"
-											itemValue="#{lista.id}" />
+											itemValue="#{lista.id}"/>
 									</p:selectOneMenu>
 
 									<p:outputLabel for="txtvar3" value="Persona" />
