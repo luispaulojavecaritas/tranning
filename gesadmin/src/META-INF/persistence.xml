@@ -25,6 +25,11 @@
 		<class>pe.com.gesadmin.entity.Periodo</class>
 		<class>pe.com.gesadmin.entity.Movimiento</class>
 		<class>pe.com.gesadmin.entity.AnioFiscal</class>
+		<class>pe.com.gesadmin.entity.Amonestacion</class>
+		<class>pe.com.gesadmin.entity.MedidaAgua</class>
+		<class>pe.com.gesadmin.entity.MedidaLuz</class>
+		<class>pe.com.gesadmin.entity.TipoAmonestacion</class>
+		<class>pe.com.gesadmin.entity.Variable</class>
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 		<shared-cache-mode>NONE</shared-cache-mode>
 	</persistence-unit>

@@ -184,7 +184,53 @@ CREATE TABLE usuario (
 	estado int NOT NULL,
 	registro timestamp DEFAULT CURRENT_TIMESTAMP
 	);
-    
+
+CREATE TABLE variable(
+    id serial PRIMARY KEY,
+	descripcion varchar(100) NOT NULL,
+	monto decimal NOT NULL,
+	estado int NOT NULL,
+	registro timestamp DEFAULT CURRENT_TIMESTAMP
+	);
+
+CREATE TABLE medida_agua(
+    id serial PRIMARY KEY,
+	id_periodo int NOT NULL,
+	id_puesto int NOT NULL,
+	medida decimal NOT NULL,
+	estado int NOT NULL,
+	registro timestamp DEFAULT CURRENT_TIMESTAMP
+	);
+
+CREATE TABLE medida_luz(
+    id serial PRIMARY KEY,
+	id_periodo int NOT NULL,
+	id_puesto int NOT NULL,
+	medida decimal NOT NULL,
+	estado int NOT NULL,
+	registro timestamp DEFAULT CURRENT_TIMESTAMP
+	);
+
+CREATE TABLE tipo_amonestacion(
+    id serial PRIMARY KEY,
+	descripcion varchar(100) NOT NULL,
+	estado int NOT NULL,
+	registro timestamp DEFAULT CURRENT_TIMESTAMP
+	);
+
+CREATE TABLE amonestacion(
+    id serial PRIMARY KEY,
+	id_periodo int NOT NULL,
+	id_puesto int NOT NULL,
+	id_pesona int NOT NULL,
+	id_tipo_amonestacion int NOT NULL,
+	descripcion varchar(1500) NOT NULL,
+	estado int NOT NULL,
+	registro timestamp DEFAULT CURRENT_TIMESTAMP
+	);
+
+
+	
     
 -- creacion de llaves foraneas
 alter table puesto add constraint fk_puesto_bloque foreign key (id_bloque) references bloque(id);
@@ -215,6 +261,18 @@ alter table operacion add constraint fk_operacion_periodo foreign key (id_period
 
 alter table usuario add constraint fk_usuario_persona foreign key (id_persona) references persona(id);
 
+alter table medida_agua add constraint fk_medidaagua_periodo foreign key (id_periodo) references periodo(id);
+alter table medida_agua add constraint fk_medidaagua_puesto foreign key (id_puesto) references puesto(id);
+
+alter table medida_luz add constraint fk_medidaluz_periodo foreign key (id_periodo) references periodo(id);
+alter table medida_luz add constraint fk_medidaluz_puesto foreign key (id_puesto) references puesto(id);
+
+alter table amonestacion add constraint fk_amonestacion_periodo foreign key (id_periodo) references periodo(id);
+alter table amonestacion add constraint fk_amonestacion_puesto foreign key (id_puesto) references puesto(id);
+alter table amonestacion add constraint fk_amonestacion_persona foreign key (id_persona) references persona(id);
+alter table amonestacion add constraint fk_amonestacion_tipoamonestacion foreign key (id_tipo_amonestacion) references tipo_amonestacion(id);
+
+
 --creacion restriccion de clave unica
 alter table periodo ADD CONSTRAINT periodo_uniqueKey UNIQUE (descripcion, id_anio_fiscal);
 alter table anio_fiscal ADD CONSTRAINT aniofiscal_uniqueKey UNIQUE (descripcion);
@@ -225,16 +283,8 @@ alter table sexo ADD CONSTRAINT sexo_uniqueKey UNIQUE (descripcion);
 alter table puesto ADD CONSTRAINT puesto_uniqueKey UNIQUE (descripcion, id_bloque);
 alter table estatus_operacion ADD CONSTRAINT estatusoperacion_uniqueKey UNIQUE (descripcion);
 alter table tipo_documento ADD CONSTRAINT tipodocumento_uniqueKey UNIQUE (descripcion);
-
-
-
-
-
-
-
-
-
-
+alter table medida_agua ADD CONSTRAINT medidaagua_uniqueKey UNIQUE (id_periodo, id_puesto);
+alter table medida_luz ADD CONSTRAINT medidaluz_uniqueKey UNIQUE (id_periodo, id_puesto);
 
 
 
@@ -246,10 +296,10 @@ alter table tipo_documento ADD CONSTRAINT tipodocumento_uniqueKey UNIQUE (descri
 -- alter table operacion add column id_categoria_operacion int NOT NULL;
 -- ALTER TABLE operacion ALTER COLUMN id_puesto DROP NOT NULL;
 -- ALTER TABLE movimiento ALTER COLUMN operacion_importe  decimal;
-
-
-
-
+-- ALTER TABLE table_name ADD COLUMN new_column_name data_type;
+-- ALTER TABLE medida_agua ADD COLUMN id_puesto int NOT NULL;
+-- ALTER TABLE medida_luz ADD COLUMN id_puesto int NOT NULL;
+-- ALTER TABLE amonestacion RENAME COLUMN id_pesona TO id_persona;
 
 
 
@@ -261,10 +311,10 @@ insert into bloque (descripcion, estado) values ('B', 1);
 
 
 insert into puesto (id_bloque, descripcion, estado) values (1, 'OFIADM', 1);
-insert into puesto (descripcion, estado) values (2,'1A', 1);
-insert into puesto (descripcion, estado) values (2,'2A', 1);
-insert into puesto (descripcion, estado) values (3,'1B', 1);
-insert into puesto (descripcion, estado) values (3,'2B', 1);
+insert into puesto (id_bloque, descripcion, estado) values (2,'1A', 1);
+insert into puesto (id_bloque, descripcion, estado) values (2,'2A', 1);
+insert into puesto (id_bloque, descripcion, estado) values (3,'1B', 1);
+insert into puesto (id_bloque, descripcion, estado) values (3,'2B', 1);
 
 
 insert into pais (descripcion, estado) values ('PERU', 1);
@@ -302,3 +352,10 @@ insert into tipo_operacion (descripcion, estado) values ('EGRESO', 1);
 insert into persona (nombre, paterno, materno, id_tipo_documento, nro_documento, id_pais, direccion, telefono_fijo, telefono_celular, correo_electronico, id_sexo, estado) values ('LUIS PAULO', 'JAVE', 'CARITAS', 1, '70498682', 1, 'MZ. B LT. 6 ASOC. VIV. SAN FRANCISCO 4TA ETAPA - CARABAYLLO', '4304588', '987814050', 'PAULO.JAVE.CARITAS@GMAIL.COM', 1, 1);
 
 insert into usuario (id_persona, usuario, clave, estado, rol) values (1, '70498682', '123456', 1, 'ROLE_ADMIN'); 
+
+insert into variable (descripcion, monto, estado) values ('ALUMBRADO PUBLICO', 3.70, 1);
+insert into variable (descripcion, monto, estado) values ('COSTO LUZ', 0.70, 1);
+insert into variable (descripcion, monto, estado) values ('COSTO AGUA', 13.00, 1);
+
+
+

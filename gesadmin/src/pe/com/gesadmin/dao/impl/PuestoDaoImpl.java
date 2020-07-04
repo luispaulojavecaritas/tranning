@@ -77,6 +77,5 @@ public class PuestoDaoImpl implements PuestoDao {
         List<Puesto> lista = tq.getResultList();
         return lista;
 	}
-
 	
 }

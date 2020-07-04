@@ -40,7 +40,15 @@
 				<p:menuitem id="pt_man_tipo_operacion" value="Tipo Operacion"
 					icon="icon-dashboard"
 					outcome="/mantenimiento_catalogo/mantenimiento_tipo_operacion" />
+					
+				<p:menuitem id="pt_tipo_amonestacion" value="Tipo Amonestacion"
+					icon="icon-dashboard"
+					outcome="/mantenimiento_catalogo/mantenimiento_tipo_amonestacion" />
 
+				<p:menuitem id="pt_man_variable" value="Variables"
+					icon="icon-dashboard"
+					outcome="/mantenimiento_catalogo/mantenimiento_variable" />
+					
 			</p:submenu>
 
 
@@ -83,13 +91,21 @@
 
 				<p:menuitem id="pt_pag_operacion" value="Efectuar Pago Operacion"
 					icon="icon-dashboard" outcome="/operaciones/efectuar_operacion" />
-					
+
 				<p:menuitem id="pt_can_operacion" value="Cancelar Pago Operacion"
-					icon="icon-dashboard" outcome="/operaciones/cancelar_pago_operacion" />
-					
+					icon="icon-dashboard"
+					outcome="/operaciones/cancelar_pago_operacion" />
+
 				<p:menuitem id="pt_con_operacion" value="Consulta Estado Operacion"
 					icon="icon-dashboard" outcome="/operaciones/consultar_operacion" />
 
+			</p:submenu>
+			
+			<p:submenu id="pt_amonestacion" label="Amonestaciones" icon="icon-layers">
+				<p:menuitem id="pt_ges_amonestacion" value="Gestion Amonestaciones"
+					icon="icon-dashboard" outcome="/amonestaciones/gestion_amonestacion" />
+				<p:menuitem id="pt_con_amonestacion" value="Consulta Amonestaciones"
+					icon="icon-dashboard" outcome="/amonestaciones/consultar_amonestacion" />
 			</p:submenu>
 
 
