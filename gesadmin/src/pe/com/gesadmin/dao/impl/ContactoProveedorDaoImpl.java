@@ -11,7 +11,6 @@ import javax.persistence.TypedQuery;
 
 import pe.com.gesadmin.dao.ContactoProveedorDao;
 import pe.com.gesadmin.entity.ContactoProveedor;
-import pe.com.gesadmin.entity.CategoriaOperacion;
 import pe.com.gesadmin.transfer.ContactoProveedorTransfer;
 
 @Stateless

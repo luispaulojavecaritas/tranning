@@ -18,6 +18,10 @@ public interface OperacionDao {
     public List<Operacion> findByPeriodoId(Integer idPeriodo);    
     
     public List<Operacion> findByPeriodoIdPuestoIdEstatusOperacionId(Integer idPeriodo, Integer idPuesto, Integer idEstatusOperacion);
+    
+    public List<Operacion> findByPeriodoactualCategoriaLuzAgua();
+    
+    public List<Operacion> findByPeriodoactualCategoriaAdministracion();
         
     public List<Operacion> findAll();
     

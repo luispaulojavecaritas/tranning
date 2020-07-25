@@ -52,4 +52,10 @@ public class AmonestacionServiceImpl implements AmonestacionService {
 		return amonestacionDao.findByPeriodoId(idPeriodo);
 	}
 
+	@Override
+	public List<Amonestacion> listarPorAnioId(Integer idAnio) {
+		// TODO Auto-generated method stub
+		return amonestacionDao.findByAnioId(idAnio);
+	}
+
 }

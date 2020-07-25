@@ -13,29 +13,28 @@ import javax.faces.context.FacesContext;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.UnselectEvent;
 
-import pe.com.gesadmin.entity.MedidaLuz;
-import pe.com.gesadmin.service.MedidaLuzService;
-import pe.com.gesadmin.service.impl.MedidaLuzServiceImpl;
-
+import pe.com.gesadmin.entity.TipoServicio;
+import pe.com.gesadmin.service.TipoServicioService;
+import pe.com.gesadmin.service.impl.TipoServicioServiceImpl;
 
 @ManagedBean
 @ViewScoped
-public class MedidaLuzBean {
+public class TipoServicioBean {
 
-	private List<MedidaLuz> lista = new ArrayList<>();
-	private List<MedidaLuz> listafiltro;
-	private MedidaLuz entidad = new MedidaLuz();
-	private MedidaLuz entidadseleccionada = new MedidaLuz();
+	private List<TipoServicio> lista = new ArrayList<>();
+	private List<TipoServicio> listafiltro;
+	private TipoServicio entidad = new TipoServicio();
+	private TipoServicio entidadseleccionada = new TipoServicio();
 
 	private String filtro;
 
 	@EJB
-	private MedidaLuzService servicio = new MedidaLuzServiceImpl();
+	private TipoServicioService servicio = new TipoServicioServiceImpl();
 
-	public MedidaLuzBean() {
+	public TipoServicioBean() {
 		// TODO Auto-generated constructor stub
 		filtro = null;
-		entidad = new MedidaLuz();
+		entidad = new TipoServicio();
 	}
 
 	@PostConstruct
@@ -43,39 +42,39 @@ public class MedidaLuzBean {
 		listarEntidad();
 	}
 
-	public List<MedidaLuz> getLista() {
+	public List<TipoServicio> getLista() {
 		return lista;
 	}
 
-	public void setLista(List<MedidaLuz> lista) {
+	public void setLista(List<TipoServicio> lista) {
 		this.lista = lista;
 	}
 
-	public List<MedidaLuz> getListafiltro() {
+	public List<TipoServicio> getListafiltro() {
 		return listafiltro;
 	}
 
-	public void setListafiltro(List<MedidaLuz> listafiltro) {
+	public void setListafiltro(List<TipoServicio> listafiltro) {
 		this.listafiltro = listafiltro;
 	}
 
-	public MedidaLuz getEntidad() {
+	public TipoServicio getEntidad() {
 		return entidad;
 	}
 
-	public void setEntidad(MedidaLuz entidad) {
+	public void setEntidad(TipoServicio entidad) {
 		this.entidad = entidad;
 	}
 
-	public MedidaLuz getEntidadseleccionada() {
+	public TipoServicio getEntidadseleccionada() {
 		return entidadseleccionada;
 	}
 
-	public void setEntidadseleccionada(MedidaLuz entidadseleccionada) {
+	public void setEntidadseleccionada(TipoServicio entidadseleccionada) {
 		this.entidadseleccionada = entidadseleccionada;
 	}
 
-	public void setServicio(MedidaLuzService servicio) {
+	public void setServicio(TipoServicioService servicio) {
 		this.servicio = servicio;
 	}
 
@@ -91,17 +90,10 @@ public class MedidaLuzBean {
 
 		if (entidad.getId() == null) {
 			System.out.println("A guardar");
-			try { 
-				servicio.crear(entidad);
-				FacesContext.getCurrentInstance().addMessage(null,
-						new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro creado", ""));
-				
-			} catch (Exception e) {
-				// TODO: handle exception
-				System.out.println("Excepcion: " + e.getCause().toString());
-				FacesContext.getCurrentInstance().addMessage(null,
-						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al crear registro", ""));
-			}
+
+			// TODO: handle exception
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_WARN, "No se permite crear nuevos registros, solo actualizar", ""));
 
 		} else {
 			System.out.println("A actualizar");
@@ -148,7 +140,7 @@ public class MedidaLuzBean {
 
 	public void recuperar() {
 
-		entidad = new MedidaLuz();
+		entidad = new TipoServicio();
 
 		try {
 			entidad = servicio.recuperar(entidadseleccionada.getId());
@@ -171,14 +163,14 @@ public class MedidaLuzBean {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", "Problemas al recuperar registros"));
 		}
-		
+
 		listafiltro = lista;
 	}
 
 	public void onRowSelect(SelectEvent event) {
 		if (entidadseleccionada == null) {
-			entidad = new MedidaLuz();
-			entidadseleccionada = new MedidaLuz();
+			entidad = new TipoServicio();
+			entidadseleccionada = new TipoServicio();
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_WARN, "No se selecciono ningun registro", ""));
 		} else {
@@ -189,16 +181,16 @@ public class MedidaLuzBean {
 	}
 
 	public void onRowUnselect(UnselectEvent event) {
-		entidad = new MedidaLuz();
-		entidadseleccionada = new MedidaLuz();
+		entidad = new TipoServicio();
+		entidadseleccionada = new TipoServicio();
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO, "Se anulo seleccion de registro ", ""));
 	}
 
 	public void limpiar() {
-		entidad = new MedidaLuz();
-		entidadseleccionada = new MedidaLuz();
-		
+		entidad = new TipoServicio();
+		entidadseleccionada = new TipoServicio();
+
 		listafiltro = lista;
 
 	}
@@ -213,7 +205,7 @@ public class MedidaLuzBean {
 		listafiltro = new ArrayList<>();
 		System.out.println("Texto a filtra: " + filtro);
 		for (int i = 0; i <= lista.size() - 1; i++) {
-			if (lista.get(i).getPuesto().getDescripcion().contains(filtro)) {
+			if (lista.get(i).getDescripcion().contains(filtro)) {
 				System.out.println("lista: " + lista.get(i).toString());
 				listafiltro.add(lista.get(i));
 			}

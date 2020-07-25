@@ -9,7 +9,7 @@ import java.util.List;
 
 import javax.ejb.Local;
 
-import pe.com.gesadmin.entity.MedidaLuz;
+import pe.com.gesadmin.entity.TipoServicio;
 
 /**
  *
@@ -17,16 +17,17 @@ import pe.com.gesadmin.entity.MedidaLuz;
  */
 
 @Local
-public interface MedidaLuzService {
+public interface TipoServicioService {
     
-    public List<MedidaLuz> listar(); 
+    public List<TipoServicio> listar(); 
     
-    public List<MedidaLuz> listarActivo();
+    public List<TipoServicio> listarActivo();
     
-    public void crear (MedidaLuz entidad); 
+    public void crear (TipoServicio entidad); 
     
-    public void actualizar (MedidaLuz entidad); 
+    public void actualizar (TipoServicio entidad); 
     
-    public MedidaLuz recuperar (Integer id); 
+    public TipoServicio recuperar (Integer id); 
+    
     
 }

@@ -177,4 +177,24 @@ public class OperacionDaoImpl implements OperacionDao {
 		em.persist(movimiento);
 	}
 
+	@Override
+	public List<Operacion> findByPeriodoactualCategoriaLuzAgua(){
+		// TODO Auto-generated method stub
+		List<Operacion> lista = new ArrayList<>();
+		String query = "SELECT b FROM Operacion b where b.periodo.estado = 1 and b.estado = 1 and b.categoriaOperacion.id in (1,2)";
+		TypedQuery<Operacion> tq = em.createQuery(query, Operacion.class);
+		lista = tq.getResultList();
+		return lista;
+	}
+
+	@Override
+	public List<Operacion> findByPeriodoactualCategoriaAdministracion() {
+		// TODO Auto-generated method stub
+		List<Operacion> lista = new ArrayList<>();
+		String query = "SELECT b FROM Operacion b where b.periodo.estado = 1 and b.estado = 1 and b.categoriaOperacion.id = 3";
+		TypedQuery<Operacion> tq = em.createQuery(query, Operacion.class);
+		lista = tq.getResultList();
+		return lista;
+	}
+
 }

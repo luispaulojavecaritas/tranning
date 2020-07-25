@@ -1,0 +1,145 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="head">
+		<style type="text/css">
+body {
+	background-color: #F1F1F1;
+}
+</style>
+	</ui:define>
+
+	<ui:define name="content">
+
+		<div class="Section">
+
+			<div class="Container100 ShadowEffect WhiteBack">
+
+				<div class="Container100 ui-fluid">
+					<div class="Container100">
+						<div
+							class="Wid100 MarAuto DispBlock OvHidden FontMerriWeatherRegular BlueDarkest TexAlCenter"
+							style="font-size: 3.0rem; padding-top: 0rem; padding-bottom: 0rem;">MANTENIMIENTO
+							CARGO</div>
+						<div class="Wid100 OvHidden" style="height: 1rem;"></div>
+
+						<h:form id="frm1">
+							<f:passThroughAttribute name="autocomplete" value="off" />
+							<p:panel id="pnlEntidad"
+								header="Creacion - Actualizacion de cargo"
+								style="margin-bottom:20px">
+								<div class="Container">
+									<div class="Container80 Responsive100">
+										<p:panelGrid columns="4"
+											columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+											layout="grid" styleClass="ui-panelgrid-blank"
+											style="border:0px none; background-color:transparent;">
+
+											<p:outputLabel value="Id:" />
+											<h:outputText value="#{cargoBean.entidad.id}" />
+
+											<p:outputLabel for="txtvar2" value="Descripción:" />
+											<p:inputText id="txtvar2"
+												value="#{cargoBean.entidad.descripcion}" required="true"
+												requiredMessage="Ingrese descripcion" label="descripcion"
+												onkeyup="this.value = this.value.toUpperCase();" />
+
+
+											<p:outputLabel for="txtvar10" value="Estado: " />
+											<p:selectOneMenu id="txtvar10"
+												value="#{cargoBean.entidad.estado}" required="true"
+												requiredMessage="Seleccione estado" label="estado"
+												filter="true" filterMatchMode="contains">
+												<f:selectItem itemLabel="Seleccione" itemValue="" />
+												<f:selectItem itemLabel="ACTIVO" itemValue="1" />
+												<f:selectItem itemLabel="INACTIVO" itemValue="0" />
+											</p:selectOneMenu>
+
+										</p:panelGrid>
+									</div>
+
+									<div class="Container20 Responsive100">
+										<p:commandButton value="Guardar"
+											actionListener="#{cargoBean.guardar()}" update="frm1 frm2"
+											icon="fa fa-save" styleClass="GreenButton" />
+										<div class="EmptyBox5" />
+										<p:commandButton value="Limpiar"
+											actionListener="#{cargoBean.limpiar()}" update="frm1 frm2"
+											icon="fa fa-refresh"  process="@this"
+											immediate="true" />
+									</div>
+								</div>
+							</p:panel>
+						</h:form>
+
+
+
+						<div class="EmptyBox10" />
+						<h:form id="frm2">
+							<f:passThroughAttribute name="autocomplete" value="off" />
+
+							<p:panel id="panFiltro" header="Lista de cargos registrados">
+								<div class="Container">
+									<div class="Container60 Responsive100"></div>
+									<div class="Container40 Responsive100">
+										<p:panelGrid columns="2" layout="grid"
+											styleClass="ui-panelgrid-blank"
+											style="border:0px none; background-color:transparent;">
+											<p:inputText id="counter" value="#{cargoBean.filtro}"
+												placeholder="Filtrar registros"
+												onkeyup="this.value = this.value.toUpperCase();" />
+											<p:commandButton value="Filtar"
+												action="#{cargoBean.filtrar()}" update="frm2" />
+										</p:panelGrid>
+									</div>
+
+
+									<div class="Container100 Responsive100">
+
+										<p:dataTable id="tbl" var="per"
+											value="#{cargoBean.listafiltro}" selectionMode="single"
+											selection="#{cargoBean.entidadseleccionada}"
+											rowKey="#{per.id}" rows="25" paginator="true"
+											paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+											rowsPerPageTemplate="25,50,75"
+											emptyMessage="No se encontraron registros" reflow="true">
+
+											<p:ajax event="rowSelect" listener="#{cargoBean.onRowSelect}"
+												update="frm1 frm2" />
+											<p:ajax event="rowUnselect"
+												listener="#{cargoBean.onRowUnselect}" update="frm1 frm2" />
+
+
+											<p:column headerText="Id">
+												<h:outputText value="#{per.id}" />
+											</p:column>
+											<p:column headerText="Descripcion">
+												<h:outputText value="#{per.descripcion}" />
+											</p:column>
+											<p:column headerText="Estado">
+												<h:outputText value="#{per.estado}" />
+											</p:column>
+
+											<p:column headerText="Fecha registro">
+												<h:outputText value="#{per.registro}">
+													<f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss"
+														timeZone="GMT-5" />
+												</h:outputText>
+											</p:column>
+										</p:dataTable>
+									</div>
+								</div>
+							</p:panel>
+						</h:form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+	</ui:define>
+
+</ui:composition>

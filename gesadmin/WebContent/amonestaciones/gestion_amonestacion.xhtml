@@ -59,19 +59,19 @@ body {
 											itemValue="#{lista.id}" />
 
 										<p:ajax listener="#{amonestacionBean.listarPuestosPersonaCargo()}"
-											update="frm1" />
+											update="frm1:txtvar5" />
 									</p:selectOneMenu>
 
-									<p:outputLabel for="txtvar5" value="Persona:" />
+									<p:outputLabel for="txtvar5" value="Persona - Cargo:" />
 									<p:selectOneMenu id="txtvar5"
-										value="#{amonestacionBean.entidad.persona.id}" required="true"
-										requiredMessage="Seleccione persona" label="persona"
+										value="#{amonestacionBean.entidad.puestoPersonaCargo.id}" required="true"
+										requiredMessage="Seleccione persona - cargo" label="persona -cargo"
 										filter="true" filterMatchMode="contains">
 										<f:selectItem itemLabel="Seleccione" itemValue="" />
 										<f:selectItems
 											value="#{amonestacionBean.listaPuestoPersonaCargo}"
 											var="lista"
-											itemLabel="#{lista.persona.nombre} #{lista.persona.paterno}"
+											itemLabel="#{lista.persona.nombre} #{lista.persona.paterno} #{lista.persona.materno} - #{lista.cargo.descripcion}"
 											itemValue="#{lista.persona.id}" />
 									</p:selectOneMenu>
 
@@ -91,7 +91,7 @@ body {
 										value="#{amonestacionBean.entidad.descripcion}"
 										required="true" requiredMessage="Ingrese descripcion"
 										label="descripcion"
-										onkeyup="this.value = this.value.toUpperCase();" maxlength="6">
+										onkeyup="this.value = this.value.toUpperCase();">
 									</p:inputText>
 
 									<p:outputLabel for="txtvar10" value="Estado: " />

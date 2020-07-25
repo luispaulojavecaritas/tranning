@@ -14,8 +14,15 @@ import org.primefaces.event.SelectEvent;
 import org.primefaces.event.UnselectEvent;
 
 import pe.com.gesadmin.entity.AnioFiscal;
+import pe.com.gesadmin.entity.Operacion;
+import pe.com.gesadmin.entity.Puesto;
 import pe.com.gesadmin.service.AnioFiscalService;
+import pe.com.gesadmin.service.OperacionService;
+import pe.com.gesadmin.service.PuestoService;
 import pe.com.gesadmin.service.impl.AnioFiscalServiceImpl;
+import pe.com.gesadmin.service.impl.OperacionServiceImpl;
+import pe.com.gesadmin.service.impl.PuestoServiceImpl;
+import pe.com.gesadmin.util.UtilFechas;
 
 
 @ManagedBean
@@ -32,6 +39,10 @@ public class AnioFiscalBean {
 
 	@EJB
 	private AnioFiscalService servicio = new AnioFiscalServiceImpl();
+	@EJB
+	private PuestoService puestoService = new PuestoServiceImpl();
+	@EJB
+	private OperacionService operacionService = new OperacionServiceImpl();	
 
 
 	public AnioFiscalBean() {
@@ -90,10 +101,50 @@ public class AnioFiscalBean {
 	}
 
 
+	public void setPuestoService(PuestoService puestoService) {
+		this.puestoService = puestoService;
+	}
+
+	public void setOperacionService(OperacionService operacionService) {
+		this.operacionService = operacionService;
+	}
+
 	public String guardar() {
 
 		if (entidad.getId() == null) {
+			
 			System.out.println("A guardar");
+
+			if (lista == null || lista.isEmpty()) {
+				
+				System.out.println("No se validara operaciones, es primer registro");
+
+			} else {
+				
+				System.out.println("Si se validara operaciones");
+
+				boolean validacionServicios = validarOperacionesLuzAgua();
+				boolean validacionAdministracion = validarOperacionesAdministrativo();
+
+				if (validacionServicios) {
+					System.out.println("Cumple validacion operacion servicios luz y agua");
+				} else {
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+							"Complete registros de operaciones de categoria servicios de luz y agua", ""));
+					return "";
+				}
+
+				if (validacionAdministracion) {
+					System.out.println("Cumple validacion operacion de categoria administrativo");
+				} else {
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+							"Complete registros de operaciones de categoria administrativo", ""));
+					return "";
+				}
+
+			}
+			
+			
 			try {
 				servicio.crear(entidad);
 				FacesContext.getCurrentInstance().addMessage(null,
@@ -221,6 +272,45 @@ public class AnioFiscalBean {
 		}
 		filtro = null;
 		return "";
+	}
+	
+	public boolean validarOperacionesLuzAgua() {
+
+		List<Puesto> listaPuestos = new ArrayList<>();
+		List<Operacion> listaOperaciones = new ArrayList<>();
+
+		listaPuestos = puestoService.listarFiltro(true);
+		listaOperaciones = operacionService.listarPorPeriodoactualCategoriaLuzAgua();
+
+		Integer diferencia = (listaPuestos.size() * 2) - listaOperaciones.size();
+
+		if (diferencia == 0) {
+			return true;
+		} else {
+			return false;
+		}
+
+	}
+
+	public boolean validarOperacionesAdministrativo() {
+
+		List<Puesto> listaPuestos = new ArrayList<>();
+		List<Operacion> listaOperaciones = new ArrayList<>();
+
+		listaPuestos = puestoService.listarFiltro(true);
+		listaOperaciones = operacionService.listarPorPeriodoactualCategoriaAdministracion();
+
+		UtilFechas utilFechas = new UtilFechas();
+		int cantidadDias = utilFechas.obtenerCantidadDiasPorMesActual();
+
+		Integer diferencia = (listaPuestos.size() * cantidadDias) - listaOperaciones.size();
+
+		if (diferencia == 0) {
+			return true;
+		} else {
+			return false;
+		}
+
 	}
 
 

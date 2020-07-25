@@ -24,6 +24,10 @@ public interface OperacionService {
     
     public List<Operacion> listarPorPeriodoIdPuestoIdEstatusOperacionId(Integer idPeriodo, Integer  idPuesto, Integer idEstatusOperacionId); 
     
+    public List<Operacion> listarPorPeriodoactualCategoriaLuzAgua();
+    
+    public List<Operacion> listarPorPeriodoactualCategoriaAdministracion();
+    
     public List<Operacion> listar(); 
     
     public List<Operacion> listarActivo(); 

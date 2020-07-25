@@ -14,12 +14,18 @@ import org.primefaces.event.SelectEvent;
 import org.primefaces.event.UnselectEvent;
 
 import pe.com.gesadmin.entity.AnioFiscal;
+import pe.com.gesadmin.entity.Operacion;
 import pe.com.gesadmin.entity.Periodo;
+import pe.com.gesadmin.entity.Puesto;
 import pe.com.gesadmin.service.AnioFiscalService;
+import pe.com.gesadmin.service.OperacionService;
 import pe.com.gesadmin.service.PeriodoService;
+import pe.com.gesadmin.service.PuestoService;
 import pe.com.gesadmin.service.impl.AnioFiscalServiceImpl;
+import pe.com.gesadmin.service.impl.OperacionServiceImpl;
 import pe.com.gesadmin.service.impl.PeriodoServiceImpl;
-
+import pe.com.gesadmin.service.impl.PuestoServiceImpl;
+import pe.com.gesadmin.util.UtilFechas;
 
 @ManagedBean
 @ViewScoped
@@ -29,16 +35,20 @@ public class PeriodoBean {
 	private List<Periodo> listafiltro;
 	private Periodo entidad = new Periodo();
 	private Periodo entidadseleccionada = new Periodo();
-	
+
 	private List<AnioFiscal> listaAnioFiscal = new ArrayList<>();
 
 	private String filtro;
 
 	@EJB
 	private PeriodoService servicio = new PeriodoServiceImpl();
-	
 	@EJB
-	private AnioFiscalService anioFiscalService  = new AnioFiscalServiceImpl();
+	private PuestoService puestoService = new PuestoServiceImpl();
+	@EJB
+	private OperacionService operacionService = new OperacionServiceImpl();
+
+	@EJB
+	private AnioFiscalService anioFiscalService = new AnioFiscalServiceImpl();
 
 	public PeriodoBean() {
 		// TODO Auto-generated constructor stub
@@ -108,10 +118,49 @@ public class PeriodoBean {
 		this.anioFiscalService = anioFiscalService;
 	}
 
+	public void setPuestoService(PuestoService puestoService) {
+		this.puestoService = puestoService;
+	}
+
+	public void setOperacionService(OperacionService operacionService) {
+		this.operacionService = operacionService;
+	}
+
 	public String guardar() {
 
 		if (entidad.getId() == null) {
+			
 			System.out.println("A guardar");
+
+			if (lista == null || lista.isEmpty()) {
+				
+				System.out.println("No se validara operaciones, es primer registro");
+
+			} else {
+				
+				System.out.println("Si se validara operaciones");
+
+				boolean validacionServicios = validarOperacionesLuzAgua();
+				boolean validacionAdministracion = validarOperacionesAdministrativo();
+
+				if (validacionServicios) {
+					System.out.println("Cumple validacion operacion servicios luz y agua");
+				} else {
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+							"Complete registros de operaciones de categoria servicios de luz y agua", ""));
+					return "";
+				}
+
+				if (validacionAdministracion) {
+					System.out.println("Cumple validacion operacion de categoria administrativo");
+				} else {
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+							"Complete registros de operaciones de categoria administrativo", ""));
+					return "";
+				}
+
+			}
+
 			try {
 				servicio.crear(entidad);
 				FacesContext.getCurrentInstance().addMessage(null,
@@ -133,7 +182,7 @@ public class PeriodoBean {
 						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al actualizar registro", ""));
 			}
 		}
-		
+
 		limpiar();
 		listarEntidad();
 		return "";
@@ -190,7 +239,7 @@ public class PeriodoBean {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", "Problemas al recuperar registros"));
 		}
-		
+
 		listafiltro = lista;
 	}
 
@@ -217,7 +266,7 @@ public class PeriodoBean {
 	public void limpiar() {
 		entidad = new Periodo();
 		entidadseleccionada = new Periodo();
-		
+
 		listafiltro = lista;
 
 	}
@@ -240,17 +289,56 @@ public class PeriodoBean {
 		filtro = null;
 		return "";
 	}
-	
+
 	public void listarAnioFiscal() {
-		
+
 		try {
 			listaAnioFiscal = anioFiscalService.listarActivo();
 		} catch (Exception e) {
 			// TODO: handle exception
 			listaAnioFiscal = null;
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", "Problemas al recuperar registros anio fiscal"));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.",
+					"Problemas al recuperar registros anio fiscal"));
 		}
+	}
+
+	public boolean validarOperacionesLuzAgua() {
+
+		List<Puesto> listaPuestos = new ArrayList<>();
+		List<Operacion> listaOperaciones = new ArrayList<>();
+
+		listaPuestos = puestoService.listarFiltro(true);
+		listaOperaciones = operacionService.listarPorPeriodoactualCategoriaLuzAgua();
+
+		Integer diferencia = (listaPuestos.size() * 2) - listaOperaciones.size();
+
+		if (diferencia == 0) {
+			return true;
+		} else {
+			return false;
+		}
+
+	}
+
+	public boolean validarOperacionesAdministrativo() {
+
+		List<Puesto> listaPuestos = new ArrayList<>();
+		List<Operacion> listaOperaciones = new ArrayList<>();
+
+		listaPuestos = puestoService.listarFiltro(true);
+		listaOperaciones = operacionService.listarPorPeriodoactualCategoriaAdministracion();
+
+		UtilFechas utilFechas = new UtilFechas();
+		int cantidadDias = utilFechas.obtenerCantidadDiasPorMesActual();
+
+		Integer diferencia = (listaPuestos.size() * cantidadDias) - listaOperaciones.size();
+
+		if (diferencia == 0) {
+			return true;
+		} else {
+			return false;
+		}
+
 	}
 
 }

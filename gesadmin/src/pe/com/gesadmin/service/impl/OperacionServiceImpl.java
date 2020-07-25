@@ -78,4 +78,16 @@ public class OperacionServiceImpl implements OperacionService {
 		ordenDao.cancelPayment(idOperacion, IdPersona, idEstatusOperacion);
 	}
 
+	@Override
+	public List<Operacion> listarPorPeriodoactualCategoriaLuzAgua() {
+		// TODO Auto-generated method stub
+		return ordenDao.findByPeriodoactualCategoriaLuzAgua();
+	}
+
+	@Override
+	public List<Operacion> listarPorPeriodoactualCategoriaAdministracion() {
+		// TODO Auto-generated method stub
+		return ordenDao.findByPeriodoactualCategoriaAdministracion();
+	}
+
 }

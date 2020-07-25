@@ -29,7 +29,7 @@ public class UtilFechas implements Serializable {
 		java.sql.Date d2 = new java.sql.Date(d1.getTime());
 		return d2;
 	}
-	
+
 	public java.util.Date obtenerFechaInicio() {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		java.util.Date d1 = new java.util.Date(); // fecha del sistema
@@ -40,7 +40,7 @@ public class UtilFechas implements Serializable {
 		}
 		return d1;
 	}
-	
+
 	public java.util.Date obtenerFechaInicio2() {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		java.util.Date d1 = new java.util.Date(); // fecha del sistema
@@ -247,7 +247,7 @@ public class UtilFechas implements Serializable {
 
 	}
 
-	public boolean verificarVigencia(Date fechaRegistro){
+	public boolean verificarVigencia(Date fechaRegistro) {
 
 		Date fechaActual = new Date();
 		Date fechaCaducidad = fechaRegistro;
@@ -258,7 +258,7 @@ public class UtilFechas implements Serializable {
 
 		fechaActual = null;
 		fechaCaducidad = null;
-		
+
 		try {
 			fechaActual = sdf.parse(actual);
 			fechaCaducidad = sdf.parse(caducidad);
@@ -267,7 +267,6 @@ public class UtilFechas implements Serializable {
 			System.out.println("Excepcion al realizar conversion de fechas para comparacion");
 			return false;
 		}
-		
 
 		int resultadofecha = fechaActual.compareTo(fechaCaducidad);
 		if (resultadofecha < 1) {
@@ -278,10 +277,8 @@ public class UtilFechas implements Serializable {
 			return false;
 		}
 	}
-	
-	
-	
-	public boolean verificarDiaMinimo(Date minima, Date fechaenviada){
+
+	public boolean verificarDiaMinimo(Date minima, Date fechaenviada) {
 
 		int resultadofecha = fechaenviada.compareTo(minima);
 		if (resultadofecha < 1) {
@@ -291,6 +288,38 @@ public class UtilFechas implements Serializable {
 			System.out.println("Fecha valida");
 			return true;
 		}
+	}
+
+	public Integer obtenerCantidadDiasPorMesActual() {
+
+		Calendar c1 = Calendar.getInstance();
+
+		int mes = c1.get(Calendar.MONTH);
+		int anio = c1.get(Calendar.YEAR);
+
+		switch (mes) {
+		case 0: // Enero
+		case 2: // Marzo
+		case 4: // Mayo
+		case 6: // Julio
+		case 7: // Agosto
+		case 9: // Octubre
+		case 11: // Diciembre
+			return 31;
+		case 3: // Abril
+		case 5: // Junio
+		case 8: // Septiembre
+		case 10: // Noviembre
+			return 30;
+		case 1: // Febrero
+			if (((anio % 100 == 0) && (anio % 400 == 0)) || ((anio % 100 != 0) && (anio % 4 == 0)))
+				return 29; // Año Bisiesto
+			else
+				return 28;
+		default:
+			throw new java.lang.IllegalArgumentException("El mes debe estar entre 0 y 11");
+		}
+
 	}
 
 }

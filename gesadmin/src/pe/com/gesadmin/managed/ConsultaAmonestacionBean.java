@@ -22,6 +22,7 @@ import pe.com.gesadmin.entity.AnioFiscal;
 import pe.com.gesadmin.entity.Amonestacion;
 import pe.com.gesadmin.entity.Periodo;
 import pe.com.gesadmin.entity.transfer.FiltroTransfer;
+import pe.com.gesadmin.entity.transfer.PeriodoTransfer;
 import pe.com.gesadmin.service.AnioFiscalService;
 import pe.com.gesadmin.service.AmonestacionService;
 import pe.com.gesadmin.service.PeriodoService;
@@ -53,11 +54,9 @@ public class ConsultaAmonestacionBean {
 	private List<FiltroTransfer> listaTipoAmonestacionTransfersFiltro = new ArrayList<>();
 	private List<FiltroTransfer> listaPersonaTransfersFiltro = new ArrayList<>();
 	
-
 	
+	private PeriodoTransfer periodoTransfer = new PeriodoTransfer();
 
-	private Integer idAnioFiscal;
-	private Integer idPeriodo;
 	private Integer idPuesto;
 	private Integer idTipoAmonestacion;
 	private Integer idPersona;
@@ -86,14 +85,15 @@ public class ConsultaAmonestacionBean {
 		// TODO Auto-generated constructor stub
 		filtro = null;
 		entidad = new Amonestacion();
+		
+		periodoTransfer = new PeriodoTransfer();
 
 		listaPeriodo = null;
 		listaPuestoTransfers = null;
 		listaTipoAmonestacionTransfers = null;
 		listaPersonaTransfers = null;
 
-		idAnioFiscal = null;
-		idPeriodo = null;
+
 		idPuesto = null;
 		idTipoAmonestacion = null;
 		idPersona = null;	
@@ -157,22 +157,6 @@ public class ConsultaAmonestacionBean {
 
 	public void setPeriodoService(PeriodoService periodoService) {
 		this.periodoService = periodoService;
-	}
-
-	public Integer getIdAnioFiscal() {
-		return idAnioFiscal;
-	}
-
-	public void setIdAnioFiscal(Integer idAnioFiscal) {
-		this.idAnioFiscal = idAnioFiscal;
-	}
-
-	public Integer getIdPeriodo() {
-		return idPeriodo;
-	}
-
-	public void setIdPeriodo(Integer idPeriodo) {
-		this.idPeriodo = idPeriodo;
 	}
 
 	public List<AnioFiscal> getListaAnioFiscal() {
@@ -287,6 +271,16 @@ public class ConsultaAmonestacionBean {
 		this.idPersona = idPersona;
 	}
 
+	public PeriodoTransfer getPeriodoTransfer() {
+		return periodoTransfer;
+	}
+
+	public void setPeriodoTransfer(PeriodoTransfer periodoTransfer) {
+		this.periodoTransfer = periodoTransfer;
+	}
+	
+	
+
 	public void recuperar() {
 
 		entidad = new Amonestacion();
@@ -315,15 +309,54 @@ public class ConsultaAmonestacionBean {
 	}
 
 	public void listarEntidad() {
+		
+		
+		boolean booanio  = (periodoTransfer.getIdAnio() != null) ? true : false;
+		boolean booperiodo  = (periodoTransfer.getIdPeriodo() != null) ? true : false;
+		
 		lista = new ArrayList<>();
-		try {
-			lista = servicio.listarPorPeriodoId(idPeriodo);
-		} catch (Exception e) {
-			// TODO: handle exception
+		
+		if(booperiodo) {
+			System.out.println("Consultar por Id Periodo");
+			
+			try {
+				lista = servicio.listarPorPeriodoId(periodoTransfer.getIdPeriodo());
+			} catch (Exception e) {
+				// TODO: handle exception
+				lista = null;
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Problemas al recuperar registros", ""));
+			}
+			
+		}else if(booanio == true && booperiodo == false) {
+			System.out.println("Consultar por Id Anio");
+			
+			try {
+				lista = servicio.listarPorAnioId(periodoTransfer.getIdAnio());
+			} catch (Exception e) {
+				// TODO: handle exception
+				lista = null;
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Problemas al recuperar registros", ""));
+			}
+			
+			
+		}else if(booperiodo == false && booanio == false) {
+			System.out.println("Consultar por Registros Activos");
+			
+			try {
+				lista = servicio.listarActivo();
+			} catch (Exception e) {
+				// TODO: handle exception
+				lista = null;
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Problemas al recuperar registros", ""));
+			}
+		}else {
+			System.out.println("Consultar no reconocida");
 			lista = null;
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Problemas al recuperar registros", ""));
 		}
+		
 
 		listafiltro = lista;
 
@@ -341,7 +374,7 @@ public class ConsultaAmonestacionBean {
 
 	public void listarPeriodo() {
 
-		if (idAnioFiscal == null) {
+		if (periodoTransfer.getIdAnio() == null) {
 
 			listaPeriodo = null;
 			FacesContext.getCurrentInstance().addMessage(null,
@@ -350,7 +383,7 @@ public class ConsultaAmonestacionBean {
 
 			listaPeriodo = new ArrayList<>();
 			try {
-				listaPeriodo = periodoService.listarPorIdAnioFiscal(idAnioFiscal);
+				listaPeriodo = periodoService.listarPorIdAnioFiscal(periodoTransfer.getIdAnio());
 			} catch (Exception e) {
 				// TODO: handle exception
 				listaPeriodo = null;
@@ -387,11 +420,11 @@ public class ConsultaAmonestacionBean {
 	}
 
 	public void limpiar() {
+				
 		entidad = new Amonestacion();
 		entidadseleccionada = new Amonestacion();
 
-		idAnioFiscal = null;
-		idPeriodo = null;
+		periodoTransfer = new PeriodoTransfer();
 		idPuesto = null;
 
 

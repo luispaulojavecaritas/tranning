@@ -19,7 +19,7 @@ public class PeriodoDaoImpl implements PeriodoDao{
 	@Override
 	public List<Periodo> findAll() {
 		// TODO Auto-generated method stub
-		String query = "select b FROM Periodo b";
+		String query = "select b FROM Periodo b order by b.id desc";
         TypedQuery<Periodo> tq = em.createQuery(query, Periodo.class);
         List<Periodo> lista = tq.getResultList();
         return lista;

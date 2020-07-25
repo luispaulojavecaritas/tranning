@@ -62,4 +62,14 @@ public class AmonestacionDaoImpl implements AmonestacionDao{
         return lista;
 	}
 
+	@Override
+	public List<Amonestacion> findByAnioId(Integer idAnio) {
+		// TODO Auto-generated method stub
+		String query = "select b FROM Amonestacion b where b.estado = 1 and b.periodo.anioFiscal.id = :idAnio";
+        TypedQuery<Amonestacion> tq = em.createQuery(query, Amonestacion.class);
+        tq.setParameter("idAnio", idAnio);
+        List<Amonestacion> lista = tq.getResultList();
+        return lista;
+	}
+
 }

@@ -1,0 +1,292 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="head">
+		<style type="text/css">
+body {
+	background-color: #F1F1F1;
+}
+</style>
+	</ui:define>
+
+	<ui:define name="content">
+
+		<div class="Section">
+
+			<div class="Container100 ShadowEffect WhiteBack">
+
+				<div class="Container100 ui-fluid">
+					<div class="Container100">
+						<div
+							class="Wid100 MarAuto DispBlock OvHidden FontMerriWeatherRegular BlueDarkest TexAlCenter"
+							style="font-size: 3.0rem; padding-top: 0rem; padding-bottom: 0rem;">COMPLETAR CONSUMO SERVICIOS</div>
+						<div class="Wid100 OvHidden" style="height: 1rem;"></div>
+
+						<h:form id="frmEstadistica">
+							<div
+								class="Container100 Responsive100 #{completarLecturaBean.claseLuz}">
+								<div class="White Fs18">
+									<h:outputText value="#{completarLecturaBean.mensajeLuz}" />
+								</div>
+							</div>
+							<div class="EmptyBox5" />
+							<div
+								class="Container100 Responsive100 #{completarLecturaBean.claseAgua}">
+								<div class="White Fs18">
+									<h:outputText value="#{completarLecturaBean.mensajeAgua}" />
+								</div>
+							</div>
+						</h:form>
+
+						<div class="EmptyBox5" />
+
+
+						<h:form id="frmFiscalizacion">
+							<p:panel id="pnlfiscalizacion" header="Periodo fiscal"
+								style="margin-bottom:20px"
+								rendered="#{!completarLecturaBean.booBtnEliminar}">
+								<p:panelGrid columns="4" layout="grid"
+									styleClass="ui-panelgrid-blank"
+									style="border:0px none; background-color:transparent;">
+
+									<p:outputLabel value="Año Fiscal:" />
+									<h:outputText
+										value="#{completarLecturaBean.periodoActual.anioFiscal.descripcion}" />
+
+									<p:outputLabel value="Periodo Fiscal:" />
+									<h:outputText
+										value="#{completarLecturaBean.periodoActual.descripcion}" />
+								</p:panelGrid>
+							</p:panel>
+						</h:form>
+
+
+						<h:form id="frmTipoServicio">
+							<p:panel id="pnlTipoServicio" header="Tipo de servicio a gestionar"
+								style="margin-bottom:20px"
+								rendered="#{!completarLecturaBean.booBtnEliminar}">
+								<p:panelGrid columns="2" layout="grid"
+									styleClass="ui-panelgrid-blank"
+									style="border:0px none; background-color:transparent;">
+
+									<p:outputLabel for="txt01" value="Tipo Servicio:" />
+									<p:selectOneMenu id="txt01"
+										value="#{completarLecturaBean.tipoServicio.id}" required="true"
+										requiredMessage="Seleccione tipo servicio"
+										label="tipo servicio" filter="true" filterMatchMode="contains">
+										<f:selectItem itemLabel="Seleccione" itemValue="" />
+										<f:selectItems value="#{completarLecturaBean.listaTipoServicio}"
+											var="lista" itemLabel="#{lista.descripcion}"
+											itemValue="#{lista.id}" />
+
+										<p:ajax
+											listener="#{completarLecturaBean.obtenerTipoServicioActual()}"
+											update="frmTipoServicio frmEntidad" />
+									</p:selectOneMenu>
+
+								</p:panelGrid>
+							</p:panel>
+						</h:form>
+						
+						
+						<h:form id="frmEntidad">
+							<f:passThroughAttribute name="autocomplete" value="off" />
+							<p:panel id="pnlDetallessss"
+								header="Registrar lectura de consumo de servicio"
+								style="margin-bottom:20px"
+								rendered="#{!completarLecturaBean.booBtnEliminar}">
+								<div class="Container">
+									<div class="Container100 Responsive100">
+										
+										<p:dataTable id="tblpendiente" var="per"
+											value="#{completarLecturaBean.listafiltro}"
+											selectionMode="single"
+											selection="#{completarLecturaBean.entidadseleccionada}"
+											rowKey="#{per.id}" rows="25" paginator="true"
+											paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+											rowsPerPageTemplate="25,50,75"
+											emptyMessage="No se encontraron registros" reflow="true">
+
+											<p:ajax event="rowSelect"
+												listener="#{completarLecturaBean.onRowSelect}"
+												update="frmEntidad frmTabla frmDetalle frmTipoServicio frmFiscalizacion" />
+											<p:ajax event="rowUnselect"
+												listener="#{completarLecturaBean.onRowUnselect}"
+												update="frmEntidad frmTabla frmDetalle frmTipoServicio frmFiscalizacion" />
+
+
+											<p:column headerText="Id">
+												<h:outputText value="#{per.id}" />
+											</p:column>
+											<p:column headerText="Puesto">
+												<h:outputText value="#{per.puesto.descripcion}" />
+											</p:column>
+
+											<p:column headerText="Servicio">
+												<h:outputText value="#{per.tipoServicio.descripcion}" />
+											</p:column>
+
+											<p:column headerText="Lectura">
+												<h:outputText value="#{per.medida}" />
+											</p:column>
+
+											<p:column headerText="Estado">
+												<h:outputText value="#{per.estado}" />
+											</p:column>
+
+											<p:column headerText="Fecha registro">
+												<h:outputText value="#{per.registro}">
+													<f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss"
+														timeZone="GMT-5" />
+												</h:outputText>
+											</p:column>
+										</p:dataTable>
+
+									</div>
+								</div>
+							</p:panel>
+						</h:form>
+
+
+
+						<h:form id="frmDetalle">
+							<p:panel id="pnlDetalle" header="Detalle de lectura de consumo de servicio"
+								style="margin-bottom:20px"
+								rendered="#{completarLecturaBean.booBtnEliminar}">
+								<div class="Container">
+									<div class="Container80 Responsive100">
+										<p:panelGrid columns="4" layout="grid"
+											styleClass="ui-panelgrid-blank"
+											style="border:0px none; background-color:transparent;">
+
+											<p:outputLabel value="Id:" />
+											<h:outputText
+												value="#{completarLecturaBean.entidadseleccionada.id}" />
+
+											<p:outputLabel value="Anio - Periodo Fiscal:" />
+											<h:outputText
+												value="#{completarLecturaBean.entidadseleccionada.periodo.anioFiscal.descripcion} - #{completarLecturaBean.entidadseleccionada.periodo.descripcion}" />
+
+											<p:outputLabel value="Puesto:" />
+											<h:outputText
+												value="#{completarLecturaBean.entidadseleccionada.puesto.descripcion}" />
+
+											<p:outputLabel value="Tipo Servicio:" />
+											<h:outputText
+												value="#{completarLecturaBean.entidadseleccionada.tipoServicio.descripcion}" />
+
+											<p:outputLabel value="Lectura: " />
+											<h:outputText
+												value="#{completarLecturaBean.entidadseleccionada.medida}" />
+
+											<p:outputLabel value="Registro: " />
+											<h:outputText
+												value="#{completarLecturaBean.entidadseleccionada.registro}">
+												<f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss"
+													timeZone="GMT-5" />
+											</h:outputText>
+
+										</p:panelGrid>
+									</div>
+									<div class="Container20 Responsive100">
+
+										<p:commandButton value="Eliminar" id="btnEliminar"
+											actionListener="#{completarLecturaBean.eliminar()}"
+											update="frmEntidad frmTabla frmDetalle frmTipoServicio frmFiscalizacion frmEstadistica"
+											icon="fa fa-refresh" styleClass="RedButton" process="@this"
+											immediate="true" />
+										<div class="EmptyBox5" />
+										<p:commandButton value="Cancelar"
+											actionListener="#{completarLecturaBean.cancelarEliminacionEntidad()}"
+											update="frmEntidad frmTabla frmDetalle frmTipoServicio frmFiscalizacion"
+											icon="fa fa-refresh" process="@this"
+											immediate="true" />
+									</div>
+								</div>
+							</p:panel>
+						</h:form>
+
+
+						<div class="EmptyBox10" />
+						<h:form id="frmTabla">
+							<f:passThroughAttribute name="autocomplete" value="off" />
+
+							<p:panel id="panFiltro"
+								header="Lista de lecturas de consumo de servicios registradas">
+								<div class="Container">
+									<div class="Container60 Responsive100"></div>
+									<div class="Container40 Responsive100">
+										<p:panelGrid columns="2" layout="grid"
+											styleClass="ui-panelgrid-blank"
+											style="border:0px none; background-color:transparent;">
+											<p:inputText id="counter"
+												value="#{completarLecturaBean.filtro}"
+												placeholder="Filtrar registros"
+												onkeyup="this.value = this.value.toUpperCase();" />
+											<p:commandButton value="Filtar"
+												action="#{completarLecturaBean.filtrar()}" update="frmTabla" />
+										</p:panelGrid>
+									</div>
+
+
+									<div class="Container100 Responsive100">
+
+										<p:dataTable id="tbl" var="per"
+											value="#{completarLecturaBean.listafiltro}"
+											selectionMode="single"
+											selection="#{completarLecturaBean.entidadseleccionada}"
+											rowKey="#{per.id}" rows="25" paginator="true"
+											paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+											rowsPerPageTemplate="25,50,75"
+											emptyMessage="No se encontraron registros" reflow="true">
+
+											<p:ajax event="rowSelect"
+												listener="#{completarLecturaBean.onRowSelect}"
+												update="frmEntidad frmTabla frmDetalle frmTipoServicio frmFiscalizacion" />
+											<p:ajax event="rowUnselect"
+												listener="#{completarLecturaBean.onRowUnselect}"
+												update="frmEntidad frmTabla frmDetalle frmTipoServicio frmFiscalizacion" />
+
+
+											<p:column headerText="Id">
+												<h:outputText value="#{per.id}" />
+											</p:column>
+											<p:column headerText="Puesto">
+												<h:outputText value="#{per.puesto.descripcion}" />
+											</p:column>
+
+											<p:column headerText="Servicio">
+												<h:outputText value="#{per.tipoServicio.descripcion}" />
+											</p:column>
+
+											<p:column headerText="Lectura">
+												<h:outputText value="#{per.medida}" />
+											</p:column>
+
+											<p:column headerText="Estado">
+												<h:outputText value="#{per.estado}" />
+											</p:column>
+
+											<p:column headerText="Fecha registro">
+												<h:outputText value="#{per.registro}">
+													<f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss"
+														timeZone="GMT-5" />
+												</h:outputText>
+											</p:column>
+										</p:dataTable>
+									</div>
+								</div>
+							</p:panel>
+						</h:form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+	</ui:define>
+
+</ui:composition>

@@ -69,6 +69,7 @@ public class AmonestacionBean {
 	private PuestoPersonaCargoService puestoPersonaCargoService = new PuestoPersonaCargoServiceImpl();
 	@EJB
 	private TipoAmonestacionService tipoAmonestacionService = new TipoAmonestacionServiceImpl();
+	
 
 	public AmonestacionBean() {
 		// TODO Auto-generated constructor stub
@@ -81,6 +82,7 @@ public class AmonestacionBean {
 		listarEntidad();
 		listarPeriodo();
 		listarPuestos();
+		listarTipoAmonestacion();
 	}
 
 	public List<Amonestacion> getLista() {
@@ -190,8 +192,12 @@ public class AmonestacionBean {
 		amonestacion.setPeriodo(new Periodo(entidad.getPeriodo().getId()));
 		amonestacion.setPuesto(new Puesto(entidad.getPuesto().getId()));
 		amonestacion.setTipoAmonestacion(new TipoAmonestacion(entidad.getTipoAmonestacion().getId()));
-		amonestacion.setPersona(new Persona(idPersona));
-		amonestacion.setTipoAmonestacion(new TipoAmonestacion(entidad.getTipoAmonestacion().getId()));
+		
+		PuestoPersonaCargo puestoPersonaCargo = new PuestoPersonaCargo();
+		puestoPersonaCargo = puestoPersonaCargoService.recuperar(entidad.getPuestoPersonaCargo().getId());
+		
+		amonestacion.setPersona(new Persona(puestoPersonaCargo.getPersona().getId()));
+		amonestacion.setPuestoPersonaCargo(new PuestoPersonaCargo(entidad.getPuestoPersonaCargo().getId()));
 		
 
 		if (amonestacion.getId() == null) {
@@ -370,7 +376,9 @@ public class AmonestacionBean {
 		listafiltro = new ArrayList<>();
 		System.out.println("Texto a filtra: " + filtro);
 		for (int i = 0; i <= lista.size() - 1; i++) {
-			if (lista.get(i).getDescripcion().contains(filtro)) {
+			if (lista.get(i).getTipoAmonestacion().getDescripcion().contains(filtro)|| lista.get(i).getPuesto().getDescripcion().contains(filtro) || 
+					lista.get(i).getPersona().getNombre().contains(filtro) || lista.get(i).getPersona().getPaterno().contains(filtro) || 
+					lista.get(i).getPersona().getMaterno().contains(filtro)) {
 				System.out.println("lista: " + lista.get(i).toString());
 				listafiltro.add(lista.get(i));
 			}

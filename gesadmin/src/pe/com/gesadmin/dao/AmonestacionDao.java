@@ -23,7 +23,9 @@ public interface AmonestacionDao {
     public void update (Amonestacion entidad); 
     
     public Amonestacion findById (Integer id); 
+        
+    public List<Amonestacion> findByAnioId(Integer idAnio); 
     
     public List<Amonestacion> findByPeriodoId(Integer idPeriodo); 
-            
+                
 }

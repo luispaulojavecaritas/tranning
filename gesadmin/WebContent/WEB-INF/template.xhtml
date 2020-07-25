@@ -77,9 +77,10 @@
 
 	<p:ajaxStatus onstart="PF('statusDialog').show()"
 		onsuccess="PF('statusDialog').hide()" />
-
+	<!--  
 	<p:growl id="messages" showDetail="false" sticky="false"
 		autoUpdate="true" />
+	-->
 
 	<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
 		closable="false" resizable="false" showHeader="false">
@@ -94,8 +95,6 @@
 	<h:outputStylesheet name="css/titan-layout.css" library="titan-layout" />
 
 	<h:form id="frmTemplate">
-		<p:growl id="messages" showDetail="false" sticky="false"
-			autoUpdate="true" />
 		<p:idleMonitor>
 			<p:ajax event="idle" listener="#{sesionCerrar.onIdle()}" />
 		</p:idleMonitor>

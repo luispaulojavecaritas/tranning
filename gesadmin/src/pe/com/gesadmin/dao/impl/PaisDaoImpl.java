@@ -8,7 +8,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import pe.com.gesadmin.dao.PaisDao;
-import pe.com.gesadmin.entity.Bloque;
 import pe.com.gesadmin.entity.Pais;
 
 @Stateless

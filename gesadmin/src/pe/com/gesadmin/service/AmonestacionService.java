@@ -27,7 +27,9 @@ public interface AmonestacionService {
     
     public void actualizar (Amonestacion entidad); 
     
-    public Amonestacion recuperar (Integer id); 
+    public Amonestacion recuperar (Integer id);
+        
+    public List<Amonestacion> listarPorAnioId(Integer idAnio); 
     
     public List<Amonestacion> listarPorPeriodoId(Integer idPeriodo); 
         

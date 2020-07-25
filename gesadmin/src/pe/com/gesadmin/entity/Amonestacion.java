@@ -42,12 +42,17 @@ public class Amonestacion implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="id_tipo_amonestacion", referencedColumnName = "id")
 	private TipoAmonestacion tipoAmonestacion;
+	
+	@ManyToOne
+	@JoinColumn(name="id_puesto_persona_cargo", referencedColumnName = "id")
+	private PuestoPersonaCargo puestoPersonaCargo;
 
 	public Amonestacion() {
 		periodo = new Periodo();
 		persona = new Persona();
 		puesto = new Puesto();
 		tipoAmonestacion = new TipoAmonestacion();
+		puestoPersonaCargo = new PuestoPersonaCargo();
 	}
 
 	public Amonestacion(Integer id) {
@@ -118,6 +123,14 @@ public class Amonestacion implements Serializable {
 		this.tipoAmonestacion = tipoAmonestacion;
 	}
 
+	public PuestoPersonaCargo getPuestoPersonaCargo() {
+		return puestoPersonaCargo;
+	}
+
+	public void setPuestoPersonaCargo(PuestoPersonaCargo puestoPersonaCargo) {
+		this.puestoPersonaCargo = puestoPersonaCargo;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -147,7 +160,7 @@ public class Amonestacion implements Serializable {
 	public String toString() {
 		return "Amonestacion [id=" + id + ", descripcion=" + descripcion + ", estado=" + estado + ", registro="
 				+ registro + ", periodo=" + periodo + ", persona=" + persona + ", puesto=" + puesto
-				+ ", tipoAmonestacion=" + tipoAmonestacion + "]";
+				+ ", tipoAmonestacion=" + tipoAmonestacion + ", puestoPersonaCargo=" + puestoPersonaCargo + "]";
 	}
 	
 	

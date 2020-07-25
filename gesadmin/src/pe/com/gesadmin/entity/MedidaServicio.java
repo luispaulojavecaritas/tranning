@@ -5,15 +5,14 @@ import java.sql.Timestamp;
 
 import javax.persistence.*;
 
-
 /**
- * The persistent class for the medida_agua database table.
+ * The persistent class for the medida_luz database table.
  * 
  */
 @Entity
-@Table(name="medida_agua")
-@NamedQuery(name="MedidaAgua.findAll", query="SELECT m FROM MedidaAgua m")
-public class MedidaAgua implements Serializable {
+@Table(name="medida_servicio")
+@NamedQuery(name="MedidaServicio.findAll", query="SELECT m FROM MedidaServicio m")
+public class MedidaServicio implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -21,13 +20,17 @@ public class MedidaAgua implements Serializable {
 	private Integer id;
 
 	private Integer estado;
-	
+
 	@ManyToOne
-	@JoinColumn(name="id_periodo", referencedColumnName = "id")
+	@JoinColumn(name = "id_periodo", referencedColumnName = "id")
 	private Periodo periodo;
 	
 	@ManyToOne
-	@JoinColumn(name="id_puesto", referencedColumnName = "id")
+	@JoinColumn(name = "id_tipo_servicio", referencedColumnName = "id")
+	private TipoServicio tipoServicio;
+
+	@ManyToOne
+	@JoinColumn(name = "id_puesto", referencedColumnName = "id")
 	private Puesto puesto;
 
 	private Double medida;
@@ -35,12 +38,13 @@ public class MedidaAgua implements Serializable {
 	@Column(insertable=false, updatable=false)
 	private Timestamp registro;
 
-	public MedidaAgua() {
+	public MedidaServicio() {
 		periodo = new Periodo();
+		tipoServicio = new TipoServicio();
 		puesto = new Puesto();
 	}
 
-	public MedidaAgua(Integer id) {
+	public MedidaServicio(Integer id) {
 		this.id = id;
 	}
 
@@ -92,6 +96,14 @@ public class MedidaAgua implements Serializable {
 		this.registro = registro;
 	}
 
+	public TipoServicio getTipoServicio() {
+		return tipoServicio;
+	}
+
+	public void setTipoServicio(TipoServicio tipoServicio) {
+		this.tipoServicio = tipoServicio;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -108,7 +120,7 @@ public class MedidaAgua implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		MedidaAgua other = (MedidaAgua) obj;
+		MedidaServicio other = (MedidaServicio) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -119,12 +131,12 @@ public class MedidaAgua implements Serializable {
 
 	@Override
 	public String toString() {
-		return "MedidaAgua [id=" + id + ", estado=" + estado + ", periodo=" + periodo + ", puesto=" + puesto
+		return "MedidaServicio [id=" + id + ", estado=" + estado + ", periodo=" + periodo + ", tipoServicio=" + tipoServicio + ", puesto=" + puesto
 				+ ", medida=" + medida + ", registro=" + registro + "]";
 	}
 	
 	
-	
-	
+
+
 
 }

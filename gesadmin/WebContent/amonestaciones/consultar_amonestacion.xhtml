@@ -37,7 +37,7 @@ body {
 
 									<p:outputLabel for="txtvar1" value="Año Fiscal: " />
 									<p:selectOneMenu id="txtvar1"
-										value="#{consultaAmonestacionBean.idAnioFiscal}" required="true"
+										value="#{consultaAmonestacionBean.periodoTransfer.idAnio}" required="false"
 										requiredMessage="Seleccione año fiscal" label="año fiscal"
 										filter="true" filterMatchMode="contains">
 										<f:selectItem itemLabel="Seleccione" itemValue="" />
@@ -52,7 +52,7 @@ body {
 
 									<p:outputLabel for="txtvar2" value="Periodo:" />
 									<p:selectOneMenu id="txtvar2"
-										value="#{consultaAmonestacionBean.idPeriodo}" required="true"
+										value="#{consultaAmonestacionBean.periodoTransfer.idPeriodo}" required="false"
 										requiredMessage="Seleccione periodo" label="periodo"
 										filter="true" filterMatchMode="contains">
 										<f:selectItem itemLabel="Seleccione" itemValue="" />
@@ -111,7 +111,7 @@ body {
 											value="#{consultaAmonestacionBean.idPuesto}" required="true"
 											requiredMessage="Seleccione deudor a filtrar" label="deudor"
 											filter="true" filterMatchMode="contains">
-											<f:selectItem itemLabel="Deudor" itemValue="" />
+											<f:selectItem itemLabel="Puesto Amonestado" itemValue="" />
 											<f:selectItems
 												value="#{consultaAmonestacionBean.listaPuestoTransfersFiltro}"
 												var="lista" itemLabel="#{lista.descripcion}"
@@ -128,7 +128,7 @@ body {
 											requiredMessage="Seleccione persona a filtrar"
 											label="persona amonestada" filter="true"
 											filterMatchMode="contains">
-											<f:selectItem itemLabel="Estatus"
+											<f:selectItem itemLabel="Persona Amonestada"
 												itemValue="" />
 											<f:selectItems
 												value="#{consultaAmonestacionBean.listaPersonaTransfersFiltro}"
@@ -191,6 +191,10 @@ body {
 										<h:outputText
 											value="#{consultaAmonestacionBean.entidadseleccionada.persona.nombre} #{consultaAmonestacionBean.entidadseleccionada.persona.paterno} #{consultaAmonestacionBean.entidadseleccionada.persona.materno}" />
 
+										<p:outputLabel value="Cargo " />
+										<h:outputText
+											value="#{consultaAmonestacionBean.entidadseleccionada.puestoPersonaCargo.cargo.descripcion}" />
+										
 										<p:outputLabel value="Tipo Amonestacion:" />
 										<h:outputText
 											value="#{consultaAmonestacionBean.entidadseleccionada.tipoAmonestacion.descripcion}" />
