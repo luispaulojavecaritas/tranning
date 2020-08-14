@@ -22,140 +22,168 @@ body {
 					<div class="Container100">
 						<div
 							class="Wid100 MarAuto DispBlock OvHidden FontMerriWeatherRegular BlueDarkest TexAlCenter"
-							style="font-size: 3.0rem; padding-top: 0rem; padding-bottom: 0rem;">COMPLETAR CONSUMO SERVICIOS</div>
+							style="font-size: 3.0rem; padding-top: 0rem; padding-bottom: 0rem;">GENERAR
+							OPERACION CONSUMO SERVICIOS</div>
 						<div class="Wid100 OvHidden" style="height: 1rem;"></div>
 
 						<h:form id="frmEstadistica">
 							<div
-								class="Container100 Responsive100 #{completarLecturaBean.claseLuz}">
+								class="Container100 Responsive100 #{operacionConsumoServicioBean.claseLuz}">
 								<div class="White Fs18">
-									<h:outputText value="#{completarLecturaBean.mensajeLuz}" />
+									<h:outputText
+										value="#{operacionConsumoServicioBean.mensajeLuz}" />
 								</div>
 							</div>
 							<div class="EmptyBox5" />
 							<div
-								class="Container100 Responsive100 #{completarLecturaBean.claseAgua}">
+								class="Container100 Responsive100 #{operacionConsumoServicioBean.claseAgua}">
 								<div class="White Fs18">
-									<h:outputText value="#{completarLecturaBean.mensajeAgua}" />
+									<h:outputText
+										value="#{operacionConsumoServicioBean.mensajeAgua}" />
 								</div>
 							</div>
 						</h:form>
 
-						<div class="EmptyBox5" />
+						<div class="EmptyBox10" />
 
 
 						<h:form id="frmFiscalizacion">
 							<p:panel id="pnlfiscalizacion" header="Periodo fiscal"
 								style="margin-bottom:20px"
-								rendered="#{!completarLecturaBean.booBtnEliminar}">
+								rendered="#{!operacionConsumoServicioBean.booBtnEliminar}">
 								<p:panelGrid columns="4" layout="grid"
 									styleClass="ui-panelgrid-blank"
 									style="border:0px none; background-color:transparent;">
 
 									<p:outputLabel value="Año Fiscal:" />
 									<h:outputText
-										value="#{completarLecturaBean.periodoActual.anioFiscal.descripcion}" />
+										value="#{operacionConsumoServicioBean.periodoActual.anioFiscal.descripcion}" />
 
 									<p:outputLabel value="Periodo Fiscal:" />
 									<h:outputText
-										value="#{completarLecturaBean.periodoActual.descripcion}" />
+										value="#{operacionConsumoServicioBean.periodoActual.descripcion}" />
 								</p:panelGrid>
 							</p:panel>
 						</h:form>
 
 
 						<h:form id="frmTipoServicio">
-							<p:panel id="pnlTipoServicio" header="Tipo de servicio a gestionar"
-								style="margin-bottom:20px"
-								rendered="#{!completarLecturaBean.booBtnEliminar}">
+							<p:panel id="pnlTipoServicio" rendered="#{operacionConsumoServicioBean.booEntidadRegistro}"
+								header="Tipo de servicio a gestionar" style="margin-bottom:20px">
 								<p:panelGrid columns="2" layout="grid"
 									styleClass="ui-panelgrid-blank"
 									style="border:0px none; background-color:transparent;">
 
 									<p:outputLabel for="txt01" value="Tipo Servicio:" />
 									<p:selectOneMenu id="txt01"
-										value="#{completarLecturaBean.tipoServicio.id}" required="true"
-										requiredMessage="Seleccione tipo servicio"
+										value="#{operacionConsumoServicioBean.tipoServicio.id}"
+										required="true" requiredMessage="Seleccione tipo servicio"
 										label="tipo servicio" filter="true" filterMatchMode="contains">
 										<f:selectItem itemLabel="Seleccione" itemValue="" />
-										<f:selectItems value="#{completarLecturaBean.listaTipoServicio}"
+										<f:selectItems
+											value="#{operacionConsumoServicioBean.listaTipoServicio}"
 											var="lista" itemLabel="#{lista.descripcion}"
 											itemValue="#{lista.id}" />
 
 										<p:ajax
-											listener="#{completarLecturaBean.obtenerTipoServicioActual()}"
+											listener="#{operacionConsumoServicioBean.obtenerInputPeriodo()}"
 											update="frmTipoServicio frmEntidad" />
 									</p:selectOneMenu>
 
 								</p:panelGrid>
 							</p:panel>
 						</h:form>
-						
-						
+
+
 						<h:form id="frmEntidad">
-							<f:passThroughAttribute name="autocomplete" value="off" />
-							<p:panel id="pnlDetallessss"
+							<p:panel id="pnlDetallessss" rendered="#{operacionConsumoServicioBean.booEntidadRegistro}"
 								header="Registrar lectura de consumo de servicio"
-								style="margin-bottom:20px"
-								rendered="#{!completarLecturaBean.booBtnEliminar}">
+								style="margin-bottom:20px">
 								<div class="Container">
 									<div class="Container100 Responsive100">
-										
-										<p:dataTable id="tblpendiente" var="per"
-											value="#{completarLecturaBean.listafiltro}"
-											selectionMode="single"
-											selection="#{completarLecturaBean.entidadseleccionada}"
-											rowKey="#{per.id}" rows="25" paginator="true"
+
+										<p:panelGrid columns="4"
+											columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+											layout="grid" styleClass="ui-panelgrid-blank"
+											style="border:0px none; background-color:transparent;">
+
+											<p:outputLabel for="txtvar3" value="Descripción:" />
+											<p:inputText id="txtvar3"
+												value="#{operacionConsumoServicioBean.entidad.descripcion}"
+												required="true" requiredMessage="Ingrese descripcion"
+												label="descripcion"
+												onkeyup="this.value = this.value.toUpperCase();" />
+
+											<p:outputLabel value="Fecha vencimiento:" for="txtvar11" />
+											<p:calendar id="txtvar11" pattern="dd-MM-yyyy" mask="true"
+												autocomplete="off" placeholder="dd-mm-aaaa" navigator="true"
+												yearRange="c-10:c+5" locale="es"
+												value="#{operacionConsumoServicioBean.entidad.fechaVencimiento}"
+												required="true"
+												requiredMessage="Ingrese fecha de vencimieto">
+												<f:validateRequired for="txtvar11" />
+											</p:calendar>
+
+										</p:panelGrid>
+
+										<p:dataTable id="tbl" var="per"
+											value="#{operacionConsumoServicioBean.listaPreOperacion}"
+											rows="50" paginator="true"
 											paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 											rowsPerPageTemplate="25,50,75"
 											emptyMessage="No se encontraron registros" reflow="true">
 
-											<p:ajax event="rowSelect"
-												listener="#{completarLecturaBean.onRowSelect}"
-												update="frmEntidad frmTabla frmDetalle frmTipoServicio frmFiscalizacion" />
-											<p:ajax event="rowUnselect"
-												listener="#{completarLecturaBean.onRowUnselect}"
-												update="frmEntidad frmTabla frmDetalle frmTipoServicio frmFiscalizacion" />
-
-
-											<p:column headerText="Id">
-												<h:outputText value="#{per.id}" />
-											</p:column>
 											<p:column headerText="Puesto">
-												<h:outputText value="#{per.puesto.descripcion}" />
+												<h:outputText value="#{per.puestoDescripcion}" />
 											</p:column>
 
-											<p:column headerText="Servicio">
-												<h:outputText value="#{per.tipoServicio.descripcion}" />
+											<p:column headerText="Lectura Anterior - Actual">
+												<h:outputText
+													value="#{per.lecturaAnterior} - #{per.lecturaActual}" />
 											</p:column>
 
-											<p:column headerText="Lectura">
-												<h:outputText value="#{per.medida}" />
+											<p:column headerText="Consumo Actual">
+												<h:outputText value="#{per.consumo}" />
 											</p:column>
 
-											<p:column headerText="Estado">
-												<h:outputText value="#{per.estado}" />
+											<p:column headerText="Costo Unitatio Consumo">
+												<h:outputText value="#{per.costoUnitarioConsumo}" />
 											</p:column>
 
-											<p:column headerText="Fecha registro">
-												<h:outputText value="#{per.registro}">
-													<f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss"
-														timeZone="GMT-5" />
-												</h:outputText>
+											<p:column headerText="Subtotal Consumo">
+												<h:outputText value="#{per.costoSubtotalConsumo}" />
 											</p:column>
+
+											<p:column headerText="Consumo fijo">
+												<h:outputText value="#{per.costoFijo}" />
+											</p:column>
+
+											<p:column headerText="Total Consumo">
+												<h:outputText value="#{per.costoTotal}" />
+											</p:column>
+
 										</p:dataTable>
+
+										<div class="EmptyBox5" />
+
+										<p:commandButton value="Generar Operaciones"
+											actionListener="#{operacionConsumoServicioBean.generarOperaciones()}"
+											update="frmEntidad frmDetalle frmTipoServicio frmTabla frmEstadistica"
+											icon="fa fa-save" styleClass="GreenButton" />
 
 									</div>
 								</div>
 							</p:panel>
+
 						</h:form>
 
 
 
 						<h:form id="frmDetalle">
-							<p:panel id="pnlDetalle" header="Detalle de lectura de consumo de servicio"
+							<p:panel id="pnlDetalle"
+								header="Detalle de Operacion de consumo servicio"
 								style="margin-bottom:20px"
-								rendered="#{completarLecturaBean.booBtnEliminar}">
+								rendered="#{operacionConsumoServicioBean.booBtnEliminar}">
 								<div class="Container">
 									<div class="Container80 Responsive100">
 										<p:panelGrid columns="4" layout="grid"
@@ -164,27 +192,19 @@ body {
 
 											<p:outputLabel value="Id:" />
 											<h:outputText
-												value="#{completarLecturaBean.entidadseleccionada.id}" />
+												value="#{operacionConsumoServicioBean.entidadseleccionada.id}" />
 
 											<p:outputLabel value="Anio - Periodo Fiscal:" />
 											<h:outputText
-												value="#{completarLecturaBean.entidadseleccionada.periodo.anioFiscal.descripcion} - #{completarLecturaBean.entidadseleccionada.periodo.descripcion}" />
+												value="#{operacionConsumoServicioBean.entidadseleccionada.periodo.anioFiscal.descripcion} - #{operacionConsumoServicioBean.entidadseleccionada.periodo.descripcion}" />
 
 											<p:outputLabel value="Puesto:" />
 											<h:outputText
-												value="#{completarLecturaBean.entidadseleccionada.puesto.descripcion}" />
-
-											<p:outputLabel value="Tipo Servicio:" />
-											<h:outputText
-												value="#{completarLecturaBean.entidadseleccionada.tipoServicio.descripcion}" />
-
-											<p:outputLabel value="Lectura: " />
-											<h:outputText
-												value="#{completarLecturaBean.entidadseleccionada.medida}" />
+												value="#{operacionConsumoServicioBean.entidadseleccionada.puesto.descripcion}" />
 
 											<p:outputLabel value="Registro: " />
 											<h:outputText
-												value="#{completarLecturaBean.entidadseleccionada.registro}">
+												value="#{operacionConsumoServicioBean.entidadseleccionada.registro}">
 												<f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss"
 													timeZone="GMT-5" />
 											</h:outputText>
@@ -194,16 +214,15 @@ body {
 									<div class="Container20 Responsive100">
 
 										<p:commandButton value="Eliminar" id="btnEliminar"
-											actionListener="#{completarLecturaBean.eliminar()}"
+											actionListener="#{operacionConsumoServicioBean.eliminar()}"
 											update="frmEntidad frmTabla frmDetalle frmTipoServicio frmFiscalizacion frmEstadistica"
 											icon="fa fa-refresh" styleClass="RedButton" process="@this"
 											immediate="true" />
 										<div class="EmptyBox5" />
 										<p:commandButton value="Cancelar"
-											actionListener="#{completarLecturaBean.cancelarEliminacionEntidad()}"
-											update="frmEntidad frmTabla frmDetalle frmTipoServicio frmFiscalizacion"
-											icon="fa fa-refresh" process="@this"
-											immediate="true" />
+											actionListener="#{operacionConsumoServicioBean.cancelarEliminacionEntidad()}"
+											update="frmEntidad frmTabla frmDetalle frmTipoServicio frmFiscalizacion frmEstadistica"
+											icon="fa fa-refresh" process="@this" immediate="true" />
 									</div>
 								</div>
 							</p:panel>
@@ -215,7 +234,7 @@ body {
 							<f:passThroughAttribute name="autocomplete" value="off" />
 
 							<p:panel id="panFiltro"
-								header="Lista de lecturas de consumo de servicios registradas">
+								header="Lista de Operaciones de consumo servicios registradas">
 								<div class="Container">
 									<div class="Container60 Responsive100"></div>
 									<div class="Container40 Responsive100">
@@ -223,11 +242,12 @@ body {
 											styleClass="ui-panelgrid-blank"
 											style="border:0px none; background-color:transparent;">
 											<p:inputText id="counter"
-												value="#{completarLecturaBean.filtro}"
+												value="#{operacionConsumoServicioBean.filtro}"
 												placeholder="Filtrar registros"
 												onkeyup="this.value = this.value.toUpperCase();" />
 											<p:commandButton value="Filtar"
-												action="#{completarLecturaBean.filtrar()}" update="frmTabla" />
+												action="#{operacionConsumoServicioBean.filtrar()}"
+												update="frmTabla" />
 										</p:panelGrid>
 									</div>
 
@@ -235,39 +255,44 @@ body {
 									<div class="Container100 Responsive100">
 
 										<p:dataTable id="tbl" var="per"
-											value="#{completarLecturaBean.listafiltro}"
+											value="#{operacionConsumoServicioBean.listafiltro}"
 											selectionMode="single"
-											selection="#{completarLecturaBean.entidadseleccionada}"
+											selection="#{operacionConsumoServicioBean.entidadseleccionada}"
 											rowKey="#{per.id}" rows="25" paginator="true"
 											paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 											rowsPerPageTemplate="25,50,75"
 											emptyMessage="No se encontraron registros" reflow="true">
 
 											<p:ajax event="rowSelect"
-												listener="#{completarLecturaBean.onRowSelect}"
+												listener="#{operacionConsumoServicioBean.onRowSelect}"
 												update="frmEntidad frmTabla frmDetalle frmTipoServicio frmFiscalizacion" />
+												
 											<p:ajax event="rowUnselect"
-												listener="#{completarLecturaBean.onRowUnselect}"
+												listener="#{operacionConsumoServicioBean.onRowUnselect}"
 												update="frmEntidad frmTabla frmDetalle frmTipoServicio frmFiscalizacion" />
 
 
 											<p:column headerText="Id">
 												<h:outputText value="#{per.id}" />
 											</p:column>
-											<p:column headerText="Puesto">
+											<p:column headerText="Deudor">
 												<h:outputText value="#{per.puesto.descripcion}" />
 											</p:column>
-
-											<p:column headerText="Servicio">
-												<h:outputText value="#{per.tipoServicio.descripcion}" />
+											
+											<p:column headerText="Acreedor">
+												<h:outputText value="#{per.proveedor.razonSocial}" />
 											</p:column>
 
-											<p:column headerText="Lectura">
-												<h:outputText value="#{per.medida}" />
+											<p:column headerText="Categoria">
+												<h:outputText value="#{per.categoriaOperacion.descripcion}" />
 											</p:column>
-
-											<p:column headerText="Estado">
-												<h:outputText value="#{per.estado}" />
+											
+											<p:column headerText="Tipo">
+												<h:outputText value="#{per.tipoOperacion.descripcion}" />
+											</p:column>
+											
+											<p:column headerText="Monto">
+												<h:outputText value="#{per.monto}" />
 											</p:column>
 
 											<p:column headerText="Fecha registro">

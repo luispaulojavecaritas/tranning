@@ -290,7 +290,81 @@ public class UtilFechas implements Serializable {
 		}
 	}
 
-	public Integer obtenerCantidadDiasPorMesActual() {
+	public Integer obtenerCantidadDiasPorFecha(Date date) {
+
+		Calendar c1 = Calendar.getInstance();
+		c1.setTime(date);
+
+		int mes = c1.get(Calendar.MONTH);
+		int anio = c1.get(Calendar.YEAR);
+
+		switch (mes) {
+		case 0: // Enero
+		case 2: // Marzo
+		case 4: // Mayo
+		case 6: // Julio
+		case 7: // Agosto
+		case 9: // Octubre
+		case 11: // Diciembre
+			return 31;
+		case 3: // Abril
+		case 5: // Junio
+		case 8: // Septiembre
+		case 10: // Noviembre
+			return 30;
+		case 1: // Febrero
+			if (((anio % 100 == 0) && (anio % 400 == 0)) || ((anio % 100 != 0) && (anio % 4 == 0)))
+				return 29; // Año Bisiesto
+			else
+				return 28;
+		default:
+			throw new java.lang.IllegalArgumentException("El mes debe estar entre 0 y 11");
+		}
+
+	}
+
+	public String obtenerNombrePeriodoPorFecha(Date date) {
+
+		Calendar c1 = Calendar.getInstance();
+		c1.setTime(date);
+
+		int mes = c1.get(Calendar.MONTH);
+		int anio = c1.get(Calendar.YEAR);
+
+		switch (mes) {
+
+		case 0:
+			return "ENERO " + anio;
+		case 1:
+			return "FEBRERO " + anio;
+		case 2:
+			return "MARZO " + anio;
+		case 3:
+			return "ABRIL " + anio;
+		case 4:
+			return "MAYO " + anio;
+		case 5:
+			return "JUNIO " + anio;
+		case 6:
+			return "JULIO " + anio;
+		case 7:
+			return "AGOSTO " + anio;
+		case 8:
+			return "SETIEMBRE " + anio;
+		case 9:
+			return "OCTUBRE " + anio;
+		case 10:
+			return "NOVIEMBRE " + anio;
+		case 11:
+			return "DICIEMBRE " + anio;
+
+		default:
+			throw new java.lang.IllegalArgumentException("El mes debe estar entre 0 y 11");
+		}
+
+	}
+
+	public Integer obtenerCantidadDiasPorMesActual1() {
 
 		Calendar c1 = Calendar.getInstance();
 

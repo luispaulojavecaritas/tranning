@@ -42,7 +42,7 @@ public class AnioFiscalServiceImpl implements AnioFiscalService {
 		
 		anioFiscalDao.create(entidad);
 		
-		periodoDao.updateEstadoAfterCreateAnioFiscal();
+		periodoDao.updateEstado();
 	}
 
 	@Override

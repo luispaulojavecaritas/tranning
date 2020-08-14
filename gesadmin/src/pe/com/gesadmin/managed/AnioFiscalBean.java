@@ -15,12 +15,15 @@ import org.primefaces.event.UnselectEvent;
 
 import pe.com.gesadmin.entity.AnioFiscal;
 import pe.com.gesadmin.entity.Operacion;
+import pe.com.gesadmin.entity.Periodo;
 import pe.com.gesadmin.entity.Puesto;
 import pe.com.gesadmin.service.AnioFiscalService;
 import pe.com.gesadmin.service.OperacionService;
+import pe.com.gesadmin.service.PeriodoService;
 import pe.com.gesadmin.service.PuestoService;
 import pe.com.gesadmin.service.impl.AnioFiscalServiceImpl;
 import pe.com.gesadmin.service.impl.OperacionServiceImpl;
+import pe.com.gesadmin.service.impl.PeriodoServiceImpl;
 import pe.com.gesadmin.service.impl.PuestoServiceImpl;
 import pe.com.gesadmin.util.UtilFechas;
 
@@ -34,6 +37,9 @@ public class AnioFiscalBean {
 	private AnioFiscal entidad = new AnioFiscal();
 	private AnioFiscal entidadseleccionada = new AnioFiscal();
 	
+	private AnioFiscal anioFiscalActual = new AnioFiscal();
+	private Periodo periodoActual = new Periodo();
+	
 
 	private String filtro;
 
@@ -43,17 +49,23 @@ public class AnioFiscalBean {
 	private PuestoService puestoService = new PuestoServiceImpl();
 	@EJB
 	private OperacionService operacionService = new OperacionServiceImpl();	
+	@EJB
+	private PeriodoService periodoService = new PeriodoServiceImpl();	
 
 
 	public AnioFiscalBean() {
 		// TODO Auto-generated constructor stub
 		filtro = null;
 		entidad = new AnioFiscal();
+		
+		anioFiscalActual = new AnioFiscal();
+		periodoActual = new Periodo();
 	}
 
 	@PostConstruct
 	public void init() {
 		listarEntidad();
+		obtenerAnioFiscalActual();
 	}
 
 	public List<AnioFiscal> getLista() {
@@ -109,6 +121,26 @@ public class AnioFiscalBean {
 		this.operacionService = operacionService;
 	}
 
+	public AnioFiscal getAnioFiscalActual() {
+		return anioFiscalActual;
+	}
+
+	public void setAnioFiscalActual(AnioFiscal anioFiscalActual) {
+		this.anioFiscalActual = anioFiscalActual;
+	}
+
+	public void setPeriodoService(PeriodoService periodoService) {
+		this.periodoService = periodoService;
+	}
+
+	public Periodo getPeriodoActual() {
+		return periodoActual;
+	}
+
+	public void setPeriodoActual(Periodo periodoActual) {
+		this.periodoActual = periodoActual;
+	}
+
 	public String guardar() {
 
 		if (entidad.getId() == null) {
@@ -122,12 +154,19 @@ public class AnioFiscalBean {
 			} else {
 				
 				System.out.println("Si se validara operaciones");
+				
+				if (periodoActual == null) {
+					System.out.println("No hay un Periodo fiscal activo");
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+							"No hay periodo fiscal activo. Registre un periodo fiscal.", ""));
+					return "";
+				}
 
 				boolean validacionServicios = validarOperacionesLuzAgua();
 				boolean validacionAdministracion = validarOperacionesAdministrativo();
 
 				if (validacionServicios) {
-					System.out.println("Cumple validacion operacion servicios luz y agua");
+					System.out.println("Cumple validacion operaciones de categoria  servicios luz y agua");
 				} else {
 					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
 							"Complete registros de operaciones de categoria servicios de luz y agua", ""));
@@ -135,7 +174,7 @@ public class AnioFiscalBean {
 				}
 
 				if (validacionAdministracion) {
-					System.out.println("Cumple validacion operacion de categoria administrativo");
+					System.out.println("Cumple validacion operaciones de categoria administrativo");
 				} else {
 					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
 							"Complete registros de operaciones de categoria administrativo", ""));
@@ -169,6 +208,7 @@ public class AnioFiscalBean {
 		
 		limpiar();
 		listarEntidad();
+		obtenerAnioFiscalActual();
 		return "";
 	}
 
@@ -209,7 +249,7 @@ public class AnioFiscalBean {
 			entidad = null;
 			entidadseleccionada = null;
 			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", "Problemas al recuperar registro"));
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al recuperar registro", ""));
 		}
 	}
 
@@ -221,7 +261,7 @@ public class AnioFiscalBean {
 			// TODO: handle exception
 			lista = null;
 			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", "Problemas al recuperar registros"));
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al recuperar registros", ""));
 		}
 		
 		listafiltro = lista;
@@ -301,7 +341,7 @@ public class AnioFiscalBean {
 		listaOperaciones = operacionService.listarPorPeriodoactualCategoriaAdministracion();
 
 		UtilFechas utilFechas = new UtilFechas();
-		int cantidadDias = utilFechas.obtenerCantidadDiasPorMesActual();
+		int cantidadDias = periodoActual.getDias();
 
 		Integer diferencia = (listaPuestos.size() * cantidadDias) - listaOperaciones.size();
 
@@ -310,7 +350,37 @@ public class AnioFiscalBean {
 		} else {
 			return false;
 		}
+	}
+	
+	
+	public void obtenerAnioFiscalActual() {
+		List<AnioFiscal> listaAnioFiscal = servicio.listarActivo();
+		
+		listaAnioFiscal.toString();
 
+		if (listaAnioFiscal == null || listaAnioFiscal.isEmpty()) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+					"No hay año fiscal activo. Registre un año fiscal.", ""));
+			anioFiscalActual = null;
+		} else {
+			anioFiscalActual = listaAnioFiscal.get(0);
+		}
+		
+		obtenerPeriodoFiscalActual();
+	}
+	
+	public void obtenerPeriodoFiscalActual() {
+		List<Periodo> listaPeriodoFiscal = periodoService.listarActivo();
+		
+		listaPeriodoFiscal.toString();
+
+		if (listaPeriodoFiscal == null || listaPeriodoFiscal.isEmpty()) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+					"No hay periodo fiscal activo. Registre un periodo fiscal.", ""));
+			periodoActual = null;
+		} else {
+			periodoActual = listaPeriodoFiscal.get(0);
+		}
 	}
 
 

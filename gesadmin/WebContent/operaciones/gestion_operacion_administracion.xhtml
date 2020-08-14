@@ -1,0 +1,254 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="head">
+		<style type="text/css">
+body {
+	background-color: #F1F1F1;
+}
+</style>
+	</ui:define>
+
+	<ui:define name="content">
+
+		<div class="Section">
+
+			<div class="Container100 ShadowEffect WhiteBack">
+
+				<div class="Container100 ui-fluid">
+					<div class="Container100">
+						<div
+							class="Wid100 MarAuto DispBlock OvHidden FontMerriWeatherRegular BlueDarkest TexAlCenter"
+							style="font-size: 3.0rem; padding-top: 0rem; padding-bottom: 0rem;">GENERAR
+							OPERACION ADMINISTRACION</div>
+						<div class="Wid100 OvHidden" style="height: 1rem;"></div>
+
+						<h:form id="frmEstadistica">
+							<div
+								class="Container100 Responsive100 #{operacionAdministracionBean.claseAdministracion}">
+								<div class="White Fs18">
+									<h:outputText
+										value="#{operacionAdministracionBean.mensajeAdministracion}" />
+								</div>
+							</div>
+						</h:form>
+
+						<div class="EmptyBox10" />
+
+
+						<h:form id="frmFiscalizacion">
+							<p:panel id="pnlfiscalizacion" header="Periodo fiscal"
+								style="margin-bottom:20px"
+								rendered="#{!operacionAdministracionBean.booBtnEliminar}">
+								<p:panelGrid columns="4" layout="grid"
+									styleClass="ui-panelgrid-blank"
+									style="border:0px none; background-color:transparent;">
+
+									<p:outputLabel value="Año Fiscal:" />
+									<h:outputText
+										value="#{operacionAdministracionBean.periodoActual.anioFiscal.descripcion}" />
+
+									<p:outputLabel value="Periodo Fiscal:" />
+									<h:outputText
+										value="#{operacionAdministracionBean.periodoActual.descripcion}" />
+								</p:panelGrid>
+							</p:panel>
+						</h:form>
+
+
+						<h:form id="frmEntidad">
+							<p:panel id="pnlDetallessss" rendered="#{operacionAdministracionBean.booRegistroEntidad}"
+								header="Registrar lectura de consumo de servicio"
+								style="margin-bottom:20px">
+								<div class="Container">
+									<div class="Container100 Responsive100">
+
+										<p:panelGrid columns="4"
+											columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+											layout="grid" styleClass="ui-panelgrid-blank"
+											style="border:0px none; background-color:transparent;">
+
+											<p:outputLabel for="txtvar3" value="Descripción:" />
+											<p:inputText id="txtvar3"
+												value="#{operacionAdministracionBean.entidad.descripcion}"
+												required="true" requiredMessage="Ingrese descripcion"
+												label="descripcion"
+												onkeyup="this.value = this.value.toUpperCase();" />
+
+											<p:outputLabel value="Fecha vencimiento:" for="txtvar11" />
+											<p:calendar id="txtvar11" pattern="dd-MM-yyyy" mask="true"
+												autocomplete="off" placeholder="dd-mm-aaaa" navigator="true"
+												yearRange="c-10:c+5" locale="es"
+												value="#{operacionAdministracionBean.entidad.fechaVencimiento}"
+												required="true"
+												requiredMessage="Ingrese fecha de vencimieto">
+												<f:validateRequired for="txtvar11" />
+											</p:calendar>
+
+										</p:panelGrid>
+
+										<p:dataTable id="tbl" var="per"
+											value="#{operacionAdministracionBean.listaPreOperacion}"
+											rows="50" paginator="true"
+											paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+											rowsPerPageTemplate="25,50,75"
+											emptyMessage="No se encontraron registros" reflow="true">
+
+											<p:column headerText="Puesto">
+												<h:outputText value="#{per.puestoDes}" />
+											</p:column>
+
+											<p:column headerText="Dias Pendiente">
+												<h:outputText value="#{per.dias}" />
+											</p:column>
+
+											<p:column headerText="Costo Dia">
+												<h:outputText value="#{per.montoUnitario}" />
+											</p:column>
+
+											<p:column headerText="Costo Total">
+												<h:outputText value="#{per.montoTotal}" />
+											</p:column>
+
+										</p:dataTable>
+
+										<div class="EmptyBox5" />
+
+										<p:commandButton value="Generar Operaciones"
+											actionListener="#{operacionAdministracionBean.generarOperaciones()}"
+											update="frmEntidad frmDetalle  frmTabla frmEstadistica"
+											icon="fa fa-save" styleClass="GreenButton" />
+
+									</div>
+
+								</div>
+							</p:panel>
+
+						</h:form>
+
+
+
+						<h:form id="frmDetalle">
+							<p:panel id="pnlDetalle"
+								header="Detalle de lectura de consumo de servicio"
+								style="margin-bottom:20px"
+								rendered="#{operacionAdministracionBean.booBtnEliminar}">
+								<div class="Container">
+									<div class="Container80 Responsive100">
+										<p:panelGrid columns="4" layout="grid"
+											styleClass="ui-panelgrid-blank"
+											style="border:0px none; background-color:transparent;">
+
+											<p:outputLabel value="Puesto:" />
+											<h:outputText
+												value="#{operacionAdministracionBean.entidadseleccionadaTransfer.puestoDes}" />
+
+											<p:outputLabel value="Categoria Operacion:" />
+											<h:outputText
+												value="#{operacionAdministracionBean.entidadseleccionadaTransfer.categoriaDes}" />
+
+											<p:outputLabel value="Costo Unitario:" />
+											<h:outputText
+												value="#{operacionAdministracionBean.entidadseleccionadaTransfer.montoUnitario}" />
+
+											<p:outputLabel value="Costo Total:" />
+											<h:outputText
+												value="#{operacionAdministracionBean.entidadseleccionadaTransfer.montoTotal}" />
+										</p:panelGrid>
+									</div>
+									<div class="Container20 Responsive100">
+
+										<p:commandButton value="Eliminar" id="btnEliminar"
+											actionListener="#{operacionAdministracionBean.eliminar()}"
+											update="frmEntidad frmTabla frmDetalle  frmFiscalizacion frmEstadistica"
+											icon="fa fa-refresh" styleClass="RedButton" process="@this"
+											immediate="true" />
+										<div class="EmptyBox5" />
+										<p:commandButton value="Cancelar"
+											actionListener="#{operacionAdministracionBean.cancelarEliminacionEntidad()}"
+											update="frmEntidad frmTabla frmDetalle  frmFiscalizacion"
+											icon="fa fa-refresh" process="@this" immediate="true" />
+									</div>
+								</div>
+							</p:panel>
+						</h:form>
+
+						<div class="Container100 Responsive100">
+							<p:messages autoUpdate="true" closable="true" />
+						</div>
+
+
+						<div class="EmptyBox10" />
+						<h:form id="frmTabla">
+							<f:passThroughAttribute name="autocomplete" value="off" />
+
+							<p:panel id="panFiltro"
+								header="Lista de lecturas de consumo de servicios registradas">
+								<div class="Container">
+									<div class="Container60 Responsive100"></div>
+									<div class="Container40 Responsive100">
+										<p:panelGrid columns="2" layout="grid"
+											styleClass="ui-panelgrid-blank"
+											style="border:0px none; background-color:transparent;">
+											<p:inputText id="counter"
+												value="#{operacionAdministracionBean.filtro}"
+												placeholder="Filtrar registros"
+												onkeyup="this.value = this.value.toUpperCase();" />
+											<p:commandButton value="Filtar"
+												action="#{operacionAdministracionBean.filtrar()}"
+												update="frmTabla" />
+										</p:panelGrid>
+									</div>
+
+
+									<div class="Container100 Responsive100">
+
+										<p:dataTable id="tbl" var="per"
+											value="#{operacionAdministracionBean.listafiltro}"
+											selectionMode="single"
+											selection="#{operacionAdministracionBean.entidadseleccionadaTransfer}"
+											rowKey="#{per.puestoId}" rows="25" paginator="true"
+											paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+											rowsPerPageTemplate="25,50,75"
+											emptyMessage="No se encontraron registros" reflow="true">
+
+											<p:ajax event="rowSelect"
+												listener="#{operacionAdministracionBean.onRowSelect}"
+												update="frmEntidad frmTabla frmDetalle  frmFiscalizacion" />
+											<p:ajax event="rowUnselect"
+												listener="#{operacionAdministracionBean.onRowUnselect}"
+												update="frmEntidad frmTabla frmDetalle  frmFiscalizacion" />
+
+											<p:column headerText="Deudor">
+												<h:outputText value="#{per.puestoDes}" />
+											</p:column>
+
+											<p:column headerText="Categoria">
+												<h:outputText value="#{per.categoriaDes}" />
+											</p:column>
+
+											<p:column headerText="Monto Unitario">
+												<h:outputText value="#{per.montoUnitario}" />
+											</p:column>
+
+											<p:column headerText="Monto Total">
+												<h:outputText value="#{per.montoTotal}" />
+											</p:column>
+
+										</p:dataTable>
+									</div>
+								</div>
+							</p:panel>
+						</h:form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+	</ui:define>
+
+</ui:composition>

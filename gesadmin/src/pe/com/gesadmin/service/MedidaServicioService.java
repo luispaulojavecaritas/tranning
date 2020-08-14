@@ -23,7 +23,11 @@ public interface MedidaServicioService {
     
     public List<MedidaServicio> listarActivo();
     
+    public List<MedidaServicio> listarPorPeriodoActivo();
+    
     public List<MedidaServicio> listarPorPeriodoId(Integer idPeriodo);
+    
+    public List<MedidaServicio> listarPorPeriodoIdTipoServicio(Integer idPeriodo, Integer idTipoServicio);
     
     public List<MedidaServicio> listarPorAnioId(Integer idAnioFiscal);
     
@@ -36,5 +40,5 @@ public interface MedidaServicioService {
     public MedidaServicio recuperarPuestoidPeriodoidTiposervicioid (Integer idPeriodo, Integer idPuesto, Integer idTipoServicio); 
     
     public void eliminar (Integer id);
-    
+        
 }

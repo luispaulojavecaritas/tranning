@@ -98,16 +98,19 @@ body {
 										<div class="EmptyBox5" />
 										<p:commandButton value="Limpiar"
 											actionListener="#{puestoPersonaCargoBean.limpiar()}"
-											update="frm1 frm2" icon="fa fa-refresh"
-											process="@this" immediate="true" />
+											update="frm1 frm2" icon="fa fa-refresh" process="@this"
+											immediate="true" />
 									</div>
 								</div>
 							</p:panel>
 						</h:form>
 
+						<div class="Container100 Responsive100">
+							<p:messages autoUpdate="true" closable="true" />
+						</div>
 
+						<div class="EmptyBox5" />
 
-						<div class="EmptyBox10" />
 						<h:form id="frm2">
 							<f:passThroughAttribute name="autocomplete" value="off" />
 

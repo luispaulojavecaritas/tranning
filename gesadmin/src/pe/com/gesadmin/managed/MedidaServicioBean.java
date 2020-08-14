@@ -19,10 +19,12 @@ import pe.com.gesadmin.entity.Periodo;
 import pe.com.gesadmin.entity.Puesto;
 import pe.com.gesadmin.entity.TipoServicio;
 import pe.com.gesadmin.service.MedidaServicioService;
+import pe.com.gesadmin.service.OperacionService;
 import pe.com.gesadmin.service.PeriodoService;
 import pe.com.gesadmin.service.PuestoService;
 import pe.com.gesadmin.service.TipoServicioService;
 import pe.com.gesadmin.service.impl.MedidaServicioServiceImpl;
+import pe.com.gesadmin.service.impl.OperacionServiceImpl;
 import pe.com.gesadmin.service.impl.PeriodoServiceImpl;
 import pe.com.gesadmin.service.impl.PuestoServiceImpl;
 import pe.com.gesadmin.service.impl.TipoServicioServiceImpl;
@@ -35,6 +37,8 @@ public class MedidaServicioBean {
 	private List<MedidaServicio> lista = new ArrayList<>();
 	private List<MedidaServicio> listafiltro;
 	private MedidaServicio entidad = new MedidaServicio();
+	private MedidaServicio entidadAnterior = new MedidaServicio();
+	
 	private MedidaServicio entidadseleccionada = new MedidaServicio();
 	
 	private Periodo periodoActual = new Periodo();
@@ -57,6 +61,10 @@ public class MedidaServicioBean {
 	private List<MedidaServicio> listaEntidadAgua = new ArrayList<>();
 	
 	private boolean booBtnEliminar = false;
+	private boolean booLecturaAnterior = false;
+	
+	private boolean booRegistrosPre = false;
+	private boolean booRegistro = false;
 
 	private String lecturaAnterior = "No registra";
 	
@@ -72,11 +80,15 @@ public class MedidaServicioBean {
 	private TipoServicioService tipoServicioService = new TipoServicioServiceImpl(); 
 	@EJB
 	private PuestoService puestoService  = new PuestoServiceImpl(); 
+	@EJB
+	private OperacionService operacionService  = new OperacionServiceImpl(); 
 
 	public MedidaServicioBean() {
 		// TODO Auto-generated constructor stub
 		filtro = null;
 		entidad = new MedidaServicio();
+		entidadAnterior = new MedidaServicio();
+		
 		lista = new ArrayList<>();
 		listaTipoServicio = new ArrayList<>();
 		
@@ -99,6 +111,9 @@ public class MedidaServicioBean {
 		listaPuestoFiltro = new ArrayList<>();
 		
 		booBtnEliminar = false;
+		booLecturaAnterior = false;
+		booRegistrosPre = false;
+		booRegistro = false;
 		
 		lecturaAnterior = "No registra";
 	}
@@ -287,6 +302,14 @@ public class MedidaServicioBean {
 		this.booBtnEliminar = booBtnEliminar;
 	}
 
+	public boolean isBooLecturaAnterior() {
+		return booLecturaAnterior;
+	}
+
+	public void setBooLecturaAnterior(boolean booLecturaAnterior) {
+		this.booLecturaAnterior = booLecturaAnterior;
+	}
+
 	public String getLecturaAnterior() {
 		return lecturaAnterior;
 	}
@@ -303,11 +326,52 @@ public class MedidaServicioBean {
 		this.periodoAnterior = periodoAnterior;
 	}
 
+	public MedidaServicio getEntidadAnterior() {
+		return entidadAnterior;
+	}
+
+	public void setEntidadAnterior(MedidaServicio entidadAnterior) {
+		this.entidadAnterior = entidadAnterior;
+	}
+
+	public void setOperacionService(OperacionService operacionService) {
+		this.operacionService = operacionService;
+	}	
+
+	public boolean isBooRegistrosPre() {
+		return booRegistrosPre;
+	}
+
+	public void setBooRegistrosPre(boolean booRegistrosPre) {
+		this.booRegistrosPre = booRegistrosPre;
+	}
+
+	public boolean isBooRegistro() {
+		return booRegistro;
+	}
+
+	public void setBooRegistro(boolean booRegistro) {
+		this.booRegistro = booRegistro;
+	}
+	
+	
+
 	public String guardar() {
 		System.out.println("Periodo: " + periodoActual.toString());
 		System.out.println("Tipo Servicio: " + tipoServicioActual.toString());
 		System.out.println("Entidad: " + entidad.toString());
 		entidad.setEstado(1);
+		
+		if(entidad.getMedida() >= entidadAnterior.getMedida()) {
+			System.out.println("SI Paso validacion de comparacion de medida actual tiene que ser superior o igual a la medida anterior");
+		}else {
+			System.out.println("NO Paso validacion de comparacion de medida actual tiene que ser superior o igual a la medida anterior");
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_WARN, "La lectura del presente periodo tiene que se mayor o igual a la lectura del anterior periodo", ""));
+			return "";
+		}
+		
+		Double consumo = obtener_consumo();
 
 		if (entidad.getId() == null) {
 			System.out.println("A guardar");
@@ -315,10 +379,12 @@ public class MedidaServicioBean {
 				
 				MedidaServicio entidadLocal = new MedidaServicio();
 				entidadLocal.setPuesto(new Puesto(entidad.getPuesto().getId()));
-				entidadLocal.setMedida(entidad.getMedida());				
+				entidadLocal.setMedida(entidad.getMedida());
+				entidadLocal.setMedidaAnterior(entidadAnterior.getMedida());
 				entidadLocal.setEstado(entidad.getEstado());
 				entidadLocal.setTipoServicio(new TipoServicio(tipoServicioActual.getId()));
 				entidadLocal.setPeriodo(new Periodo(periodoActual.getId()));
+				entidadLocal.setConsumo(consumo);
 				
 				servicio.crear(entidadLocal);
 				FacesContext.getCurrentInstance().addMessage(null,
@@ -337,10 +403,12 @@ public class MedidaServicioBean {
 				
 				MedidaServicio entidadLocal = new MedidaServicio();
 				entidadLocal.setPuesto(new Puesto(entidad.getPuesto().getId()));
-				entidadLocal.setMedida(entidad.getMedida());				
+				entidadLocal.setMedida(entidad.getMedida());	
+				entidadLocal.setMedidaAnterior(entidadAnterior.getMedida());
 				entidadLocal.setEstado(entidad.getEstado());
 				entidadLocal.setTipoServicio(new TipoServicio(tipoServicioActual.getId()));
 				entidadLocal.setPeriodo(new Periodo(periodoActual.getId()));
+				entidadLocal.setConsumo(consumo);
 				
 				servicio.actualizar(entidad);
 				FacesContext.getCurrentInstance().addMessage(null,
@@ -372,12 +440,16 @@ public class MedidaServicioBean {
 					new FacesMessage(FacesMessage.SEVERITY_WARN, "Seleccione registro a eliminar", ""));
 			limpiarEntidad();
 			listarEntidad();
+			limpiarTipoServicio();
 			return "";
 		}
 
 
 		try {
+			System.out.println("Entidad Seleccionada: " + entidadseleccionada.toString());
 			servicio.eliminar(entidadseleccionada.getId());
+			operacionService.eliminarPorPeriodoidPuestoidCategoriaid(entidadseleccionada.getPeriodo().getId(), entidadseleccionada.getPuesto().getId(), entidadseleccionada.getTipoServicio().getId());
+			
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro eliminado", ""));
 		} catch (Exception e) {
@@ -385,26 +457,13 @@ public class MedidaServicioBean {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al eliminar registro", ""));
 		}
-		limpiarEntidad();
-		listarEntidad();
 		
 		booBtnEliminar = false;
 		
-		if(tipoServicio.getId() == 1) {
-			if(listaEntidadLuz == null || listaEntidadLuz.isEmpty()) {
-				listaPuestoFiltro = listaPuesto;
-			}else {
-				filtrarPuestosLuz();
-			}
-		}else if(tipoServicio.getId() == 2) {
-			if(listaEntidadAgua == null || listaEntidadAgua.isEmpty()) {
-				listaPuestoFiltro = listaPuesto;
-			}else {
-				filtrarPuestosAgua();
-			}
-		}else {
-			listaPuestoFiltro = null;
-		}
+		listarEntidad();
+		limpiarEntidad();
+		limpiarTipoServicio();
+		
 		
 		return "";
 	}
@@ -420,25 +479,27 @@ public class MedidaServicioBean {
 			entidad = null;
 			entidadseleccionada = null;
 			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", "Problemas al recuperar registro"));
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al recuperar registro", ""));
 		}
 	}
 
 	public void listarEntidad() {
 		lista = new ArrayList<>();
 		try {
-			lista = servicio.listar();
+			lista = servicio.listarPorPeriodoActivo();
 		} catch (Exception e) {
 			// TODO: handle exception
 			lista = null;
 			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", "Problemas al recuperar registros"));
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al recuperar registros", ""));
 		}
 		
 		listafiltro = lista;
 		
 		obtenerCantidadLuz();
 		obtenerCantidadAgua();
+		
+		obtenerBooRegistro();
 	}
 	
 	public void obtenerCantidadLuz() {
@@ -554,7 +615,7 @@ public class MedidaServicioBean {
 			// TODO: handle exception
 			listaTipoServicio = null;
 			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", "Problemas al recuperar registros tipo servicio"));
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al recuperar registros tipo servicio", ""));
 		}		
 	}
 	
@@ -566,7 +627,7 @@ public class MedidaServicioBean {
 			// TODO: handle exception
 			listaPuesto = null;
 			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", "Problemas al recuperar registros puesto"));
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al recuperar registros puesto", ""));
 		}		
 	}
 
@@ -575,11 +636,15 @@ public class MedidaServicioBean {
 			entidad = new MedidaServicio();
 			entidadseleccionada = new MedidaServicio();
 			booBtnEliminar = false;
+			booRegistrosPre = false;
+			booRegistro = true;
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_WARN, "No se selecciono ningun registro", ""));
 		} else {
 			entidad = new MedidaServicio();
 			booBtnEliminar = true;
+			booRegistrosPre = false;
+			booRegistro = false;
 			System.out.println("Entidad Seleccionada: " + entidadseleccionada.toString());
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "Seleccion de registro exitosa", ""));
@@ -590,16 +655,27 @@ public class MedidaServicioBean {
 		entidad = new MedidaServicio();
 		entidadseleccionada = new MedidaServicio();
 		booBtnEliminar = false;
+		booRegistrosPre = false;
+		booRegistro = true;
+		
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO, "Se anulo seleccion de registro ", ""));
 	}
 
 	public void limpiarEntidad() {
 		entidad = new MedidaServicio();
+		entidadAnterior = new MedidaServicio();
 		entidadseleccionada = new MedidaServicio();
 		listafiltro = lista;
 		lecturaAnterior = "No registra";
-
+	}
+	
+	public void limpiarTipoServicio() {
+		limpiarEntidad();
+		tipoServicio = new TipoServicio();
+		tipoServicioActual = new TipoServicio();
+		listaPuestoFiltro = new ArrayList<>();
+		booRegistrosPre = false;
 	}
 	
 	public void cancelarEliminacionEntidad() {
@@ -634,26 +710,44 @@ public class MedidaServicioBean {
 			if(listaperiodos.size()>1) {
 				periodoActual = listaperiodos.get(0);
 				periodoAnterior = listaperiodos.get(1);
+				booLecturaAnterior = false;
 			}else {
-				periodoActual = listaperiodos.get(0);
+				periodoActual = listaperiodos.get(0);				
 				periodoAnterior = null;
+				booLecturaAnterior = true;
 			}
 		}
 	}
 	
+	public Double obtener_consumo() {
+		
+		System.out.println("Entidad anterior: " + entidadAnterior.toString());
+		
+		Double medidaActual = entidad.getMedida();
+		Double medidaAnterior = null;
+		
+		medidaAnterior = entidadAnterior.getMedida();
+	
+		
+		Double consumoActual = medidaActual - medidaAnterior;
+		
+		return consumoActual;
+		
+	}
+	
 	public void obtenerLecturaAnterior() {
 		lecturaAnterior = null;
+		entidadAnterior = new MedidaServicio();
 		
 		if(periodoAnterior == null) {
 			lecturaAnterior = "No registra";
 		}else {
-			MedidaServicio medidaAnteriorrr = new MedidaServicio();
-			medidaAnteriorrr = servicio.recuperarPuestoidPeriodoidTiposervicioid(periodoAnterior.getId(), entidad.getPuesto().getId(), entidad.getTipoServicio().getId());
-			lecturaAnterior = medidaAnteriorrr.getMedida() + "";
+			entidadAnterior = servicio.recuperarPuestoidPeriodoidTiposervicioid(periodoAnterior.getId(), entidad.getPuesto().getId(), tipoServicio.getId());
+			lecturaAnterior = entidadAnterior.getMedida() + "";
 		}		
 	}
 	
-	public void obtenerTipoServicioActual() {
+	public String obtenerTipoServicioActual() {
 		
 		tipoServicioActual = new TipoServicio();
 		tipoServicioActual = new TipoServicio(tipoServicio.getId());
@@ -661,13 +755,13 @@ public class MedidaServicioBean {
 		
 		System.out.println("Servicio Actual obtenido: " + tipoServicioActual.toString());
 		
-		if(tipoServicio.getId() == 1) {
+		if(tipoServicioActual.getId() == 1) {
 			if(listaEntidadLuz == null || listaEntidadLuz.isEmpty()) {
 				listaPuestoFiltro = listaPuesto;
 			}else {
 				filtrarPuestosLuz();
 			}
-		}else if(tipoServicio.getId() == 2) {
+		}else if(tipoServicioActual.getId() == 2) {
 			if(listaEntidadAgua == null || listaEntidadAgua.isEmpty()) {
 				listaPuestoFiltro = listaPuesto;
 			}else {
@@ -676,6 +770,18 @@ public class MedidaServicioBean {
 		}else {
 			listaPuestoFiltro = null;
 		}
+		
+		
+		
+		if(listaPuestoFiltro == null || listaPuestoFiltro.isEmpty()) {
+			booRegistrosPre = false;
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_WARN, "No se encontro puestos pendientes de registrar lectura de servicios", ""));
+		}else {
+			booRegistrosPre = true;
+		}
+		
+		return "";
 	}
 
 	public String filtrar() {
@@ -696,5 +802,14 @@ public class MedidaServicioBean {
 		filtro = null;
 		return "";
 	}
+	
+	public void obtenerBooRegistro() {
+		
+		if(claseAgua.equalsIgnoreCase("GreenBack") && claseLuz.equalsIgnoreCase("GreenBack")) {
+			booRegistro = false;
+		}else {
+			booRegistro = true;
+		}
+	} 
 
 }

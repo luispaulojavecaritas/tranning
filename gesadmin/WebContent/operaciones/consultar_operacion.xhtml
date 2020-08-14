@@ -28,53 +28,57 @@ body {
 
 						<h:form id="frm1">
 							<f:passThroughAttribute name="autocomplete" value="off" />
-							<div class="Container80 Responsive100">
-								<p:panelGrid columns="4" id="pnl"
-									columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
-									layout="grid" styleClass="ui-panelgrid-blank"
-									style="border:0px none; background-color:transparent;">
+							<p:panel id="pnlfiscalizacion" header="Periodo fiscal"
+								style="margin-bottom:20px"
+								rendered="#{!consultaOperacionBean.booDetalle}">
+								<div class="Container">
+									<div class="Container80 Responsive100">
+										<p:panelGrid columns="4" id="pnl"
+											columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+											layout="grid" styleClass="ui-panelgrid-blank"
+											style="border:0px none; background-color:transparent;">
 
+											<p:outputLabel for="txtvar1" value="Año Fiscal: " />
+											<p:selectOneMenu id="txtvar1"
+												value="#{consultaOperacionBean.periodoTransfer.idAnio}"
+												required="false" requiredMessage="Seleccione año fiscal"
+												label="año fiscal" filter="true" filterMatchMode="contains">
+												<f:selectItem itemLabel="Seleccione" itemValue="" />
+												<f:selectItems
+													value="#{consultaOperacionBean.listaAnioFiscal}"
+													var="lista" itemLabel="#{lista.descripcion}"
+													itemValue="#{lista.id}" />
 
-									<p:outputLabel for="txtvar1" value="Año Fiscal: " />
-									<p:selectOneMenu id="txtvar1"
-										value="#{consultaOperacionBean.idAnioFiscal}" required="true"
-										requiredMessage="Seleccione año fiscal" label="año fiscal"
-										filter="true" filterMatchMode="contains">
-										<f:selectItem itemLabel="Seleccione" itemValue="" />
-										<f:selectItems
-											value="#{consultaOperacionBean.listaAnioFiscal}" var="lista"
-											itemLabel="#{lista.descripcion}" itemValue="#{lista.id}" />
+												<p:ajax listener="#{consultaOperacionBean.listarPeriodo()}"
+													update="frm1" />
 
-										<p:ajax listener="#{consultaOperacionBean.listarPeriodo()}"
-											update="frm1" />
+											</p:selectOneMenu>
 
-									</p:selectOneMenu>
+											<p:outputLabel for="txtvar2" value="Periodo:" />
+											<p:selectOneMenu id="txtvar2"
+												value="#{consultaOperacionBean.periodoTransfer.idPeriodo}"
+												required="false" requiredMessage="Seleccione periodo"
+												label="periodo" filter="true" filterMatchMode="contains">
+												<f:selectItem itemLabel="Seleccione" itemValue="" />
+												<f:selectItems value="#{consultaOperacionBean.listaPeriodo}"
+													var="lista" itemLabel="#{lista.descripcion}"
+													itemValue="#{lista.id}" />
+											</p:selectOneMenu>
+										</p:panelGrid>
+									</div>
 
-									<p:outputLabel for="txtvar2" value="Periodo:" />
-									<p:selectOneMenu id="txtvar2"
-										value="#{consultaOperacionBean.idPeriodo}" required="true"
-										requiredMessage="Seleccione periodo" label="periodo"
-										filter="true" filterMatchMode="contains">
-										<f:selectItem itemLabel="Seleccione" itemValue="" />
-										<f:selectItems value="#{consultaOperacionBean.listaPeriodo}"
-											var="lista" itemLabel="#{lista.descripcion}"
-											itemValue="#{lista.id}" />
-									</p:selectOneMenu>
-
-								</p:panelGrid>
-							</div>
-
-							<div class="Container20 Responsive100">
-								<p:commandButton value="Consultar"
-									actionListener="#{consultaOperacionBean.listarEntidad()}"
-									update="frm1 frm2 frm3 message frm4" icon="fa fa-save"
-									styleClass="GreenButton" />
-								<div class="EmptyBox5" />
-								<p:commandButton value="Limpiar"
-									actionListener="#{consultaOperacionBean.limpiar()}"
-									update="frm1 frm2 message frm3 frm4" icon="fa fa-refresh"
-									styleClass="GoldButton" process="@this" immediate="true" />
-							</div>
+									<div class="Container20 Responsive100">
+										<p:commandButton value="Consultar" styleClass="GreenButton"
+											actionListener="#{consultaOperacionBean.listarEntidad()}"
+											update="frm1 frm2 frm3 message frm4" icon="fa fa-save" />
+										<div class="EmptyBox5" />
+										<p:commandButton value="Limpiar"
+											actionListener="#{consultaOperacionBean.limpiar()}"
+											update="frm1 frm2 message frm3 frm4" icon="fa fa-refresh"
+											process="@this" immediate="true" />
+									</div>
+								</div>
+							</p:panel>
 						</h:form>
 
 						<div class="EmptyBox10" />
@@ -82,97 +86,97 @@ body {
 
 						<h:form id="frm4">
 							<f:passThroughAttribute name="autocomplete" value="off" />
-							<div class="Container100 Responsive100">
-								<p:panel id="panel2" header="Filtros de registros "
-									rendered="#{consultaOperacionBean.booFiltro}"
-									style="margin-bottom:20px">
-									<p:panelGrid columns="3" layout="grid"
-										styleClass="ui-panelgrid-blank"
-										style="border:0px none; background-color:transparent;">
+							<p:panel id="panel2" header="Filtros de registros "
+								rendered="#{consultaOperacionBean.booFiltro}"
+								style="margin-bottom:20px">
+
+								<div class="Container">
+									<div class="Container80 Responsive100">
+										<p:panelGrid columns="3" layout="grid"
+											styleClass="ui-panelgrid-blank"
+											style="border:0px none; background-color:transparent;">
 
 
-										<p:selectOneMenu id="txtvar20"
-											value="#{consultaOperacionBean.idPuesto}" required="true"
-											requiredMessage="Seleccione deudor a filtrar" label="deudor"
-											filter="true" filterMatchMode="contains">
-											<f:selectItem itemLabel="Deudor" itemValue="" />
-											<f:selectItems
-												value="#{consultaOperacionBean.listaPuestoTransfersFiltro}"
-												var="lista" itemLabel="#{lista.descripcion}"
-												itemValue="#{lista.id}" />
+											<p:selectOneMenu id="txtvar20"
+												value="#{consultaOperacionBean.idPuesto}" required="true"
+												requiredMessage="Seleccione deudor a filtrar" label="deudor"
+												filter="true" filterMatchMode="contains">
+												<f:selectItem itemLabel="Deudor" itemValue="" />
+												<f:selectItems
+													value="#{consultaOperacionBean.listaPuestoTransfersFiltro}"
+													var="lista" itemLabel="#{lista.descripcion}"
+													itemValue="#{lista.id}" />
 
-											<p:ajax
-												listener="#{consultaOperacionBean.actualizarListaEntidadFiltroPuesto()}"
-												update="frm4 frm2 frm3" />
+												<p:ajax
+													listener="#{consultaOperacionBean.actualizarListaEntidadFiltroPuesto()}"
+													update="frm4 frm2 frm3" />
 
-										</p:selectOneMenu>
-										
-										<p:selectOneMenu id="txtvar19"
-											value="#{consultaOperacionBean.idCategoria}" required="true"
-											requiredMessage="Seleccione categoria a filtrar" label=" categoria"
-											filter="true" filterMatchMode="contains">
-											<f:selectItem itemLabel="Categoria" itemValue="" />
-											<f:selectItems
-												value="#{consultaOperacionBean.listaCategoriaTransfersFiltro}"
-												var="lista" itemLabel="#{lista.descripcion}"
-												itemValue="#{lista.id}" />
+											</p:selectOneMenu>
 
-											<p:ajax
-												listener="#{consultaOperacionBean.actualizarListaEntidadFiltroCategoria()}"
-												update="frm4 frm2 frm3" />
+											<p:selectOneMenu id="txtvar19"
+												value="#{consultaOperacionBean.idCategoria}" required="true"
+												requiredMessage="Seleccione categoria a filtrar"
+												label=" categoria" filter="true" filterMatchMode="contains">
+												<f:selectItem itemLabel="Categoria" itemValue="" />
+												<f:selectItems
+													value="#{consultaOperacionBean.listaCategoriaTransfersFiltro}"
+													var="lista" itemLabel="#{lista.descripcion}"
+													itemValue="#{lista.id}" />
 
-										</p:selectOneMenu>
+												<p:ajax
+													listener="#{consultaOperacionBean.actualizarListaEntidadFiltroCategoria()}"
+													update="frm4 frm2 frm3" />
 
-										<p:selectOneMenu id="txtvar21"
-											value="#{consultaOperacionBean.idEstatus}" required="true"
-											requiredMessage="Seleccione estatus operacion a filtrar"
-											label="estatus operacion" filter="true"
-											filterMatchMode="contains">
-											<f:selectItem itemLabel="Estatus"
-												itemValue="" />
-											<f:selectItems
-												value="#{consultaOperacionBean.listaEstatusOperacionTransfersFiltro}"
-												var="lista" itemLabel="#{lista.descripcion}"
-												itemValue="#{lista.id}" />
+											</p:selectOneMenu>
 
-											<p:ajax
-												listener="#{consultaOperacionBean.actualizarListaEntidadFiltroEstatus()}"
-												update="frm4 frm2 frm3" />
+											<p:selectOneMenu id="txtvar21"
+												value="#{consultaOperacionBean.idEstatus}" required="true"
+												requiredMessage="Seleccione estatus operacion a filtrar"
+												label="estatus operacion" filter="true"
+												filterMatchMode="contains">
+												<f:selectItem itemLabel="Estatus" itemValue="" />
+												<f:selectItems
+													value="#{consultaOperacionBean.listaEstatusOperacionTransfersFiltro}"
+													var="lista" itemLabel="#{lista.descripcion}"
+													itemValue="#{lista.id}" />
 
-										</p:selectOneMenu>
+												<p:ajax
+													listener="#{consultaOperacionBean.actualizarListaEntidadFiltroEstatus()}"
+													update="frm4 frm2 frm3" />
 
-										<p:selectOneMenu id="txtvar22"
-											value="#{consultaOperacionBean.idTipo}" required="true"
-											requiredMessage="Seleccione tipo operacion a filtrar"
-											label="tipo operacion" filter="true"
-											filterMatchMode="contains tipo de operacion">
-											<f:selectItem itemLabel="Tipo Operacion" itemValue="" />
-											<f:selectItems
-												value="#{consultaOperacionBean.listaTipoOperacionTransfersFiltro}"
-												var="lista" itemLabel="#{lista.descripcion}"
-												itemValue="#{lista.id}" />
+											</p:selectOneMenu>
 
-											<p:ajax
-												listener="#{consultaOperacionBean.actualizarListaEntidadFiltroTipo()}"
-												update="frm1 frm2 message frm3 frm4" />
+											<p:selectOneMenu id="txtvar22"
+												value="#{consultaOperacionBean.idTipo}" required="true"
+												requiredMessage="Seleccione tipo operacion a filtrar"
+												label="tipo operacion" filter="true"
+												filterMatchMode="contains tipo de operacion">
+												<f:selectItem itemLabel="Tipo Operacion" itemValue="" />
+												<f:selectItems
+													value="#{consultaOperacionBean.listaTipoOperacionTransfersFiltro}"
+													var="lista" itemLabel="#{lista.descripcion}"
+													itemValue="#{lista.id}" />
 
-										</p:selectOneMenu>
+												<p:ajax
+													listener="#{consultaOperacionBean.actualizarListaEntidadFiltroTipo()}"
+													update="frm1 frm2 message frm3 frm4" />
 
-									</p:panelGrid>
+											</p:selectOneMenu>
 
-									<p:commandButton value="Limpiar Filtros"
-										actionListener="#{consultaOperacionBean.limpiarFiltro()}"
-										update="frm1 frm2 frm3 frm4 message" icon="fa fa-refresh"
-										styleClass="GoldButton" process="@this" immediate="true" />
+										</p:panelGrid>
+									</div>
+									<div class="Container20 Responsive100">
 
-								</p:panel>
-							</div>
-
+										<p:commandButton value="Limpiar Filtros"
+											actionListener="#{consultaOperacionBean.limpiarFiltro()}"
+											update="frm1 frm2 frm3 frm4 message" icon="fa fa-refresh"
+											styleClass="GoldButton" process="@this" immediate="true" />
+									</div>
+								</div>
+							</p:panel>
 						</h:form>
 
-						<div class="EmptyBox10" />
-
-
+						<div class="EmptyBox5" />
 
 						<h:form id="frm3">
 							<div class="Container100 Responsive100">

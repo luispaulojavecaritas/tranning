@@ -7,13 +7,21 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import pe.com.gesadmin.dao.OperacionDao;
+import pe.com.gesadmin.entity.CategoriaOperacion;
 import pe.com.gesadmin.entity.EstatusOperacion;
 import pe.com.gesadmin.entity.Movimiento;
 import pe.com.gesadmin.entity.Operacion;
+import pe.com.gesadmin.entity.Periodo;
 import pe.com.gesadmin.entity.Persona;
+import pe.com.gesadmin.entity.Proveedor;
+import pe.com.gesadmin.entity.Puesto;
+import pe.com.gesadmin.entity.TipoOperacion;
+import pe.com.gesadmin.entity.transfer.LecturasMedidasPreOperacion;
+import pe.com.gesadmin.entity.transfer.OperacionAdministracionTransfer;
 import pe.com.gesadmin.util.UtilFechas;
 
 @Stateless
@@ -178,7 +186,7 @@ public class OperacionDaoImpl implements OperacionDao {
 	}
 
 	@Override
-	public List<Operacion> findByPeriodoactualCategoriaLuzAgua(){
+	public List<Operacion> findByPeriodoactualCategoriaLuzAgua() {
 		// TODO Auto-generated method stub
 		List<Operacion> lista = new ArrayList<>();
 		String query = "SELECT b FROM Operacion b where b.periodo.estado = 1 and b.estado = 1 and b.categoriaOperacion.id in (1,2)";
@@ -193,6 +201,166 @@ public class OperacionDaoImpl implements OperacionDao {
 		List<Operacion> lista = new ArrayList<>();
 		String query = "SELECT b FROM Operacion b where b.periodo.estado = 1 and b.estado = 1 and b.categoriaOperacion.id = 3";
 		TypedQuery<Operacion> tq = em.createQuery(query, Operacion.class);
+		lista = tq.getResultList();
+		return lista;
+	}
+
+	@Override
+	public void delete(Integer id) {
+		// TODO Auto-generated method stub
+		Operacion operacion = new Operacion();
+		operacion = em.getReference(Operacion.class, id);
+		em.remove(operacion);
+	}
+
+	@Override
+	public void generateOperacionConsumoServicios(List<LecturasMedidasPreOperacion> lista, String descripcion,
+			Date fechaVencimiento) {
+		// TODO Auto-generated method stub
+
+		Operacion operacion = new Operacion();
+
+		for (int i = 0; i <= lista.size() - 1; i++) {
+
+			operacion = new Operacion();
+			operacion.setCategoriaOperacion(new CategoriaOperacion(lista.get(i).getCategoriaId()));
+			operacion.setDescripcion(descripcion);
+			operacion.setEstado(1);
+			operacion.setEstatusOperacion(new EstatusOperacion(lista.get(i).getEstatusOperacion()));
+			operacion.setFechaVencimiento(fechaVencimiento);
+			operacion.setMonto(lista.get(i).getCostoTotal());
+			operacion.setPeriodo(new Periodo(lista.get(i).getPeriodoId()));
+			operacion.setProveedor(new Proveedor(lista.get(i).getProveedorAcreedor()));
+			operacion.setPuesto(new Puesto(lista.get(i).getPuestoId()));
+			operacion.setTipoOperacion(new TipoOperacion(lista.get(i).getTipoOperacion()));
+			operacion.setPersonaResponsableOperacion(null);
+
+			em.persist(operacion);
+		}
+
+	}
+
+	@Override
+	public void generateOperacionAdministracion(List<OperacionAdministracionTransfer> lista, String descripcion,
+			Date fechaVencimiento) {
+		// TODO Auto-generated method stub
+		Operacion operacion = new Operacion();
+
+		for (int i = 0; i <= lista.size() - 1; i++) {
+
+			Integer cantidadRegistros = 0;
+			cantidadRegistros = lista.get(i).getDias();
+
+			for (int j = 0; j <= cantidadRegistros - 1; j++) {
+				
+				operacion = new Operacion();
+				operacion.setCategoriaOperacion(new CategoriaOperacion(lista.get(i).getCategoriaId()));
+				operacion.setDescripcion(descripcion);
+				operacion.setEstado(1);
+				operacion.setEstatusOperacion(new EstatusOperacion(lista.get(i).getEstatusOperacionId()));
+				operacion.setFechaVencimiento(fechaVencimiento);
+				operacion.setMonto(lista.get(i).getMontoUnitario());
+				operacion.setPeriodo(new Periodo(lista.get(i).getIdPeriodo()));
+				operacion.setProveedor(new Proveedor(lista.get(i).getIdProveedorAdministracion()));
+				operacion.setPuesto(new Puesto(lista.get(i).getPuestoId()));
+				operacion.setTipoOperacion(new TipoOperacion(lista.get(i).getTipoOperacionId()));
+				operacion.setPersonaResponsableOperacion(null);
+
+				em.persist(operacion);
+			}
+		}
+	}
+
+	@Override
+	public void deleteByPeriodoidPuestoidCategoriaid(Integer periodoId, Integer puestoId, Integer categoriaId) {
+		// TODO Auto-generated method stub
+		System.out.println("PArametros de input, periodoId: "+ periodoId+" - puestoId: " + puestoId + " - categoriaId : "+ categoriaId);
+		String query = "DELETE FROM Operacion b where b.periodo.id = :periodoId and b.puesto.id = :puestoId and b.categoriaOperacion.id = :categoriaId";
+		Query q = em.createQuery(query);
+		q.setParameter("periodoId", periodoId);
+		q.setParameter("puestoId", puestoId);
+		q.setParameter("categoriaId", categoriaId);
+		int regsitros = q.executeUpdate();
+		System.out.println("CAntidad de registros ELiminados: " + regsitros);
+		
+	}
+
+	@Override
+	public List<OperacionAdministracionTransfer> findByPeriodoactualCategoriaAdministracionTransfer() {
+		// TODO Auto-generated method stub
+		
+		List<OperacionAdministracionTransfer> list = null;
+
+		String query = "select "
+				+ "af.id, af.descripcion, "
+				+ "per.id, per.descripcion, "
+				+ "p.id, p.descripcion, "
+				+ "top.id ,top.descripcion, "
+				+ "co.id, co.descripcion, "
+				+ "eo.id, eo.descripcion, "
+				+ "to_char(o.fecha_vencimiento,'yyyy-MM-dd'), "
+				+ "o.monto, sum(o.monto), count(o.id) "
+				+ "from operacion o "
+				+ "left join puesto p on o.id_puesto = p.id "
+				+ "left join tipo_operacion top on o.id_tipo_operacion = top.id "
+				+ "left join categoria_operacion co on o.id_categoria_operacion = co.id "
+				+ "left join estatus_operacion eo on o.id_estatus_operacion = eo.id "
+				+ "left join periodo per on o.id_periodo = per.id "
+				+ "left join anio_fiscal af on per.id_anio_fiscal  = af.id "
+				+ "where "
+				+ "per.estado = 1 and "
+				+ "o.id_categoria_operacion not in (1,2) "
+				+ "group by "
+				+ "af.id, af.descripcion, per.id, per.descripcion, p.id, p.descripcion, top.id ,top.descripcion, co.id, co.descripcion, eo.id, eo.descripcion, o.fecha_vencimiento,  o.monto";
+
+		Query q = em.createNativeQuery(query);
+
+		List<Object[]> resultado = q.getResultList();
+
+		if (resultado == null || resultado.isEmpty()) {
+			System.out.println("lista OperacionAdministracionTransfer nula o vacia");
+			list = new ArrayList<>();
+			return list;
+		} else {
+
+			System.out.println("lista OperacionAdministracionTransfer NO es nula o vacia");
+			
+			list = new ArrayList<>();
+
+			for (Object[] obj : resultado) {
+				OperacionAdministracionTransfer entidad = new OperacionAdministracionTransfer();
+				entidad.setAnioFiscalId(Integer.parseInt(obj[0]+""));
+				entidad.setAnioFiscalDes(obj[1]+"");
+				entidad.setPeriodoFiscalId(Integer.parseInt(obj[2]+""));
+				entidad.setPeriodoFiscalDes(obj[3]+"");
+				entidad.setPuestoId(Integer.parseInt(obj[4]+""));
+				entidad.setPuestoDes(obj[5]+"");
+				entidad.setTipoOperacionId(Integer.parseInt(obj[6]+""));
+				entidad.setTipoOperacionDes(obj[7]+"");
+				entidad.setCategoriaId(Integer.parseInt(obj[8]+""));
+				entidad.setCategoriaDes(obj[9]+"");
+				entidad.setEstatusOperacionId(Integer.parseInt(obj[10]+""));
+				entidad.setEstatusOperacionDes(obj[11]+"");
+				entidad.setFechaVencimiento(obj[12]+"");
+				entidad.setMontoUnitario(Double.parseDouble(obj[13]+""));
+				entidad.setMontoTotal(Double.parseDouble(obj[14]+""));
+				entidad.setDias(Integer.parseInt(obj[15]+""));
+				
+				list.add(entidad);
+			}
+		}
+
+		return list;
+		
+	}
+
+	@Override
+	public List<Operacion> listarByAnioId(Integer idAnioFiscal) {
+		// TODO Auto-generated method stub
+		List<Operacion> lista = new ArrayList<>();
+		String query = "SELECT b FROM Operacion b where b.estado = 1 and b.periodo.anioFiscal.id = :idAnioFiscal";
+		TypedQuery<Operacion> tq = em.createQuery(query, Operacion.class);
+		tq.setParameter("idAnioFiscal", idAnioFiscal);
 		lista = tq.getResultList();
 		return lista;
 	}

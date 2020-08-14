@@ -1,5 +1,6 @@
 package pe.com.gesadmin.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -8,6 +9,8 @@ import javax.ejb.Stateless;
 import pe.com.gesadmin.dao.OperacionDao;
 import pe.com.gesadmin.dao.impl.OperacionDaoImpl;
 import pe.com.gesadmin.entity.Operacion;
+import pe.com.gesadmin.entity.transfer.LecturasMedidasPreOperacion;
+import pe.com.gesadmin.entity.transfer.OperacionAdministracionTransfer;
 import pe.com.gesadmin.service.OperacionService;
 import pe.com.gesadmin.transfer.OrdenTransfer;
 
@@ -88,6 +91,43 @@ public class OperacionServiceImpl implements OperacionService {
 	public List<Operacion> listarPorPeriodoactualCategoriaAdministracion() {
 		// TODO Auto-generated method stub
 		return ordenDao.findByPeriodoactualCategoriaAdministracion();
+	}
+
+	@Override
+	public void eliminar(Integer id) {
+		// TODO Auto-generated method stub
+		ordenDao.delete(id);
+	}
+
+	@Override
+	public void generarOperacionConsumoServicios(List<LecturasMedidasPreOperacion> lista, String descripcion, Date fechaVencimiento) {
+		// TODO Auto-generated method stub
+		ordenDao.generateOperacionConsumoServicios(lista, descripcion, fechaVencimiento);
+	}
+
+	@Override
+	public void eliminarPorPeriodoidPuestoidCategoriaid(Integer periodoId, Integer puestoId, Integer categoriaId) {
+		// TODO Auto-generated method stub
+		ordenDao.deleteByPeriodoidPuestoidCategoriaid(periodoId, puestoId, categoriaId);
+	}
+
+	@Override
+	public List<OperacionAdministracionTransfer> listarPorPeriodoactualCategoriaAdministracionTransfer() {
+		// TODO Auto-generated method stub
+		return ordenDao.findByPeriodoactualCategoriaAdministracionTransfer();
+	}
+
+	@Override
+	public void generarOperacionAdministracion(List<OperacionAdministracionTransfer> lista, String descripcion,
+			Date fechaVencimiento) {
+		// TODO Auto-generated method stub
+		ordenDao.generateOperacionAdministracion(lista, descripcion, fechaVencimiento);
+	}
+
+	@Override
+	public List<Operacion> listarPorAnioId(Integer idAnioFiscal) {
+		// TODO Auto-generated method stub
+		return ordenDao.listarByAnioId(idAnioFiscal);
 	}
 
 }

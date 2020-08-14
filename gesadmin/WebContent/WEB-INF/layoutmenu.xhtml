@@ -15,79 +15,99 @@
 				<p:menuitem id="pt_man_variable" value="Variables"
 					icon="icon-dashboard"
 					outcome="/mantenimiento_catalogo/mantenimiento_variable" />
-					
+
 			</p:submenu>
 
-			
-			<p:submenu id="pt_fiscalizacion" label="Fiscalizacion" icon="icon-layers">
-				
-				<p:menuitem id="pt_man_anio_fiscal" value="Año Fiscal" icon="icon-dashboard"
+
+			<p:submenu id="pt_fiscalizacion" label="Fiscalizacion"
+				icon="icon-layers">
+
+				<p:menuitem id="pt_man_anio_fiscal" value="Año Fiscal"
+					icon="icon-dashboard"
 					outcome="/fiscalizacion/mantenimiento_anio_fiscal" />
-					
-				<p:menuitem id="pt_man_periodo" value="Periodo" icon="icon-dashboard"
+
+				<p:menuitem id="pt_man_periodo" value="Periodo"
+					icon="icon-dashboard"
 					outcome="/fiscalizacion/mantenimiento_periodo" />
-				
+
 			</p:submenu>
-			
+
 			<p:submenu id="pt_personas" label="Personas" icon="icon-layers">
-				
-				<p:menuitem id="pt_man_persona" value="Persona" icon="icon-dashboard"
-					outcome="/personas/mantenimiento_persona" />
-					
-				<p:menuitem id="pt_man_pais" value="Mant. Pais" icon="icon-dashboard"
-					outcome="/personas/mantenimiento_pais" />
 
-				<p:menuitem id="pt_man_sexo" value="Mant. Sexo" icon="icon-dashboard"
-					outcome="/personas/mantenimiento_sexo" />
+				<p:menuitem id="pt_man_persona" value="Persona"
+					icon="icon-dashboard" outcome="/personas/mantenimiento_persona" />
 
-				<p:menuitem id="pt_man_tipo_documento" value="Mant. Tipo Documento" icon="icon-dashboard"
+				<p:menuitem id="pt_man_pais" value="Mant. Pais"
+					icon="icon-dashboard" outcome="/personas/mantenimiento_pais" />
+
+				<p:menuitem id="pt_man_sexo" value="Mant. Sexo"
+					icon="icon-dashboard" outcome="/personas/mantenimiento_sexo" />
+
+				<p:menuitem id="pt_man_tipo_documento" value="Mant. Tipo Documento"
+					icon="icon-dashboard"
 					outcome="/personas/mantenimiento_tipo_documento" />
-					
+
 			</p:submenu>
-			
+
 			<p:submenu id="pt_proveedores" label="Proveedores" icon="icon-layers">
-				
-				<p:menuitem id="pt_man_proveedor" value="Proveedor" icon="icon-dashboard"
+
+				<p:menuitem id="pt_man_proveedor" value="Proveedor"
+					icon="icon-dashboard"
 					outcome="/proveedores/mantenimiento_proveedor" />
-					
-				<p:menuitem id="pt_man_proveedor_contacto" 	value="Proveedor Persona Contacto" icon="icon-dashboard"
+
+				<p:menuitem id="pt_man_proveedor_contacto"
+					value="Proveedor Persona Contacto" icon="icon-dashboard"
 					outcome="/proveedores/mantenimiento_proveedor_persona_contacto" />
-					
+
 			</p:submenu>
-			
+
 			<p:submenu id="pt_puestos" label="Puestos" icon="icon-layers">
-			
+
 				<p:menuitem id="pt_man_bloque" value="Bloque" icon="icon-dashboard"
 					outcome="/puestos/mantenimiento_bloque" />
-				
+
 				<p:menuitem id="pt_man_puesto" value="Puesto" icon="icon-dashboard"
 					outcome="/puestos/mantenimiento_puesto" />
-					
-				<p:menuitem id="pt_man_puesto_persona_cargo" value="Puesto Persona Cargo" icon="icon-dashboard"
+
+				<p:menuitem id="pt_man_puesto_persona_cargo"
+					value="Puesto Persona Cargo" icon="icon-dashboard"
 					outcome="/puestos/mantenimiento_puesto_persona_cargo" />
-					
-				<p:menuitem id="pt_man_cargo" value="Mant. Cargo" icon="icon-dashboard"
-					outcome="/puestos/mantenimiento_cargo" />
-			
+
+				<p:menuitem id="pt_man_cargo" value="Mant. Cargo"
+					icon="icon-dashboard" outcome="/puestos/mantenimiento_cargo" />
+
 			</p:submenu>
-			
-			<p:submenu id="pt_consumo_servicios" label="Consumo Servicios" icon="icon-layers">
-			
-				<p:menuitem id="pt_ges_medida_servicios" value="Gestion Registro de Lectura Servicios" icon="icon-dashboard"
-					outcome="/consumo_servicios/gestion_consumo_servicios" />
-				
-				<p:menuitem id="pt_con_consumo_servicios" value="Consulta de Registro de Lectura Servicios" icon="icon-dashboard"
+
+			<p:submenu id="pt_consumo_servicios" label="Consumo Servicios"
+				icon="icon-layers">
+
+				<p:menuitem id="pt_con_consumo_servicios"
+					value="Consultar Lectura Servicios"
+					icon="icon-dashboard"
 					outcome="/consumo_servicios/consultar_consumo_servicios" />
-			
-				<p:menuitem id="pt_man_tipo_servicio" value="Mant. Tipo Servicio" icon="icon-dashboard"
+
+				<p:menuitem id="pt_ges_medida_servicios"
+					value="Gestionar Lectura Servicios" icon="icon-dashboard"
+					outcome="/consumo_servicios/gestion_consumo_servicios" />
+
+				<p:menuitem id="pt_man_tipo_servicio" value="Mant. Tipo Servicio"
+					icon="icon-dashboard"
 					outcome="/consumo_servicios/mantenimiento_tipo_servicio" />
-					
+
 			</p:submenu>
 
 			<p:submenu id="pt_operaciones" label="Operaciones" icon="icon-layers">
 
 				<p:menuitem id="pt_ges_operacion" value="Gestion Operaciones"
 					icon="icon-dashboard" outcome="/operaciones/gestion_operacion" />
+
+				<p:menuitem id="pt_operacion_servicio_consumo"
+					value="Generar Cobranza Servicios " icon="icon-dashboard"
+					outcome="/operaciones/gestion_operacion_consumo_servicios" />
+
+				<p:menuitem id="pt_operacion_administracion"
+					value="Generar Cobranza Administracion " icon="icon-dashboard"
+					outcome="/operaciones/gestion_operacion_administracion" />
 
 				<p:menuitem id="pt_pag_operacion" value="Efectuar Pago Operacion"
 					icon="icon-dashboard" outcome="/operaciones/efectuar_operacion" />
@@ -98,31 +118,35 @@
 
 				<p:menuitem id="pt_con_operacion" value="Consulta Estado Operacion"
 					icon="icon-dashboard" outcome="/operaciones/consultar_operacion" />
-					
-				<p:menuitem id="pt_sub_man_tipo_operacion" value="Mant. Tipo Operacion"
-					icon="icon-dashboard"
+
+				<p:menuitem id="pt_sub_man_tipo_operacion"
+					value="Mant. Tipo Operacion" icon="icon-dashboard"
 					outcome="/operaciones/mantenimiento_tipo_operacion" />
-					
-				<p:menuitem id="pt_sub_man_estatus_operacion" value="Mant. Estatus Operacion"
-					icon="icon-dashboard"
+
+				<p:menuitem id="pt_sub_man_estatus_operacion"
+					value="Mant. Estatus Operacion" icon="icon-dashboard"
 					outcome="/operaciones/mantenimiento_estatus_operacion" />
-				
-				<p:menuitem id="pt_sub_man_categoria_operacion" value="Mant. Categoria Operacion" 
-					icon="icon-dashboard"
+
+				<p:menuitem id="pt_sub_man_categoria_operacion"
+					value="Mant. Categoria Operacion" icon="icon-dashboard"
 					outcome="/mantenimiento_relaciones/mantenimiento_categoria_operacion" />
 
 			</p:submenu>
-			
-			<p:submenu id="pt_amonestacion" label="Amonestaciones" icon="icon-layers">
-			
+
+			<p:submenu id="pt_amonestacion" label="Amonestaciones"
+				icon="icon-layers">
+
 				<p:menuitem id="pt_ges_amonestacion" value="Gestion Amonestaciones"
-					icon="icon-dashboard" outcome="/amonestaciones/gestion_amonestacion" />
-					
+					icon="icon-dashboard"
+					outcome="/amonestaciones/gestion_amonestacion" />
+
 				<p:menuitem id="pt_con_amonestacion" value="Consulta Amonestaciones"
-					icon="icon-dashboard" outcome="/amonestaciones/consultar_amonestacion" />
-				
-				<p:menuitem id="pt_sub_mant_tipo_amonestacion" value="Mant. Tipo Amonestaciones"
-						icon="icon-dashboard" outcome="/amonestaciones/mantenimiento_tipo_amonestacion" />	
+					icon="icon-dashboard"
+					outcome="/amonestaciones/consultar_amonestacion" />
+
+				<p:menuitem id="pt_sub_mant_tipo_amonestacion"
+					value="Mant. Tipo Amonestaciones" icon="icon-dashboard"
+					outcome="/amonestaciones/mantenimiento_tipo_amonestacion" />
 
 			</p:submenu>
 

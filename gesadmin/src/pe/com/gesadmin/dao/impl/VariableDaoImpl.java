@@ -28,7 +28,7 @@ public class VariableDaoImpl implements VariableDao{
 	@Override
 	public List<Variable> findAllActive() {
 		// TODO Auto-generated method stub
-		String query = "select b FROM Variable b where b.estado = 1";
+		String query = "select b FROM Variable b where b.estado = 1 order by b.id asc";
         TypedQuery<Variable> tq = em.createQuery(query, Variable.class);
         List<Variable> lista = tq.getResultList();
         return lista;

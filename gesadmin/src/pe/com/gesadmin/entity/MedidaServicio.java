@@ -37,6 +37,12 @@ public class MedidaServicio implements Serializable {
 
 	@Column(insertable=false, updatable=false)
 	private Timestamp registro;
+	
+	
+	private Double consumo;
+	
+	@Column(name = "medida_anterior")
+	private Double medidaAnterior;
 
 	public MedidaServicio() {
 		periodo = new Periodo();
@@ -104,6 +110,22 @@ public class MedidaServicio implements Serializable {
 		this.tipoServicio = tipoServicio;
 	}
 
+	public Double getConsumo() {
+		return consumo;
+	}
+
+	public void setConsumo(Double consumo) {
+		this.consumo = consumo;
+	}
+
+	public Double getMedidaAnterior() {
+		return medidaAnterior;
+	}
+
+	public void setMedidaAnterior(Double medidaAnterior) {
+		this.medidaAnterior = medidaAnterior;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -131,12 +153,9 @@ public class MedidaServicio implements Serializable {
 
 	@Override
 	public String toString() {
-		return "MedidaServicio [id=" + id + ", estado=" + estado + ", periodo=" + periodo + ", tipoServicio=" + tipoServicio + ", puesto=" + puesto
-				+ ", medida=" + medida + ", registro=" + registro + "]";
+		return "MedidaServicio [id=" + id + ", estado=" + estado + ", periodo=" + periodo + ", tipoServicio="
+				+ tipoServicio + ", puesto=" + puesto + ", medida=" + medida + ", registro=" + registro + ", consumo="
+				+ consumo + ", medidaAnterior=" + medidaAnterior + "]";
 	}
-	
-	
-
-
 
 }

@@ -26,9 +26,6 @@ public interface PeriodoDao {
     
     public Periodo findById (Integer id); 
     
-    public void updateEstado();
-    
-    public void updateEstadoAfterCreateAnioFiscal();
-    
+    public void updateEstado();    
     
 }

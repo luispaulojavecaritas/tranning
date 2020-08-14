@@ -22,6 +22,7 @@ import pe.com.gesadmin.entity.AnioFiscal;
 import pe.com.gesadmin.entity.Operacion;
 import pe.com.gesadmin.entity.Periodo;
 import pe.com.gesadmin.entity.transfer.FiltroTransfer;
+import pe.com.gesadmin.entity.transfer.PeriodoTransfer;
 import pe.com.gesadmin.service.AnioFiscalService;
 import pe.com.gesadmin.service.OperacionService;
 import pe.com.gesadmin.service.PeriodoService;
@@ -54,7 +55,8 @@ public class ConsultaOperacionBean {
 	private List<FiltroTransfer> listaPuestoTransfersFiltro = new ArrayList<>();
 	private List<FiltroTransfer> listaTipoOperacionTransfersFiltro = new ArrayList<>();
 	private List<FiltroTransfer> listaCategoriaTransfersFiltro = new ArrayList<>();
-	
+
+	private PeriodoTransfer periodoTransfer = new PeriodoTransfer();
 
 	private Integer idAnioFiscal;
 	private Integer idPeriodo;
@@ -95,11 +97,12 @@ public class ConsultaOperacionBean {
 		listaTipoOperacionTransfers = null;
 		listaCategoriaTransfers = null;
 
+		periodoTransfer = new PeriodoTransfer();
+
 		idAnioFiscal = null;
 		idPeriodo = null;
 		idPuesto = null;
-		
-		
+
 		booDetalle = false;
 		booFiltro = false;
 	}
@@ -313,6 +316,14 @@ public class ConsultaOperacionBean {
 		this.idTipo = idTipo;
 	}
 
+	public PeriodoTransfer getPeriodoTransfer() {
+		return periodoTransfer;
+	}
+
+	public void setPeriodoTransfer(PeriodoTransfer periodoTransfer) {
+		this.periodoTransfer = periodoTransfer;
+	}
+
 	public void recuperar() {
 
 		entidad = new Operacion();
@@ -341,15 +352,53 @@ public class ConsultaOperacionBean {
 	}
 
 	public void listarEntidad() {
+		
+		boolean booanio  = (periodoTransfer.getIdAnio() != null) ? true : false;
+		boolean booperiodo  = (periodoTransfer.getIdPeriodo() != null) ? true : false;
+		
 		lista = new ArrayList<>();
-		try {
-			lista = servicio.listarPorPeriodoId(idPeriodo);
-		} catch (Exception e) {
-			// TODO: handle exception
+		
+		if(booperiodo) {
+			System.out.println("Consultar por Id Periodo");
+			
+			try {
+				lista = servicio.listarPorPeriodoId(periodoTransfer.getIdPeriodo());
+			} catch (Exception e) {
+				// TODO: handle exception
+				lista = null;
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Problemas al recuperar registros", ""));
+			}
+			
+		}else if(booanio == true && booperiodo == false) {
+			System.out.println("Consultar por Id Anio");
+			
+			try {
+				lista = servicio.listarPorAnioId(periodoTransfer.getIdAnio());
+			} catch (Exception e) {
+				// TODO: handle exception
+				lista = null;
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Problemas al recuperar registros", ""));
+			}
+			
+			
+		}else if(booperiodo == false && booanio == false) {
+			System.out.println("Consultar por Registros Activos");
+			
+			try {
+				lista = servicio.listarActivo();
+			} catch (Exception e) {
+				// TODO: handle exception
+				lista = null;
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Problemas al recuperar registros", ""));
+			}
+		}else {
+			System.out.println("Consultar no reconocida");
 			lista = null;
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Problemas al recuperar registros", ""));
 		}
+		
 
 		listafiltro = lista;
 
@@ -362,23 +411,28 @@ public class ConsultaOperacionBean {
 		listaPuestoTransfersFiltro = listaPuestoTransfers;
 		listaTipoOperacionTransfersFiltro = listaTipoOperacionTransfers;
 		listaCategoriaTransfersFiltro = listaCategoriaTransfers;
-		
+
 		booFiltro = true;
 
 	}
+	
+	
+	
+	
+	
 
 	public void listarPeriodo() {
 
-		if (idAnioFiscal == null) {
+		if (periodoTransfer.getIdAnio() == null) {
 
 			listaPeriodo = null;
 			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_WARN, "Seleccione periodo de anio fiscal", ""));
+					new FacesMessage(FacesMessage.SEVERITY_WARN, "Seleccione periodo de año fiscal", ""));
 		} else {
 
 			listaPeriodo = new ArrayList<>();
 			try {
-				listaPeriodo = periodoService.listarPorIdAnioFiscal(idAnioFiscal);
+				listaPeriodo = periodoService.listarPorIdAnioFiscal(periodoTransfer.getIdAnio());
 			} catch (Exception e) {
 				// TODO: handle exception
 				listaPeriodo = null;
@@ -407,7 +461,7 @@ public class ConsultaOperacionBean {
 	public void onRowUnselect(UnselectEvent event) {
 		entidad = new Operacion();
 		entidadseleccionada = new Operacion();
-		
+
 		booDetalle = false;
 
 		FacesContext.getCurrentInstance().addMessage(null,
@@ -422,7 +476,7 @@ public class ConsultaOperacionBean {
 		idPeriodo = null;
 		idPuesto = null;
 		idCategoria = null;
-		idEstatus= null;
+		idEstatus = null;
 		idTipo = null;
 
 		listafiltro = null;
@@ -432,12 +486,13 @@ public class ConsultaOperacionBean {
 		listaPuestoTransfers = null;
 		listaTipoOperacionTransfers = null;
 		listaCategoriaTransfers = null;
-		
+
 		listaEstatusOperacionTransfersFiltro = null;
 		listaPuestoTransfersFiltro = null;
 		listaTipoOperacionTransfersFiltro = null;
 		listaCategoriaTransfersFiltro = null;
-		
+
+		periodoTransfer = new PeriodoTransfer();
 
 		booDetalle = false;
 		booFiltro = false;
@@ -445,19 +500,19 @@ public class ConsultaOperacionBean {
 		lista = null;
 
 	}
-	
+
 	public void limpiarFiltro() {
 		booDetalle = false;
 		booFiltro = true;
-		
+
 		listafiltro = null;
 		listafiltro = lista;
-		
+
 		listaEstatusOperacionTransfersFiltro = null;
 		listaPuestoTransfersFiltro = null;
 		listaTipoOperacionTransfersFiltro = null;
 		listaCategoriaTransfersFiltro = null;
-		
+
 		listaEstatusOperacionTransfersFiltro = listaEstatusOperacionTransfers;
 		listaPuestoTransfersFiltro = listaPuestoTransfers;
 		listaTipoOperacionTransfersFiltro = listaTipoOperacionTransfers;
@@ -494,7 +549,8 @@ public class ConsultaOperacionBean {
 					listafiltro.get(i).getEstatusOperacion().getDescripcion()));
 		}
 
-		listaEstatusOperacionTransfers = listaloLocal.stream().filter(distinctByKey(p -> p.getId())).collect(Collectors.toList() );
+		listaEstatusOperacionTransfers = listaloLocal.stream().filter(distinctByKey(p -> p.getId()))
+				.collect(Collectors.toList());
 	}
 
 	public void obtenerListaTipo() {
@@ -507,9 +563,10 @@ public class ConsultaOperacionBean {
 					listafiltro.get(i).getTipoOperacion().getDescripcion()));
 		}
 
-		listaTipoOperacionTransfers = listaloLocal.stream().filter(distinctByKey(p -> p.getId())).collect(Collectors.toList() );
+		listaTipoOperacionTransfers = listaloLocal.stream().filter(distinctByKey(p -> p.getId()))
+				.collect(Collectors.toList());
 	}
-	
+
 	public void obtenerListaCategoria() {
 
 		listaCategoriaTransfers = new ArrayList<>();
@@ -520,10 +577,9 @@ public class ConsultaOperacionBean {
 					listafiltro.get(i).getCategoriaOperacion().getDescripcion()));
 		}
 
-		listaCategoriaTransfers = listaloLocal.stream().filter(distinctByKey(p -> p.getId())).collect(Collectors.toList() );
+		listaCategoriaTransfers = listaloLocal.stream().filter(distinctByKey(p -> p.getId()))
+				.collect(Collectors.toList());
 	}
-	
-	
 
 	public void obtenerListaPuestos() {
 
@@ -535,7 +591,7 @@ public class ConsultaOperacionBean {
 					listafiltro.get(i).getPuesto().getDescripcion()));
 		}
 
-		listaPuestoTransfers = listaloLocal.stream().filter(distinctByKey(p -> p.getId())).collect(Collectors.toList() );
+		listaPuestoTransfers = listaloLocal.stream().filter(distinctByKey(p -> p.getId())).collect(Collectors.toList());
 
 	}
 
@@ -549,7 +605,8 @@ public class ConsultaOperacionBean {
 					listafiltro.get(i).getEstatusOperacion().getDescripcion()));
 		}
 
-		listaEstatusOperacionTransfersFiltro = listaloLocal.stream().filter(distinctByKey(p -> p.getId())).collect(Collectors.toList() );
+		listaEstatusOperacionTransfersFiltro = listaloLocal.stream().filter(distinctByKey(p -> p.getId()))
+				.collect(Collectors.toList());
 	}
 
 	public void actualizarListaTipo() {
@@ -562,9 +619,10 @@ public class ConsultaOperacionBean {
 					listafiltro.get(i).getTipoOperacion().getDescripcion()));
 		}
 
-		listaTipoOperacionTransfersFiltro = listaloLocal.stream().filter(distinctByKey(p -> p.getId())).collect(Collectors.toList() );
+		listaTipoOperacionTransfersFiltro = listaloLocal.stream().filter(distinctByKey(p -> p.getId()))
+				.collect(Collectors.toList());
 	}
-	
+
 	public void actualizarListaCategoria() {
 
 		listaCategoriaTransfersFiltro = new ArrayList<>();
@@ -575,7 +633,8 @@ public class ConsultaOperacionBean {
 					listafiltro.get(i).getCategoriaOperacion().getDescripcion()));
 		}
 
-		listaCategoriaTransfersFiltro = listaloLocal.stream().filter(distinctByKey(p -> p.getId())).collect(Collectors.toList() );
+		listaCategoriaTransfersFiltro = listaloLocal.stream().filter(distinctByKey(p -> p.getId()))
+				.collect(Collectors.toList());
 	}
 
 	public void actualizarListaPuestos() {
@@ -588,19 +647,16 @@ public class ConsultaOperacionBean {
 					listafiltro.get(i).getPuesto().getDescripcion()));
 		}
 
-		listaPuestoTransfersFiltro = listaloLocal.stream().filter(distinctByKey(p -> p.getId())).collect(Collectors.toList() );
+		listaPuestoTransfersFiltro = listaloLocal.stream().filter(distinctByKey(p -> p.getId()))
+				.collect(Collectors.toList());
 	}
-	
-	
-	
+
 	public void actualizarCatalogoFiltros() {
 		actualizarListaEstatus();
 		actualizarListaPuestos();
 		actualizarListaTipo();
 		actualizarListaCategoria();
 	}
-	
-	
 
 	public void actualizarListaEntidadFiltroPuesto() {
 
@@ -616,11 +672,11 @@ public class ConsultaOperacionBean {
 		idEstatus = null;
 		idTipo = null;
 		idCategoria = null;
-		
+
 		booDetalle = false;
-		
+
 		filtro = null;
-		
+
 		actualizarCatalogoFiltros();
 	}
 
@@ -638,11 +694,11 @@ public class ConsultaOperacionBean {
 		idEstatus = null;
 		idTipo = null;
 		idCategoria = null;
-		
+
 		booDetalle = false;
-		
+
 		filtro = null;
-		
+
 		actualizarCatalogoFiltros();
 	}
 
@@ -660,14 +716,14 @@ public class ConsultaOperacionBean {
 		idEstatus = null;
 		idTipo = null;
 		idCategoria = null;
-		
+
 		booDetalle = false;
-		
+
 		filtro = null;
-		
+
 		actualizarCatalogoFiltros();
 	}
-	
+
 	public void actualizarListaEntidadFiltroCategoria() {
 
 		List<Operacion> listalocal = new ArrayList<>();
@@ -682,20 +738,18 @@ public class ConsultaOperacionBean {
 		idEstatus = null;
 		idTipo = null;
 		idCategoria = null;
-		
+
 		booDetalle = false;
-		
+
 		filtro = null;
-		
+
 		actualizarCatalogoFiltros();
 	}
-	
-	
-	public static <T> Predicate<T> distinctByKey(
-		    Function<? super T, ?> keyExtractor) {
-		   
-		    Map<Object, Boolean> seen = new ConcurrentHashMap<>(); 
-		    return t -> seen.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null; 
-		}
+
+	public static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {
+
+		Map<Object, Boolean> seen = new ConcurrentHashMap<>();
+		return t -> seen.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
+	}
 
 }

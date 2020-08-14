@@ -33,7 +33,7 @@ public class Testfechas {
 		
 		System.out.println("Calendar Anio: " + c1.get(Calendar.YEAR));
 		
-		System.out.println("Cantidad de dias presente mes: " + utilFechas.obtenerCantidadDiasPorMesActual());
+		System.out.println("Cantidad de dias presente mes: " + utilFechas.obtenerCantidadDiasPorMesActual1());
 	}
 
 }

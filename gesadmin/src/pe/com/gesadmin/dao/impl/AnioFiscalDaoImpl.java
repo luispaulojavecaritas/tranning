@@ -19,7 +19,7 @@ public class AnioFiscalDaoImpl implements AnioFiscalDao{
 	@Override
 	public List<AnioFiscal> findAll() {
 		// TODO Auto-generated method stub
-		String query = "select b FROM AnioFiscal b";
+		String query = "select b FROM AnioFiscal b order by b.id desc";
         TypedQuery<AnioFiscal> tq = em.createQuery(query, AnioFiscal.class);
         List<AnioFiscal> lista = tq.getResultList();
         return lista;

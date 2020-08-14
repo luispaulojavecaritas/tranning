@@ -21,6 +21,8 @@ public class Periodo implements Serializable {
 	private String descripcion;
 
 	private Integer estado;
+	
+	private Integer dias;
 
 	@Column(insertable=false, updatable=false)
 	private Timestamp registro;
@@ -78,6 +80,14 @@ public class Periodo implements Serializable {
 		this.anioFiscal = anioFiscal;
 	}
 
+	public Integer getDias() {
+		return dias;
+	}
+
+	public void setDias(Integer dias) {
+		this.dias = dias;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -105,10 +115,10 @@ public class Periodo implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Periodo [id=" + id + ", descripcion=" + descripcion + ", estado=" + estado + ", registro=" + registro
-				+ ", anioFiscal=" + anioFiscal + "]";
+		return "Periodo [id=" + id + ", descripcion=" + descripcion + ", estado=" + estado + ", dias=" + dias
+				+ ", registro=" + registro + ", anioFiscal=" + anioFiscal + "]";
 	}
-	
+
 	
 
 }

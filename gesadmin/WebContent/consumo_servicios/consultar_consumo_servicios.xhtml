@@ -29,7 +29,8 @@ body {
 						<h:form id="frm1">
 							<f:passThroughAttribute name="autocomplete" value="off" />
 							<p:panel id="pnlfiscalizacion" header="Periodo fiscal"
-								style="margin-bottom:20px" rendered="#{!consultaConsumoServicioBean.booDetalle}">
+								style="margin-bottom:20px"
+								rendered="#{!consultaConsumoServicioBean.booDetalle}">
 								<div class="Container">
 									<div class="Container80 Responsive100">
 										<p:panelGrid columns="4" id="pnl"
@@ -72,11 +73,12 @@ body {
 									<div class="Container20 Responsive100">
 										<p:commandButton value="Consultar" styleClass="GreenButton"
 											actionListener="#{consultaConsumoServicioBean.listarEntidad()}"
-											update="frm1 frm2 frm3 message frm4" icon="fa fa-save"/>
+											update="frm1 frm2 frm3 frm4" icon="fa fa-save" />
 										<div class="EmptyBox5" />
 										<p:commandButton value="Limpiar"
 											actionListener="#{consultaConsumoServicioBean.limpiar()}"
-											update="frm1 frm2 message frm3 frm4" icon="fa fa-refresh" process="@this" immediate="true" />
+											update="frm1 frm2 frm3 frm4" icon="fa fa-refresh"
+											process="@this" immediate="true" />
 									</div>
 								</div>
 							</p:panel>
@@ -138,7 +140,8 @@ body {
 									<div class="Container20 Responsive100">
 										<p:commandButton value="Limpiar Filtros"
 											actionListener="#{consultaConsumoServicioBean.limpiarFiltro()}"
-											update="frm1 frm2 frm3 frm4 message" icon="fa fa-refresh" process="@this" immediate="true" />
+											update="frm1 frm2 frm3 frm4" icon="fa fa-refresh"
+											process="@this" immediate="true" />
 									</div>
 								</div>
 
@@ -202,17 +205,17 @@ body {
 									</div>
 
 									<div class="Container20 Responsive100">
-										<p:commandButton value="Cerrar" actionListener="#{consultaConsumoServicioBean.cerrarDetalle()}"
-											update="frm1 frm2 frm3 frm4" icon="fa fa-refresh" process="@this"
-											immediate="true" />
+										<p:commandButton value="Cerrar"
+											actionListener="#{consultaConsumoServicioBean.cerrarDetalle()}"
+											update="frm1 frm2 frm3 frm4" icon="fa fa-refresh"
+											process="@this" immediate="true" />
 									</div>
 								</div>
 							</p:panel>
 						</h:form>
 
-
-						<div class="Container100 ui-fluid">
-							<p:messages id="message" autoUpdate="false" closable="true" />
+						<div class="Container100 Responsive100">
+							<p:messages autoUpdate="true" closable="true" />
 						</div>
 
 						<div class="EmptyBox5" />
@@ -220,7 +223,8 @@ body {
 						<h:form id="frm2">
 							<f:passThroughAttribute name="autocomplete" value="off" />
 
-							<p:panel id="panFiltro" header="Lista de lecturas de consumo de servicios registradas">
+							<p:panel id="panFiltro"
+								header="Lista de lecturas de consumo de servicios registradas">
 								<div class="Container">
 
 									<div class="Container100 Responsive100">

@@ -1,6 +1,6 @@
 -- creacion de base de datos gesadmindb
 CREATE DATABASE gesadmindb;
-
+ 
 -- utilizacion de base de datos creada - gesadmindb
 USE gesadmindb;
 
@@ -17,6 +17,7 @@ CREATE TABLE periodo (
     descripcion varchar(50) NOT NULL,
     estado int NOT NULL,
     id_anio_fiscal int NOT NULL,
+    dias int NOT NULL,
 	registro timestamp DEFAULT CURRENT_TIMESTAMP
 	);
 	
@@ -139,7 +140,7 @@ CREATE TABLE operacion(
 	descripcion varchar(100) NOT NULL,
 	monto decimal NOT NULL,
 	fecha_vencimiento date,
-	fecha_pago timestamp NOT NULL,
+	fecha_pago timestamp,
 	id_periodo int NOT NULL,
     id_tipo_operacion int NOT NULL,
     id_categoria_operacion int NOT NULL,
@@ -150,7 +151,7 @@ CREATE TABLE operacion(
 	estado int NOT NULL,
 	registro timestamp DEFAULT CURRENT_TIMESTAMP
 	);
-    
+
 CREATE TABLE movimiento (
     id serial PRIMARY KEY,	
 	operacion_id int NOT NULL,
@@ -206,6 +207,8 @@ CREATE TABLE medida_servicio(
 	id_tipo_servicio int NOT NULL,
 	id_puesto int NOT NULL,
 	medida decimal NOT NULL,
+	medida_anterior decimal NOT NULL,
+	consumo decimal NOT NULL,
 	estado int NOT NULL,
 	registro timestamp DEFAULT CURRENT_TIMESTAMP
 	);
@@ -272,7 +275,7 @@ alter table amonestacion add constraint fk_amonestacion_puesto foreign key (id_p
 alter table amonestacion add constraint fk_amonestacion_persona foreign key (id_persona) references persona(id);
 alter table amonestacion add constraint fk_amonestacion_tipoamonestacion foreign key (id_tipo_amonestacion) references tipo_amonestacion(id);
 alter table amonestacion add constraint fk_amonestacion_puestopersonacargo foreign key (id_puesto_persona_cargo) references puesto_persona_cargo(id);
-
+     
 
 --creacion restriccion de clave unica
 alter table periodo ADD CONSTRAINT periodo_uniqueKey UNIQUE (descripcion, id_anio_fiscal);
@@ -293,16 +296,16 @@ alter table medida_servicio ADD CONSTRAINT medidaservicio_uniqueKey UNIQUE (id_p
 -- ALTER TABLE proveedor ALTER COLUMN ruc TYPE varchar(50);
 -- ALTER TABLE tipo_orden RENAME TO tipo_operacion;
 -- ALTER table periodo DROP CONSTRAINT periodo_uniqueKey;
--- alter table operacion add column id_categoria_operacion int NOT NULL;
--- ALTER TABLE operacion ALTER COLUMN id_puesto DROP NOT NULL;
+--  alter table medida_servicio add column medida_anterior decimal NOT NULL;
+ ALTER TABLE periodo ALTER COLUMN dias add constraint  NOT NULL;
 -- ALTER TABLE movimiento ALTER COLUMN operacion_importe  decimal;
--- ALTER TABLE table_name ADD COLUMN new_column_name data_type;
+-- ALTER TABLE periodo ADD COLUMN new_column_name data_type;
 -- ALTER TABLE amonestacion ADD COLUMN id_puesto_persona_cargo int NOT NULL;
--- ALTER TABLE medida_luz ADD COLUMN id_puesto int NOT NULL;
+ ALTER TABLE periodo ADD COLUMN dias int;
 -- ALTER TABLE amonestacion RENAME COLUMN id_pesona TO id_persona;
--- TRUNCATE TABLE amonestacion
+-- TRUNCATE TABLE medida_servicio;
 
--- drop TABLE medida_luz ;
+-- drop TABLE medida_servicio ;
 
 
 
@@ -342,7 +345,7 @@ insert into tipo_documento (descripcion, estado) values ('PTP', 1);
 
 insert into proveedor (ruc, razon_social, domicilio_fiscal, rubro,  estado) values ('20269985900', 'ENEL DISTRIBUCION PERU S.A.A.', 'CAL. CESAR LOPEZ ROJAS NRO. 201 URB. MARANGA 7MA ETAPA, SAN MIGUEL', 'GENERACION Y DIST. ENERGIA ELECTRICA.', 1 );
 insert into proveedor (ruc, razon_social, domicilio_fiscal, rubro,  estado) values ('20100152356', 'SERV AGUA POTAB Y ALCANT DE LIMA-SEDAPAL', 'AUTOP.RAMIRO PRIALE NRO. 210 LA ATARJEA (KM. 1 AUTOPISTA RAMIRO PRIALE), EL AGUSTINO', 'CAPTACION , DEPURACION Y DIST. DE AGUA', 1);
-insert into proveedor (ruc, razon_social, domicilio_fiscal, rubro,  estado) values ('20503825911', 'ASOCIACION DE COMERCIANTES CENTRO COMERCIAL SARITA COLONIA', 'MZ. A LT. 1 URB. LA ALBORADA DE SANTA ROSA, SAN MARTIN DE PORRES', 'ACTIVIDADES OTRAS ASOCIACIONES NCP.', 1);
+insert into proveedor (ruc, razon_social, domicilio_fiscal, rubro,  estado) values ('20503825911', 'ASOC. DE COM. C.C. SARITA COLONIA', 'MZ. A LT. 1 URB. LA ALBORADA DE SANTA ROSA, SAN MARTIN DE PORRES', 'ACTIVIDADES OTRAS ASOCIACIONES NCP.', 1);
 
 insert into cargo (descripcion, estado) values ('PROPIETARIO', 1);
 insert into cargo (descripcion, estado) values ('INQUILINO', 1);
@@ -356,23 +359,28 @@ insert into persona (nombre, paterno, materno, id_tipo_documento, nro_documento,
 
 insert into usuario (id_persona, usuario, clave, estado, rol) values (1, '70498682', '123456', 1, 'ROLE_ADMIN'); 
 
-insert into variable (descripcion, monto, estado) values ('ALUMBRADO PUBLICO', 3.70, 1);
+-- ID = 1
 insert into variable (descripcion, monto, estado) values ('COSTO LUZ', 0.70, 1);
+-- ID = 2
+insert into variable (descripcion, monto, estado) values ('ALUMBRADO PUBLICO', 3.70, 1);
+-- ID = 3
 insert into variable (descripcion, monto, estado) values ('COSTO AGUA', 13.00, 1);
-
-insert into tipo_servicio (id, descripcion, estado) values (1, 'DISTRIBUCION ELECTRICA', 1);
-insert into tipo_servicio (id, descripcion, estado) values (2, 'AGUA POTABLE Y ALCANTARILLADO', 1);
-
-insert into categoria_operacion (id, descripcion, id_tipo_operacion, estado) values (1, 'COBRO SERVICIO ELECTRICO', 1, 1);
-insert into categoria_operacion (id, descripcion, id_tipo_operacion, estado) values (2, 'COBRO SERVICIO AGUA', 1, 1);
-insert into categoria_operacion (id, descripcion, id_tipo_operacion, estado) values (3, 'COBRO ADMINISTRATIVO', 1, 1);
+-- ID = 4
+insert into variable (descripcion, monto, estado) values ('ADMINISTRACION', 2.00, 1);
 
 
-CREATE FUNCTION completar_lectura_luz(col1 VARCHAR(20), col2 CHAR) RETURNS void AS $$
-BEGIN
-INSERT INTO myTabla VALUES (col1, col2);
-END;
-$$ LANGUAGE plpgsql;
+-- ID = 1
+insert into tipo_servicio (descripcion, estado) values ('DISTRIBUCION ELECTRICA', 1);
+-- ID = 2
+insert into tipo_servicio (descripcion, estado) values ('AGUA POTABLE Y ALCANTARILLADO', 1);
+
+-- ID = 1
+insert into categoria_operacion (descripcion, id_tipo_operacion, estado) values ('COBRO SERVICIO ELECTRICO', 1, 1);
+-- ID = 2
+insert into categoria_operacion (descripcion, id_tipo_operacion, estado) values ('COBRO SERVICIO AGUA', 1, 1);
+-- ID = 3
+insert into categoria_operacion (descripcion, id_tipo_operacion, estado) values ('COBRO ADMINISTRATIVO', 1, 1);
+
 
 
 

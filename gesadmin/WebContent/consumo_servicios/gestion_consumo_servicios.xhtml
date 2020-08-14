@@ -42,7 +42,7 @@ body {
 							</div>
 						</h:form>
 
-						<div class="EmptyBox5" />
+						<div class="EmptyBox10" />
 
 
 						<h:form id="frmFiscalizacion">
@@ -66,39 +66,51 @@ body {
 
 
 						<h:form id="frmTipoServicio">
-							<p:panel id="pnlTipoServicio" header="Tipo de servicio a gestionar"
-								style="margin-bottom:20px"
-								rendered="#{!medidaServicioBean.booBtnEliminar}">
-								<p:panelGrid columns="2" layout="grid"
-									styleClass="ui-panelgrid-blank"
-									style="border:0px none; background-color:transparent;">
+							<p:panel id="pnlTipoServicio"
+								header="Tipo de servicio a gestionar" style="margin-bottom:20px"
+								rendered="#{medidaServicioBean.booRegistro}">
+								<div class="Container">
+									<div class="Container80 Responsive100">
+										<p:panelGrid columns="2" layout="grid"
+											styleClass="ui-panelgrid-blank"
+											style="border:0px none; background-color:transparent;">
 
-									<p:outputLabel for="txt01" value="Tipo Servicio:" />
-									<p:selectOneMenu id="txt01"
-										value="#{medidaServicioBean.tipoServicio.id}" required="true"
-										requiredMessage="Seleccione tipo servicio"
-										label="tipo servicio" filter="true" filterMatchMode="contains">
-										<f:selectItem itemLabel="Seleccione" itemValue="" />
-										<f:selectItems value="#{medidaServicioBean.listaTipoServicio}"
-											var="lista" itemLabel="#{lista.descripcion}"
-											itemValue="#{lista.id}" />
+											<p:outputLabel for="txt01" value="Tipo Servicio:" />
+											<p:selectOneMenu id="txt01"
+												value="#{medidaServicioBean.tipoServicio.id}"
+												required="true" requiredMessage="Seleccione tipo servicio"
+												label="tipo servicio" filter="true"
+												filterMatchMode="contains">
+												<f:selectItem itemLabel="Seleccione" itemValue="" />
+												<f:selectItems
+													value="#{medidaServicioBean.listaTipoServicio}" var="lista"
+													itemLabel="#{lista.descripcion}" itemValue="#{lista.id}" />
 
-										<p:ajax
-											listener="#{medidaServicioBean.obtenerTipoServicioActual()}"
-											update="frmTipoServicio frmEntidad" />
-									</p:selectOneMenu>
+												<p:ajax
+													listener="#{medidaServicioBean.obtenerTipoServicioActual()}"
+													update="frmTipoServicio frmEntidad" />
+											</p:selectOneMenu>
 
-								</p:panelGrid>
+										</p:panelGrid>
+									</div>
+									<div class="Container20 Responsive100">
+										<p:commandButton value="Limpiar"
+											actionListener="#{medidaServicioBean.limpiarTipoServicio()}"
+											update="frmEntidad frmTabla frmTipoServicio"
+											icon="fa fa-refresh" process="@this" immediate="true" />
+									</div>
+								</div>
+
 							</p:panel>
 						</h:form>
 						
-						
+
 						<h:form id="frmEntidad">
 							<f:passThroughAttribute name="autocomplete" value="off" />
 							<p:panel id="pnlDetallessss"
 								header="Registrar lectura de consumo de servicio"
 								style="margin-bottom:20px"
-								rendered="#{!medidaServicioBean.booBtnEliminar}">
+								rendered="#{medidaServicioBean.booRegistro}">
 								<div class="Container">
 									<div class="Container80 Responsive100">
 										<p:panelGrid columns="4"
@@ -115,28 +127,40 @@ body {
 												<f:selectItems
 													value="#{medidaServicioBean.listaPuestoFiltro}" var="lista"
 													itemLabel="#{lista.descripcion}" itemValue="#{lista.id}" />
-													
-												<p:ajax	listener="#{medidaServicioBean.obtenerLecturaAnterior()}" 
+
+												<p:ajax
+													listener="#{medidaServicioBean.obtenerLecturaAnterior()}"
 													update="frmEntidad" />
-											
+
 											</p:selectOneMenu>
 
-											<p:outputLabel for="txtvar12" value="Lectura (#{medidaServicioBean.lecturaAnterior}):" />
+											<p:outputLabel for="txtvar12"
+												value="Lectura (#{medidaServicioBean.lecturaAnterior}):" />
 											<p:inputText id="txtvar12"
 												value="#{medidaServicioBean.entidad.medida}" required="true"
 												requiredMessage="Ingrese lectura" label="monto" />
+
+											<p:outputLabel for="txtvar13" value="Lectura Anterior:"
+												rendered="#{medidaServicioBean.booLecturaAnterior}" />
+											<p:inputText id="txtvar13"
+												value="#{medidaServicioBean.entidadAnterior.medida}"
+												required="true" requiredMessage="Ingrese lectura Inicial"
+												label="lectura inicial"
+												rendered="#{medidaServicioBean.booLecturaAnterior}" />
 
 										</p:panelGrid>
 									</div>
 
 									<div class="Container20 Responsive100">
 										<p:commandButton value="Guardar"
-											actionListener="#{medidaServicioBean.guardar()}" styleClass="GreenButton"
-											update="frmEntidad frmTabla frmEstadistica" icon="fa fa-save" />
+											actionListener="#{medidaServicioBean.guardar()}"
+											styleClass="GreenButton" rendered="#{medidaServicioBean.booRegistrosPre}"
+											update="frmEntidad frmTabla frmEstadistica frmTipoServicio" icon="fa fa-save" />
 										<div class="EmptyBox5" />
 										<p:commandButton value="Limpiar"
 											actionListener="#{medidaServicioBean.limpiarEntidad()}"
-											update="frmEntidad frmTabla" icon="fa fa-refresh" process="@this" immediate="true" />
+											update="frmEntidad frmTabla" icon="fa fa-refresh"
+											process="@this" immediate="true" />
 
 									</div>
 								</div>
@@ -144,9 +168,9 @@ body {
 						</h:form>
 
 
-
 						<h:form id="frmDetalle">
-							<p:panel id="pnlDetalle" header="Detalle de lectura de consumo de servicio"
+							<p:panel id="pnlDetalle"
+								header="Detalle de lectura de consumo de servicio"
 								style="margin-bottom:20px"
 								rendered="#{medidaServicioBean.booBtnEliminar}">
 								<div class="Container">
@@ -175,6 +199,10 @@ body {
 											<h:outputText
 												value="#{medidaServicioBean.entidadseleccionada.medida}" />
 
+											<p:outputLabel value="Consumo: " />
+											<h:outputText
+												value="#{medidaServicioBean.entidadseleccionada.consumo}" />
+
 											<p:outputLabel value="Registro: " />
 											<h:outputText
 												value="#{medidaServicioBean.entidadseleccionada.registro}">
@@ -195,15 +223,20 @@ body {
 										<p:commandButton value="Cancelar"
 											actionListener="#{medidaServicioBean.cancelarEliminacionEntidad()}"
 											update="frmEntidad frmTabla frmDetalle frmTipoServicio frmFiscalizacion"
-											icon="fa fa-refresh" process="@this"
-											immediate="true" />
+											icon="fa fa-refresh" process="@this" immediate="true" />
 									</div>
 								</div>
 							</p:panel>
 						</h:form>
+						
+
+						<div class="Container100 Responsive100">
+							<p:messages autoUpdate="true" closable="true" />
+						</div>
 
 
 						<div class="EmptyBox10" />
+						
 						<h:form id="frmTabla">
 							<f:passThroughAttribute name="autocomplete" value="off" />
 
@@ -257,6 +290,10 @@ body {
 
 											<p:column headerText="Lectura">
 												<h:outputText value="#{per.medida}" />
+											</p:column>
+
+											<p:column headerText="Consumo">
+												<h:outputText value="#{per.consumo}" />
 											</p:column>
 
 											<p:column headerText="Estado">

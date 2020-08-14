@@ -20,6 +20,10 @@ public interface MedidaServicioDao {
     
     public List<MedidaServicio> findByPeriodoId(Integer idPeriodo);
     
+    public List<MedidaServicio> findByPeriodoActive();
+    
+    public List<MedidaServicio>  findByPeriodoidTiposervicioid (Integer idPeriodo, Integer idTipoServicio);
+    
     public List<MedidaServicio> findByAnioId(Integer idAnioFiscal);
     
     public void create (MedidaServicio entidad); 
@@ -31,5 +35,7 @@ public interface MedidaServicioDao {
     public MedidaServicio findByPuestoidPeriodoidTiposervicioid (Integer idPeriodo, Integer idPuesto, Integer idTipoServicio); 
     
     public void delete (Integer id);
+    
+    
         
 }

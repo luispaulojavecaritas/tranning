@@ -60,12 +60,6 @@ public class PeriodoDaoImpl implements PeriodoDao{
 		
 	}
 
-	@Override
-	public void updateEstadoAfterCreateAnioFiscal() {
-		// TODO Auto-generated method stub
-		String query = "update periodo set estado = 0  where id_anio_fiscal = (select af.id from anio_fiscal af where af.estado = 0)";
-		em.createNativeQuery(query).executeUpdate();		
-	}
 
 	@Override
 	public List<Periodo> findByIdAnioFiscal(Integer idAnioFiscal) {

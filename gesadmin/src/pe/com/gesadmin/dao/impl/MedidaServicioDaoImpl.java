@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import pe.com.gesadmin.dao.MedidaServicioDao;
@@ -69,6 +70,15 @@ public class MedidaServicioDaoImpl implements MedidaServicioDao{
         List<MedidaServicio> lista = tq.getResultList();
         return lista;
 	}
+	
+	@Override
+	public List<MedidaServicio> findByPeriodoActive() {
+		// TODO Auto-generated method stub
+		String query = "select b FROM MedidaServicio b where b.estado = 1 and b.periodo.estado = 1";
+        TypedQuery<MedidaServicio> tq = em.createQuery(query, MedidaServicio.class);
+        List<MedidaServicio> lista = tq.getResultList();
+        return lista;
+	}
 
 	@Override
 	public List<MedidaServicio> findByAnioId(Integer idAnioFiscal) {
@@ -83,6 +93,8 @@ public class MedidaServicioDaoImpl implements MedidaServicioDao{
 	@Override
 	public MedidaServicio findByPuestoidPeriodoidTiposervicioid(Integer idPeriodo, Integer idPuesto, Integer idTipoServicio) {
 		// TODO Auto-generated method stub
+		System.out.println("Periodo id: " + idPeriodo + " Puesto id: " + idPuesto + " Tipo Servicio id: " + idTipoServicio);
+		
 		String query = "select b FROM MedidaServicio b where b.estado = 1 and b.periodo.id = :idPeriodo and b.puesto.id = :idPuesto and b.tipoServicio.id = :idTipoServicio";
         TypedQuery<MedidaServicio> tq = em.createQuery(query, MedidaServicio.class);
         tq.setParameter("idPeriodo", idPeriodo);
@@ -91,5 +103,17 @@ public class MedidaServicioDaoImpl implements MedidaServicioDao{
         List<MedidaServicio> lista = tq.getResultList();
         return lista.get(0);
 	}
+
+	@Override
+	public List<MedidaServicio> findByPeriodoidTiposervicioid(Integer idPeriodo, Integer idTipoServicio) {
+		// TODO Auto-generated method stub
+		String query = "select b FROM MedidaServicio b where b.estado = 1 and b.periodo.id = :idPeriodo and b.tipoServicio.id = :idTipoServicio";
+        TypedQuery<MedidaServicio> tq = em.createQuery(query, MedidaServicio.class);
+        tq.setParameter("idPeriodo", idPeriodo);
+        tq.setParameter("idTipoServicio", idTipoServicio);
+        List<MedidaServicio> lista = tq.getResultList();
+        return lista;
+	}
+
 
 }
