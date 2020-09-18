@@ -1,7 +1,7 @@
 package pe.com.gesadmin.entity;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.util.Date;
 
 import javax.persistence.*;
 
@@ -32,11 +32,14 @@ public class MedidaServicio implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "id_puesto", referencedColumnName = "id")
 	private Puesto puesto;
+	
+	@Column(name = "id_usuario")
+	private Integer idUsuario; 
 
 	private Double medida;
 
-	@Column(insertable=false, updatable=false)
-	private Timestamp registro;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date registro;
 	
 	
 	private Double consumo;
@@ -94,11 +97,11 @@ public class MedidaServicio implements Serializable {
 		this.medida = medida;
 	}
 
-	public Timestamp getRegistro() {
+	public Date getRegistro() {
 		return registro;
 	}
 
-	public void setRegistro(Timestamp registro) {
+	public void setRegistro(Date registro) {
 		this.registro = registro;
 	}
 
@@ -124,6 +127,14 @@ public class MedidaServicio implements Serializable {
 
 	public void setMedidaAnterior(Double medidaAnterior) {
 		this.medidaAnterior = medidaAnterior;
+	}
+
+	public Integer getIdUsuario() {
+		return idUsuario;
+	}
+
+	public void setIdUsuario(Integer idUsuario) {
+		this.idUsuario = idUsuario;
 	}
 
 	@Override

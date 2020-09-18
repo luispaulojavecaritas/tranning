@@ -1,6 +1,7 @@
 package pe.com.gesadmin.managed;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -8,6 +9,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
@@ -35,16 +37,19 @@ import pe.com.gesadmin.service.impl.PeriodoServiceImpl;
 import pe.com.gesadmin.service.impl.PuestoServiceImpl;
 import pe.com.gesadmin.service.impl.TipoServicioServiceImpl;
 import pe.com.gesadmin.service.impl.VariableServiceImpl;
+import pe.com.gesadmin.util.Conversiones;
 
 @ManagedBean
 @ViewScoped
 public class OperacionAdministracionBean {
 
-	private List<OperacionAdministracionTransfer> lista = new ArrayList<>();
-	private List<OperacionAdministracionTransfer> listafiltro;
+	@ManagedProperty("#{usuarioSesionBean}")
+	private UsuarioSesionBean usuarioSesionBean;
+	
+	private List<OperacionAdministracionTransfer> listaResumen = new ArrayList<>();
+	private List<OperacionAdministracionTransfer> listaFiltroResumen;
 	private Operacion entidad = new Operacion();
 
-	private OperacionAdministracionTransfer entidadseleccionadaTransfer = new OperacionAdministracionTransfer();
 	private Operacion entidadseleccionada = new Operacion();
 
 	private Periodo periodoActual = new Periodo();
@@ -62,14 +67,17 @@ public class OperacionAdministracionBean {
 	private String mensajeAdministracion;
 
 	private List<Operacion> listaEntidadAdministracion = new ArrayList<>();
+	private List<Operacion> listaEntidadAdministracionFiltro = new ArrayList<>();
 
 	private boolean booBtnEliminar = false;
-	
+
 	private boolean booRegistroEntidad = false;
 
 	private Variable variableCostoAdministracion = new Variable();
 
 	private String filtro;
+	
+	private Conversiones conversiones = new Conversiones(); 
 
 	@EJB
 	private OperacionService servicio = new OperacionServiceImpl();
@@ -88,7 +96,7 @@ public class OperacionAdministracionBean {
 		// TODO Auto-generated constructor stub
 		filtro = null;
 		entidad = new Operacion();
-		lista = new ArrayList<>();
+		listaResumen = new ArrayList<>();
 
 		periodoActual = new Periodo();
 		periodoAnterior = new Periodo();
@@ -97,14 +105,15 @@ public class OperacionAdministracionBean {
 		tipoServicioActual = new TipoServicio();
 		listaPuesto = new ArrayList<>();
 
-		entidadseleccionadaTransfer = new OperacionAdministracionTransfer();
-
 		cantidadAdministracion = 0;
 		claseAdministracion = "RedBack";
 		mensajeAdministracion = "";
 
 		listaEntidadAdministracion = new ArrayList<>();
+		listaEntidadAdministracionFiltro = new ArrayList<>();
 		listaPuestoFiltro = new ArrayList<>();
+		
+
 
 		listaPreOperacion = new ArrayList<>();
 		variableCostoAdministracion = new Variable();
@@ -112,12 +121,14 @@ public class OperacionAdministracionBean {
 		booBtnEliminar = false;
 		booRegistroEntidad = false;
 
-		listafiltro = new ArrayList<>();
+		listaFiltroResumen = new ArrayList<>();
 
 	}
 
 	@PostConstruct
 	public void init() {
+		
+		/*
 		obtenerVariables();
 		listarPuestos();
 		obtenerPeriodoActual();
@@ -126,22 +137,25 @@ public class OperacionAdministracionBean {
 		filtrarPuestosAdministracionSinCompletarOperacion();
 		obtenerInputPeriodo();
 		obtenerCantidadAdministracion();
+		*/
+		
+		cargaInicial();
 	}
 
-	public List<OperacionAdministracionTransfer> getLista() {
-		return lista;
+	public List<OperacionAdministracionTransfer> getListaResumen() {
+		return listaResumen;
 	}
 
-	public void setLista(List<OperacionAdministracionTransfer> lista) {
-		this.lista = lista;
+	public void setListaResumen(List<OperacionAdministracionTransfer> listaResumen) {
+		this.listaResumen = listaResumen;
 	}
 
-	public List<OperacionAdministracionTransfer> getListafiltro() {
-		return listafiltro;
+	public List<OperacionAdministracionTransfer> getListaFiltroResumen() {
+		return listaFiltroResumen;
 	}
 
-	public void setListafiltro(List<OperacionAdministracionTransfer> listafiltro) {
-		this.listafiltro = listafiltro;
+	public void setListaFiltroResumen(List<OperacionAdministracionTransfer> listaFiltroResumen) {
+		this.listaFiltroResumen = listaFiltroResumen;
 	}
 
 	public Operacion getEntidad() {
@@ -296,23 +310,30 @@ public class OperacionAdministracionBean {
 		this.listaPreOperacion = listaPreOperacion;
 	}
 
-	public OperacionAdministracionTransfer getEntidadseleccionadaTransfer() {
-		return entidadseleccionadaTransfer;
-	}
-
-	public void setEntidadseleccionadaTransfer(OperacionAdministracionTransfer entidadseleccionadaTransfer) {
-		this.entidadseleccionadaTransfer = entidadseleccionadaTransfer;
-	}
 
 	public boolean isBooRegistroEntidad() {
 		return booRegistroEntidad;
 	}
 
+	public UsuarioSesionBean getUsuarioSesionBean() {
+		return usuarioSesionBean;
+	}
+
+	public void setUsuarioSesionBean(UsuarioSesionBean usuarioSesionBean) {
+		this.usuarioSesionBean = usuarioSesionBean;
+	}
+
 	public void setBooRegistroEntidad(boolean booRegistroEntidad) {
 		this.booRegistroEntidad = booRegistroEntidad;
 	}
-	
-	
+
+	public List<Operacion> getListaEntidadAdministracionFiltro() {
+		return listaEntidadAdministracionFiltro;
+	}
+
+	public void setListaEntidadAdministracionFiltro(List<Operacion> listaEntidadAdministracionFiltro) {
+		this.listaEntidadAdministracionFiltro = listaEntidadAdministracionFiltro;
+	}
 
 	public String guardar() {
 		System.out.println("Periodo: " + periodoActual.toString());
@@ -366,7 +387,7 @@ public class OperacionAdministracionBean {
 
 	public String eliminar() {
 
-		if (entidadseleccionadaTransfer.getPuestoId() == null) {
+		if (entidadseleccionada.getPuesto().getId() == null) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_WARN, "Seleccione registro a eliminar", ""));
 			limpiarEntidad();
@@ -380,10 +401,28 @@ public class OperacionAdministracionBean {
 		}
 
 		try {
+			/*
 			servicio.eliminarPorPeriodoidPuestoidCategoriaid(periodoActual.getId(),
 					entidadseleccionadaTransfer.getPuestoId(), entidadseleccionadaTransfer.getCategoriaId());
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO, "Registros eliminados", ""));
+			*/
+			if(entidadseleccionada.getEstatusOperacion().getId() == 1 || entidadseleccionada.getEstatusOperacion().getId() == 3) {
+				Operacion operacionLocalIn = new Operacion();
+				operacionLocalIn = servicio.recuperar(entidadseleccionada.getId());
+				operacionLocalIn.setEstado(0);
+				operacionLocalIn.setRegistro(new Date());
+				operacionLocalIn.setIdUsuario(usuarioSesionBean.getUsuario().getId());
+				servicio.actualizar(operacionLocalIn);	
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro eliminado", ""));
+				
+			}else {
+				
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_WARN, "Solo puede eliminar operaciones con estatus pendiente o vencida", ""));
+				return "";
+				
+			}
+			
 		} catch (Exception e) {
 			// TODO: handle exception
 			FacesContext.getCurrentInstance().addMessage(null,
@@ -418,21 +457,22 @@ public class OperacionAdministracionBean {
 	}
 
 	public void listarEntidad() {
-		lista = new ArrayList<>();
+		listaResumen = new ArrayList<>();
 		listaEntidadAdministracion = new ArrayList<>();
 		try {
-			lista = servicio.listarPorPeriodoactualCategoriaAdministracionTransfer();
-			System.out.println("Lista Transfer recuperada: " + lista.toString());
+			listaResumen = servicio.listarPorPeriodoactualCategoriaAdministracionTransfer();
+			System.out.println("listaResumen Transfer recuperada: " + listaResumen.toString());
 			listaEntidadAdministracion = servicio.listarPorPeriodoactualCategoriaAdministracion();
-			System.out.println("Lista no Ransfers recuperada: " + listaEntidadAdministracion.toString());
+			listaEntidadAdministracionFiltro = listaEntidadAdministracion;
+			System.out.println("listaResumen no Ransfers recuperada: " + listaEntidadAdministracion.toString());
 		} catch (Exception e) {
 			// TODO: handle exception
-			lista = null;
+			listaResumen = null;
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", "Problemas al recuperar registros"));
 		}
 
-		listafiltro = lista;
+		listaFiltroResumen = listaResumen;		
 
 	}
 
@@ -441,18 +481,18 @@ public class OperacionAdministracionBean {
 		cantidadAdministracion = listaPuesto.size() * periodoActual.getDias();
 		System.out.println("cantidadAdministracion = " + cantidadAdministracion);
 
-		if (listafiltro == null || listafiltro.isEmpty()) {
+		if (listaFiltroResumen == null || listaFiltroResumen.isEmpty()) {
 			claseAdministracion = "RedBack";
 			mensajeAdministracion = "(" + listaPreOperacion.size()
 					+ ") Puestos no tienen registrado su cuota de Administracion del presente periodo";
-			
+
 			booRegistroEntidad = true;
 
 		} else if (cantidadAdministracion == listaEntidadAdministracion.size()) {
 			System.out.println("Registro de administracion completa");
 			claseAdministracion = "GreenBack";
 			mensajeAdministracion = "Todos los Puestos tienen registrado su cuota de Administracion del presente periodo";
-			
+
 			booRegistroEntidad = false;
 		} else {
 			System.out.println("Registro de administracion incompleta");
@@ -461,7 +501,7 @@ public class OperacionAdministracionBean {
 			claseAdministracion = "RedBack";
 			mensajeAdministracion = "(" + diferencia2
 					+ ") Puestos no tienen registrado todas sus cuotas de Administracion del presente periodo";
-			
+
 			booRegistroEntidad = true;
 		}
 	}
@@ -488,11 +528,11 @@ public class OperacionAdministracionBean {
 
 	public void filtrarPuestosAdministracionSinCompletarOperacion() {
 
-		System.out.println("Filtro puestos por lista de Administracion");
+		System.out.println("Filtro puestos por listaResumen de Administracion");
 
 		listaPuestoFiltro = new ArrayList<>();
 
-		if (lista == null || lista.isEmpty()) {
+		if (listaResumen == null || listaResumen.isEmpty()) {
 
 			listaPuestoFiltro = listaPuesto;
 
@@ -502,11 +542,11 @@ public class OperacionAdministracionBean {
 
 				boolean consideracion = false;
 
-				for (int j = 0; j <= lista.size() - 1; j++) {
-					if (listaPuesto.get(i).getId() == lista.get(j).getPuestoId()) {
+				for (int j = 0; j <= listaResumen.size() - 1; j++) {
+					if (listaPuesto.get(i).getId() == listaResumen.get(j).getPuestoId()) {
 						System.out.println("El valor " + listaPuesto.get(i).getId() + " SI Coincide con: "
-								+ lista.get(j).getPuestoId());
-						if (lista.get(j).getDias() == periodoActual.getDias()) {
+								+ listaResumen.get(j).getPuestoId());
+						if (listaResumen.get(j).getDias() == periodoActual.getDias()) {
 							consideracion = false;
 							break;
 						} else {
@@ -515,7 +555,7 @@ public class OperacionAdministracionBean {
 						}
 					} else {
 						System.out.println("El valor " + listaPuesto.get(i).getId() + " NO Coincide con: "
-								+ lista.get(j).getPuestoId());
+								+ listaResumen.get(j).getPuestoId());
 						consideracion = true;
 					}
 				}
@@ -535,7 +575,7 @@ public class OperacionAdministracionBean {
 		listaPuesto = new ArrayList<>();
 		try {
 			listaPuesto = puestoService.listarFiltro(true);
-			System.out.println("Lista Puesto: " + listaPuesto.toString());
+			System.out.println("listaResumen Puesto: " + listaPuesto.toString());
 		} catch (Exception e) {
 			// TODO: handle exception
 			listaPuesto = null;
@@ -547,7 +587,7 @@ public class OperacionAdministracionBean {
 	public void limpiarEntidad() {
 		entidad = new Operacion();
 		entidadseleccionada = new Operacion();
-		listafiltro = lista;
+		listaFiltroResumen = listaResumen;
 		listaPreOperacion = new ArrayList<>();
 	}
 
@@ -590,6 +630,39 @@ public class OperacionAdministracionBean {
 		}
 	}
 
+	public void obtenerPeriodoActual2() {
+
+		List<Periodo> listaperiodos = null;
+
+		periodoActual = new Periodo();
+		periodoAnterior = new Periodo();
+
+		try {
+			listaperiodos = periodoService.listar();
+			System.out.println("Listas Periodods: " + listaperiodos.toString());
+		} catch (Exception e) {
+			// TODO: handle exception
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al recuperar periodo fiscal en curso ", ""));
+			return;
+		}
+
+		if (listaperiodos == null || listaperiodos.isEmpty()) {
+			periodoActual = null;
+			periodoAnterior = null;
+			return;
+		} else {
+
+			if (listaperiodos.size() > 1) {
+				periodoActual = listaperiodos.get(0);
+				periodoAnterior = listaperiodos.get(1);
+			} else {
+				periodoActual = listaperiodos.get(0);
+				periodoAnterior = null;
+			}
+		}
+	}
+
 	public String obtenerInputPeriodo() {
 
 		listaPreOperacion = new ArrayList<>();
@@ -609,20 +682,19 @@ public class OperacionAdministracionBean {
 		for (int i = 0; i <= listaPuestoFiltro.size() - 1; i++) {
 
 			Integer idPuesto = listaPuestoFiltro.get(i).getId();
-			Integer cantidadRegistrosCrear = 0;
 
 			OperacionAdministracionTransfer operacionTransfer = new OperacionAdministracionTransfer();
 
 			List<OperacionAdministracionTransfer> listalocal = new ArrayList<>();
 
-			listalocal = lista.stream().filter(x -> idPuesto.equals(x.getPuestoId())).collect(Collectors.toList());
+			listalocal = listaResumen.stream().filter(x -> idPuesto.equals(x.getPuestoId())).collect(Collectors.toList());
 
 			if (listalocal == null || listalocal.isEmpty()) {
 
 				operacionTransfer.setCategoriaDes(descricionCategoria);
 				operacionTransfer.setCategoriaId(idCategoria);
 				operacionTransfer.setDias(periodoActual.getDias());
-				operacionTransfer.setMontoTotal(periodoActual.getDias() * variableCostoAdministracion.getMonto());
+				operacionTransfer.setMontoTotal(conversiones.formatoMontos(periodoActual.getDias() * variableCostoAdministracion.getMonto()));
 				operacionTransfer.setMontoUnitario(variableCostoAdministracion.getMonto());
 				operacionTransfer.setPuestoDes(listaPuestoFiltro.get(i).getDescripcion());
 				operacionTransfer.setPuestoId(listaPuestoFiltro.get(i).getId());
@@ -636,8 +708,8 @@ public class OperacionAdministracionBean {
 				operacionTransfer.setCategoriaDes(descricionCategoria);
 				operacionTransfer.setCategoriaId(idCategoria);
 				operacionTransfer.setDias(periodoActual.getDias() - listalocal.get(0).getDias());
-				operacionTransfer.setMontoTotal((periodoActual.getDias() - listalocal.get(0).getDias())
-						* variableCostoAdministracion.getMonto());
+				Integer diasPendientes = periodoActual.getDias() - listalocal.get(0).getDias();
+				operacionTransfer.setMontoTotal(conversiones.formatoMontos(diasPendientes * variableCostoAdministracion.getMonto()));
 				operacionTransfer.setMontoUnitario(variableCostoAdministracion.getMonto());
 				operacionTransfer.setPuestoDes(listaPuestoFiltro.get(i).getDescripcion());
 				operacionTransfer.setPuestoId(listaPuestoFiltro.get(i).getId());
@@ -660,10 +732,13 @@ public class OperacionAdministracionBean {
 	}
 
 	public String generarOperaciones() {
+		
+		String descripcionOperacion = periodoActual.getDescripcion() + " " + periodoActual.getAnioFiscal().getDescripcion();
+		
 
 		try {
-			servicio.generarOperacionAdministracion(listaPreOperacion, entidad.getDescripcion(),
-					entidad.getFechaVencimiento());
+			servicio.generarOperacionAdministracion(listaPreOperacion, descripcionOperacion,
+					entidad.getFechaVencimiento(), usuarioSesionBean.getUsuario().getId());
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "Creacion exitosa de operaciones", ""));
 		} catch (Exception e) {
@@ -685,17 +760,17 @@ public class OperacionAdministracionBean {
 
 	public String filtrar() {
 
-		if (lista == null || lista.isEmpty() || lista.size() == 0) {
+		if (listaEntidadAdministracion == null || listaEntidadAdministracion.isEmpty() || listaEntidadAdministracion.size() == 0) {
 			filtro = null;
 			return "";
 		}
-		listafiltro = null;
-		listafiltro = new ArrayList<>();
+		listaEntidadAdministracionFiltro = null;
+		listaEntidadAdministracionFiltro = new ArrayList<>();
 		System.out.println("Texto a filtra: " + filtro);
-		for (int i = 0; i <= lista.size() - 1; i++) {
-			if (lista.get(i).getPuestoDes().contains(filtro) || lista.get(i).getCategoriaDes().contains(filtro)) {
-				System.out.println("lista: " + lista.get(i).toString());
-				listafiltro.add(lista.get(i));
+		for (int i = 0; i <= listaEntidadAdministracion.size() - 1; i++) {
+			if (listaEntidadAdministracion.get(i).getPuesto().getDescripcion().contains(filtro)) {
+				System.out.println("listaEntidadAdministracion: " + listaEntidadAdministracion.get(i).toString());
+				listaEntidadAdministracionFiltro.add(listaEntidadAdministracion.get(i));
 			}
 		}
 		filtro = null;
@@ -715,11 +790,11 @@ public class OperacionAdministracionBean {
 	}
 
 	public void onRowSelect(SelectEvent event) {
-		
-		System.out.println("Entidad Seleccionada: " + entidadseleccionadaTransfer.toString());
 
-		if (entidadseleccionadaTransfer == null) {
-			entidadseleccionadaTransfer = new OperacionAdministracionTransfer();
+		System.out.println("Entidad Seleccionada: " + entidadseleccionada.toString());
+
+		if (entidadseleccionada == null) {
+			entidadseleccionada = new Operacion();
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_WARN, "No se selecciono ningun registro", ""));
 		} else {
@@ -732,12 +807,32 @@ public class OperacionAdministracionBean {
 	}
 
 	public void onRowUnselect(UnselectEvent event) {
-		entidadseleccionadaTransfer = new OperacionAdministracionTransfer();
+		entidadseleccionada = new Operacion();
 
 		booBtnEliminar = false;
 
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO, "Se anulo seleccion de registro ", ""));
+	}
+
+	public void cargaInicial() {
+		obtenerPeriodoActual2();
+
+		if (periodoActual == null) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_WARN, "No existe periodo fiscal activo en curso ", ""));
+			claseAdministracion = "RedBack";
+			mensajeAdministracion = "Registre un periodo fiscal para calcular situacion de operacion Gasto Administrativo";
+			return;
+		} else {
+			obtenerVariables();
+			listarPuestos();
+			listarEntidad();
+
+			filtrarPuestosAdministracionSinCompletarOperacion();
+			obtenerInputPeriodo();
+			obtenerCantidadAdministracion();
+		}
 	}
 
 }

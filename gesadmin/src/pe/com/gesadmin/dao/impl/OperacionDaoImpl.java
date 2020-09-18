@@ -95,7 +95,7 @@ public class OperacionDaoImpl implements OperacionDao {
 			Integer idEstatusOperacion) {
 		// TODO Auto-generated method stub
 		List<Operacion> lista = new ArrayList<>();
-		String query = "SELECT b FROM Operacion b where b.estado = 1 and b.periodo.id = :idPeriodo and b.puesto.id = :idPuesto and b.estatusOperacion.id = :idEstatusOperacion";
+		String query = "SELECT b FROM Operacion b where b.estado = 1 and b.periodo.id = :idPeriodo and b.puesto.id = :idPuesto and b.estatusOperacion.id = :idEstatusOperacion ORDER BY b.id desc";
 		TypedQuery<Operacion> tq = em.createQuery(query, Operacion.class);
 		tq.setParameter("idPeriodo", idPeriodo);
 		tq.setParameter("idPuesto", idPuesto);
@@ -103,9 +103,22 @@ public class OperacionDaoImpl implements OperacionDao {
 		lista = tq.getResultList();
 		return lista;
 	}
+	
 
 	@Override
-	public void savePayment(Integer idOperacion, Integer IdPersona, Integer idEstatusOperacion) {
+	public List<Operacion> findByPeriodoActivePuestoIdCategoriaIdOperacionActive(Integer idPuesto,	Integer idCategoria) {
+		// TODO Auto-generated method stub
+		List<Operacion> lista = new ArrayList<>();
+		String query = "SELECT b FROM Operacion b where b.estado = 1 and b.periodo.estado = 1 and b.puesto.id = :idPuesto and b.categoriaOperacion.id = :idCategoria and  b.estatusOperacion.id in (1,2,3) ";
+		TypedQuery<Operacion> tq = em.createQuery(query, Operacion.class);
+		tq.setParameter("idPuesto", idPuesto);
+		tq.setParameter("idCategoria", idCategoria);
+		lista = tq.getResultList();
+		return lista;
+	}	
+
+	@Override
+	public void savePayment(Integer idOperacion, Integer IdPersona, Integer idEstatusOperacion, String tipoDoc, String nroDoc) {
 		// TODO Auto-generated method stub
 
 		Operacion operacion = new Operacion();
@@ -115,6 +128,8 @@ public class OperacionDaoImpl implements OperacionDao {
 		operacion.setPersonaResponsableOperacion(new Persona(IdPersona));
 		operacion.setFechaPago(new Date());
 		operacion.setEstatusOperacion(new EstatusOperacion(idEstatusOperacion));
+		operacion.setTipoDoc(tipoDoc);
+		operacion.setNroDoc(nroDoc);
 
 		em.merge(operacion);
 
@@ -141,6 +156,8 @@ public class OperacionDaoImpl implements OperacionDao {
 		movimiento.setPersonaTipoDoc(operacion.getPersonaResponsableOperacion().getTipoDocumento().getDescripcion());
 		movimiento.setProveedorRuc(operacion.getProveedor().getRuc());
 		movimiento.setProveedorRazonSocial(operacion.getProveedor().getRazonSocial());
+		movimiento.setNroDoc(operacion.getNroDoc());
+		movimiento.setTipoDoc(operacion.getTipoDoc());
 
 		em.persist(movimiento);
 
@@ -189,7 +206,7 @@ public class OperacionDaoImpl implements OperacionDao {
 	public List<Operacion> findByPeriodoactualCategoriaLuzAgua() {
 		// TODO Auto-generated method stub
 		List<Operacion> lista = new ArrayList<>();
-		String query = "SELECT b FROM Operacion b where b.periodo.estado = 1 and b.estado = 1 and b.categoriaOperacion.id in (1,2)";
+		String query = "SELECT b FROM Operacion b where b.periodo.estado = 1 and b.estado = 1 and b.categoriaOperacion.id in (1,2) and b.estatusOperacion.id in (1,2,3)  order by b.id desc";
 		TypedQuery<Operacion> tq = em.createQuery(query, Operacion.class);
 		lista = tq.getResultList();
 		return lista;
@@ -199,7 +216,17 @@ public class OperacionDaoImpl implements OperacionDao {
 	public List<Operacion> findByPeriodoactualCategoriaAdministracion() {
 		// TODO Auto-generated method stub
 		List<Operacion> lista = new ArrayList<>();
-		String query = "SELECT b FROM Operacion b where b.periodo.estado = 1 and b.estado = 1 and b.categoriaOperacion.id = 3";
+		String query = "SELECT b FROM Operacion b where b.periodo.estado = 1 and b.estado = 1 and b.categoriaOperacion.id = 3 and b.estatusOperacion.id in (1,2,3) order by b.id desc";
+		TypedQuery<Operacion> tq = em.createQuery(query, Operacion.class);
+		lista = tq.getResultList();
+		return lista;
+	}
+	
+	@Override
+	public List<Operacion> findByPeriodoactualNoserviciosNoadministracion() {
+		// TODO Auto-generated method stub
+		List<Operacion> lista = new ArrayList<>();
+		String query = "SELECT b FROM Operacion b where b.periodo.estado = 1 and b.estado = 1 and b.categoriaOperacion.id not in (1,2,3) order by b.id desc";
 		TypedQuery<Operacion> tq = em.createQuery(query, Operacion.class);
 		lista = tq.getResultList();
 		return lista;
@@ -215,7 +242,7 @@ public class OperacionDaoImpl implements OperacionDao {
 
 	@Override
 	public void generateOperacionConsumoServicios(List<LecturasMedidasPreOperacion> lista, String descripcion,
-			Date fechaVencimiento) {
+			Date fechaVencimiento, Integer idUsuario) {
 		// TODO Auto-generated method stub
 
 		Operacion operacion = new Operacion();
@@ -234,6 +261,8 @@ public class OperacionDaoImpl implements OperacionDao {
 			operacion.setPuesto(new Puesto(lista.get(i).getPuestoId()));
 			operacion.setTipoOperacion(new TipoOperacion(lista.get(i).getTipoOperacion()));
 			operacion.setPersonaResponsableOperacion(null);
+			operacion.setIdUsuario(idUsuario);
+			operacion.setRegistro(new Date());
 
 			em.persist(operacion);
 		}
@@ -242,7 +271,7 @@ public class OperacionDaoImpl implements OperacionDao {
 
 	@Override
 	public void generateOperacionAdministracion(List<OperacionAdministracionTransfer> lista, String descripcion,
-			Date fechaVencimiento) {
+			Date fechaVencimiento, Integer idUsuario) {
 		// TODO Auto-generated method stub
 		Operacion operacion = new Operacion();
 
@@ -255,7 +284,7 @@ public class OperacionDaoImpl implements OperacionDao {
 				
 				operacion = new Operacion();
 				operacion.setCategoriaOperacion(new CategoriaOperacion(lista.get(i).getCategoriaId()));
-				operacion.setDescripcion(descripcion);
+				operacion.setDescripcion("COBRO ADMINISTRATIVO "+descripcion);
 				operacion.setEstado(1);
 				operacion.setEstatusOperacion(new EstatusOperacion(lista.get(i).getEstatusOperacionId()));
 				operacion.setFechaVencimiento(fechaVencimiento);
@@ -265,8 +294,11 @@ public class OperacionDaoImpl implements OperacionDao {
 				operacion.setPuesto(new Puesto(lista.get(i).getPuestoId()));
 				operacion.setTipoOperacion(new TipoOperacion(lista.get(i).getTipoOperacionId()));
 				operacion.setPersonaResponsableOperacion(null);
+				operacion.setIdUsuario(idUsuario);
+				operacion.setRegistro(new Date());
 
 				em.persist(operacion);
+				
 			}
 		}
 	}
@@ -282,8 +314,22 @@ public class OperacionDaoImpl implements OperacionDao {
 		q.setParameter("categoriaId", categoriaId);
 		int regsitros = q.executeUpdate();
 		System.out.println("CAntidad de registros ELiminados: " + regsitros);
-		
 	}
+	
+	@Override
+	public void updateByPeriodoidPuestoidCategoriaid(Integer periodoId, Integer puestoId, Integer categoriaId, Integer usuarioId) {
+		// TODO Auto-generated method stub
+		System.out.println("PArametros de input, periodoId: "+ periodoId+" - puestoId: " + puestoId + " - categoriaId : "+ categoriaId);
+		String query = "UPDATE Operacion b SET b.estado = 0, b.idUsuario = :usuarioId, b.registro = :registroDate where b.periodo.id = :periodoId and b.puesto.id = :puestoId and b.categoriaOperacion.id = :categoriaId and b.estado = 1";
+		Query q = em.createQuery(query);
+		q.setParameter("usuarioId", usuarioId);
+		q.setParameter("periodoId", periodoId);
+		q.setParameter("puestoId", puestoId);
+		q.setParameter("categoriaId", categoriaId);
+		q.setParameter("registroDate", new Date());
+		int regsitros = q.executeUpdate();
+		System.out.println("Cantidad de registros Actualizados: " + regsitros);
+	}	
 
 	@Override
 	public List<OperacionAdministracionTransfer> findByPeriodoactualCategoriaAdministracionTransfer() {
@@ -297,7 +343,7 @@ public class OperacionDaoImpl implements OperacionDao {
 				+ "p.id, p.descripcion, "
 				+ "top.id ,top.descripcion, "
 				+ "co.id, co.descripcion, "
-				+ "eo.id, eo.descripcion, "
+//				+ "eo.id, eo.descripcion, "
 				+ "to_char(o.fecha_vencimiento,'yyyy-MM-dd'), "
 				+ "o.monto, sum(o.monto), count(o.id) "
 				+ "from operacion o "
@@ -309,9 +355,12 @@ public class OperacionDaoImpl implements OperacionDao {
 				+ "left join anio_fiscal af on per.id_anio_fiscal  = af.id "
 				+ "where "
 				+ "per.estado = 1 and "
-				+ "o.id_categoria_operacion not in (1,2) "
+				+ "o.id_categoria_operacion = 3 and " 
+				+ "o.estado = 1 and o.id_estatus_operacion in (1,2,3)"
 				+ "group by "
-				+ "af.id, af.descripcion, per.id, per.descripcion, p.id, p.descripcion, top.id ,top.descripcion, co.id, co.descripcion, eo.id, eo.descripcion, o.fecha_vencimiento,  o.monto";
+				+ "af.id, af.descripcion, per.id, per.descripcion, p.id, p.descripcion, top.id ,top.descripcion, co.id, co.descripcion, "
+//				+ "eo.id, eo.descripcion, "
+				+ "o.fecha_vencimiento,  o.monto order by p.id asc";
 
 		Query q = em.createNativeQuery(query);
 
@@ -339,12 +388,12 @@ public class OperacionDaoImpl implements OperacionDao {
 				entidad.setTipoOperacionDes(obj[7]+"");
 				entidad.setCategoriaId(Integer.parseInt(obj[8]+""));
 				entidad.setCategoriaDes(obj[9]+"");
-				entidad.setEstatusOperacionId(Integer.parseInt(obj[10]+""));
-				entidad.setEstatusOperacionDes(obj[11]+"");
-				entidad.setFechaVencimiento(obj[12]+"");
-				entidad.setMontoUnitario(Double.parseDouble(obj[13]+""));
-				entidad.setMontoTotal(Double.parseDouble(obj[14]+""));
-				entidad.setDias(Integer.parseInt(obj[15]+""));
+	//			entidad.setEstatusOperacionId(Integer.parseInt(obj[10]+""));
+	//			entidad.setEstatusOperacionDes(obj[11]+"");
+				entidad.setFechaVencimiento(obj[10]+"");
+				entidad.setMontoUnitario(Double.parseDouble(obj[11]+""));
+				entidad.setMontoTotal(Double.parseDouble(obj[12]+""));
+				entidad.setDias(Integer.parseInt(obj[13]+""));
 				
 				list.add(entidad);
 			}
@@ -364,5 +413,6 @@ public class OperacionDaoImpl implements OperacionDao {
 		lista = tq.getResultList();
 		return lista;
 	}
+
 
 }

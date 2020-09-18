@@ -1,6 +1,7 @@
 package pe.com.gesadmin.managed;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -8,6 +9,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
@@ -34,10 +36,14 @@ import pe.com.gesadmin.service.impl.PeriodoServiceImpl;
 import pe.com.gesadmin.service.impl.PuestoServiceImpl;
 import pe.com.gesadmin.service.impl.TipoServicioServiceImpl;
 import pe.com.gesadmin.service.impl.VariableServiceImpl;
+import pe.com.gesadmin.util.Conversiones;
 
 @ManagedBean
 @ViewScoped
 public class OperacionConsumoServicioBean {
+
+	@ManagedProperty("#{usuarioSesionBean}")
+	private UsuarioSesionBean usuarioSesionBean;
 
 	private List<Operacion> lista = new ArrayList<>();
 	private List<Operacion> listafiltro;
@@ -66,6 +72,7 @@ public class OperacionConsumoServicioBean {
 	private List<Operacion> listaEntidadAgua = new ArrayList<>();
 
 	private boolean booBtnEliminar = false;
+	private boolean booTipoServicio = false;
 	private boolean booEntidadRegistro = false;
 
 	private String lecturaAnterior = "No registra";
@@ -88,6 +95,8 @@ public class OperacionConsumoServicioBean {
 	private PuestoService puestoService = new PuestoServiceImpl();
 	@EJB
 	private VariableService variableService = new VariableServiceImpl();
+
+	private Conversiones conversiones = new Conversiones();
 
 	public OperacionConsumoServicioBean() {
 		// TODO Auto-generated constructor stub
@@ -122,17 +131,19 @@ public class OperacionConsumoServicioBean {
 
 		booBtnEliminar = false;
 		booEntidadRegistro = false;
+		booTipoServicio = false;
 
 		lecturaAnterior = "No registra";
 	}
 
 	@PostConstruct
 	public void init() {
-		listarPuestos();
-		listarEntidad();
-		listarTipoServicio();
-		obtenerPeriodoActual();
-		obtenerVariables();
+		/*
+		 * listarPuestos(); listarEntidad(); listarTipoServicio();
+		 * obtenerPeriodoActual(); obtenerVariables();
+		 */
+
+		cargaInicial();
 	}
 
 	public List<Operacion> getLista() {
@@ -374,13 +385,28 @@ public class OperacionConsumoServicioBean {
 	public void setBooEntidadRegistro(boolean booEntidadRegistro) {
 		this.booEntidadRegistro = booEntidadRegistro;
 	}
-	
-	
+
+	public boolean isBooTipoServicio() {
+		return booTipoServicio;
+	}
+
+	public void setBooTipoServicio(boolean booTipoServicio) {
+		this.booTipoServicio = booTipoServicio;
+	}
+
+	public UsuarioSesionBean getUsuarioSesionBean() {
+		return usuarioSesionBean;
+	}
+
+	public void setUsuarioSesionBean(UsuarioSesionBean usuarioSesionBean) {
+		this.usuarioSesionBean = usuarioSesionBean;
+	}
 
 	public String guardar() {
 		System.out.println("Periodo: " + periodoActual.toString());
 		System.out.println("Tipo Servicio: " + tipoServicioActual.toString());
 		System.out.println("Entidad: " + entidad.toString());
+		entidad.setRegistro(new Date());
 		entidad.setEstado(1);
 
 		if (entidad.getId() == null) {
@@ -434,20 +460,41 @@ public class OperacionConsumoServicioBean {
 		}
 
 		try {
-			servicio.eliminar(entidadseleccionada.getId());
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro eliminado", ""));
+			/*
+			 * servicio.eliminar(entidadseleccionada.getId());
+			 */
+
+			if (entidadseleccionada.getEstatusOperacion().getId() == 1
+					|| entidadseleccionada.getEstatusOperacion().getId() == 3) {
+				Operacion operacionServicioLocal = new Operacion();
+				operacionServicioLocal = servicio.recuperar(entidadseleccionada.getId());
+				operacionServicioLocal.setEstado(0);
+				operacionServicioLocal.setIdUsuario(usuarioSesionBean.getUsuario().getId());
+				operacionServicioLocal.setRegistro(new Date());
+				servicio.actualizar(operacionServicioLocal);
+
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro eliminado", ""));
+
+			} else {
+
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+						"Solo puede eliminar operaciones con estatus pendiente o vencida", ""));
+				return "";
+
+			}
+
 		} catch (Exception e) {
 			// TODO: handle exception
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al eliminar registro", ""));
 		}
-		
+
 		limpiarEntidad();
 		listarEntidad();
 		tipoServicio = new TipoServicio();
 		tipoServicioActual = new TipoServicio();
-		
+
 		booBtnEliminar = false;
 		return "";
 	}
@@ -530,15 +577,18 @@ public class OperacionConsumoServicioBean {
 			mensajeAgua = "(" + diferencia + ") Puestos no tienen registrado su lectura del servicio de Agua Potable";
 		}
 	}
-	
-	public void obtenerBoolean(){
-		
-		if(claseLuz.equalsIgnoreCase("GreenBack") && claseAgua.equalsIgnoreCase("GreenBack")) {
+
+	public void obtenerBoolean() {
+
+		if (claseLuz.equalsIgnoreCase("GreenBack") && claseAgua.equalsIgnoreCase("GreenBack")) {
 			booEntidadRegistro = false;
-		}else {
-			booEntidadRegistro = true;
+			booTipoServicio = false;
+		} else {
+			booEntidadRegistro = false;
+			booTipoServicio = true;
+
 		}
-		
+
 	}
 
 	public List<MedidaServicio> filtrarMedidas(List<MedidaServicio> listaMedida,
@@ -624,10 +674,10 @@ public class OperacionConsumoServicioBean {
 					listaOperacionActual.add(lista.get(i));
 				}
 			}
-			
+
 			System.out.println("Lista Operacion Filtrada: " + listaOperacionActual.toString());
 		}
-		
+
 		return listaOperacionActual;
 
 	}
@@ -735,6 +785,38 @@ public class OperacionConsumoServicioBean {
 		}
 	}
 
+	public void obtenerPeriodoActual2() {
+
+		List<Periodo> listaperiodos = null;
+
+		periodoActual = new Periodo();
+		periodoAnterior = new Periodo();
+
+		try {
+			listaperiodos = periodoService.listar();
+		} catch (Exception e) {
+			// TODO: handle exception
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al recuperar periodo fiscal en curso ", ""));
+			return;
+		}
+
+		if (listaperiodos == null || listaperiodos.isEmpty()) {
+			periodoActual = null;
+			periodoAnterior = null;
+			return;
+		} else {
+
+			if (listaperiodos.size() > 1) {
+				periodoActual = listaperiodos.get(0);
+				periodoAnterior = listaperiodos.get(1);
+			} else {
+				periodoActual = listaperiodos.get(0);
+				periodoAnterior = null;
+			}
+		}
+	}
+
 	public void obtenerLecturaAnterior() {
 		lecturaAnterior = null;
 
@@ -749,7 +831,7 @@ public class OperacionConsumoServicioBean {
 	}
 
 	public String obtenerInputPeriodo() {
-		
+
 		listaPreOperacion = new ArrayList<>();
 
 		// Estatus Operacion 1 = Pendiente;
@@ -767,7 +849,8 @@ public class OperacionConsumoServicioBean {
 
 		try {
 			System.out.println("Periodo id: " + periodoActual.getId() + " / Tipo Servicio id: " + tipoServicio.getId());
-			listaMedidaActual = medidaServicioService.listarPorPeriodoIdTipoServicio(periodoActual.getId(),	tipoServicio.getId());
+			listaMedidaActual = medidaServicioService.listarPorPeriodoIdTipoServicio(periodoActual.getId(),
+					tipoServicio.getId());
 			System.out.println("listaMedidaActual: " + listaMedidaActual.toString());
 
 		} catch (Exception e) {
@@ -776,15 +859,14 @@ public class OperacionConsumoServicioBean {
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error en obtener lestura de servicios.", ""));
 			return "";
 		}
-		
+
 		List<MedidaServicio> listaMedidaFiltrada = new ArrayList<>();
-		
-		if(listaOperacionesLocal == null || listaOperacionesLocal.isEmpty()) {
+
+		if (listaOperacionesLocal == null || listaOperacionesLocal.isEmpty()) {
 			listaMedidaFiltrada = listaMedidaActual;
-		}else {
+		} else {
 			listaMedidaFiltrada = filtrarMedidas(listaMedidaActual, listaOperacionesLocal);
 		}
-
 
 		for (int i = 0; i <= listaMedidaFiltrada.size() - 1; i++) {
 
@@ -809,9 +891,10 @@ public class OperacionConsumoServicioBean {
 			if (tipoServicio.getId() == 1) {
 
 				Double costoUnitario = variableCostoConsumoLuz.getMonto();
-				Double costoSubtotal = costoUnitario * listaMedidaFiltrada.get(i).getConsumo();
+				Double costoSubtotal = conversiones
+						.formatoMontos(costoUnitario * listaMedidaFiltrada.get(i).getConsumo());
 				Double costoFijo = variableCostoAlumbradoLuz.getMonto();
-				Double costoTotal = costoSubtotal + costoFijo;
+				Double costoTotal = conversiones.formatoMontos(costoSubtotal + costoFijo);
 
 				pre.setProveedorAcreedor(idProveedorLuz);
 
@@ -821,10 +904,11 @@ public class OperacionConsumoServicioBean {
 				pre.setCostoTotal(costoTotal);
 
 			} else {
-				Double costoUnitario = variableCostoConsumoLuz.getMonto();
-				Double costoSubtotal = costoUnitario * listaMedidaFiltrada.get(i).getConsumo();
+				Double costoUnitario = variableCostoConsumoAgua.getMonto();
+				Double costoSubtotal = conversiones
+						.formatoMontos(costoUnitario * listaMedidaFiltrada.get(i).getConsumo());
 				Double costoFijo = 0.00;
-				Double costoTotal = costoSubtotal + costoFijo;
+				Double costoTotal = conversiones.formatoMontos(costoSubtotal + costoFijo);
 
 				pre.setProveedorAcreedor(idProveedorAgua);
 
@@ -837,15 +921,28 @@ public class OperacionConsumoServicioBean {
 			listaPreOperacion.add(pre);
 		}
 
+		if (listaPreOperacion == null || listaPreOperacion.isEmpty()) {
+			booEntidadRegistro = false;
+		} else {
+			booEntidadRegistro = true;
+		}
+
 		return "";
 
 	}
 
 	public String generarOperaciones() {
 
+		if (entidad.getDescripcion() != null || entidad.getDescripcion() != "") {
+			String descripcion_min = entidad.getDescripcion();
+			entidad.setDescripcion(descripcion_min.toUpperCase());
+		} else {
+			entidad.setDescripcion(null);
+		}
+
 		try {
 			servicio.generarOperacionConsumoServicios(listaPreOperacion, entidad.getDescripcion(),
-					entidad.getFechaVencimiento());
+					entidad.getFechaVencimiento(), usuarioSesionBean.getUsuario().getId());
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "Creacion exitosa de operaciones", ""));
 		} catch (Exception e) {
@@ -857,7 +954,7 @@ public class OperacionConsumoServicioBean {
 
 		limpiarEntidad();
 		listarEntidad();
-		
+
 		tipoServicio = new TipoServicio();
 		tipoServicioActual = new TipoServicio();
 
@@ -895,10 +992,9 @@ public class OperacionConsumoServicioBean {
 		variableCostoConsumoAgua = listaVariables.get(2);
 
 	}
-	
-	
+
 	public void onRowSelect(SelectEvent event) {
-		
+
 		System.out.println("Entidad Seleccionada: " + entidadseleccionada.toString());
 
 		if (entidadseleccionada == null) {
@@ -920,6 +1016,29 @@ public class OperacionConsumoServicioBean {
 
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO, "Se anulo seleccion de registro ", ""));
+	}
+
+	public void cargaInicial() {
+		obtenerPeriodoActual2();
+
+		if (periodoActual == null) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_WARN, "No existe periodo fiscal activo en curso ", ""));
+			claseLuz = "RedBack";
+			mensajeLuz = "Registre un periodo fiscal para calcular situacion de operacion lectura del servicio de Distribucion electrica";
+			claseAgua = "RedBack";
+			mensajeAgua = "Registre un periodo fiscal para calcular situacion de operacion lectura del servicio de Agua y Alcantarillado";
+
+			booTipoServicio = false;
+			booEntidadRegistro = false;
+			return;
+		} else {
+			listarPuestos();
+			listarEntidad();
+			listarTipoServicio();
+			obtenerVariables();
+		}
+
 	}
 
 }

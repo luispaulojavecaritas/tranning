@@ -26,4 +26,8 @@ public interface CategoriaOperacionDao {
     
     public List<CategoriaOperacion> findByIdTipoOperacion(Integer idTipoOperacion);
     
+    public List<CategoriaOperacion> findByIdTipoOperacionNoServiciosNoAdministrativos(Integer idTipoOperacion);
+    
+    
+    
 }

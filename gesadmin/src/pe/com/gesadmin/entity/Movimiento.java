@@ -70,6 +70,12 @@ public class Movimiento implements Serializable {
 	private String anio_fiscal;
 
 	private String puesto;
+	
+	@Column(name = "tipo_doc")
+	private String tipoDoc; 
+	
+	@Column(name = "nro_doc")
+	private String nroDoc; 
 
 	@Column(insertable=false, updatable=false)
 	private Timestamp registro;
@@ -248,10 +254,21 @@ public class Movimiento implements Serializable {
 	public void setRegistro(Timestamp registro) {
 		this.registro = registro;
 	}
-	
-	
-	
-	
-	
+
+	public String getTipoDoc() {
+		return tipoDoc;
+	}
+
+	public void setTipoDoc(String tipoDoc) {
+		this.tipoDoc = tipoDoc;
+	}
+
+	public String getNroDoc() {
+		return nroDoc;
+	}
+
+	public void setNroDoc(String nroDoc) {
+		this.nroDoc = nroDoc;
+	}
 
 }

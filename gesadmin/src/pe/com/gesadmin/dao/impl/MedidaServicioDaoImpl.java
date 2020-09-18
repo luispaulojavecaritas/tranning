@@ -74,7 +74,7 @@ public class MedidaServicioDaoImpl implements MedidaServicioDao{
 	@Override
 	public List<MedidaServicio> findByPeriodoActive() {
 		// TODO Auto-generated method stub
-		String query = "select b FROM MedidaServicio b where b.estado = 1 and b.periodo.estado = 1";
+		String query = "select b FROM MedidaServicio b where b.estado = 1 and b.periodo.estado = 1 order by b.id desc";
         TypedQuery<MedidaServicio> tq = em.createQuery(query, MedidaServicio.class);
         List<MedidaServicio> lista = tq.getResultList();
         return lista;
@@ -101,7 +101,13 @@ public class MedidaServicioDaoImpl implements MedidaServicioDao{
         tq.setParameter("idPuesto", idPuesto);
         tq.setParameter("idTipoServicio", idTipoServicio);
         List<MedidaServicio> lista = tq.getResultList();
-        return lista.get(0);
+        
+        if(lista == null || lista.isEmpty() || lista.size() == 0) {
+        	return null;
+        } else {
+        	return lista.get(0);
+        } 
+        
 	}
 
 	@Override

@@ -49,6 +49,11 @@ public class OperacionPagoBean {
 	private Integer idPuesto;
 	private Integer idPersona;
 	
+	private String tipoDocumento;
+	private String nroDocumento;
+	
+	private Integer cantidadRegistros;
+	
 	private boolean booDetalle;
 	private boolean booRegistro;
 
@@ -84,6 +89,11 @@ public class OperacionPagoBean {
 		idPeriodo = null;
 		idPuesto = null;
 		idPersona = null;
+		
+		nroDocumento = null;
+		tipoDocumento = null;
+		
+		cantidadRegistros = 0;
 	}
 
 	@PostConstruct
@@ -100,6 +110,22 @@ public class OperacionPagoBean {
 
 	public void setLista(List<Operacion> lista) {
 		this.lista = lista;
+	}
+
+	public String getTipoDocumento() {
+		return tipoDocumento;
+	}
+
+	public void setTipoDocumento(String tipoDocumento) {
+		this.tipoDocumento = tipoDocumento;
+	}
+
+	public String getNroDocumento() {
+		return nroDocumento;
+	}
+
+	public void setNroDocumento(String nroDocumento) {
+		this.nroDocumento = nroDocumento;
 	}
 
 	public List<Operacion> getListafiltro() {
@@ -234,11 +260,25 @@ public class OperacionPagoBean {
 		this.idPersona = idPersona;
 	}	
 	
+	public Integer getCantidadRegistros() {
+		return cantidadRegistros;
+	}
+
+	public void setCantidadRegistros(Integer cantidadRegistros) {
+		this.cantidadRegistros = cantidadRegistros;
+	}
+
 	public String registrar_Pago() {
 		
 		Integer idEstatusOperacion = 2;
 		try {
-			servicio.registrarPago(entidadseleccionada.getId(), idPersona, idEstatusOperacion);
+			servicio.registrarPago(entidadseleccionada.getId(), idPersona, idEstatusOperacion, tipoDocumento, nroDocumento);
+			booDetalle = false;
+			entidad = new Operacion();
+			entidadseleccionada = new Operacion();
+			idPersona = null;
+			nroDocumento = null;
+			tipoDocumento = null;
 		} catch (Exception e) {
 			// TODO: handle exception
 			FacesContext.getCurrentInstance().addMessage(null,
@@ -246,7 +286,8 @@ public class OperacionPagoBean {
 			return "";
 		}
 		
-		limpiar();
+		listarEntidad();
+		
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO,"Registro de pago exitoso", ""));
 		return "";
@@ -321,6 +362,8 @@ public class OperacionPagoBean {
 		}
 
 		listafiltro = lista;
+		
+		obtenerCantidadRegistrosEntidad();
 	}
 
 	public void listarPeriodo() {
@@ -378,6 +421,8 @@ public class OperacionPagoBean {
 		idAnioFiscal = null;
 		idPeriodo = null;
 		idPersona = null;
+		nroDocumento = null;
+		tipoDocumento = null;
 		idPuesto = null;
 		
 		FacesContext.getCurrentInstance().addMessage(null,
@@ -392,6 +437,10 @@ public class OperacionPagoBean {
 		idPeriodo = null;
 		idPuesto = null;
 		idPersona = null;
+		nroDocumento = null;
+		tipoDocumento = null;
+		
+		cantidadRegistros = 0;
 
 		listafiltro = null;
 		listaPuestoPersonaCargo = null;
@@ -419,6 +468,9 @@ public class OperacionPagoBean {
 			}
 		}
 		filtro = null;
+		
+		obtenerCantidadRegistrosEntidad();
+		
 		return "";
 	}
 	
@@ -433,6 +485,16 @@ public class OperacionPagoBean {
 			listaPuesto = null;
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Problemas al recuperar registros puestos (deudores)", ""));
+		}
+	}
+	
+	
+	public void obtenerCantidadRegistrosEntidad() {
+		
+		if(listafiltro == null || listafiltro.isEmpty()) {
+			cantidadRegistros = 0;
+		}else {
+			cantidadRegistros = listafiltro.size();
 		}
 	}
 	

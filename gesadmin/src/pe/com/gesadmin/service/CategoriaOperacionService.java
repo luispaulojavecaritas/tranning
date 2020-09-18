@@ -30,6 +30,8 @@ public interface CategoriaOperacionService {
     public CategoriaOperacion recuperar (Integer id); 
     
     public List<CategoriaOperacion> listarPordTipoOperacion(Integer idTipoOperacion);
+    
+    public List<CategoriaOperacion> listarPordTipoOperacionNoServiciosNoAdministrativos(Integer idTipoOperacion);
 
     
 }

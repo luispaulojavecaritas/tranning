@@ -28,210 +28,193 @@ body {
 
 						<h:form id="frm1">
 							<f:passThroughAttribute name="autocomplete" value="off" />
-							<div class="Container80 Responsive100">
-								<p:panelGrid columns="4" id="pnl"
-									columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
-									layout="grid" styleClass="ui-panelgrid-blank"
-									style="border:0px none; background-color:transparent;">
+							<p:panel id="pnlfiscalizacion" header="Periodo fiscal"
+								style="margin-bottom:20px"
+								rendered="#{!consultaAmonestacionBean.booDetalle}">
+								<div class="Container">
+									<div class="Container80 Responsive100">
+										<p:panelGrid columns="4" id="pnl"
+											columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+											layout="grid" styleClass="ui-panelgrid-blank"
+											style="border:0px none; background-color:transparent;">
 
 
-									<p:outputLabel for="txtvar1" value="Año Fiscal: " />
-									<p:selectOneMenu id="txtvar1"
-										value="#{consultaAmonestacionBean.periodoTransfer.idAnio}" required="false"
-										requiredMessage="Seleccione año fiscal" label="año fiscal"
-										filter="true" filterMatchMode="contains">
-										<f:selectItem itemLabel="Seleccione" itemValue="" />
-										<f:selectItems
-											value="#{consultaAmonestacionBean.listaAnioFiscal}" var="lista"
-											itemLabel="#{lista.descripcion}" itemValue="#{lista.id}" />
+											<p:outputLabel for="txtvar1" value="Año Fiscal: " />
+											<p:selectOneMenu id="txtvar1"
+												value="#{consultaAmonestacionBean.periodoTransfer.idAnio}"
+												required="false" requiredMessage="Seleccione año fiscal"
+												label="año fiscal" filter="true" filterMatchMode="contains">
+												<f:selectItem itemLabel="Seleccione" itemValue="" />
+												<f:selectItems
+													value="#{consultaAmonestacionBean.listaAnioFiscal}"
+													var="lista" itemLabel="#{lista.descripcion}"
+													itemValue="#{lista.id}" />
 
-										<p:ajax listener="#{consultaAmonestacionBean.listarPeriodo()}"
-											update="frm1" />
+												<p:ajax
+													listener="#{consultaAmonestacionBean.listarPeriodo()}"
+													update="frm1" />
 
-									</p:selectOneMenu>
+											</p:selectOneMenu>
 
-									<p:outputLabel for="txtvar2" value="Periodo:" />
-									<p:selectOneMenu id="txtvar2"
-										value="#{consultaAmonestacionBean.periodoTransfer.idPeriodo}" required="false"
-										requiredMessage="Seleccione periodo" label="periodo"
-										filter="true" filterMatchMode="contains">
-										<f:selectItem itemLabel="Seleccione" itemValue="" />
-										<f:selectItems value="#{consultaAmonestacionBean.listaPeriodo}"
-											var="lista" itemLabel="#{lista.descripcion}"
-											itemValue="#{lista.id}" />
-									</p:selectOneMenu>
+											<p:outputLabel for="txtvar2" value="Periodo:" />
+											<p:selectOneMenu id="txtvar2"
+												value="#{consultaAmonestacionBean.periodoTransfer.idPeriodo}"
+												required="false" requiredMessage="Seleccione periodo"
+												label="periodo" filter="true" filterMatchMode="contains">
+												<f:selectItem itemLabel="Seleccione" itemValue="" />
+												<f:selectItems
+													value="#{consultaAmonestacionBean.listaPeriodo}"
+													var="lista" itemLabel="#{lista.descripcion}"
+													itemValue="#{lista.id}" />
+											</p:selectOneMenu>
 
-								</p:panelGrid>
-							</div>
+										</p:panelGrid>
+									</div>
 
-							<div class="Container20 Responsive100">
-								<p:commandButton value="Consultar"
-									actionListener="#{consultaAmonestacionBean.listarEntidad()}"
-									update="frm1 frm2 frm3 message frm4" icon="fa fa-save"
-									styleClass="GreenButton" />
-								<div class="EmptyBox5" />
-								<p:commandButton value="Limpiar"
-									actionListener="#{consultaAmonestacionBean.limpiar()}"
-									update="frm1 frm2 message frm3 frm4" icon="fa fa-refresh"
-									styleClass="GoldButton" process="@this" immediate="true" />
-							</div>
+									<div class="Container20 Responsive100">
+										<p:commandButton value="Consultar"
+											actionListener="#{consultaAmonestacionBean.listarEntidad()}"
+											update="frm1 frm2 frm3 message frm4" icon="fa fa-save" />
+										<div class="EmptyBox5" />
+										<p:commandButton value="Limpiar"
+											actionListener="#{consultaAmonestacionBean.limpiar()}"
+											update="frm1 frm2 message frm3 frm4" icon="fa fa-refresh"
+											process="@this" immediate="true" />
+									</div>
+								</div>
+							</p:panel>
 						</h:form>
 
-						<div class="EmptyBox10" />
+						<div class="EmptyBox5" />
 
 
 						<h:form id="frm4">
 							<f:passThroughAttribute name="autocomplete" value="off" />
-							<div class="Container100 Responsive100">
-								<p:panel id="panel2" header="Filtros de registros "
-									rendered="#{consultaAmonestacionBean.booFiltro}"
-									style="margin-bottom:20px">
-									<p:panelGrid columns="3" layout="grid"
-										styleClass="ui-panelgrid-blank"
-										style="border:0px none; background-color:transparent;">
+							<p:panel id="panel2" header="Criterios de filtrado de registros"
+								rendered="#{consultaAmonestacionBean.booFiltro}"
+								style="margin-bottom:20px">
+								<div class="Container">
+									<div class="Container80 Responsive100">
+										<p:panelGrid columns="2" layout="grid"
+											styleClass="ui-panelgrid-blank"
+											style="border:0px none; background-color:transparent;">
 
 
-										<p:selectOneMenu id="txtvar19"
-											value="#{consultaAmonestacionBean.idTipoAmonestacion}" required="true"
-											requiredMessage="Seleccione tipo amonestación a filtrar" label="tipo amonestacion"
-											filter="true" filterMatchMode="contains">
-											<f:selectItem itemLabel="Tipo Amonestacion" itemValue="" />
-											<f:selectItems
-												value="#{consultaAmonestacionBean.listaTipoAmonestacionTransfersFiltro}"
-												var="lista" itemLabel="#{lista.descripcion}"
-												itemValue="#{lista.id}" />
+											<p:selectOneMenu id="txtvar19"
+												value="#{consultaAmonestacionBean.idTipoAmonestacion}"
+												required="true"
+												requiredMessage="Seleccione tipo amonestación a filtrar"
+												label="tipo amonestacion" filter="true"
+												filterMatchMode="contains">
+												<f:selectItem itemLabel="Tipo Amonestacion" itemValue="" />
+												<f:selectItems
+													value="#{consultaAmonestacionBean.listaTipoAmonestacionTransfersFiltro}"
+													var="lista" itemLabel="#{lista.descripcion}"
+													itemValue="#{lista.id}" />
 
-											<p:ajax
-												listener="#{consultaAmonestacionBean.actualizarListaEntidadFiltroTipo()}"
-												update="frm4 frm2 frm3" />
+												<p:ajax
+													listener="#{consultaAmonestacionBean.actualizarListaEntidadFiltroTipo()}"
+													update="frm4 frm2 frm3" />
 
-										</p:selectOneMenu>
-										
-										<p:selectOneMenu id="txtvar20"
-											value="#{consultaAmonestacionBean.idPuesto}" required="true"
-											requiredMessage="Seleccione deudor a filtrar" label="deudor"
-											filter="true" filterMatchMode="contains">
-											<f:selectItem itemLabel="Puesto Amonestado" itemValue="" />
-											<f:selectItems
-												value="#{consultaAmonestacionBean.listaPuestoTransfersFiltro}"
-												var="lista" itemLabel="#{lista.descripcion}"
-												itemValue="#{lista.id}" />
+											</p:selectOneMenu>
 
-											<p:ajax
-												listener="#{consultaAmonestacionBean.actualizarListaEntidadFiltroPuesto()}"
-												update="frm4 frm2 frm3" />
+											<p:selectOneMenu id="txtvar20"
+												value="#{consultaAmonestacionBean.idPuesto}" required="true"
+												requiredMessage="Seleccione deudor a filtrar" label="deudor"
+												filter="true" filterMatchMode="contains">
+												<f:selectItem itemLabel="Puesto Amonestado" itemValue="" />
+												<f:selectItems
+													value="#{consultaAmonestacionBean.listaPuestoTransfersFiltro}"
+													var="lista" itemLabel="#{lista.descripcion}"
+													itemValue="#{lista.id}" />
 
-										</p:selectOneMenu>
+												<p:ajax
+													listener="#{consultaAmonestacionBean.actualizarListaEntidadFiltroPuesto()}"
+													update="frm4 frm2 frm3" />
 
-										<p:selectOneMenu id="txtvar21"
-											value="#{consultaAmonestacionBean.idPersona}" required="true"
-											requiredMessage="Seleccione persona a filtrar"
-											label="persona amonestada" filter="true"
-											filterMatchMode="contains">
-											<f:selectItem itemLabel="Persona Amonestada"
-												itemValue="" />
-											<f:selectItems
-												value="#{consultaAmonestacionBean.listaPersonaTransfersFiltro}"
-												var="lista" itemLabel="#{lista.descripcion}"
-												itemValue="#{lista.id}" />
+											</p:selectOneMenu>
 
-											<p:ajax
-												listener="#{consultaAmonestacionBean.actualizarListaEntidadFiltroPersona()}"
-												update="frm4 frm2 frm3" />
+										</p:panelGrid>
+									</div>
 
-										</p:selectOneMenu>
-
-									</p:panelGrid>
-
-									<p:commandButton value="Limpiar Filtros"
-										actionListener="#{consultaAmonestacionBean.limpiarFiltro()}"
-										update="frm1 frm2 frm3 frm4 message" icon="fa fa-refresh"
-										styleClass="GoldButton" process="@this" immediate="true" />
-
-								</p:panel>
-							</div>
-
+									<div class="Container20 Responsive100">
+										<p:commandButton value="Limpiar Filtros"
+											actionListener="#{consultaAmonestacionBean.limpiarFiltro()}"
+											update="frm1 frm2 frm3 frm4 message" icon="fa fa-refresh"
+											process="@this" immediate="true" />
+									</div>
+								</div>
+							</p:panel>
 						</h:form>
 
-						<div class="EmptyBox10" />
-
-
+						<div class="EmptyBox5" />
 
 						<h:form id="frm3">
-							<div class="Container100 Responsive100">
-								<p:panel id="panel" header="Información Detallada de Operacion "
-									rendered="#{consultaAmonestacionBean.booDetalle}"
-									style="margin-bottom:20px">
-									<p:panelGrid columns="4"
-										columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
-										layout="grid" styleClass="ui-panelgrid-blank"
-										style="border:0px none; background-color:transparent;">
+							<p:panel id="panel" header="Información Detallada de amonestacion "
+								rendered="#{consultaAmonestacionBean.booDetalle}"
+								style="margin-bottom:20px">
+								<div class="Container">
+									<div class="Container80 Responsive100">
+										<p:panelGrid columns="4"
+											columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+											layout="grid" styleClass="ui-panelgrid-blank"
+											style="border:0px none; background-color:transparent;">
 
-										<p:outputLabel value="Id: " />
-										<h:outputText
-											value="#{consultaAmonestacionBean.entidadseleccionada.id}" />
+											<p:outputLabel value="Id:" />
+											<h:outputText
+												value="#{consultaAmonestacionBean.entidadseleccionada.id}" />
 
-										<p:outputLabel value="Año Fiscal: " />
-										<h:outputText
-											value="#{consultaAmonestacionBean.entidadseleccionada.periodo.anioFiscal.descripcion}" />
-											
-										<p:outputLabel value="Periodo: " />
-										<h:outputText
-											value="#{consultaAmonestacionBean.entidadseleccionada.periodo.descripcion}" />
+											<p:outputLabel value="Anio - Periodo Fiscal:" />
+											<h:outputText
+												value="#{consultaAmonestacionBean.entidadseleccionada.periodo.anioFiscal.descripcion} - #{consultaAmonestacionBean.entidadseleccionada.periodo.descripcion}" />
 
-										<p:outputLabel value="Bloque: " />
-										<h:outputText
-											value="#{consultaAmonestacionBean.entidadseleccionada.puesto.bloque.descripcion}" />
-										
-										<p:outputLabel value="Puesto " />
-										<h:outputText
-											value="#{consultaAmonestacionBean.entidadseleccionada.puesto.descripcion}" />
-										
-										<p:outputLabel value="Persona " />
-										<h:outputText
-											value="#{consultaAmonestacionBean.entidadseleccionada.persona.nombre} #{consultaAmonestacionBean.entidadseleccionada.persona.paterno} #{consultaAmonestacionBean.entidadseleccionada.persona.materno}" />
+											<p:outputLabel value="Puesto:" />
+											<h:outputText
+												value="#{consultaAmonestacionBean.entidadseleccionada.puesto.descripcion}" />
 
-										<p:outputLabel value="Cargo " />
-										<h:outputText
-											value="#{consultaAmonestacionBean.entidadseleccionada.puestoPersonaCargo.cargo.descripcion}" />
-										
-										<p:outputLabel value="Tipo Amonestacion:" />
-										<h:outputText
-											value="#{consultaAmonestacionBean.entidadseleccionada.tipoAmonestacion.descripcion}" />
+											<p:outputLabel value="Tipo Amonestacion:" />
+											<h:outputText
+												value="#{consultaAmonestacionBean.entidadseleccionada.tipoAmonestacion.descripcion}" />
 
-										<p:outputLabel value="Descripcion" />
-										<h:outputText
-											value="#{consultaAmonestacionBean.entidadseleccionada.descripcion}" />
-											
-										<p:outputLabel value="Estado" />
-										<h:outputText
-											value="#{consultaAmonestacionBean.entidadseleccionada.estado}" />
+											<p:outputLabel value="Persona Imputada: " />
+											<h:outputText
+												value="#{consultaAmonestacionBean.entidadseleccionada.puestoPersonaCargo.persona.nombre} #{consultaAmonestacionBean.entidadseleccionada.puestoPersonaCargo.persona.paterno} #{consultaAmonestacionBean.entidadseleccionada.puestoPersonaCargo.persona.materno} - #{consultaAmonestacionBean.entidadseleccionada.puestoPersonaCargo.cargo.descripcion}" />
 
+											<p:outputLabel value="Descripcion:  " />
+											<h:outputText
+												value="#{consultaAmonestacionBean.entidadseleccionada.descripcion}" />
 
-										<p:outputLabel value="Fecha Creacion Amonestación" />
-										<h:outputText
-											value="#{consultaAmonestacionBean.entidadseleccionada.registro}">
-											<f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss"
-												timeZone="GMT-5" />
-										</h:outputText>
+											<p:outputLabel value="Registro: " />
+											<h:outputText
+												value="#{consultaAmonestacionBean.entidadseleccionada.registro}">
+												<f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss"
+													timeZone="GMT-5" />
+											</h:outputText>
 
-									</p:panelGrid>
+										</p:panelGrid>
+									</div>
 
-								</p:panel>
-							</div>
+									<div class="Container20 Responsive100">
+										<p:commandButton value="Cerrar"
+											actionListener="#{consultaAmonestacionBean.cerrarDetalle()}"
+											update="frm1 frm2 frm3 frm4" icon="fa fa-refresh"
+											process="@this" immediate="true" />
+									</div>
+								</div>
+							</p:panel>
 						</h:form>
 
 
 						<div class="Container100 ui-fluid">
-							<p:messages id="message" autoUpdate="false" closable="true" />
+							<p:messages id="message" autoUpdate="true" closable="true" />
 						</div>
 
+						<div class="EmptyBox5" />
 
-						<div class="EmptyBox10" />
 						<h:form id="frm2">
 							<f:passThroughAttribute name="autocomplete" value="off" />
 
-							<p:panel id="panFiltro" header="Lista de operaciones registrados">
+							<p:panel id="panFiltro" header="Lista de amonestaciones registradas">
 								<div class="Container">
 
 									<div class="Container100 Responsive100">
@@ -247,10 +230,10 @@ body {
 
 											<p:ajax event="rowSelect"
 												listener="#{consultaAmonestacionBean.onRowSelect}"
-												update="frm1 frm2 frm3" />
+												update="frm1 frm2 frm3 frm4" />
 											<p:ajax event="rowUnselect"
 												listener="#{consultaAmonestacionBean.onRowUnselect}"
-												update="frm1 frm2 frm3" />
+												update="frm1 frm2 frm3 frm4" />
 
 											<p:column headerText="Periodo - Anio Fiscal">
 												<h:outputText
@@ -258,15 +241,17 @@ body {
 											</p:column>
 
 											<p:column headerText="Puesto - Bloque">
-												<h:outputText value="#{per.puesto.descripcion} - #{per.puesto.bloque.descripcion}" />
+												<h:outputText
+													value="#{per.puesto.descripcion} - #{per.puesto.bloque.descripcion}" />
 											</p:column>
 
 											<p:column headerText="Tipo Amonestacion">
 												<h:outputText value="#{per.tipoAmonestacion.descripcion}" />
 											</p:column>
-											
+
 											<p:column headerText="Amonestado">
-												<h:outputText value="#{per.persona.nombre} #{per.persona.paterno} #{per.persona.materno}" />
+												<h:outputText
+													value="#{per.persona.nombre} #{per.persona.paterno} #{per.persona.materno}" />
 											</p:column>
 
 											<p:column headerText="Fecha registro">

@@ -52,4 +52,10 @@ public class CategoriaOperacionServiceImpl implements CategoriaOperacionService 
 		return categoriaOperacionDao.findByIdTipoOperacion(idTipoOperacion);
 	}
 
+	@Override
+	public List<CategoriaOperacion> listarPordTipoOperacionNoServiciosNoAdministrativos(Integer idTipoOperacion) {
+		// TODO Auto-generated method stub
+		return categoriaOperacionDao.findByIdTipoOperacionNoServiciosNoAdministrativos(idTipoOperacion);
+	}
+
 }

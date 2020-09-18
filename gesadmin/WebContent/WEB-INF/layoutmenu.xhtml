@@ -82,8 +82,7 @@
 				icon="icon-layers">
 
 				<p:menuitem id="pt_con_consumo_servicios"
-					value="Consultar Lectura Servicios"
-					icon="icon-dashboard"
+					value="Consultar Lectura Servicios" icon="icon-dashboard"
 					outcome="/consumo_servicios/consultar_consumo_servicios" />
 
 				<p:menuitem id="pt_ges_medida_servicios"
@@ -98,26 +97,27 @@
 
 			<p:submenu id="pt_operaciones" label="Operaciones" icon="icon-layers">
 
-				<p:menuitem id="pt_ges_operacion" value="Gestion Operaciones"
+				<p:menuitem id="pt_con_operacion" value="Consultar Operaciones"
+					icon="icon-dashboard" outcome="/operaciones/consultar_operacion" />
+
+				<p:menuitem id="pt_ges_operacion" value="Gestionar Operaciones"
 					icon="icon-dashboard" outcome="/operaciones/gestion_operacion" />
 
 				<p:menuitem id="pt_operacion_servicio_consumo"
-					value="Generar Cobranza Servicios " icon="icon-dashboard"
+					value="Gestionar Operacion Cobranza Servicios " icon="icon-dashboard"
 					outcome="/operaciones/gestion_operacion_consumo_servicios" />
 
 				<p:menuitem id="pt_operacion_administracion"
-					value="Generar Cobranza Administracion " icon="icon-dashboard"
+					value="Gestionar Operacion Cobranza Administracion " icon="icon-dashboard"
 					outcome="/operaciones/gestion_operacion_administracion" />
 
-				<p:menuitem id="pt_pag_operacion" value="Efectuar Pago Operacion"
+				<p:menuitem id="pt_pag_operacion" value="Efectuar Pago-Cobro Operacion"
 					icon="icon-dashboard" outcome="/operaciones/efectuar_operacion" />
 
-				<p:menuitem id="pt_can_operacion" value="Cancelar Pago Operacion"
+				<p:menuitem id="pt_can_operacion" value="Cancelar Pago-Cobro Operacion"
 					icon="icon-dashboard"
 					outcome="/operaciones/cancelar_pago_operacion" />
 
-				<p:menuitem id="pt_con_operacion" value="Consulta Estado Operacion"
-					icon="icon-dashboard" outcome="/operaciones/consultar_operacion" />
 
 				<p:menuitem id="pt_sub_man_tipo_operacion"
 					value="Mant. Tipo Operacion" icon="icon-dashboard"
@@ -129,20 +129,20 @@
 
 				<p:menuitem id="pt_sub_man_categoria_operacion"
 					value="Mant. Categoria Operacion" icon="icon-dashboard"
-					outcome="/mantenimiento_relaciones/mantenimiento_categoria_operacion" />
+					outcome="/operaciones/mantenimiento_categoria_operacion" />
 
 			</p:submenu>
 
 			<p:submenu id="pt_amonestacion" label="Amonestaciones"
 				icon="icon-layers">
 
-				<p:menuitem id="pt_ges_amonestacion" value="Gestion Amonestaciones"
-					icon="icon-dashboard"
-					outcome="/amonestaciones/gestion_amonestacion" />
-
-				<p:menuitem id="pt_con_amonestacion" value="Consulta Amonestaciones"
-					icon="icon-dashboard"
+				<p:menuitem id="pt_con_amonestacion"
+					value="Consultar Amonestaciones" icon="icon-dashboard"
 					outcome="/amonestaciones/consultar_amonestacion" />
+
+				<p:menuitem id="pt_ges_amonestacion"
+					value="Gestionar Amonestaciones" icon="icon-dashboard"
+					outcome="/amonestaciones/gestion_amonestacion" />
 
 				<p:menuitem id="pt_sub_mant_tipo_amonestacion"
 					value="Mant. Tipo Amonestaciones" icon="icon-dashboard"

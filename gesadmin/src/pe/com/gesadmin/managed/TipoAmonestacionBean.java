@@ -88,6 +88,9 @@ public class TipoAmonestacionBean {
 	}
 
 	public String guardar() {
+		
+		String descripcion = entidad.getDescripcion().toUpperCase();
+		entidad.setDescripcion(descripcion);
 
 		if (entidad.getId() == null) {
 			System.out.println("A guardar");

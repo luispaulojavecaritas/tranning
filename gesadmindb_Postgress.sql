@@ -137,7 +137,7 @@ CREATE TABLE estatus_operacion (
 	
 CREATE TABLE operacion(
     id serial PRIMARY KEY,
-	descripcion varchar(100) NOT NULL,
+	descripcion varchar(200),
 	monto decimal NOT NULL,
 	fecha_vencimiento date,
 	fecha_pago timestamp,
@@ -148,7 +148,10 @@ CREATE TABLE operacion(
 	id_proveedor int,	
     id_puesto int,
     id_persona_responsable_operacion int,
+    id_usuario int,
 	estado int NOT NULL,
+	tipo_doc varchar(50),
+	nro_doc varchar(50),
 	registro timestamp DEFAULT CURRENT_TIMESTAMP
 	);
 
@@ -173,6 +176,8 @@ CREATE TABLE movimiento (
 	persona_paterno varchar(50),
 	persona_materno varchar(50),
 	estado int NOT NULL,
+	tipo_doc varchar(50),
+	nro_doc varchar(50),	
 	registro timestamp DEFAULT CURRENT_TIMESTAMP
 	);
     
@@ -206,6 +211,7 @@ CREATE TABLE medida_servicio(
 	id_periodo int NOT NULL,
 	id_tipo_servicio int NOT NULL,
 	id_puesto int NOT NULL,
+	id_usuario int,
 	medida decimal NOT NULL,
 	medida_anterior decimal NOT NULL,
 	consumo decimal NOT NULL,
@@ -225,9 +231,10 @@ CREATE TABLE amonestacion(
 	id_periodo int NOT NULL,
 	id_puesto int NOT NULL,
 	id_pesona int NOT NULL,
+	id_usuario int,
 	id_tipo_amonestacion int NOT NULL,
 	id_puesto_persona_cargo int NOT null,
-	descripcion varchar(1500) NOT NULL,
+	descripcion varchar(1500),
 	estado int NOT NULL,
 	registro timestamp DEFAULT CURRENT_TIMESTAMP
 	);
@@ -287,7 +294,7 @@ alter table sexo ADD CONSTRAINT sexo_uniqueKey UNIQUE (descripcion);
 alter table puesto ADD CONSTRAINT puesto_uniqueKey UNIQUE (descripcion, id_bloque);
 alter table estatus_operacion ADD CONSTRAINT estatusoperacion_uniqueKey UNIQUE (descripcion);
 alter table tipo_documento ADD CONSTRAINT tipodocumento_uniqueKey UNIQUE (descripcion);
-alter table medida_servicio ADD CONSTRAINT medidaservicio_uniqueKey UNIQUE (id_periodo, id_tipo_servicio, id_puesto);
+--alter table medida_servicio ADD CONSTRAINT medidaservicio_uniqueKey UNIQUE (id_periodo, id_tipo_servicio, id_puesto);
 
 
 
@@ -297,11 +304,15 @@ alter table medida_servicio ADD CONSTRAINT medidaservicio_uniqueKey UNIQUE (id_p
 -- ALTER TABLE tipo_orden RENAME TO tipo_operacion;
 -- ALTER table periodo DROP CONSTRAINT periodo_uniqueKey;
 --  alter table medida_servicio add column medida_anterior decimal NOT NULL;
- ALTER TABLE periodo ALTER COLUMN dias add constraint  NOT NULL;
+-- alter table movimiento add column tipo_doc varchar(50);
+-- alter table movimiento add column nro_doc varchar(50);
+-- ALTER TABLE amonestacion ALTER COLUMN descripcion DROP NOT NULL;
+
+-- ALTER TABLE periodo ALTER COLUMN dias add constraint  NOT NULL;
 -- ALTER TABLE movimiento ALTER COLUMN operacion_importe  decimal;
 -- ALTER TABLE periodo ADD COLUMN new_column_name data_type;
 -- ALTER TABLE amonestacion ADD COLUMN id_puesto_persona_cargo int NOT NULL;
- ALTER TABLE periodo ADD COLUMN dias int;
+-- ALTER TABLE periodo ADD COLUMN dias int;
 -- ALTER TABLE amonestacion RENAME COLUMN id_pesona TO id_persona;
 -- TRUNCATE TABLE medida_servicio;
 

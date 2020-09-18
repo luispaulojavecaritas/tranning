@@ -68,7 +68,7 @@ body {
 									</div>
 
 									<div class="Container20 Responsive100">
-										<p:commandButton value="Consultar" styleClass="GreenButton"
+										<p:commandButton value="Consultar" 
 											actionListener="#{consultaOperacionBean.listarEntidad()}"
 											update="frm1 frm2 frm3 message frm4" icon="fa fa-save" />
 										<div class="EmptyBox5" />
@@ -170,7 +170,7 @@ body {
 										<p:commandButton value="Limpiar Filtros"
 											actionListener="#{consultaOperacionBean.limpiarFiltro()}"
 											update="frm1 frm2 frm3 frm4 message" icon="fa fa-refresh"
-											styleClass="GoldButton" process="@this" immediate="true" />
+											process="@this" immediate="true" />
 									</div>
 								</div>
 							</p:panel>
@@ -179,76 +179,84 @@ body {
 						<div class="EmptyBox5" />
 
 						<h:form id="frm3">
-							<div class="Container100 Responsive100">
-								<p:panel id="panel" header="Información Detallada de Operacion "
-									rendered="#{consultaOperacionBean.booDetalle}"
-									style="margin-bottom:20px">
-									<p:panelGrid columns="4"
-										columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
-										layout="grid" styleClass="ui-panelgrid-blank"
-										style="border:0px none; background-color:transparent;">
 
-										<p:outputLabel value="Id: " />
-										<h:outputText
-											value="#{consultaOperacionBean.entidadseleccionada.id}" />
+							<p:panel id="panel" header="Información Detallada de Operacion "
+								rendered="#{consultaOperacionBean.booDetalle}"
+								style="margin-bottom:20px">
+								<div class="Container">
+									<div class="Container80 Responsive100">
+										<p:panelGrid columns="4"
+											columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+											layout="grid" styleClass="ui-panelgrid-blank"
+											style="border:0px none; background-color:transparent;">
 
-										<p:outputLabel value="Tipo Operacion: " />
-										<h:outputText
-											value="#{consultaOperacionBean.entidadseleccionada.tipoOperacion.descripcion}" />
+											<p:outputLabel value="Id: " />
+											<h:outputText
+												value="#{consultaOperacionBean.entidadseleccionada.id}" />
 
-										<p:outputLabel value="Categoría Operacion: " />
-										<h:outputText
-											value="#{consultaOperacionBean.entidadseleccionada.categoriaOperacion.descripcion}" />
+											<p:outputLabel value="Tipo Operacion: " />
+											<h:outputText
+												value="#{consultaOperacionBean.entidadseleccionada.tipoOperacion.descripcion}" />
 
-										<p:outputLabel value="Descripcion:" />
-										<h:outputText
-											value="#{consultaOperacionBean.entidadseleccionada.descripcion}" />
+											<p:outputLabel value="Categoría Operacion: " />
+											<h:outputText
+												value="#{consultaOperacionBean.entidadseleccionada.categoriaOperacion.descripcion}" />
 
-										<p:outputLabel value="Periodo" />
-										<h:outputText
-											value="#{consultaOperacionBean.entidadseleccionada.periodo.descripcion} - #{consultaOperacionBean.entidadseleccionada.periodo.anioFiscal.descripcion}" />
+											<p:outputLabel value="Descripcion:" />
+											<h:outputText
+												value="#{consultaOperacionBean.entidadseleccionada.descripcion}" />
 
-										<p:outputLabel value="Deudor:" />
-										<h:outputText
-											value="#{consultaOperacionBean.entidadseleccionada.puesto.descripcion}" />
+											<p:outputLabel value="Periodo" />
+											<h:outputText
+												value="#{consultaOperacionBean.entidadseleccionada.periodo.descripcion} - #{consultaOperacionBean.entidadseleccionada.periodo.anioFiscal.descripcion}" />
 
-										<p:outputLabel value="Acreedor:" />
-										<h:outputText
-											value="#{consultaOperacionBean.entidadseleccionada.proveedor.razonSocial}" />
+											<p:outputLabel value="Deudor:" />
+											<h:outputText
+												value="#{consultaOperacionBean.entidadseleccionada.puesto.descripcion}" />
 
-										<p:outputLabel value="Fecha Creacion Operacion:" />
-										<h:outputText
-											value="#{consultaOperacionBean.entidadseleccionada.registro}">
-											<f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss"
-												timeZone="GMT-5" />
-										</h:outputText>
+											<p:outputLabel value="Acreedor:" />
+											<h:outputText
+												value="#{consultaOperacionBean.entidadseleccionada.proveedor.razonSocial}" />
 
-										<p:outputLabel value="Ultimo Dia de Pago" />
-										<h:outputText
-											value="#{consultaOperacionBean.entidadseleccionada.fechaVencimiento}">
-											<f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss"
-												timeZone="GMT-5" />
-										</h:outputText>
+											<p:outputLabel value="Fecha Creacion Operacion:" />
+											<h:outputText
+												value="#{consultaOperacionBean.entidadseleccionada.registro}">
+												<f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss"
+													timeZone="GMT-5" />
+											</h:outputText>
 
-										<p:outputLabel value="Estatus Operacion:" />
-										<h:outputText
-											value="#{consultaOperacionBean.entidadseleccionada.estatusOperacion.descripcion}" />
+											<p:outputLabel value="Ultimo Dia de Pago" />
+											<h:outputText
+												value="#{consultaOperacionBean.entidadseleccionada.fechaVencimiento}">
+												<f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss"
+													timeZone="GMT-5" />
+											</h:outputText>
 
-										<p:outputLabel value="Persona Efectuo Pago:" />
-										<h:outputText
-											value="#{consultaOperacionBean.entidadseleccionada.personaResponsableOperacion.nombre} #{consultaOperacionBean.entidadseleccionada.personaResponsableOperacion.paterno} #{consultaOperacionBean.entidadseleccionada.personaResponsableOperacion.materno}" />
+											<p:outputLabel value="Estatus Operacion:" />
+											<h:outputText
+												value="#{consultaOperacionBean.entidadseleccionada.estatusOperacion.descripcion}" />
 
-										<p:outputLabel value="Fecha Efectuó Pago:" />
-										<h:outputText
-											value="#{consultaOperacionBean.entidadseleccionada.fechaPago}">
-											<f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss"
-												timeZone="GMT-5" />
-										</h:outputText>
+											<p:outputLabel value="Persona Efectuo Pago:" />
+											<h:outputText
+												value="#{consultaOperacionBean.entidadseleccionada.personaResponsableOperacion.nombre} #{consultaOperacionBean.entidadseleccionada.personaResponsableOperacion.paterno} #{consultaOperacionBean.entidadseleccionada.personaResponsableOperacion.materno}" />
 
-									</p:panelGrid>
+											<p:outputLabel value="Fecha Efectuó Pago:" />
+											<h:outputText
+												value="#{consultaOperacionBean.entidadseleccionada.fechaPago}">
+												<f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss"
+													timeZone="GMT-5" />
+											</h:outputText>
 
-								</p:panel>
-							</div>
+										</p:panelGrid>
+									</div>
+									<div class="Container20 Responsive100">
+										<p:commandButton value="Cerrar"
+											actionListener="#{consultaOperacionBean.cerrarDetalle()}"
+											update="frm1 frm2 frm3 frm4" icon="fa fa-refresh"
+											process="@this" immediate="true" />
+									</div>
+								</div>
+							</p:panel>
 						</h:form>
 
 
@@ -256,8 +264,7 @@ body {
 							<p:messages id="message" autoUpdate="false" closable="true" />
 						</div>
 
-
-						<div class="EmptyBox10" />
+						<div class="EmptyBox5" />
 						<h:form id="frm2">
 							<f:passThroughAttribute name="autocomplete" value="off" />
 
@@ -277,10 +284,10 @@ body {
 
 											<p:ajax event="rowSelect"
 												listener="#{consultaOperacionBean.onRowSelect}"
-												update="frm1 frm2 frm3" />
+												update="frm1 frm2 frm3 frm4" />
 											<p:ajax event="rowUnselect"
 												listener="#{consultaOperacionBean.onRowUnselect}"
-												update="frm1 frm2 frm3" />
+												update="frm1 frm2 frm3 frm4" />
 
 											<p:column headerText="Periodo - Anio Fiscal">
 												<h:outputText

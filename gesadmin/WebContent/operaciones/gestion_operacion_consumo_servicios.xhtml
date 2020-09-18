@@ -44,7 +44,7 @@ body {
 							</div>
 						</h:form>
 
-						<div class="EmptyBox10" />
+						<div class="EmptyBox5" />
 
 
 						<h:form id="frmFiscalizacion">
@@ -68,7 +68,8 @@ body {
 
 
 						<h:form id="frmTipoServicio">
-							<p:panel id="pnlTipoServicio" rendered="#{operacionConsumoServicioBean.booEntidadRegistro}"
+							<p:panel id="pnlTipoServicio"
+								rendered="#{operacionConsumoServicioBean.booTipoServicio}"
 								header="Tipo de servicio a gestionar" style="margin-bottom:20px">
 								<p:panelGrid columns="2" layout="grid"
 									styleClass="ui-panelgrid-blank"
@@ -96,7 +97,8 @@ body {
 
 
 						<h:form id="frmEntidad">
-							<p:panel id="pnlDetallessss" rendered="#{operacionConsumoServicioBean.booEntidadRegistro}"
+							<p:panel id="pnlDetallessss"
+								rendered="#{operacionConsumoServicioBean.booEntidadRegistro}"
 								header="Registrar lectura de consumo de servicio"
 								style="margin-bottom:20px">
 								<div class="Container">
@@ -105,14 +107,7 @@ body {
 										<p:panelGrid columns="4"
 											columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
 											layout="grid" styleClass="ui-panelgrid-blank"
-											style="border:0px none; background-color:transparent;">
-
-											<p:outputLabel for="txtvar3" value="Descripción:" />
-											<p:inputText id="txtvar3"
-												value="#{operacionConsumoServicioBean.entidad.descripcion}"
-												required="true" requiredMessage="Ingrese descripcion"
-												label="descripcion"
-												onkeyup="this.value = this.value.toUpperCase();" />
+											style="border:0px none; background-color:transparent;">												
 
 											<p:outputLabel value="Fecha vencimiento:" for="txtvar11" />
 											<p:calendar id="txtvar11" pattern="dd-MM-yyyy" mask="true"
@@ -123,6 +118,11 @@ body {
 												requiredMessage="Ingrese fecha de vencimieto">
 												<f:validateRequired for="txtvar11" />
 											</p:calendar>
+											
+											<p:outputLabel for="txtvar3" value="Observaciones:" />											
+											<p:inputTextarea value="#{operacionConsumoServicioBean.entidad.descripcion}" id="txtvar3"                                        
+                                             style="width: 100%" rows="3" label="descripcion" placeholder="Ingrese observaciones"
+                                             maxlength="200"/>											
 
 										</p:panelGrid>
 
@@ -137,9 +137,9 @@ body {
 												<h:outputText value="#{per.puestoDescripcion}" />
 											</p:column>
 
-											<p:column headerText="Lectura Anterior - Actual">
+											<p:column headerText="Lectura Actual - Anterior">
 												<h:outputText
-													value="#{per.lecturaAnterior} - #{per.lecturaActual}" />
+													value="#{per.lecturaActual} - #{per.lecturaAnterior}" />
 											</p:column>
 
 											<p:column headerText="Consumo Actual">
@@ -154,7 +154,7 @@ body {
 												<h:outputText value="#{per.costoSubtotalConsumo}" />
 											</p:column>
 
-											<p:column headerText="Consumo fijo">
+											<p:column headerText="Costo Fijo">
 												<h:outputText value="#{per.costoFijo}" />
 											</p:column>
 
@@ -227,9 +227,15 @@ body {
 								</div>
 							</p:panel>
 						</h:form>
+						
+
+						<div class="Container100 Responsive100">
+							<p:messages autoUpdate="true" closable="true" />
+						</div>
+
+						<div class="EmptyBox5" />						
 
 
-						<div class="EmptyBox10" />
 						<h:form id="frmTabla">
 							<f:passThroughAttribute name="autocomplete" value="off" />
 
@@ -266,7 +272,7 @@ body {
 											<p:ajax event="rowSelect"
 												listener="#{operacionConsumoServicioBean.onRowSelect}"
 												update="frmEntidad frmTabla frmDetalle frmTipoServicio frmFiscalizacion" />
-												
+
 											<p:ajax event="rowUnselect"
 												listener="#{operacionConsumoServicioBean.onRowUnselect}"
 												update="frmEntidad frmTabla frmDetalle frmTipoServicio frmFiscalizacion" />
@@ -278,7 +284,7 @@ body {
 											<p:column headerText="Deudor">
 												<h:outputText value="#{per.puesto.descripcion}" />
 											</p:column>
-											
+
 											<p:column headerText="Acreedor">
 												<h:outputText value="#{per.proveedor.razonSocial}" />
 											</p:column>
@@ -286,13 +292,17 @@ body {
 											<p:column headerText="Categoria">
 												<h:outputText value="#{per.categoriaOperacion.descripcion}" />
 											</p:column>
-											
+
 											<p:column headerText="Tipo">
 												<h:outputText value="#{per.tipoOperacion.descripcion}" />
 											</p:column>
-											
+
 											<p:column headerText="Monto">
 												<h:outputText value="#{per.monto}" />
+											</p:column>
+											
+											<p:column headerText="Estatus">
+												<h:outputText value="#{per.estatusOperacion.descripcion}" />
 											</p:column>
 
 											<p:column headerText="Fecha registro">

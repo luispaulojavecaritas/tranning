@@ -19,7 +19,7 @@ public class EstatusOperacionDaoImpl implements EstatusOperacionDao {
 	@Override
 	public List<EstatusOperacion> findAll() {
 		// TODO Auto-generated method stub
-		String query = "select b FROM EstatusOperacion b";
+		String query = "select b FROM EstatusOperacion b order by b.id desc";
         TypedQuery<EstatusOperacion> tq = em.createQuery(query, EstatusOperacion.class);
         List<EstatusOperacion> lista = tq.getResultList();
         return lista;

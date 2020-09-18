@@ -28,165 +28,175 @@ body {
 
 						<h:form id="frm1">
 							<f:passThroughAttribute name="autocomplete" value="off" />
-							<div class="Container80 Responsive100">
-								<p:panelGrid columns="4" id="pnl"
-									columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
-									layout="grid" styleClass="ui-panelgrid-blank"
-									style="border:0px none; background-color:transparent;">
+							<p:panel id="panel1" header="Periodo fiscal y puesto a consultar"
+								style="margin-bottom:20px">
+
+								<div class="Container">
+									<div class="Container80 Responsive100">
+										<p:panelGrid columns="4" id="pnl"
+											columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+											layout="grid" styleClass="ui-panelgrid-blank"
+											style="border:0px none; background-color:transparent;">
 
 
-									<p:outputLabel for="txtvar1" value="Año Fiscal: " />
-									<p:selectOneMenu id="txtvar1"
-										value="#{operacionCancelarPagoBean.idAnioFiscal}"
-										required="true" requiredMessage="Seleccione año fiscal"
-										label="año fiscal" filter="true" filterMatchMode="contains">
-										<f:selectItem itemLabel="Seleccione" itemValue="" />
-										<f:selectItems
-											value="#{operacionCancelarPagoBean.listaAnioFiscal}"
-											var="lista" itemLabel="#{lista.descripcion}"
-											itemValue="#{lista.id}" />
+											<p:outputLabel for="txtvar1" value="Año Fiscal: " />
+											<p:selectOneMenu id="txtvar1"
+												value="#{operacionCancelarPagoBean.idAnioFiscal}"
+												required="true" requiredMessage="Seleccione año fiscal"
+												label="año fiscal" filter="true" filterMatchMode="contains">
+												<f:selectItem itemLabel="Seleccione" itemValue="" />
+												<f:selectItems
+													value="#{operacionCancelarPagoBean.listaAnioFiscal}"
+													var="lista" itemLabel="#{lista.descripcion}"
+													itemValue="#{lista.id}" />
 
-										<p:ajax
-											listener="#{operacionCancelarPagoBean.listarPeriodo()}"
-											update="frm1" />
+												<p:ajax
+													listener="#{operacionCancelarPagoBean.listarPeriodo()}"
+													update="frm1" />
 
-									</p:selectOneMenu>
+											</p:selectOneMenu>
 
-									<p:outputLabel for="txtvar2" value="Periodo:" />
-									<p:selectOneMenu id="txtvar2"
-										value="#{operacionCancelarPagoBean.idPeriodo}" required="true"
-										requiredMessage="Seleccione periodo" label="periodo"
-										filter="true" filterMatchMode="contains">
-										<f:selectItem itemLabel="Seleccione" itemValue="" />
-										<f:selectItems
-											value="#{operacionCancelarPagoBean.listaPeriodo}" var="lista"
-											itemLabel="#{lista.descripcion}" itemValue="#{lista.id}" />
-									</p:selectOneMenu>
+											<p:outputLabel for="txtvar2" value="Periodo:" />
+											<p:selectOneMenu id="txtvar2"
+												value="#{operacionCancelarPagoBean.idPeriodo}"
+												required="true" requiredMessage="Seleccione periodo"
+												label="periodo" filter="true" filterMatchMode="contains">
+												<f:selectItem itemLabel="Seleccione" itemValue="" />
+												<f:selectItems
+													value="#{operacionCancelarPagoBean.listaPeriodo}"
+													var="lista" itemLabel="#{lista.descripcion}"
+													itemValue="#{lista.id}" />
+											</p:selectOneMenu>
 
-									<p:outputLabel for="txtvar3" value="Deudor" />
-									<p:selectOneMenu id="txtvar3"
-										value="#{operacionCancelarPagoBean.idPuesto}" required="true"
-										requiredMessage="Seleccione deudor" label="deudor"
-										filter="true" filterMatchMode="contains">
-										<f:selectItem itemLabel="Seleccione" itemValue="" />
-										<f:selectItems
-											value="#{operacionCancelarPagoBean.listaPuesto}" var="lista"
-											itemLabel="#{lista.descripcion}" itemValue="#{lista.id}" />
-									</p:selectOneMenu>
-								</p:panelGrid>
-							</div>
+											<p:outputLabel for="txtvar3" value="Deudor" />
+											<p:selectOneMenu id="txtvar3"
+												value="#{operacionCancelarPagoBean.idPuesto}"
+												required="true" requiredMessage="Seleccione deudor"
+												label="deudor" filter="true" filterMatchMode="contains">
+												<f:selectItem itemLabel="Seleccione" itemValue="" />
+												<f:selectItems
+													value="#{operacionCancelarPagoBean.listaPuesto}"
+													var="lista" itemLabel="#{lista.descripcion}"
+													itemValue="#{lista.id}" />
+											</p:selectOneMenu>
+										</p:panelGrid>
+									</div>
 
-							<div class="Container20 Responsive100">
-								<p:commandButton value="Consultar"
-									actionListener="#{operacionCancelarPagoBean.listarEntidad()}"
-									update="frm1 frm2 frm3 message" icon="fa fa-save"
-									styleClass="GreenButton" />
-								<div class="EmptyBox5" />
-								<p:commandButton value="Limpiar"
-									actionListener="#{operacionCancelarPagoBean.limpiar()}"
-									update="frm1 frm2 message frm3" icon="fa fa-refresh"
-									styleClass="GoldButton" process="@this" immediate="true" />
-							</div>
+									<div class="Container20 Responsive100">
+										<p:commandButton value="Consultar"
+											actionListener="#{operacionCancelarPagoBean.listarEntidad()}"
+											update="frm1 frm2 frm3 message" icon="fa fa-save" />
+										<div class="EmptyBox5" />
+										<p:commandButton value="Limpiar"
+											actionListener="#{operacionCancelarPagoBean.limpiar()}"
+											update="frm1 frm2 message frm3" icon="fa fa-refresh"
+											process="@this" immediate="true" />
+									</div>
+								</div>
+							</p:panel>
 						</h:form>
 
-						<div class="EmptyBox10" />
+						<div class="EmptyBox5" />
 
 
 						<h:form id="frm3">
-							<div class="Container100 Responsive100">
-								<p:panel id="panel" header="Información Detallada de Operacion "
-									rendered="#{operacionCancelarPagoBean.booDetalle}"
-									style="margin-bottom:20px">
-									<p:panelGrid columns="4"
-										columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
-										layout="grid" styleClass="ui-panelgrid-blank"
-										style="border:0px none; background-color:transparent;">
+							<p:panel id="panel" header="Información Detallada de Operacion "
+								rendered="#{operacionCancelarPagoBean.booDetalle}"
+								style="margin-bottom:20px">
+								<div class="Container">
+									<div class="Container100 Responsive100">
 
-										<p:outputLabel value="Id: " />
-										<h:outputText
-											value="#{operacionCancelarPagoBean.entidadseleccionada.id}" />
+										<p:panelGrid columns="4"
+											columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+											layout="grid" styleClass="ui-panelgrid-blank"
+											style="border:0px none; background-color:transparent;">
 
-										<p:outputLabel value="Tipo Operacion: " />
-										<h:outputText
-											value="#{operacionCancelarPagoBean.entidadseleccionada.tipoOperacion.descripcion}" />
+											<p:outputLabel value="Id: " />
+											<h:outputText
+												value="#{operacionCancelarPagoBean.entidadseleccionada.id}" />
 
-										<p:outputLabel value="Categoría Operacion: " />
-										<h:outputText
-											value="#{operacionCancelarPagoBean.entidadseleccionada.categoriaOperacion.descripcion}" />
+											<p:outputLabel value="Tipo Operacion: " />
+											<h:outputText
+												value="#{operacionCancelarPagoBean.entidadseleccionada.tipoOperacion.descripcion}" />
 
-										<p:outputLabel value="Descripcion:" />
-										<h:outputText
-											value="#{operacionCancelarPagoBean.entidadseleccionada.descripcion}" />
+											<p:outputLabel value="Categoría Operacion: " />
+											<h:outputText
+												value="#{operacionCancelarPagoBean.entidadseleccionada.categoriaOperacion.descripcion}" />
 
-										<p:outputLabel value="Periodo" />
-										<h:outputText
-											value="#{operacionCancelarPagoBean.entidadseleccionada.periodo.descripcion} - #{operacionCancelarPagoBean.entidadseleccionada.periodo.anioFiscal.descripcion}" />
+											<p:outputLabel value="Descripcion:" />
+											<h:outputText
+												value="#{operacionCancelarPagoBean.entidadseleccionada.descripcion}" />
 
-										<p:outputLabel value="Deudor:" />
-										<h:outputText
-											value="#{operacionCancelarPagoBean.entidadseleccionada.puesto.descripcion}" />
+											<p:outputLabel value="Periodo" />
+											<h:outputText
+												value="#{operacionCancelarPagoBean.entidadseleccionada.periodo.descripcion} - #{operacionCancelarPagoBean.entidadseleccionada.periodo.anioFiscal.descripcion}" />
 
-										<p:outputLabel value="Acreedor:" />
-										<h:outputText
-											value="#{operacionCancelarPagoBean.entidadseleccionada.proveedor.razonSocial}" />
+											<p:outputLabel value="Deudor:" />
+											<h:outputText
+												value="#{operacionCancelarPagoBean.entidadseleccionada.puesto.descripcion}" />
 
-										<p:outputLabel value="Fecha Creacion Operacion:" />
-										<h:outputText
-											value="#{operacionCancelarPagoBean.entidadseleccionada.registro}">
-											<f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss"
-												timeZone="GMT-5" />
-										</h:outputText>
+											<p:outputLabel value="Acreedor:" />
+											<h:outputText
+												value="#{operacionCancelarPagoBean.entidadseleccionada.proveedor.razonSocial}" />
 
-										<p:outputLabel value="Ultimo Dia de Pago" />
-										<h:outputText
-											value="#{operacionCancelarPagoBean.entidadseleccionada.fechaVencimiento}">
-											<f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss"
-												timeZone="GMT-5" />
-										</h:outputText>
+											<p:outputLabel value="Fecha Creacion Operacion:" />
+											<h:outputText
+												value="#{operacionCancelarPagoBean.entidadseleccionada.registro}">
+												<f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss"
+													timeZone="GMT-5" />
+											</h:outputText>
 
-										<p:outputLabel value="Estatus Operacion:" />
-										<h:outputText
-											value="#{operacionCancelarPagoBean.entidadseleccionada.estatusOperacion.descripcion}" />
+											<p:outputLabel value="Ultimo Dia de Pago" />
+											<h:outputText
+												value="#{operacionCancelarPagoBean.entidadseleccionada.fechaVencimiento}">
+												<f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss"
+													timeZone="GMT-5" />
+											</h:outputText>
 
-										<p:outputLabel value="Persona Efectuo Pago:" />
-										<h:outputText
-											value="#{operacionCancelarPagoBean.entidadseleccionada.personaResponsableOperacion.nombre} #{operacionCancelarPagoBean.entidadseleccionada.personaResponsableOperacion.paterno} #{operacionCancelarPagoBean.entidadseleccionada.personaResponsableOperacion.materno}" />
+											<p:outputLabel value="Estatus Operacion:" />
+											<h:outputText
+												value="#{operacionCancelarPagoBean.entidadseleccionada.estatusOperacion.descripcion}" />
 
-										<p:outputLabel value="Fecha Efectuó Pago:" />
-										<h:outputText
-											value="#{operacionCancelarPagoBean.entidadseleccionada.fechaPago}">
-											<f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss"
-												timeZone="GMT-5" />
-										</h:outputText>
+											<p:outputLabel value="Persona Efectuo Pago:" />
+											<h:outputText
+												value="#{operacionCancelarPagoBean.entidadseleccionada.personaResponsableOperacion.nombre} #{operacionCancelarPagoBean.entidadseleccionada.personaResponsableOperacion.paterno} #{operacionCancelarPagoBean.entidadseleccionada.personaResponsableOperacion.materno}" />
 
-										<p:outputLabel value="Persona Cancela Pago: " />
-										<p:selectOneMenu
-											value="#{operacionCancelarPagoBean.idPersona}"
-											required="true"
-											requiredMessage="Seleccione persona que cancela el pago"
-											label="responsable cancelacion pago" filter="true"
-											filterMatchMode="contains">
-											<f:selectItem itemLabel="Seleccione" itemValue="" />
-											<f:selectItems
-												value="#{operacionCancelarPagoBean.listaPuestoPersonaCargo}"
-												var="lista"
-												itemLabel="#{lista.persona.nombre} #{lista.persona.paterno} #{lista.persona.materno} - #{lista.cargo.descripcion}"
-												itemValue="#{lista.persona.id}" />
-										</p:selectOneMenu>
+											<p:outputLabel value="Fecha Efectuó Pago:" />
+											<h:outputText
+												value="#{operacionCancelarPagoBean.entidadseleccionada.fechaPago}">
+												<f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss"
+													timeZone="GMT-5" />
+											</h:outputText>
 
-									</p:panelGrid>
+											<p:outputLabel value="Persona Cancela Pago: " />
+											<p:selectOneMenu
+												value="#{operacionCancelarPagoBean.idPersona}"
+												required="true"
+												requiredMessage="Seleccione persona que cancela el pago"
+												label="responsable cancelacion pago" filter="true"
+												filterMatchMode="contains">
+												<f:selectItem itemLabel="Seleccione" itemValue="" />
+												<f:selectItems
+													value="#{operacionCancelarPagoBean.listaPuestoPersonaCargo}"
+													var="lista"
+													itemLabel="#{lista.persona.nombre} #{lista.persona.paterno} #{lista.persona.materno} - #{lista.cargo.descripcion}"
+													itemValue="#{lista.persona.id}" />
+											</p:selectOneMenu>
 
-									<p:commandButton value="Cancelar Pago"
-										actionListener="#{operacionCancelarPagoBean.cancelar_Pago()}"
-										update="frm1 frm2 frm3 message" icon="fa fa-save"
-										styleClass="GreenButton" />
-								</p:panel>
-							</div>
+										</p:panelGrid>
+
+										<p:commandButton value="Cancelar Pago"
+											actionListener="#{operacionCancelarPagoBean.cancelar_Pago()}"
+											update="frm1 frm2 frm3 message" icon="fa fa-save"
+											styleClass="RedButton" />
+									</div>
+								</div>
+							</p:panel>
 						</h:form>
 
 
 						<div class="Container100 ui-fluid">
-							<p:messages id="message" autoUpdate="false" closable="true" />
+							<p:messages id="message" autoUpdate="true" closable="true" />
 						</div>
 
 
@@ -194,7 +204,8 @@ body {
 						<h:form id="frm2">
 							<f:passThroughAttribute name="autocomplete" value="off" />
 
-							<p:panel id="panFiltro" header="Lista de operaciones con estatus efectuados">
+							<p:panel id="panFiltro"
+								header="Lista de operaciones con estatus efectuados">
 								<div class="Container">
 									<div class="Container60 Responsive100"></div>
 									<div class="Container40 Responsive100">

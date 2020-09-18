@@ -26,106 +26,172 @@ body {
 							AMONESTACIONES</div>
 						<div class="Wid100 OvHidden" style="height: 1rem;"></div>
 
-						<h:form id="frm1">
-							<f:passThroughAttribute name="autocomplete" value="off" />
-							<div class="Container80 Responsive100">
-								<p:panelGrid columns="4"
-									columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
-									layout="grid" styleClass="ui-panelgrid-blank"
+						<h:form id="frmFiscalizacion">
+							<p:panel id="pnlfiscalizacion" header="Periodo fiscal"
+								style="margin-bottom:20px"
+								rendered="#{!amonestacionBean.booBtnEliminar}">
+								<p:panelGrid columns="4" layout="grid"
+									styleClass="ui-panelgrid-blank"
 									style="border:0px none; background-color:transparent;">
 
-									<p:outputLabel value="Id:" />
-									<h:outputText value="#{amonestacionBean.entidad.id}" />
+									<p:outputLabel value="Año Fiscal:" />
+									<h:outputText
+										value="#{amonestacionBean.periodoActual.anioFiscal.descripcion}" />
 
-									<p:outputLabel for="txtvar3" value="Periodo:" />
-									<p:selectOneMenu id="txtvar3"
-										value="#{amonestacionBean.entidad.periodo.id}" required="true"
-										requiredMessage="Seleccione periodo" label="bloque"
-										filter="true" filterMatchMode="contains">
-										<f:selectItem itemLabel="Seleccione" itemValue="" />
-										<f:selectItems value="#{amonestacionBean.listaPeriodo}"
-											var="lista" itemLabel="#{lista.descripcion}"
-											itemValue="#{lista.id}" />
-									</p:selectOneMenu>
-
-									<p:outputLabel for="txtvar4" value="Puesto:" />
-									<p:selectOneMenu id="txtvar4"
-										value="#{amonestacionBean.entidad.puesto.id}" required="true"
-										requiredMessage="Seleccione puesto" label="puesto"
-										filter="true" filterMatchMode="contains">
-										<f:selectItem itemLabel="Seleccione" itemValue="" />
-										<f:selectItems value="#{amonestacionBean.listaPuesto}"
-											var="lista" itemLabel="#{lista.descripcion}"
-											itemValue="#{lista.id}" />
-
-										<p:ajax listener="#{amonestacionBean.listarPuestosPersonaCargo()}"
-											update="frm1:txtvar5" />
-									</p:selectOneMenu>
-
-									<p:outputLabel for="txtvar5" value="Persona - Cargo:" />
-									<p:selectOneMenu id="txtvar5"
-										value="#{amonestacionBean.entidad.puestoPersonaCargo.id}" required="true"
-										requiredMessage="Seleccione persona - cargo" label="persona -cargo"
-										filter="true" filterMatchMode="contains">
-										<f:selectItem itemLabel="Seleccione" itemValue="" />
-										<f:selectItems
-											value="#{amonestacionBean.listaPuestoPersonaCargo}"
-											var="lista"
-											itemLabel="#{lista.persona.nombre} #{lista.persona.paterno} #{lista.persona.materno} - #{lista.cargo.descripcion}"
-											itemValue="#{lista.persona.id}" />
-									</p:selectOneMenu>
-
-									<p:outputLabel for="txtvar6" value="Tipo Amonestacion:" />
-									<p:selectOneMenu id="txtvar6"
-										value="#{amonestacionBean.entidad.tipoAmonestacion.id}"
-										required="true" requiredMessage="Seleccione puesto"
-										label="puesto" filter="true" filterMatchMode="contains">
-										<f:selectItem itemLabel="Seleccione" itemValue="" />
-										<f:selectItems
-											value="#{amonestacionBean.listaTipoAmonestacion}" var="lista"
-											itemLabel="#{lista.descripcion}" itemValue="#{lista.id}" />
-									</p:selectOneMenu>
-
-									<p:outputLabel for="txtvar2" value="Descripción:" />
-									<p:inputText id="txtvar2"
-										value="#{amonestacionBean.entidad.descripcion}"
-										required="true" requiredMessage="Ingrese descripcion"
-										label="descripcion"
-										onkeyup="this.value = this.value.toUpperCase();">
-									</p:inputText>
-
-									<p:outputLabel for="txtvar10" value="Estado: " />
-									<p:selectOneMenu id="txtvar10"
-										value="#{amonestacionBean.entidad.estado}" required="true"
-										requiredMessage="Seleccione estado" label="estado"
-										filter="true" filterMatchMode="contains">
-										<f:selectItem itemLabel="Seleccione" itemValue="" />
-										<f:selectItem itemLabel="ACTIVO" itemValue="1" />
-										<f:selectItem itemLabel="INACTIVO" itemValue="0" />
-									</p:selectOneMenu>
-
+									<p:outputLabel value="Periodo Fiscal:" />
+									<h:outputText
+										value="#{amonestacionBean.periodoActual.descripcion}" />
 								</p:panelGrid>
-							</div>
+							</p:panel>
+						</h:form>
 
-							<div class="Container20 Responsive100">
-								<p:commandButton value="Guardar"
-									actionListener="#{amonestacionBean.guardar()}"
-									update="frm1 frm2" icon="fa fa-save" styleClass="GreenButton" />
-								<div class="EmptyBox5" />
-								<p:commandButton value="Limpiar"
-									actionListener="#{amonestacionBean.limpiar()}"
-									update="frm1 frm2" icon="fa fa-refresh" styleClass="GoldButton"
-									process="@this" immediate="true" />
-							</div>
+
+						<h:form id="frmEntidad">
+							<f:passThroughAttribute name="autocomplete" value="off" />
+							<p:panel id="pnlEntidad"
+								header="Registrar amonestacion"
+								style="margin-bottom:20px"
+								rendered="#{amonestacionBean.booRegistro}">
+								<div class="Container">
+									<div class="Container80 Responsive100">
+										<p:panelGrid columns="4"
+											columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+											layout="grid" styleClass="ui-panelgrid-blank"
+											style="border:0px none; background-color:transparent;">
+
+											<p:outputLabel value="Id:" />
+											<h:outputText value="#{amonestacionBean.entidad.id}" />
+
+											<p:outputLabel for="txtvar4" value="Puesto:" />
+											<p:selectOneMenu id="txtvar4"
+												value="#{amonestacionBean.entidad.puesto.id}"
+												required="true" requiredMessage="Seleccione puesto"
+												label="puesto" filter="true" filterMatchMode="contains">
+												<f:selectItem itemLabel="Seleccione" itemValue="" />
+												<f:selectItems value="#{amonestacionBean.listaPuesto}"
+													var="lista" itemLabel="#{lista.descripcion}"
+													itemValue="#{lista.id}" />
+												<p:ajax
+													listener="#{amonestacionBean.listarPuestosPersonaCargo()}"
+													update="frmEntidad:txtvar5" />
+											</p:selectOneMenu>
+
+											<p:outputLabel for="txtvar5" value="Persona - Cargo:" />
+											<p:selectOneMenu id="txtvar5"
+												value="#{amonestacionBean.entidad.puestoPersonaCargo.id}"
+												required="true" requiredMessage="Seleccione persona - cargo"
+												label="persona -cargo" filter="true"
+												filterMatchMode="contains">
+												<f:selectItem itemLabel="Seleccione" itemValue="" />
+												<f:selectItems
+													value="#{amonestacionBean.listaPuestoPersonaCargo}"
+													var="lista"
+													itemLabel="#{lista.persona.nombre} #{lista.persona.paterno} #{lista.persona.materno} - #{lista.cargo.descripcion}"
+													itemValue="#{lista.persona.id}" />
+											</p:selectOneMenu>
+
+											<p:outputLabel for="txtvar6" value="Tipo Amonestacion:" />
+											<p:selectOneMenu id="txtvar6"
+												value="#{amonestacionBean.entidad.tipoAmonestacion.id}"
+												required="true" requiredMessage="Seleccione puesto"
+												label="puesto" filter="true" filterMatchMode="contains">
+												<f:selectItem itemLabel="Seleccione" itemValue="" />
+												<f:selectItems
+													value="#{amonestacionBean.listaTipoAmonestacion}"
+													var="lista" itemLabel="#{lista.descripcion}"
+													itemValue="#{lista.id}" />
+											</p:selectOneMenu>
+											
+											<p:outputLabel for="txtvar3" value="Observaciones:" />											
+											<p:inputTextarea value="#{amonestacionBean.entidad.descripcion}" id="txtvar3"                                        
+                                             style="width: 100%" rows="3" label="descripcion" placeholder="Ingrese observaciones"
+                                             maxlength="1499"/>
+
+										</p:panelGrid>
+									</div>
+
+									<div class="Container20 Responsive100">
+										<p:commandButton value="Guardar"
+											actionListener="#{amonestacionBean.guardar()}"
+											update="frmFiscalizacion frmEntidad frmDetalle frm2" icon="fa fa-save" styleClass="GreenButton" />
+										<div class="EmptyBox5" />
+										<p:commandButton value="Limpiar"
+											actionListener="#{amonestacionBean.limpiar()}"
+											update="frmFiscalizacion frmEntidad frmDetalle frm2" icon="fa fa-refresh"
+											process="@this" immediate="true" />
+									</div>
+								</div>
+							</p:panel>
+						</h:form>
+
+
+						<h:form id="frmDetalle">
+							<p:panel id="pnlDetalle" header="Detalle de amonestacion"
+								style="margin-bottom:20px"
+								rendered="#{amonestacionBean.booBtnEliminar}">
+								<div class="Container">
+									<div class="Container80 Responsive100">
+										<p:panelGrid columns="4" layout="grid"
+											styleClass="ui-panelgrid-blank"
+											style="border:0px none; background-color:transparent;">
+
+											<p:outputLabel value="Id:" />
+											<h:outputText
+												value="#{amonestacionBean.entidadseleccionada.id}" />
+
+											<p:outputLabel value="Anio - Periodo Fiscal:" />
+											<h:outputText
+												value="#{amonestacionBean.entidadseleccionada.periodo.anioFiscal.descripcion} - #{amonestacionBean.entidadseleccionada.periodo.descripcion}" />
+
+											<p:outputLabel value="Puesto:" />
+											<h:outputText
+												value="#{amonestacionBean.entidadseleccionada.puesto.descripcion}" />
+
+											<p:outputLabel value="Tipo Amonestacion:" />
+											<h:outputText
+												value="#{amonestacionBean.entidadseleccionada.tipoAmonestacion.descripcion}" />
+
+											<p:outputLabel value="Persona Imputada: " />
+											<h:outputText
+												value="#{amonestacionBean.entidadseleccionada.puestoPersonaCargo.persona.nombre} #{amonestacionBean.entidadseleccionada.puestoPersonaCargo.persona.paterno} #{amonestacionBean.entidadseleccionada.puestoPersonaCargo.persona.materno} - #{amonestacionBean.entidadseleccionada.puestoPersonaCargo.cargo.descripcion}" />
+
+											<p:outputLabel value="Descripcion:  " />
+											<h:outputText
+												value="#{amonestacionBean.entidadseleccionada.descripcion}" />
+
+											<p:outputLabel value="Registro: " />
+											<h:outputText
+												value="#{amonestacionBean.entidadseleccionada.registro}">
+												<f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss"
+													timeZone="GMT-5" />
+											</h:outputText>
+
+										</p:panelGrid>
+									</div>
+									<div class="Container20 Responsive100">
+
+										<p:commandButton value="Eliminar" id="btnEliminar"
+											actionListener="#{amonestacionBean.eliminar()}"
+											update="frmFiscalizacion frmEntidad frmDetalle frm2"
+											icon="fa fa-refresh" styleClass="RedButton" process="@this"
+											immediate="true" />
+										<div class="EmptyBox5" />
+										<p:commandButton value="Cancelar"
+											actionListener="#{amonestacionBean.cancelarEliminacionEntidad()}"
+											update="frmFiscalizacion frmEntidad frmDetalle frm2"
+											icon="fa fa-refresh" process="@this" immediate="true" />
+									</div>
+								</div>
+							</p:panel>
 						</h:form>
 
 
 
-						<div class="EmptyBox10" />
+						<div class="EmptyBox5" />
 						<h:form id="frm2">
 							<f:passThroughAttribute name="autocomplete" value="off" />
 
-							<p:panel id="panFiltro" header="Lista de clientes registrados">
+							<p:panel id="panFiltro" header="Lista de amonestaciones registradas">
 								<div class="Container">
 									<div class="Container60 Responsive100"></div>
 									<div class="Container40 Responsive100">
@@ -154,10 +220,10 @@ body {
 
 											<p:ajax event="rowSelect"
 												listener="#{amonestacionBean.onRowSelect}"
-												update="frm1 frm2" />
+												update="frmFiscalizacion frmEntidad frmDetalle frm2" />
 											<p:ajax event="rowUnselect"
 												listener="#{amonestacionBean.onRowUnselect}"
-												update="frm1 frm2" />
+												update="frmFiscalizacion frmEntidad frmDetalle frm2" />
 
 
 											<p:column headerText="Id">
@@ -172,9 +238,6 @@ body {
 											<p:column headerText="Persona">
 												<h:outputText
 													value="#{per.persona.nombre} #{per.persona.paterno} #{per.persona.materno}" />
-											</p:column>
-											<p:column headerText="Descripcion">
-												<h:outputText value="#{per.descripcion}" />
 											</p:column>
 											<p:column headerText="Estado">
 												<h:outputText value="#{per.estado}" />

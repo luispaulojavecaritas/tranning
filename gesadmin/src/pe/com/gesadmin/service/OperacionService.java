@@ -29,9 +29,13 @@ public interface OperacionService {
     
     public List<Operacion> listarPorPeriodoIdPuestoIdEstatusOperacionId(Integer idPeriodo, Integer  idPuesto, Integer idEstatusOperacionId); 
     
+    public List<Operacion> listarPorPeriodoActivePuestoIdCategoriaIdOperacionActivo(Integer idPuesto, Integer idCategoria);
+    
     public List<Operacion> listarPorPeriodoactualCategoriaLuzAgua();
     
     public List<Operacion> listarPorPeriodoactualCategoriaAdministracion();
+    
+    public List<Operacion> listarPorPeriodoactualCategoriaNoserviciosNoadministracion();
     
     public List<OperacionAdministracionTransfer> listarPorPeriodoactualCategoriaAdministracionTransfer();
     
@@ -39,7 +43,7 @@ public interface OperacionService {
         
     public List<Operacion> listarActivo(); 
     
-    public void registrarPago(Integer idOperacion, Integer IdPersona, Integer idEstatusOperacion);
+    public void registrarPago(Integer idOperacion, Integer IdPersona, Integer idEstatusOperacion, String tipoDoc, String nroDoc);
     
     public void cancelarPago(Integer idOperacion, Integer IdPersona, Integer idEstatusOperacion);
   
@@ -53,10 +57,12 @@ public interface OperacionService {
     
     public Operacion recuperar (Integer id); 
     
-    public void generarOperacionConsumoServicios(List<LecturasMedidasPreOperacion> lista, String descripcion, Date fechaVencimiento);
+    public void generarOperacionConsumoServicios(List<LecturasMedidasPreOperacion> lista, String descripcion, Date fechaVencimiento, Integer idUsuario);
     
-    public void generarOperacionAdministracion(List<OperacionAdministracionTransfer> lista, String descripcion, Date fechaVencimiento);
+    public void generarOperacionAdministracion(List<OperacionAdministracionTransfer> lista, String descripcion, Date fechaVencimiento, Integer idUsuario);
     
     public void eliminarPorPeriodoidPuestoidCategoriaid(Integer periodoId, Integer puestoId, Integer categoriaId);
+    
+    public void actualizarPorPeriodoidPuestoidCategoriaid(Integer periodoId, Integer puestoId, Integer categoriaId, Integer usuarioId);
     
 }

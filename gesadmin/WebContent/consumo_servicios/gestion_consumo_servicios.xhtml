@@ -110,7 +110,7 @@ body {
 							<p:panel id="pnlDetallessss"
 								header="Registrar lectura de consumo de servicio"
 								style="margin-bottom:20px"
-								rendered="#{medidaServicioBean.booRegistro}">
+								rendered="#{medidaServicioBean.booRegistrosPre}">
 								<div class="Container">
 									<div class="Container80 Responsive100">
 										<p:panelGrid columns="4"
@@ -134,13 +134,13 @@ body {
 
 											</p:selectOneMenu>
 
-											<p:outputLabel for="txtvar12"
+											<p:outputLabel for="txtvar12" 
 												value="Lectura (#{medidaServicioBean.lecturaAnterior}):" />
 											<p:inputText id="txtvar12"
 												value="#{medidaServicioBean.entidad.medida}" required="true"
 												requiredMessage="Ingrese lectura" label="monto" />
 
-											<p:outputLabel for="txtvar13" value="Lectura Anterior:"
+											<p:outputLabel for="txtvar13" value="Lectura Anterior:" 
 												rendered="#{medidaServicioBean.booLecturaAnterior}" />
 											<p:inputText id="txtvar13"
 												value="#{medidaServicioBean.entidadAnterior.medida}"
@@ -194,8 +194,12 @@ body {
 											<p:outputLabel value="Tipo Servicio:" />
 											<h:outputText
 												value="#{medidaServicioBean.entidadseleccionada.tipoServicio.descripcion}" />
+												
+											<p:outputLabel value="Lectura Anterior: " />
+											<h:outputText
+												value="#{medidaServicioBean.entidadseleccionada.medidaAnterior}" />
 
-											<p:outputLabel value="Lectura: " />
+											<p:outputLabel value="Lectura Actual: " />
 											<h:outputText
 												value="#{medidaServicioBean.entidadseleccionada.medida}" />
 
@@ -287,8 +291,12 @@ body {
 											<p:column headerText="Servicio">
 												<h:outputText value="#{per.tipoServicio.descripcion}" />
 											</p:column>
+											
+											<p:column headerText="Lectura Anterior">
+												<h:outputText value="#{per.medidaAnterior}" />
+											</p:column>
 
-											<p:column headerText="Lectura">
+											<p:column headerText="Lectura Actual">
 												<h:outputText value="#{per.medida}" />
 											</p:column>
 

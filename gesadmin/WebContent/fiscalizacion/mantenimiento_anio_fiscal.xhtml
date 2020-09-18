@@ -65,17 +65,6 @@ body {
 												label="descripcion"
 												onkeyup="this.value = this.value.toUpperCase();" />
 
-
-											<p:outputLabel for="txtvar10" value="Estado: " />
-											<p:selectOneMenu id="txtvar10" disabled="true"
-												value="#{anioFiscalBean.entidad.estado}" required="false"
-												requiredMessage="Seleccione estado" label="estado"
-												filter="true" filterMatchMode="contains">
-												<f:selectItem itemLabel="Seleccione" itemValue="" />
-												<f:selectItem itemLabel="ACTIVO" itemValue="1" />
-												<f:selectItem itemLabel="INACTIVO" itemValue="0" />
-											</p:selectOneMenu>
-
 										</p:panelGrid>
 									</div>
 

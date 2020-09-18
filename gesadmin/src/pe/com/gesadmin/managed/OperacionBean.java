@@ -22,6 +22,7 @@ import pe.com.gesadmin.entity.Proveedor;
 import pe.com.gesadmin.entity.Puesto;
 import pe.com.gesadmin.entity.CategoriaOperacion;
 import pe.com.gesadmin.entity.EstatusOperacion;
+import pe.com.gesadmin.entity.MedidaServicio;
 import pe.com.gesadmin.entity.TipoOperacion;
 import pe.com.gesadmin.service.OperacionService;
 import pe.com.gesadmin.service.PeriodoService;
@@ -47,6 +48,9 @@ public class OperacionBean {
 	private Operacion entidad = new Operacion();
 	private Operacion entidadseleccionada = new Operacion();
 
+	private Periodo periodoActual = new Periodo();
+	private Periodo periodoAnterior = new Periodo();
+
 	private List<TipoOperacion> listaTipoOrden = new ArrayList<>();
 
 	private List<Puesto> listaPuesto = new ArrayList<Puesto>();
@@ -65,6 +69,7 @@ public class OperacionBean {
 
 	private String filtro;
 
+	private boolean booRegistro = true;
 	private boolean booIngreso = false;
 	private boolean booEgreso = false;
 	private boolean booDetalle = false;
@@ -92,22 +97,26 @@ public class OperacionBean {
 		booIngreso = false;
 		booEgreso = false;
 		booDetalle = false;
+		booRegistro = true;
 
 		puestosSeleccionados = null;
 		puestosLista = null;
 
 		listaDeudorFiltro = null;
 		listaAcreedorFiltro = null;
+
+		periodoActual = new Periodo();
+		periodoAnterior = new Periodo();
 	}
 
 	@PostConstruct
 	public void init() {
-		listarEntidad();
-		listarPeriodo();
-		listarPuesto();
-		listarSituacionOrden();
-		listarTipoOrden();
-		listarProveedor();
+		/*
+		 * listarEntidad(); listarPeriodo(); listarPuesto(); listarSituacionOrden();
+		 * listarTipoOrden(); listarProveedor();
+		 */
+		
+		cargaInicial();
 
 	}
 
@@ -299,7 +308,42 @@ public class OperacionBean {
 		this.booDetalle = booDetalle;
 	}
 
+	public Periodo getPeriodoActual() {
+		return periodoActual;
+	}
+
+	public void setPeriodoActual(Periodo periodoActual) {
+		this.periodoActual = periodoActual;
+	}
+
+	public Periodo getPeriodoAnterior() {
+		return periodoAnterior;
+	}
+
+	public void setPeriodoAnterior(Periodo periodoAnterior) {
+		this.periodoAnterior = periodoAnterior;
+	}
+
+	public boolean isBooRegistro() {
+		return booRegistro;
+	}
+
+	public void setBooRegistro(boolean booRegistro) {
+		this.booRegistro = booRegistro;
+	}
+
 	public String guardar() {
+		
+		entidad.setPeriodo(new Periodo(periodoActual.getId()));
+		//Estado Activo
+		entidad.setEstado(1);
+		//Estatus Operacion Pendiente
+		entidad.setEstatusOperacion(new EstatusOperacion(1));
+		
+		if(entidad.getDescripcion() != null || entidad.getDescripcion() != "") {
+			String descripcion_min = entidad.getDescripcion();
+			entidad.setDescripcion(descripcion_min.toUpperCase());
+		}
 
 		if (booIngreso) {
 			entidad.setPersonaResponsableOperacion(null);
@@ -414,10 +458,10 @@ public class OperacionBean {
 		return "";
 
 	}
-
+	
 	public String eliminar() {
 
-		if (entidad.getId() == null) {
+		if (entidadseleccionada.getId() == null) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_WARN, "Seleccione registro a eliminar", ""));
 			limpiar();
@@ -425,10 +469,10 @@ public class OperacionBean {
 			return "";
 		}
 
-		entidad.setEstado(0);
-
 		try {
-			servicio.actualizar(entidad);
+			System.out.println("Entidad Seleccionada: " + entidadseleccionada.toString());
+			servicio.eliminar(entidadseleccionada.getId());
+
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro eliminado", ""));
 		} catch (Exception e) {
@@ -436,15 +480,28 @@ public class OperacionBean {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al eliminar registro", ""));
 		}
+
+		booDetalle = false;		
+		booRegistro = true;
+
 		limpiar();
 		listarEntidad();
 		return "";
+	}
+	
+	
+	public void cancelarEliminacionEntidad() {
+		entidad = new Operacion();
+		entidadseleccionada = new Operacion();
+		booDetalle = false;		
+		booRegistro = true;
+
 	}
 
 	public void listarEntidad() {
 		lista = new ArrayList<>();
 		try {
-			lista = servicio.listarActivo();
+			lista = servicio.listarPorPeriodoactualCategoriaNoserviciosNoadministracion();
 		} catch (Exception e) {
 			// TODO: handle exception
 			lista = null;
@@ -478,10 +535,12 @@ public class OperacionBean {
 		try {
 			entidadseleccionada = servicio.recuperar(idEntidad);
 			booDetalle = true;
+			booRegistro = false;
 		} catch (Exception e) {
 			// TODO: handle exception
 			entidadseleccionada = null;
 			booDetalle = false;
+			booRegistro = true;
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", "Problemas al recuperar registro"));
 		}
@@ -530,8 +589,8 @@ public class OperacionBean {
 		for (int i = 0; i <= lista.size() - 1; i++) {
 			if (lista.get(i).getDescripcion().contains(filtro)
 					|| lista.get(i).getCategoriaOperacion().getDescripcion().contains(filtro)
-					|| lista.get(i).getTipoOperacion().getDescripcion().contains(filtro) 
-					|| lista.get(i).getProveedor().getRazonSocial().contains(filtro) 
+					|| lista.get(i).getTipoOperacion().getDescripcion().contains(filtro)
+					|| lista.get(i).getProveedor().getRazonSocial().contains(filtro)
 					|| lista.get(i).getPuesto().getDescripcion().contains(filtro)) {
 				System.out.println("lista: " + lista.get(i).toString());
 				listafiltro.add(lista.get(i));
@@ -664,7 +723,7 @@ public class OperacionBean {
 		TipoOperacion tipoOperacionLocal = new TipoOperacion();
 
 		try {
-			listaCategoriaOperacion = categoriaOperacionService.listarPordTipoOperacion(codigoTipoOperacion);
+			listaCategoriaOperacion = categoriaOperacionService.listarPordTipoOperacionNoServiciosNoAdministrativos(codigoTipoOperacion);
 			tipoOperacionLocal = tipoOperacionService.recuperar(codigoTipoOperacion);
 
 		} catch (Exception e) {
@@ -714,6 +773,36 @@ public class OperacionBean {
 
 	}
 
+	public void obtenerPeriodoActual() {
+
+		listaPeriodo = new ArrayList<>();
+		periodoActual = new Periodo();
+
+		try {
+			listaPeriodo = periodoService.listar();
+		} catch (Exception e) {
+			// TODO: handle exception
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al recuperar periodo fiscal en curso ", ""));
+			return;
+		}
+
+		if (listaPeriodo == null || listaPeriodo.isEmpty()) {
+			periodoActual = null;
+			periodoAnterior = null;
+			return;
+		} else {
+
+			if (listaPeriodo.size() > 1) {
+				periodoActual = listaPeriodo.get(0);
+				periodoAnterior = listaPeriodo.get(1);
+			} else {
+				periodoActual = listaPeriodo.get(0);
+				periodoAnterior = null;
+			}
+		}
+	}
+
 	public void listarProveedor() {
 
 		try {
@@ -724,6 +813,25 @@ public class OperacionBean {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.",
 					"Problemas al recuperar registros proveedor"));
 		}
+	}
+
+	public void cargaInicial() {
+
+		obtenerPeriodoActual();
+
+		if (periodoActual == null) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_WARN, "No existe periodo fiscal activo en curso ", ""));
+			booRegistro = false;
+			return;
+		} else {
+			listarEntidad();
+			listarPuesto();
+			listarSituacionOrden();
+			listarTipoOrden();
+			listarProveedor();
+		}
+
 	}
 
 }

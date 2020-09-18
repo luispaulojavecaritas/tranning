@@ -3,7 +3,6 @@ package pe.com.gesadmin.entity;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.util.Date;
-import java.sql.Timestamp;
 
 
 /**
@@ -33,8 +32,8 @@ public class Operacion implements Serializable {
 
 	private Double monto;
 
-	@Column(insertable=false, updatable=false)
-	private Timestamp registro;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date registro;
 
 	//uni-directional many-to-one association to Persona
 	@ManyToOne
@@ -68,6 +67,15 @@ public class Operacion implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="id_categoria_operacion", referencedColumnName = "id")
 	private CategoriaOperacion categoriaOperacion;
+	
+	@Column(name = "id_usuario")
+	private Integer idUsuario; 
+	
+	@Column(name = "tipo_doc")
+	private String tipoDoc; 
+	
+	@Column(name = "nro_doc")
+	private String nroDoc; 
 
 	public Operacion() {
 		personaResponsableOperacion = new Persona();
@@ -131,11 +139,11 @@ public class Operacion implements Serializable {
 		this.monto = monto;
 	}
 
-	public Timestamp getRegistro() {
+	public Date getRegistro() {
 		return this.registro;
 	}
 
-	public void setRegistro(Timestamp registro) {
+	public void setRegistro(Date registro) {
 		this.registro = registro;
 	}
 
@@ -195,6 +203,30 @@ public class Operacion implements Serializable {
 		this.periodo = periodo;
 	}
 
+	public Integer getIdUsuario() {
+		return idUsuario;
+	}
+
+	public void setIdUsuario(Integer idUsuario) {
+		this.idUsuario = idUsuario;
+	}
+
+	public String getTipoDoc() {
+		return tipoDoc;
+	}
+
+	public void setTipoDoc(String tipoDoc) {
+		this.tipoDoc = tipoDoc;
+	}
+
+	public String getNroDoc() {
+		return nroDoc;
+	}
+
+	public void setNroDoc(String nroDoc) {
+		this.nroDoc = nroDoc;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -224,8 +256,12 @@ public class Operacion implements Serializable {
 	public String toString() {
 		return "Operacion [id=" + id + ", descripcion=" + descripcion + ", estado=" + estado + ", fechaPago="
 				+ fechaPago + ", fechaVencimiento=" + fechaVencimiento + ", monto=" + monto + ", registro=" + registro
-				+ ", personaResponsableOperacion=" + personaResponsableOperacion + ", proveedor=" + proveedor + ", puesto=" + puesto + ", estatusOperacion="
-				+ estatusOperacion + ", tipoOperacion=" + tipoOperacion + ", periodo=" + periodo + "]";
+				+ ", personaResponsableOperacion=" + personaResponsableOperacion + ", proveedor=" + proveedor
+				+ ", puesto=" + puesto + ", estatusOperacion=" + estatusOperacion + ", tipoOperacion=" + tipoOperacion
+				+ ", periodo=" + periodo + ", categoriaOperacion=" + categoriaOperacion + ", idUsuario=" + idUsuario
+				+ "]";
 	}
+	
+	
 	
 }

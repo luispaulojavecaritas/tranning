@@ -23,6 +23,9 @@ public class Amonestacion implements Serializable {
 
 	private Integer estado;
 	
+	@Column(name = "id_usuario")
+	private Integer idUsuario;
+	
 	@Column(insertable=false, updatable=false)
 	private Timestamp registro;
 	
@@ -131,6 +134,14 @@ public class Amonestacion implements Serializable {
 		this.puestoPersonaCargo = puestoPersonaCargo;
 	}
 
+	public Integer getIdUsuario() {
+		return idUsuario;
+	}
+
+	public void setIdUsuario(Integer idUsuario) {
+		this.idUsuario = idUsuario;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -158,15 +169,10 @@ public class Amonestacion implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Amonestacion [id=" + id + ", descripcion=" + descripcion + ", estado=" + estado + ", registro="
-				+ registro + ", periodo=" + periodo + ", persona=" + persona + ", puesto=" + puesto
-				+ ", tipoAmonestacion=" + tipoAmonestacion + ", puestoPersonaCargo=" + puestoPersonaCargo + "]";
+		return "Amonestacion [id=" + id + ", descripcion=" + descripcion + ", estado=" + estado + ", idUsuario="
+				+ idUsuario + ", registro=" + registro + ", periodo=" + periodo + ", persona=" + persona + ", puesto="
+				+ puesto + ", tipoAmonestacion=" + tipoAmonestacion + ", puestoPersonaCargo=" + puestoPersonaCargo
+				+ "]";
 	}
-	
-	
-	
-	
-
-
 
 }

@@ -19,7 +19,7 @@ public class CategoriaOperacionDaoImpl implements CategoriaOperacionDao{
 	@Override
 	public List<CategoriaOperacion> findAll() {
 		// TODO Auto-generated method stub
-		String query = "select b FROM CategoriaOperacion b";
+		String query = "select b FROM CategoriaOperacion b order by b.id desc";
         TypedQuery<CategoriaOperacion> tq = em.createQuery(query, CategoriaOperacion.class);
         List<CategoriaOperacion> lista = tq.getResultList();
         return lista;
@@ -57,6 +57,16 @@ public class CategoriaOperacionDaoImpl implements CategoriaOperacionDao{
 	public List<CategoriaOperacion> findByIdTipoOperacion(Integer idTipoOperacion) {
 		// TODO Auto-generated method stub
 		String query = "select b FROM CategoriaOperacion b where b.estado = 1 and b.tipoOperacion.id = :idTipoOperacion";
+        TypedQuery<CategoriaOperacion> tq = em.createQuery(query, CategoriaOperacion.class);
+        tq.setParameter("idTipoOperacion", idTipoOperacion);
+        List<CategoriaOperacion> lista = tq.getResultList();
+        return lista;
+	}
+
+	@Override
+	public List<CategoriaOperacion> findByIdTipoOperacionNoServiciosNoAdministrativos(Integer idTipoOperacion) {
+		// TODO Auto-generated method stub
+		String query = "select b FROM CategoriaOperacion b where b.estado = 1 and b.tipoOperacion.id = :idTipoOperacion and b.id not in (1,2,3)";
         TypedQuery<CategoriaOperacion> tq = em.createQuery(query, CategoriaOperacion.class);
         tq.setParameter("idTipoOperacion", idTipoOperacion);
         List<CategoriaOperacion> lista = tq.getResultList();

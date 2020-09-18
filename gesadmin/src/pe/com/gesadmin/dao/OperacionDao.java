@@ -24,9 +24,13 @@ public interface OperacionDao {
     
     public List<Operacion> findByPeriodoIdPuestoIdEstatusOperacionId(Integer idPeriodo, Integer idPuesto, Integer idEstatusOperacion);
     
+    public List<Operacion> findByPeriodoActivePuestoIdCategoriaIdOperacionActive(Integer idPuesto, Integer idCategoria);
+    
     public List<Operacion> findByPeriodoactualCategoriaLuzAgua();
     
     public List<Operacion> findByPeriodoactualCategoriaAdministracion();
+    
+    public List<Operacion> findByPeriodoactualNoserviciosNoadministracion();
     
     public List<OperacionAdministracionTransfer> findByPeriodoactualCategoriaAdministracionTransfer();
         
@@ -36,7 +40,7 @@ public interface OperacionDao {
   
     public void create (Operacion entidad);
     
-    public void savePayment (Integer idOperacion, Integer IdPersona,  Integer idEstatusOperacion);
+    public void savePayment (Integer idOperacion, Integer IdPersona,  Integer idEstatusOperacion, String tipoDoc, String nroDoc);
     
     public void cancelPayment (Integer idOperacion, Integer IdPersona,  Integer idEstatusOperacion);
     
@@ -48,12 +52,13 @@ public interface OperacionDao {
     
     public Operacion findById (Integer id); 
     
-	public void generateOperacionConsumoServicios(List<LecturasMedidasPreOperacion> lista, String descripcion, Date fechaVencimiento);
+	public void generateOperacionConsumoServicios(List<LecturasMedidasPreOperacion> lista, String descripcion, Date fechaVencimiento, Integer idUsuario);
 	
-    public void generateOperacionAdministracion(List<OperacionAdministracionTransfer> lista, String descripcion, Date fechaVencimiento);
+    public void generateOperacionAdministracion(List<OperacionAdministracionTransfer> lista, String descripcion, Date fechaVencimiento, Integer idUsuario);
 
+	public void deleteByPeriodoidPuestoidCategoriaid(Integer periodoId, Integer puestoId, Integer categoriaId);
 	
-	public void deleteByPeriodoidPuestoidCategoriaid (Integer periodoId, Integer puestoId, Integer categoriaId);
+	public void updateByPeriodoidPuestoidCategoriaid(Integer periodoId, Integer puestoId, Integer categoriaId, Integer usuarioId);
 
     
 }

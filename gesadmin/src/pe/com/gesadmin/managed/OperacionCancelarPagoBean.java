@@ -42,13 +42,14 @@ public class OperacionCancelarPagoBean {
 	private List<Periodo> listaPeriodo;
 	private List<Puesto> listaPuesto;
 	private List<PuestoPersonaCargo> listaPuestoPersonaCargo;
-	
 
 	private Integer idAnioFiscal;
 	private Integer idPeriodo;
 	private Integer idPuesto;
 	private Integer idPersona;
-	
+
+	private Integer cantidadRegistros;
+
 	private boolean booDetalle;
 	private boolean booRegistro;
 
@@ -62,13 +63,12 @@ public class OperacionCancelarPagoBean {
 
 	@EJB
 	private PeriodoService periodoService = new PeriodoServiceImpl();
-	
+
 	@EJB
 	private PuestoService puestoService = new PuestoServiceImpl();
-	
+
 	@EJB
-	private PuestoPersonaCargoService puestoPersonaCargoService  = new PuestoPersonaCargoServiceImpl();
-	
+	private PuestoPersonaCargoService puestoPersonaCargoService = new PuestoPersonaCargoServiceImpl();
 
 	public OperacionCancelarPagoBean() {
 		// TODO Auto-generated constructor stub
@@ -78,12 +78,12 @@ public class OperacionCancelarPagoBean {
 		listaPeriodo = null;
 		listaPuesto = null;
 		listaPuestoPersonaCargo = null;
-		
-		
+
 		idAnioFiscal = null;
 		idPeriodo = null;
 		idPuesto = null;
 		idPersona = null;
+		cantidadRegistros = 0;
 	}
 
 	@PostConstruct
@@ -91,7 +91,7 @@ public class OperacionCancelarPagoBean {
 		listarEntidad();
 		listarAnioFiscal();
 		listarPuestos();
-		
+
 	}
 
 	public List<Operacion> getLista() {
@@ -232,29 +232,40 @@ public class OperacionCancelarPagoBean {
 
 	public void setIdPersona(Integer idPersona) {
 		this.idPersona = idPersona;
-	}	
-	
+	}
+
+	public Integer getCantidadRegistros() {
+		return cantidadRegistros;
+	}
+
+	public void setCantidadRegistros(Integer cantidadRegistros) {
+		this.cantidadRegistros = cantidadRegistros;
+	}
+
 	public String cancelar_Pago() {
-		
+
 		Integer idEstatusOperacionCancelada = 4;
 		try {
 			servicio.cancelarPago(entidadseleccionada.getId(), idPersona, idEstatusOperacionCancelada);
+			booDetalle = false;
+			entidad = new Operacion();
+			entidadseleccionada = new Operacion();
+			idPersona = null;
 		} catch (Exception e) {
 			// TODO: handle exception
 			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al realizar cancelacion de pago", ""));
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al realizar cancelacion de pago", ""));
 			return "";
 		}
+
+		listarEntidad();
 		
-		limpiar();
 		FacesContext.getCurrentInstance().addMessage(null,
-				new FacesMessage(FacesMessage.SEVERITY_INFO,"Cancelacion de pago exitoso", ""));
+				new FacesMessage(FacesMessage.SEVERITY_INFO, "Cancelacion de pago exitoso", ""));
 		return "";
-		
-		
+
 	}
 
-	
 	public String eliminar() {
 
 		if (entidad.getId() == null) {
@@ -312,7 +323,8 @@ public class OperacionCancelarPagoBean {
 		lista = new ArrayList<>();
 		Integer estatusOperacionEfectuada = 2;
 		try {
-			lista = servicio.listarPorPeriodoIdPuestoIdEstatusOperacionId(idPeriodo, idPuesto, estatusOperacionEfectuada);
+			lista = servicio.listarPorPeriodoIdPuestoIdEstatusOperacionId(idPeriodo, idPuesto,
+					estatusOperacionEfectuada);
 		} catch (Exception e) {
 			// TODO: handle exception
 			lista = null;
@@ -321,12 +333,14 @@ public class OperacionCancelarPagoBean {
 		}
 
 		listafiltro = lista;
+		
+		obtenerCantidadRegistrosEntidad();
 	}
 
 	public void listarPeriodo() {
 
 		if (idAnioFiscal == null) {
-			
+
 			listaPeriodo = null;
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_WARN, "Seleccione periodo de anio fiscal", ""));
@@ -343,10 +357,9 @@ public class OperacionCancelarPagoBean {
 			}
 		}
 	}
-	
 
 	public void onRowSelect(SelectEvent event) {
-		
+
 		if (entidadseleccionada == null) {
 			entidad = new Operacion();
 			entidadseleccionada = new Operacion();
@@ -355,8 +368,7 @@ public class OperacionCancelarPagoBean {
 		} else {
 			entidad = entidadseleccionada;
 			booDetalle = true;
-			
-			
+
 			try {
 				listaPuestoPersonaCargo = new ArrayList<>();
 				listaPuestoPersonaCargo = puestoPersonaCargoService.listarPuestoId(idPuesto);
@@ -365,7 +377,7 @@ public class OperacionCancelarPagoBean {
 				System.out.println("Excepcion al listar listaPuestoPersonaCargo: " + e.toString());
 				listaPuestoPersonaCargo = null;
 			}
-			
+
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "Seleccion de registro exitosa", ""));
 		}
@@ -374,12 +386,12 @@ public class OperacionCancelarPagoBean {
 	public void onRowUnselect(UnselectEvent event) {
 		entidad = new Operacion();
 		entidadseleccionada = new Operacion();
-		
+
 		idAnioFiscal = null;
 		idPeriodo = null;
 		idPersona = null;
 		idPuesto = null;
-		
+
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO, "Se anulo seleccion de registro ", ""));
 	}
@@ -387,18 +399,20 @@ public class OperacionCancelarPagoBean {
 	public void limpiar() {
 		entidad = new Operacion();
 		entidadseleccionada = new Operacion();
-		
+
 		idAnioFiscal = null;
 		idPeriodo = null;
 		idPuesto = null;
 		idPersona = null;
+		
+		cantidadRegistros = 0;
 
 		listafiltro = null;
 		listaPuestoPersonaCargo = null;
 		listaPeriodo = null;
-		
+
 		booDetalle = false;
-		
+
 		lista = null;
 
 	}
@@ -413,7 +427,8 @@ public class OperacionCancelarPagoBean {
 		listafiltro = new ArrayList<>();
 		System.out.println("Texto a filtra: " + filtro);
 		for (int i = 0; i <= lista.size() - 1; i++) {
-			if (lista.get(i).getDescripcion().contains(filtro) || lista.get(i).getCategoriaOperacion().getDescripcion().contains(filtro)) {
+			if (lista.get(i).getDescripcion().contains(filtro)
+					|| lista.get(i).getCategoriaOperacion().getDescripcion().contains(filtro)) {
 				System.out.println("lista: " + lista.get(i).toString());
 				listafiltro.add(lista.get(i));
 			}
@@ -421,20 +436,28 @@ public class OperacionCancelarPagoBean {
 		filtro = null;
 		return "";
 	}
-	
+
 	public void listarPuestos() {
-		
+
 		listaPuesto = new ArrayList<>();
-		
+
 		try {
 			listaPuesto = puestoService.listarActivo();
 		} catch (Exception e) {
 			// TODO: handle exception
 			listaPuesto = null;
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Problemas al recuperar registros puestos (deudores)", ""));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					"Problemas al recuperar registros puestos (deudores)", ""));
 		}
 	}
-	
+
+	public void obtenerCantidadRegistrosEntidad() {
+
+		if (listafiltro == null || listafiltro.isEmpty()) {
+			cantidadRegistros = 0;
+		} else {
+			cantidadRegistros = listafiltro.size();
+		}
+	}
 
 }

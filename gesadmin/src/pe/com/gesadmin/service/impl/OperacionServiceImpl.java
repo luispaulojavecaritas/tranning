@@ -68,11 +68,18 @@ public class OperacionServiceImpl implements OperacionService {
 		// TODO Auto-generated method stub
 		return ordenDao.findByPeriodoIdPuestoIdEstatusOperacionId(idPeriodo, idPuesto, idEstatusOperacion);
 	}
+	
+	@Override
+	public List<Operacion> listarPorPeriodoActivePuestoIdCategoriaIdOperacionActivo(Integer idPuesto,
+			Integer idCategoria) {
+		// TODO Auto-generated method stub
+		return ordenDao.findByPeriodoActivePuestoIdCategoriaIdOperacionActive(idPuesto, idCategoria);
+	}
 
 	@Override
-	public void registrarPago(Integer idOperacion, Integer IdPersona, Integer idEstatusOperacion) {
+	public void registrarPago(Integer idOperacion, Integer IdPersona, Integer idEstatusOperacion, String tipoDoc, String nroDoc) {
 		// TODO Auto-generated method stub
-		ordenDao.savePayment(idOperacion, IdPersona, idEstatusOperacion);
+		ordenDao.savePayment(idOperacion, IdPersona, idEstatusOperacion, tipoDoc, nroDoc);
 	}
 
 	@Override
@@ -92,6 +99,12 @@ public class OperacionServiceImpl implements OperacionService {
 		// TODO Auto-generated method stub
 		return ordenDao.findByPeriodoactualCategoriaAdministracion();
 	}
+	
+	@Override
+	public List<Operacion> listarPorPeriodoactualCategoriaNoserviciosNoadministracion() {
+		// TODO Auto-generated method stub
+		return ordenDao.findByPeriodoactualNoserviciosNoadministracion();
+	}
 
 	@Override
 	public void eliminar(Integer id) {
@@ -100,15 +113,21 @@ public class OperacionServiceImpl implements OperacionService {
 	}
 
 	@Override
-	public void generarOperacionConsumoServicios(List<LecturasMedidasPreOperacion> lista, String descripcion, Date fechaVencimiento) {
+	public void generarOperacionConsumoServicios(List<LecturasMedidasPreOperacion> lista, String descripcion, Date fechaVencimiento, Integer idUsuario) {
 		// TODO Auto-generated method stub
-		ordenDao.generateOperacionConsumoServicios(lista, descripcion, fechaVencimiento);
+		ordenDao.generateOperacionConsumoServicios(lista, descripcion, fechaVencimiento, idUsuario);
 	}
 
 	@Override
 	public void eliminarPorPeriodoidPuestoidCategoriaid(Integer periodoId, Integer puestoId, Integer categoriaId) {
 		// TODO Auto-generated method stub
 		ordenDao.deleteByPeriodoidPuestoidCategoriaid(periodoId, puestoId, categoriaId);
+	}
+	
+	@Override
+	public void actualizarPorPeriodoidPuestoidCategoriaid(Integer periodoId, Integer puestoId, Integer categoriaId, Integer usuarioId) {
+		// TODO Auto-generated method stub
+		ordenDao.updateByPeriodoidPuestoidCategoriaid(periodoId, puestoId, categoriaId, usuarioId);
 	}
 
 	@Override
@@ -119,9 +138,9 @@ public class OperacionServiceImpl implements OperacionService {
 
 	@Override
 	public void generarOperacionAdministracion(List<OperacionAdministracionTransfer> lista, String descripcion,
-			Date fechaVencimiento) {
+			Date fechaVencimiento, Integer idUsuario) {
 		// TODO Auto-generated method stub
-		ordenDao.generateOperacionAdministracion(lista, descripcion, fechaVencimiento);
+		ordenDao.generateOperacionAdministracion(lista, descripcion, fechaVencimiento, idUsuario);
 	}
 
 	@Override

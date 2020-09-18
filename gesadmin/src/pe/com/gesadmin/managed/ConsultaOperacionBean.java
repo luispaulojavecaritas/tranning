@@ -452,6 +452,7 @@ public class ConsultaOperacionBean {
 		} else {
 			entidad = entidadseleccionada;
 			booDetalle = true;
+			booFiltro = false;
 
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "Seleccion de registro exitosa", ""));
@@ -463,6 +464,7 @@ public class ConsultaOperacionBean {
 		entidadseleccionada = new Operacion();
 
 		booDetalle = false;
+		booFiltro = true;
 
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO, "Se anulo seleccion de registro ", ""));
@@ -723,6 +725,12 @@ public class ConsultaOperacionBean {
 
 		actualizarCatalogoFiltros();
 	}
+	
+	public void cerrarDetalle() {
+		booDetalle = false;
+		booFiltro = true;
+	}
+
 
 	public void actualizarListaEntidadFiltroCategoria() {
 

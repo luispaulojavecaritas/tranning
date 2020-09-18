@@ -28,62 +28,71 @@ body {
 
 						<h:form id="frm1">
 							<f:passThroughAttribute name="autocomplete" value="off" />
-							<div class="Container80 Responsive100">
-								<p:panelGrid columns="4"
-									columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
-									layout="grid" styleClass="ui-panelgrid-blank"
-									style="border:0px none; background-color:transparent;">
+							<p:panel id="pnlEntidad"
+								header="Creacion - Actualizacion de estatus de operacion"
+								style="margin-bottom:20px">
+								<div class="Container">
+									<div class="Container80 Responsive100">
+										<p:panelGrid columns="4"
+											columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+											layout="grid" styleClass="ui-panelgrid-blank"
+											style="border:0px none; background-color:transparent;">
 
-									<p:outputLabel value="Id:" />
-									<h:outputText value="#{estatusOperacionBean.entidad.id}" />
+											<p:outputLabel value="Id:" />
+											<h:outputText value="#{estatusOperacionBean.entidad.id}" />
 
-									<p:outputLabel for="txtvar2" value="Descripción:" />
-									<p:inputText id="txtvar2"
-										value="#{estatusOperacionBean.entidad.descripcion}" required="true"
-										requiredMessage="Ingrese descripcion" label="descripcion"
-										onkeyup="this.value = this.value.toUpperCase();" />
+											<p:outputLabel for="txtvar2" value="Descripción:" />
+											<p:inputText id="txtvar2"
+												value="#{estatusOperacionBean.entidad.descripcion}"
+												required="true" requiredMessage="Ingrese descripcion"
+												label="descripcion"
+												onkeyup="this.value = this.value.toUpperCase();" />
 
 
-									<p:outputLabel for="txtvar10" value="Estado: " />
-									<p:selectOneMenu id="txtvar10"
-										value="#{estatusOperacionBean.entidad.estado}" required="true"
-										requiredMessage="Seleccione estado" label="estado"
-										filter="true" filterMatchMode="contains">
-										<f:selectItem itemLabel="Seleccione" itemValue="" />
-										<f:selectItem itemLabel="ACTIVO" itemValue="1" />
-										<f:selectItem itemLabel="INACTIVO" itemValue="0" />
-									</p:selectOneMenu>
+											<p:outputLabel for="txtvar10" value="Estado: " />
+											<p:selectOneMenu id="txtvar10"
+												value="#{estatusOperacionBean.entidad.estado}"
+												required="true" requiredMessage="Seleccione estado"
+												label="estado" filter="true" filterMatchMode="contains">
+												<f:selectItem itemLabel="Seleccione" itemValue="" />
+												<f:selectItem itemLabel="ACTIVO" itemValue="1" />
+												<f:selectItem itemLabel="INACTIVO" itemValue="0" />
+											</p:selectOneMenu>
 
-								</p:panelGrid>
-							</div>
+										</p:panelGrid>
+									</div>
 
-							<div class="Container20 Responsive100">
-								<p:commandButton value="Guardar"
-									actionListener="#{estatusOperacionBean.guardar()}" update="frm1 frm2"
-									icon="fa fa-save" styleClass="GreenButton" />
-								<div class="EmptyBox5" />
-								<p:commandButton value="Limpiar"
-									actionListener="#{estatusOperacionBean.limpiar()}" update="frm1 frm2"
-									icon="fa fa-refresh" styleClass="GoldButton" process="@this"
-									immediate="true" />
-							</div>
+									<div class="Container20 Responsive100">
+										<p:commandButton value="Guardar"
+											actionListener="#{estatusOperacionBean.guardar()}"
+											update="frm1 frm2" icon="fa fa-save" styleClass="GreenButton" />
+										<div class="EmptyBox5" />
+										<p:commandButton value="Limpiar"
+											actionListener="#{estatusOperacionBean.limpiar()}"
+											update="frm1 frm2" icon="fa fa-refresh"
+											process="@this" immediate="true" />
+									</div>
+								</div>
+							</p:panel>
 						</h:form>
-
-
-
-						<div class="EmptyBox10" />
+						
+						<div class="Container100 Responsive100">
+							<p:messages autoUpdate="true" closable="true" />
+						</div>
+						<div class="EmptyBox5" />
+						
 						<h:form id="frm2">
 							<f:passThroughAttribute name="autocomplete" value="off" />
 
-							<p:panel id="panFiltro"
-								header="Lista de clientes registrados">
+							<p:panel id="panFiltro" header="Lista de clientes registrados">
 								<div class="Container">
 									<div class="Container60 Responsive100"></div>
 									<div class="Container40 Responsive100">
 										<p:panelGrid columns="2" layout="grid"
 											styleClass="ui-panelgrid-blank"
 											style="border:0px none; background-color:transparent;">
-											<p:inputText id="counter" value="#{estatusOperacionBean.filtro}"
+											<p:inputText id="counter"
+												value="#{estatusOperacionBean.filtro}"
 												placeholder="Filtrar registros"
 												onkeyup="this.value = this.value.toUpperCase();" />
 											<p:commandButton value="Filtar"
@@ -95,7 +104,8 @@ body {
 									<div class="Container100 Responsive100">
 
 										<p:dataTable id="tbl" var="per"
-											value="#{estatusOperacionBean.listafiltro}" selectionMode="single"
+											value="#{estatusOperacionBean.listafiltro}"
+											selectionMode="single"
 											selection="#{estatusOperacionBean.entidadseleccionada}"
 											rowKey="#{per.id}" rows="25" paginator="true"
 											paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -103,9 +113,11 @@ body {
 											emptyMessage="No se encontraron registros" reflow="true">
 
 											<p:ajax event="rowSelect"
-												listener="#{estatusOperacionBean.onRowSelect}" update="frm1 frm2" />
+												listener="#{estatusOperacionBean.onRowSelect}"
+												update="frm1 frm2" />
 											<p:ajax event="rowUnselect"
-												listener="#{estatusOperacionBean.onRowUnselect}" update="frm1 frm2" />
+												listener="#{estatusOperacionBean.onRowUnselect}"
+												update="frm1 frm2" />
 
 
 											<p:column headerText="Id">
@@ -120,7 +132,8 @@ body {
 
 											<p:column headerText="Fecha registro">
 												<h:outputText value="#{per.registro}">
-													<f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss" timeZone="GMT-5"/>
+													<f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss"
+														timeZone="GMT-5" />
 												</h:outputText>
 											</p:column>
 										</p:dataTable>

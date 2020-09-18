@@ -55,12 +55,60 @@ body {
 									<h:outputText
 										value="#{operacionAdministracionBean.periodoActual.descripcion}" />
 								</p:panelGrid>
+
 							</p:panel>
 						</h:form>
 
 
+
+						<h:form id="frmResumen">
+							<f:passThroughAttribute name="autocomplete" value="off" />
+
+							<p:panel id="panResumen"
+								header="Resumen de lecturas de consumo de servicios registradas">
+								<div class="Container">
+
+									<div class="Container100 Responsive100">
+
+										<p:dataTable var="per"
+											value="#{operacionAdministracionBean.listaFiltroResumen}"
+											emptyMessage="No se encontraron registros">
+
+											<f:facet name="header">Operaciones con estado pendiente, efectuado, vencido</f:facet>
+
+											<p:column headerText="Deudor">
+												<h:outputText value="#{per.puestoDes}" />
+											</p:column>
+
+											<p:column headerText="Categoria">
+												<h:outputText value="#{per.categoriaDes}" />
+											</p:column>
+
+											<p:column headerText="Dias Registrados">
+												<h:outputText value="#{per.dias}" />
+											</p:column>
+
+											<p:column headerText="Monto Unitario">
+												<h:outputText value="#{per.montoUnitario}" />
+											</p:column>
+
+											<p:column headerText="Monto Total">
+												<h:outputText value="#{per.montoTotal}" />
+											</p:column>
+
+										</p:dataTable>
+									</div>
+								</div>
+							</p:panel>
+						</h:form>
+
+
+						<div class="EmptyBox10" />
+
+
 						<h:form id="frmEntidad">
-							<p:panel id="pnlDetallessss" rendered="#{operacionAdministracionBean.booRegistroEntidad}"
+							<p:panel id="pnlDetallessss"
+								rendered="#{operacionAdministracionBean.booRegistroEntidad}"
 								header="Registrar lectura de consumo de servicio"
 								style="margin-bottom:20px">
 								<div class="Container">
@@ -70,13 +118,6 @@ body {
 											columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
 											layout="grid" styleClass="ui-panelgrid-blank"
 											style="border:0px none; background-color:transparent;">
-
-											<p:outputLabel for="txtvar3" value="Descripción:" />
-											<p:inputText id="txtvar3"
-												value="#{operacionAdministracionBean.entidad.descripcion}"
-												required="true" requiredMessage="Ingrese descripcion"
-												label="descripcion"
-												onkeyup="this.value = this.value.toUpperCase();" />
 
 											<p:outputLabel value="Fecha vencimiento:" for="txtvar11" />
 											<p:calendar id="txtvar11" pattern="dd-MM-yyyy" mask="true"
@@ -119,7 +160,7 @@ body {
 
 										<p:commandButton value="Generar Operaciones"
 											actionListener="#{operacionAdministracionBean.generarOperaciones()}"
-											update="frmEntidad frmDetalle  frmTabla frmEstadistica"
+											update="frmEntidad frmDetalle  frmTabla frmEstadistica frmResumen"
 											icon="fa fa-save" styleClass="GreenButton" />
 
 									</div>
@@ -144,32 +185,32 @@ body {
 
 											<p:outputLabel value="Puesto:" />
 											<h:outputText
-												value="#{operacionAdministracionBean.entidadseleccionadaTransfer.puestoDes}" />
+												value="#{operacionAdministracionBean.entidadseleccionada.puesto.descripcion}" />
 
 											<p:outputLabel value="Categoria Operacion:" />
 											<h:outputText
-												value="#{operacionAdministracionBean.entidadseleccionadaTransfer.categoriaDes}" />
-
-											<p:outputLabel value="Costo Unitario:" />
+												value="#{operacionAdministracionBean.entidadseleccionada.categoriaOperacion.descripcion}" />
+												
+											<p:outputLabel value="Estatus Operacion:" />
 											<h:outputText
-												value="#{operacionAdministracionBean.entidadseleccionadaTransfer.montoUnitario}" />
+												value="#{operacionAdministracionBean.entidadseleccionada.estatusOperacion.descripcion}" />
 
-											<p:outputLabel value="Costo Total:" />
+											<p:outputLabel value="Costo:" />
 											<h:outputText
-												value="#{operacionAdministracionBean.entidadseleccionadaTransfer.montoTotal}" />
+												value="#{operacionAdministracionBean.entidadseleccionada.monto}" />
 										</p:panelGrid>
 									</div>
 									<div class="Container20 Responsive100">
 
 										<p:commandButton value="Eliminar" id="btnEliminar"
 											actionListener="#{operacionAdministracionBean.eliminar()}"
-											update="frmEntidad frmTabla frmDetalle  frmFiscalizacion frmEstadistica"
+											update="frmEntidad frmTabla frmDetalle  frmFiscalizacion frmEstadistica frmResumen"
 											icon="fa fa-refresh" styleClass="RedButton" process="@this"
 											immediate="true" />
 										<div class="EmptyBox5" />
 										<p:commandButton value="Cancelar"
 											actionListener="#{operacionAdministracionBean.cancelarEliminacionEntidad()}"
-											update="frmEntidad frmTabla frmDetalle  frmFiscalizacion"
+											update="frmEntidad frmTabla frmDetalle  frmFiscalizacion frmResumen"
 											icon="fa fa-refresh" process="@this" immediate="true" />
 									</div>
 								</div>
@@ -207,12 +248,12 @@ body {
 									<div class="Container100 Responsive100">
 
 										<p:dataTable id="tbl" var="per"
-											value="#{operacionAdministracionBean.listafiltro}"
+											value="#{operacionAdministracionBean.listaEntidadAdministracionFiltro}"
 											selectionMode="single"
-											selection="#{operacionAdministracionBean.entidadseleccionadaTransfer}"
-											rowKey="#{per.puestoId}" rows="25" paginator="true"
+											selection="#{operacionAdministracionBean.entidadseleccionada}"
+											rowKey="#{per.id}" rows="50" paginator="true"
 											paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-											rowsPerPageTemplate="25,50,75"
+											rowsPerPageTemplate="50,100,150"
 											emptyMessage="No se encontraron registros" reflow="true">
 
 											<p:ajax event="rowSelect"
@@ -221,21 +262,25 @@ body {
 											<p:ajax event="rowUnselect"
 												listener="#{operacionAdministracionBean.onRowUnselect}"
 												update="frmEntidad frmTabla frmDetalle  frmFiscalizacion" />
+												
+											<p:column headerText="Id">
+												<h:outputText value="#{per.id}" />
+											</p:column>	
 
 											<p:column headerText="Deudor">
-												<h:outputText value="#{per.puestoDes}" />
+												<h:outputText value="#{per.puesto.descripcion}" />
 											</p:column>
 
 											<p:column headerText="Categoria">
-												<h:outputText value="#{per.categoriaDes}" />
+												<h:outputText value="#{per.categoriaOperacion.descripcion}" />
+											</p:column>
+											
+											<p:column headerText="Estatus">
+												<h:outputText value="#{per.estatusOperacion.descripcion}" />
 											</p:column>
 
-											<p:column headerText="Monto Unitario">
-												<h:outputText value="#{per.montoUnitario}" />
-											</p:column>
-
-											<p:column headerText="Monto Total">
-												<h:outputText value="#{per.montoTotal}" />
+											<p:column headerText="Monto">
+												<h:outputText value="#{per.monto}" />
 											</p:column>
 
 										</p:dataTable>

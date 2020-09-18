@@ -403,6 +403,7 @@ public class ConsultaAmonestacionBean {
 		} else {
 			entidad = entidadseleccionada;
 			booDetalle = true;
+			booFiltro = false;
 
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "Seleccion de registro exitosa", ""));
@@ -414,6 +415,7 @@ public class ConsultaAmonestacionBean {
 		entidadseleccionada = new Amonestacion();
 		
 		booDetalle = false;
+		booFiltro = true;
 
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO, "Se anulo seleccion de registro ", ""));
@@ -613,6 +615,11 @@ public class ConsultaAmonestacionBean {
 		filtro = null;
 		
 		actualizarCatalogoFiltros();
+	}
+	
+	public void cerrarDetalle() {
+		booDetalle = false;
+		booFiltro = true;
 	}
 
 	public void actualizarListaEntidadFiltroPersona() {
