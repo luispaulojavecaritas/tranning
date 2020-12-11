@@ -1,6 +1,5 @@
 package pe.com.gesadmin.entity.transfer;
 
-import java.util.Date;
 
 public class OperacionAdministracionTransfer {
 

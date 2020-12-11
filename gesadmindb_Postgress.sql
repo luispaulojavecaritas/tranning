@@ -230,7 +230,7 @@ CREATE TABLE amonestacion(
     id serial PRIMARY KEY,
 	id_periodo int NOT NULL,
 	id_puesto int NOT NULL,
-	id_pesona int NOT NULL,
+	id_persona int NOT NULL,
 	id_usuario int,
 	id_tipo_amonestacion int NOT NULL,
 	id_puesto_persona_cargo int NOT null,
@@ -238,7 +238,6 @@ CREATE TABLE amonestacion(
 	estado int NOT NULL,
 	registro timestamp DEFAULT CURRENT_TIMESTAMP
 	);
-
 
 	
     

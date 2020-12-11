@@ -159,8 +159,8 @@ body {
 												<h:outputText
 													value="#{operacionPagoBean.entidadseleccionada.estatusOperacion.descripcion}" />
 												
-												<p:outputLabel value="Tipo Documento:" />	
-												<p:selectOneMenu value="#{operacionPagoBean.tipoDocumento}"
+												<p:outputLabel for="txtPagoTipoDoc" value="Tipo Documento:" />	
+												<p:selectOneMenu id="txtPagoTipoDoc" value="#{operacionPagoBean.tipoDocumento}"
 													required="true" requiredMessage="Seleccione tipo documento"
 													label="Tipo Documento" filter="true" filterMatchMode="contains">
 													<f:selectItem itemLabel="Seleccione" itemValue="" />
@@ -170,13 +170,13 @@ body {
 													<f:selectItem itemLabel="REC. HONO." itemValue="REC. HONO." />
 												</p:selectOneMenu>
 													
-												<p:outputLabel value="Nro Documento:" />
-												<h:outputText
+												<p:outputLabel for="txtPagoNroDoc" value="Nro Documento:" />
+												<p:inputText id="txtPagoNroDoc" required="true"   requiredMessage="Ingrese nro documento"
 													value="#{operacionPagoBean.nroDocumento}" />
 
-												<p:outputLabel value="Efectúa Pago: " />
+												<p:outputLabel for="txtPagoPersona" value="Efectúa Pago: " />
 												<p:selectOneMenu value="#{operacionPagoBean.idPersona}"
-													required="true"
+													required="true" id="txtPagoPersona"
 													requiredMessage="Seleccione persona que efectúa el pago"
 													label="responsable pago" filter="true"
 													filterMatchMode="contains">

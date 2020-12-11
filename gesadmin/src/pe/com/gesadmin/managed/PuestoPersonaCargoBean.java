@@ -324,7 +324,7 @@ public class PuestoPersonaCargoBean {
 					|| lista.get(i).getPuesto().getBloque().getDescripcion().contains(filtro)
 					|| lista.get(i).getPersona().getNombre().contains(filtro)
 					|| lista.get(i).getPersona().getPaterno().contains(filtro)
-					|| lista.get(i).getPersona().getPaterno().contains(filtro)) {
+					|| lista.get(i).getPersona().getMaterno().contains(filtro)) {
 				System.out.println("lista: " + lista.get(i).toString());
 				listafiltro.add(lista.get(i));
 			}

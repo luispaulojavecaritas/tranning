@@ -60,13 +60,27 @@ body {
 											style="border:0px none; background-color:transparent;">
 
 											<p:outputLabel value="Id:" />
-											<h:outputText value="#{periodoBean.entidad.id}" />
-
+											<h:outputText value="#{periodoBean.entidad.id}" />												
+												
 											<p:outputLabel for="txtvar2" value="Descripción:" />
-											<p:inputText id="txtvar2"
+											<p:selectOneMenu id="txtvar2"
 												value="#{periodoBean.entidad.descripcion}" required="true"
-												requiredMessage="Ingrese descripcion" label="descripcion"
-												onkeyup="this.value = this.value.toUpperCase();" />
+												requiredMessage="Seleccione periodo" label="periodo"
+												filter="true" filterMatchMode="contains">
+												<f:selectItem itemLabel="Seleccione" itemValue="" />
+												<f:selectItem itemLabel="ENERO" itemValue="ENE" />
+												<f:selectItem itemLabel="FEBRERO" itemValue="FEB" />
+												<f:selectItem itemLabel="MARZO" itemValue="MAR" />
+												<f:selectItem itemLabel="ABRIL" itemValue="ABR" />
+												<f:selectItem itemLabel="MAYO" itemValue="MAY" />
+												<f:selectItem itemLabel="JUNIO" itemValue="JUN" />
+												<f:selectItem itemLabel="JULIO" itemValue="JUL" />
+												<f:selectItem itemLabel="AGOSTO" itemValue="AGO" />
+												<f:selectItem itemLabel="SETIEMBRE" itemValue="SET" />
+												<f:selectItem itemLabel="OCTUBRE" itemValue="OCT" />
+												<f:selectItem itemLabel="NOVIEMBRE" itemValue="NOV" />
+												<f:selectItem itemLabel="DICIEMBRE" itemValue="DIC" />
+											</p:selectOneMenu>
 												
 											<p:outputLabel for="txtvar3" value="Dias:" />
 											<p:inputText id="txtvar3"
