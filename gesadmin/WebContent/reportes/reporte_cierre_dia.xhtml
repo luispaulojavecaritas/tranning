@@ -1,0 +1,205 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="head">
+		<style type="text/css">
+body {
+	background-color: #F1F1F1;
+}
+</style>
+	</ui:define>
+
+	<ui:define name="content">
+
+		<div class="Section">
+
+			<div class="Container100 ShadowEffect WhiteBack">
+
+				<div class="Container100 ui-fluid">
+					<div class="Container100">
+						<div
+							class="Wid100 MarAuto DispBlock OvHidden FontMerriWeatherRegular BlueDarkest TexAlCenter"
+							style="font-size: 3.0rem; padding-top: 0rem; padding-bottom: 0rem;">REPORTE
+							CIERRE DIARIO</div>
+						<div class="Wid100 OvHidden" style="height: 1rem;"></div>
+
+
+						<h:form id="frm1">
+							<f:passThroughAttribute name="autocomplete" value="off" />
+							<p:panel id="pnlEntidad" header="Criterios de consulta"
+								style="margin-bottom:20px">
+								<div class="Container">
+									<div class="Container80 Responsive100">
+										<p:panelGrid columns="4"
+											columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+											layout="grid" styleClass="ui-panelgrid-blank"
+											style="border:0px none; background-color:transparent;">
+
+											<p:outputLabel value="Fecha de Cierre:" for="fechacierre" />
+											<p:calendar id="fechacierre" pattern="yyyy-MM-dd" mask="true"
+												locale="es" placeholder="aa-mm-dd" navigator="true"
+												autocomplete="off"
+												maxdate="#{reporteCuatroBean.fechaMaxima}"
+												value="#{reporteCuatroBean.fechaConsulta}" required="true"
+												requiredMessage="Ingrese fecha de cierre">
+											</p:calendar>
+										</p:panelGrid>
+									</div>
+
+									<div class="Container20 Responsive100">
+										<p:commandButton value="Consultar"
+											actionListener="#{reporteCuatroBean.consultar()}"
+											update="frm1 frm2" icon="fa fa-save" styleClass="GreenButton" />
+										<div class="EmptyBox5" />
+										<p:commandButton value="Limpiar"
+											actionListener="#{reporteCuatroBean.limpiar()}"
+											update="frm1 frm2" icon="fa fa-refresh" process="@this"
+											immediate="true" />
+									</div>
+								</div>
+							</p:panel>
+						</h:form>
+
+						<div class="Container100 Responsive100">
+							<p:messages autoUpdate="true" closable="true" />
+						</div>
+
+						<div class="EmptyBox5" />
+
+						<h:form id="frm2">
+							<f:passThroughAttribute name="autocomplete" value="off" />
+
+							<p:panel id="panFiltro" header="Reporte de cierre diario">
+								<div class="Container">
+
+									<div class="Container100 Responsive100">
+
+										<p:dataTable id="tbl" var="per"
+											value="#{reporteCuatroBean.lista}"
+											paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
+											paginator="true" rows="80" style="margin-bottom:20px">
+
+											<f:facet name="{Exporters}">
+												<div style="float: right; padding-top: 5px;">
+													<h:commandLink ajax="false">
+														<p:graphicImage name="excel.png" library="images"
+															width="24" />
+														<p:dataExporter type="xls" target="tbl"
+															fileName="reporte_cierre_diario" />
+													</h:commandLink>
+
+													<h:commandLink ajax="false">
+														<p:graphicImage name="xlsx.png" library="images"
+															width="24" />
+														<p:dataExporter type="xlsxstream" target="tbl"
+															fileName="reporte_cierre_diario" />
+													</h:commandLink>
+
+													<h:commandLink ajax="false">
+														<p:graphicImage name="pdf.png" library="images" width="24" />
+														<p:dataExporter type="pdf" target="tbl" encoding="utf-8"
+															fileName="reporte_cierre_diario" />
+													</h:commandLink>
+
+												</div>
+											</f:facet>
+
+											<p:column headerText="Fecha">
+												<h:outputText value="#{per.fechaPagoCadena}" />
+											</p:column>
+											<p:column headerText="Tipo">
+												<h:outputText value="#{per.descripcionTipoOperacion}" />
+											</p:column>
+											<p:column headerText="Categ.">
+												<h:outputText value="#{per.descripcionCategoriaOperacion}" />
+											</p:column>
+											<p:column headerText="Tipo.Doc">
+												<h:outputText value="#{per.tipoDocumento}" />
+											</p:column>
+											<p:column headerText="Nro.Doc">
+												<h:outputText value="#{per.nroDocumento}" />
+											</p:column>
+											<p:column headerText="Concepto">
+												<h:outputText value="#{per.descripcionPuesto}" />
+											</p:column>
+											<p:column headerText="Persona">
+												<h:outputText value="#{per.persona}" />
+											</p:column>
+											<p:column headerText="Ingreso">
+												<h:outputText value="#{per.montoIngreso}" />
+											</p:column>
+											<p:column headerText="Egreso">
+												<h:outputText value="#{per.montoEgreso}" />
+											</p:column>
+											<p:column headerText="Saldo">
+												<h:outputText value="#{per.montoSaldo}" />
+											</p:column>
+
+										</p:dataTable>
+
+										<p:dataTable id="tbl2" var="anu"
+											value="#{reporteCuatroBean.listaAnulado}"
+											paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
+											paginator="true" rows="80" style="margin-bottom:20px">
+
+											<f:facet name="{Exporters}">
+												<div style="float: right; padding-top: 5px;">
+													<h:commandLink ajax="false">
+														<p:graphicImage name="excel.png" library="images"
+															width="24" />
+														<p:dataExporter type="xls" target="tbl2"
+															fileName="reporte_cierre_diario_anulados" />
+													</h:commandLink>
+
+													<h:commandLink ajax="false">
+														<p:graphicImage name="xlsx.png" library="images"
+															width="24" />
+														<p:dataExporter type="xlsxstream" target="tbl2"
+															fileName="reporte_cierre_diario_anulados" />
+													</h:commandLink>
+
+													<h:commandLink ajax="false">
+														<p:graphicImage name="pdf.png" library="images" width="24" />
+														<p:dataExporter type="pdf" target="tbl2" encoding="utf-8"
+															fileName="reporte_cierre_diario_anulados" />
+													</h:commandLink>
+
+												</div>
+											</f:facet>
+
+											<p:column headerText="TipoDoc">
+												<h:outputText value="#{anu.anuTipoDocumento}" />
+											</p:column>
+											<p:column headerText="NroDoc">
+												<h:outputText value="#{anu.anuNroDocumento}" />
+											</p:column>
+											<p:column headerText="Categ.">
+												<h:outputText value="#{anu.anuCategoriaOperacion}" />
+											</p:column>
+											<p:column headerText="Motivo">
+												<h:outputText value="#{anu.anuMotivoAnulacion}" />
+											</p:column>
+											<p:column headerText="Tipo">
+												<h:outputText value="#{anu.anuTipoOperacion}" />
+											</p:column>
+											<p:column headerText="Importe">
+												<h:outputText value="#{anu.anuImporte}" />
+											</p:column>
+
+										</p:dataTable>
+									</div>
+								</div>
+							</p:panel>
+						</h:form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+	</ui:define>
+
+</ui:composition>

@@ -81,6 +81,15 @@ public class UtilFechas implements Serializable {
 		x = sdf.format(d1);
 		return x;
 	}
+	
+	public String converDateToString(java.util.Date d1) {
+		String x;
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		java.sql.Date d2 = new java.sql.Date(d1.getTime());
+		d1 = new java.util.Date(d2.getTime());
+		x = sdf.format(d1);
+		return x;
+	}
 
 	/**
 	 * Metodo que sirve para hhalar la fecha actual del sistem y agregar dias

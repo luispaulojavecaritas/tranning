@@ -104,18 +104,21 @@
 					icon="icon-dashboard" outcome="/operaciones/gestion_operacion" />
 
 				<p:menuitem id="pt_operacion_servicio_consumo"
-					value="Gestionar Operacion Cobranza Servicios " icon="icon-dashboard"
+					value="Gestionar Operacion Cobranza Servicios "
+					icon="icon-dashboard"
 					outcome="/operaciones/gestion_operacion_consumo_servicios" />
 
 				<p:menuitem id="pt_operacion_administracion"
-					value="Gestionar Operacion Cobranza Administracion " icon="icon-dashboard"
+					value="Gestionar Operacion Cobranza Administracion "
+					icon="icon-dashboard"
 					outcome="/operaciones/gestion_operacion_administracion" />
 
-				<p:menuitem id="pt_pag_operacion" value="Efectuar Pago-Cobro Operacion"
-					icon="icon-dashboard" outcome="/operaciones/efectuar_operacion" />
+				<p:menuitem id="pt_pag_operacion"
+					value="Efectuar Pago-Cobro Operacion" icon="icon-dashboard"
+					outcome="/operaciones/efectuar_operacion" />
 
-				<p:menuitem id="pt_can_operacion" value="Cancelar Pago-Cobro Operacion"
-					icon="icon-dashboard"
+				<p:menuitem id="pt_can_operacion"
+					value="Cancelar Pago-Cobro Operacion" icon="icon-dashboard"
 					outcome="/operaciones/cancelar_pago_operacion" />
 
 
@@ -148,6 +151,28 @@
 					value="Mant. Tipo Amonestaciones" icon="icon-dashboard"
 					outcome="/amonestaciones/mantenimiento_tipo_amonestacion" />
 
+			</p:submenu>
+
+
+			<p:submenu id="pt_reporte" label="Reportes"
+				icon="icon-layers">
+				
+				<p:menuitem id="pt_rep_uno"
+					value="Reporte General Socios" icon="icon-dashboard"
+					outcome="/reportes/reporte_general_socios" />
+					
+				<p:menuitem id="pt_rep_dos"
+					value="Reporte Cuenta Socio" icon="icon-dashboard"
+					outcome="/reportes/estado_cuenta_socio" />
+				
+				<p:menuitem id="pt_rep_tres"
+					value="Reporte Cuenta Socio Detalle" icon="icon-dashboard"
+					outcome="/reportes/estado_cuenta_socio_detalle" />
+					
+				<p:menuitem id="pt_rep_cuatro"
+					value="Reporte Cierre Día" icon="icon-dashboard"
+					outcome="/reportes/reporte_cierre_dia" />
+					
 			</p:submenu>
 
 

@@ -6,11 +6,13 @@ public class ReporteCuatro {
 	private Integer idTipoOperacion;
 	private Integer idCategoriaOperacion;
 	private String fechaPagoCadena;
+	private String descripcionTipoOperacion;
 	private String tipoDocumento;
 	private String nroDocumento;
 	private String descripcionCategoriaOperacion;
 	private String periodoAnioFiscal;
-	private String concepto;
+	private String descripcionPuesto;
+	private String persona;
 	private Double montoIngreso;
 	private Double montoEgreso;
 	private Double montoSaldo;
@@ -51,6 +53,14 @@ public class ReporteCuatro {
 		this.fechaPagoCadena = fechaPagoCadena;
 	}
 
+	public String getDescripcionTipoOperacion() {
+		return descripcionTipoOperacion;
+	}
+
+	public void setDescripcionTipoOperacion(String descripcionTipoOperacion) {
+		this.descripcionTipoOperacion = descripcionTipoOperacion;
+	}
+
 	public String getTipoDocumento() {
 		return tipoDocumento;
 	}
@@ -83,12 +93,20 @@ public class ReporteCuatro {
 		this.periodoAnioFiscal = periodoAnioFiscal;
 	}
 
-	public String getConcepto() {
-		return concepto;
+	public String getDescripcionPuesto() {
+		return descripcionPuesto;
 	}
 
-	public void setConcepto(String concepto) {
-		this.concepto = concepto;
+	public void setDescripcionPuesto(String descripcionPuesto) {
+		this.descripcionPuesto = descripcionPuesto;
+	}
+
+	public String getPersona() {
+		return persona;
+	}
+
+	public void setPersona(String persona) {
+		this.persona = persona;
 	}
 
 	public Double getMontoIngreso() {
@@ -119,10 +137,11 @@ public class ReporteCuatro {
 	public String toString() {
 		return "ReporteCuatro [fechaPagoDate=" + fechaPagoDate + ", idTipoOperacion=" + idTipoOperacion
 				+ ", idCategoriaOperacion=" + idCategoriaOperacion + ", fechaPagoCadena=" + fechaPagoCadena
-				+ ", tipoDocumento=" + tipoDocumento + ", nroDocumento=" + nroDocumento
-				+ ", descripcionCategoriaOperacion=" + descripcionCategoriaOperacion + ", periodoAnioFiscal="
-				+ periodoAnioFiscal + ", concepto=" + concepto + ", montoIngreso=" + montoIngreso + ", montoEgreso="
-				+ montoEgreso + ", montoSaldo=" + montoSaldo + "]";
+				+ ", descripcionTipoOperacion=" + descripcionTipoOperacion + ", tipoDocumento=" + tipoDocumento
+				+ ", nroDocumento=" + nroDocumento + ", descripcionCategoriaOperacion=" + descripcionCategoriaOperacion
+				+ ", periodoAnioFiscal=" + periodoAnioFiscal + ", descripcionPuesto=" + descripcionPuesto + ", persona="
+				+ persona + ", montoIngreso=" + montoIngreso + ", montoEgreso=" + montoEgreso + ", montoSaldo="
+				+ montoSaldo + "]";
 	}
 
 }

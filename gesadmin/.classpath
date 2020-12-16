@@ -42,6 +42,13 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/titan-theme-1.1.2.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/wsdl4j.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/postgresql-42.2.11.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/itext-2.1.7.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/poi-3.17.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/poi-ooxml-3.17.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jasperreports-5.6.0.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/commons-collections-3.2.1.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/commons-digester-2.1.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/commons-beanutils-1.8.0.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/EclipseLink 2.5.2">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>

@@ -20,6 +20,7 @@
         <intercept-url pattern="/personas/*" access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')" />
         <intercept-url pattern="/fiscalizacion/*" access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')" />
         <intercept-url pattern="/consumo_servicios/*" access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')" />
+        <intercept-url pattern="/reportes/*" access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')" />
         <intercept-url pattern="/cuenta/*" access="isAuthenticated()"/> 
         
         <form-login login-page="/login.xhtml" 

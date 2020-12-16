@@ -8,6 +8,7 @@ import javax.ejb.Stateless;
 import pe.com.gesadmin.dao.ReporteDao;
 import pe.com.gesadmin.dao.impl.ReporteDaoImpl;
 import pe.com.gesadmin.entity.transfer.ReporteCuatro;
+import pe.com.gesadmin.entity.transfer.ReporteCuatroAnulado;
 import pe.com.gesadmin.entity.transfer.ReporteDos;
 import pe.com.gesadmin.entity.transfer.ReporteTres;
 import pe.com.gesadmin.entity.transfer.ReporteUno;
@@ -52,7 +53,13 @@ public class ReporteServiceImpl implements ReporteService{
 	@Override
 	public List<ReporteCuatro> obtenerReporteCuatroDiaNoAnulados(String dia) {
 		// TODO Auto-generated method stub
-		return reporteDao.getReporteCuatroDia(dia);
+		return reporteDao.getReporteCuatroDiaNoAnulados(dia);
+	}
+
+	@Override
+	public List<ReporteCuatroAnulado> obtenerReporteCuatroDiaAnulados(String dia) {
+		// TODO Auto-generated method stub
+		return reporteDao.getReporteCuatroDiaAnulados(dia);
 	}
 
 }

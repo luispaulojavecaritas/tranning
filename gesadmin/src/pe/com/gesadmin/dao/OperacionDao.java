@@ -10,7 +10,6 @@ import java.util.List;
 import pe.com.gesadmin.entity.Operacion;
 import pe.com.gesadmin.entity.transfer.LecturasMedidasPreOperacion;
 import pe.com.gesadmin.entity.transfer.OperacionAdministracionTransfer;
-import pe.com.gesadmin.transfer.OrdenTransfer;
 
 /**
  *

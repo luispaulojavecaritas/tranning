@@ -1,0 +1,202 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="head">
+		<style type="text/css">
+body {
+	background-color: #F1F1F1;
+}
+</style>
+	</ui:define>
+
+	<ui:define name="content">
+
+		<div class="Section">
+
+			<div class="Container100 ShadowEffect WhiteBack">
+
+				<div class="Container100 ui-fluid">
+					<div class="Container100">
+						<div
+							class="Wid100 MarAuto DispBlock OvHidden FontMerriWeatherRegular BlueDarkest TexAlCenter"
+							style="font-size: 3.0rem; padding-top: 0rem; padding-bottom: 0rem;">REPORTE
+							GENERAL DE SOCIOS</div>
+						<div class="Wid100 OvHidden" style="height: 1rem;"></div>
+
+
+						<h:form id="frm1">
+							<f:passThroughAttribute name="autocomplete" value="off" />
+							<p:panel id="pnlEntidad" header="Criterios de consulta"
+								style="margin-bottom:20px">
+								<div class="Container">
+									<div class="Container80 Responsive100">
+										<p:panelGrid columns="4"
+											columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+											layout="grid" styleClass="ui-panelgrid-blank"
+											style="border:0px none; background-color:transparent;">
+
+											<p:outputLabel for="txtvar1" value="Año Fiscal:" />
+											<p:selectOneMenu id="txtvar1"
+												value="#{reporteUnoBean.idAnioFiscal}" required="true"
+												requiredMessage="Seleccione Año Fiscal" label="anio fiscal"
+												filter="true" filterMatchMode="contains">
+												<f:selectItem itemLabel="Seleccione" itemValue="" />
+												<f:selectItems value="#{reporteUnoBean.listaAnioFiscal}"
+													var="lista" itemLabel="#{lista.descripcion}"
+													itemValue="#{lista.id}" />
+											</p:selectOneMenu>
+
+											<p:outputLabel for="txtvar2" value="Categoria Operación:" />
+											<p:selectOneMenu id="txtvar2"
+												value="#{reporteUnoBean.idCategoriaOperacion}"
+												label="categoria operacion" filter="true"
+												filterMatchMode="contains">
+												<f:selectItem itemLabel="Seleccione" itemValue="" />
+												<f:selectItems
+													value="#{reporteUnoBean.listaCategoriaOperacion}"
+													var="lista" itemLabel="#{lista.descripcion}"
+													itemValue="#{lista.id}" />
+											</p:selectOneMenu>
+										</p:panelGrid>
+									</div>
+
+									<div class="Container20 Responsive100">
+										<p:commandButton value="Consultar"
+											actionListener="#{reporteUnoBean.consultar()}"
+											update="frm1 frm2" icon="fa fa-save" styleClass="GreenButton" />
+										<div class="EmptyBox5" />
+										<p:commandButton value="Limpiar"
+											actionListener="#{reporteUnoBean.limpiar()}"
+											update="frm1 frm2" icon="fa fa-refresh" process="@this"
+											immediate="true" />
+									</div>
+								</div>
+							</p:panel>
+						</h:form>
+
+						<div class="Container100 Responsive100">
+							<p:messages autoUpdate="true" closable="true" />
+						</div>
+
+						<div class="EmptyBox5" />
+
+						<h:form id="frm2">
+							<f:passThroughAttribute name="autocomplete" value="off" />
+
+							<p:panel id="panFiltro" header="Lista de personas registradas">
+								<div class="Container">
+									<div class="Container60 Responsive100"></div>
+									<div class="Container40 Responsive100">
+										<p:panelGrid columns="2" layout="grid"
+											styleClass="ui-panelgrid-blank"
+											style="border:0px none; background-color:transparent;">
+											<p:inputText id="counter" value="#{reporteUnoBean.filtro}"
+												placeholder="Filtrar registros"
+												onkeyup="this.value = this.value.toUpperCase();" />
+											<p:commandButton value="Filtar"
+												action="#{reporteUnoBean.filtrar()}" update="frm2" />
+										</p:panelGrid>
+									</div>
+
+
+									<div class="Container100 Responsive100">
+
+
+										<p:dataTable id="tbl" var="per"
+											value="#{reporteUnoBean.listafiltro}"
+											paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
+											paginator="true" rows="80" style="margin-bottom:20px">
+
+											<f:facet name="{Exporters}">
+												<div style="float: right; padding-top: 5px;">
+													<h:commandLink ajax="false">
+														<p:graphicImage name="excel.png" library="images"
+															width="24" />
+														<p:dataExporter type="xls" target="tbl"
+															fileName="reporte_general_socios" />
+													</h:commandLink>
+
+													<h:commandLink ajax="false">
+														<p:graphicImage name="xlsx.png" library="images"
+															width="24" />
+														<p:dataExporter type="xlsxstream" target="tbl"
+															fileName="reporte_general_socios" />
+													</h:commandLink>
+
+													<h:commandLink ajax="false">
+														<p:graphicImage name="pdf.png" library="images" width="24" />
+														<p:dataExporter type="pdf" target="tbl" encoding="utf-8"
+															fileName="reporte_general_socios" />
+													</h:commandLink>
+
+												</div>
+											</f:facet>
+
+											<p:column headerText="PTO" >
+												<h:outputText value="#{per.descripcionPuesto}" />
+											</p:column>
+											<p:column headerText="ANT" >
+												<h:outputText value="#{per.anterior}" />
+											</p:column>
+											<p:column headerText="ENE" >
+												<h:outputText value="#{per.enero}" />
+											</p:column>
+											<p:column headerText="FEB" >
+												<h:outputText value="#{per.febrero}" />
+											</p:column>
+											<p:column headerText="MAR" >
+												<h:outputText value="#{per.marzo}" />
+											</p:column>
+											<p:column headerText="ABR" >
+												<h:outputText value="#{per.abril}" />
+											</p:column>
+											<p:column headerText="MAY" >
+												<h:outputText value="#{per.mayo}" />
+											</p:column>
+											<p:column headerText="JUN" >
+												<h:outputText value="#{per.junio}" />
+											</p:column>
+											<p:column headerText="JUL" >
+												<h:outputText value="#{per.julio}" />
+											</p:column>
+											<p:column headerText="AGO" >
+												<h:outputText value="#{per.agosto}" />
+											</p:column>
+											<p:column headerText="SET" >
+												<h:outputText value="#{per.setiembre}" />
+											</p:column>
+											<p:column headerText="OCT" >
+												<h:outputText value="#{per.octubre}" />
+											</p:column>
+											<p:column headerText="NOV" >
+												<h:outputText value="#{per.noviembre}" />
+											</p:column>
+											<p:column headerText="DIC" >
+												<h:outputText value="#{per.diciembre}" />
+											</p:column>
+											<p:column headerText="TOT">
+												<h:outputText value="#{per.total}" />
+											</p:column>
+										</p:dataTable>
+										
+										<p:commandButton value="Ver Certificado" ajax="false" 
+											styleClass="GreenButton" 
+											rendered="#{reporteUnoBean.booReporte}" 
+											actionListener="#{reporteUnoBean.vercertificadoFinal}" />
+											
+									</div>
+								</div>
+							</p:panel>
+						</h:form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+	</ui:define>
+
+</ui:composition>

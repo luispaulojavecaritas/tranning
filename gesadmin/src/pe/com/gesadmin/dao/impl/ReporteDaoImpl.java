@@ -13,6 +13,7 @@ import pe.com.gesadmin.entity.transfer.ReporteDos;
 import pe.com.gesadmin.entity.transfer.ReporteTres;
 import pe.com.gesadmin.entity.transfer.ReporteUno;
 import pe.com.gesadmin.entity.transfer.ReporteCuatro;
+import pe.com.gesadmin.entity.transfer.ReporteCuatroAnulado;
 
 @Stateless
 public class ReporteDaoImpl implements ReporteDao {
@@ -25,7 +26,7 @@ public class ReporteDaoImpl implements ReporteDao {
 		// TODO Auto-generated method stub
 		List<ReporteUno> listaReporte = new ArrayList<>();
 
-		String nativeQuery = "select" + "listapuesto.idpuesto, " + "listapuesto.descripcionpuesto, "
+		String nativeQuery = "select " + "listapuesto.idpuesto, " + "listapuesto.descripcionpuesto, "
 				+ "listapuesto.idbloque, " + "listapuesto.bloquedescripcion, "
 				+ "COALESCE(listanombre.nombres, 'SIN REGISTRAR') as persona, "
 				+ "COALESCE(listaanterior.anterior,0.00) as anterior, " + "COALESCE(listaenero.enero,0.00) as enero, "
@@ -73,7 +74,7 @@ public class ReporteDaoImpl implements ReporteDao {
 
 		List<Object[]> list = query.getResultList();
 		ReporteUno reporte = new ReporteUno();
-		
+
 		for (Object[] objeto : list) {
 			reporte = new ReporteUno();
 			reporte.setIdPuesto(Integer.parseInt(objeto[0].toString()));
@@ -95,13 +96,13 @@ public class ReporteDaoImpl implements ReporteDao {
 			reporte.setNoviembre(Double.parseDouble(objeto[16].toString()));
 			reporte.setDiciembre(Double.parseDouble(objeto[17].toString()));
 			reporte.setTotal(Double.parseDouble(objeto[18].toString()));
-	
-			listaReporte.add(reporte);					
+
+			listaReporte.add(reporte);
 		}
-		
-		if(listaReporte.isEmpty() || listaReporte == null) {
+
+		if (listaReporte.isEmpty() || listaReporte == null) {
 			return null;
-		}else {
+		} else {
 			return listaReporte;
 		}
 
@@ -111,7 +112,7 @@ public class ReporteDaoImpl implements ReporteDao {
 	public List<ReporteUno> getReporteUnoCategoriaOperacionId(Integer idAnioFiscal, Integer idCategoriaOperacion) {
 		// TODO Auto-generated method stub
 		List<ReporteUno> listaReporte = new ArrayList<>();
-		
+
 		String nativeQuery = "select " + "listapuesto.idpuesto, " + "listapuesto.descripcionpuesto, "
 				+ "listapuesto.idbloque, " + "listapuesto.bloquedescripcion, "
 				+ "COALESCE(listanombre.nombres, 'SIN REGISTRAR') as persona, "
@@ -141,8 +142,7 @@ public class ReporteDaoImpl implements ReporteDao {
 				+ "left join (SELECT pu.id as idpuesto, sum(op.monto) as diciembre FROM operacion op left JOIN puesto pu on pu.id = op.id_puesto LEFT JOIN periodo pe on pe.id = op.id_periodo where pe.id_anio_fiscal = ? and op.id_categoria_operacion = ? and pe.descripcion = 'DIC' and op.id_estatus_operacion IN (1,3) and pu.estado = 1 group by idpuesto) as listadiciembre on listapuesto.idpuesto = listadiciembre.idpuesto "
 				+ "left join (SELECT pu.id as idpuesto, sum(op.monto) as total FROM operacion op left JOIN puesto pu on pu.id = op.id_puesto LEFT JOIN periodo pe on pe.id = op.id_periodo where pe.id_anio_fiscal <= ? and op.id_categoria_operacion = ? and op.id_estatus_operacion IN (1,3) and pu.estado = 1 group by idpuesto) as listatotal on listapuesto.idpuesto = listatotal.idpuesto "
 				+ "order by idbloque, idpuesto asc";
-		
-		
+
 		Query query = em.createNativeQuery(nativeQuery);
 		query.setParameter(1, idAnioFiscal);
 		query.setParameter(2, idCategoriaOperacion);
@@ -175,7 +175,7 @@ public class ReporteDaoImpl implements ReporteDao {
 
 		List<Object[]> list = query.getResultList();
 		ReporteUno reporte = new ReporteUno();
-		
+
 		for (Object[] objeto : list) {
 			reporte = new ReporteUno();
 			reporte.setIdPuesto(Integer.parseInt(objeto[0].toString()));
@@ -197,13 +197,13 @@ public class ReporteDaoImpl implements ReporteDao {
 			reporte.setNoviembre(Double.parseDouble(objeto[16].toString()));
 			reporte.setDiciembre(Double.parseDouble(objeto[17].toString()));
 			reporte.setTotal(Double.parseDouble(objeto[18].toString()));
-	
-			listaReporte.add(reporte);					
+
+			listaReporte.add(reporte);
 		}
-		
-		if(listaReporte.isEmpty() || listaReporte == null) {
+
+		if (listaReporte.isEmpty() || listaReporte == null) {
 			return null;
-		}else {
+		} else {
 			return listaReporte;
 		}
 
@@ -213,31 +213,26 @@ public class ReporteDaoImpl implements ReporteDao {
 	public List<ReporteDos> getReporteDosPuestoId(Integer idPuesto) {
 		// TODO Auto-generated method stub
 		List<ReporteDos> listaReporte = new ArrayList<>();
-		
-		String nativeQuery = "select " + 
-		"pendiente.idpuesto, " + 
-		"pendiente.descripcionpuesto, " + 
-		"pendiente.idaniofiscal, " + 
-		"pendiente.descripcionaniofiscal, " + 
-		"pendiente.idperiodo, " + 
-		"pendiente.descripcionperiodo, " + 
-		"pendiente.descripcionaniofiscal || pendiente.descripcionperiodo as aniofiscalperiodo, " + 
-		"pendiente.idcategoriaoperacion, " + 
-		"pendiente.descripcioncategoriaoperacion, " + 
-		"COALESCE(pendiente.montototal,0.00) as montodeuda, " + 
-		"COALESCE(efectuado.montototal,0.00) as montopagado, " + 
-		"(COALESCE(pendiente.montototal,0.00) - COALESCE(efectuado.montototal,0.00)) as saldodeuda " + 
-		"from (select op.id_puesto as idpuesto, pu.descripcion  as descripcionpuesto, pe.id_anio_fiscal as idaniofiscal, af.descripcion as descripcionaniofiscal, pe.id as idperiodo, pe.descripcion as descripcionperiodo, op.id_categoria_operacion as idcategoriaoperacion, co.descripcion as descripcioncategoriaoperacion, sum(op.monto) as montototal from operacion op left join puesto pu on pu.id = op.id_puesto left join periodo pe on pe.id = op.id_periodo left join anio_fiscal af on af.id = pe.id_anio_fiscal left join categoria_operacion co on co.id =  op.id_categoria_operacion left join estatus_operacion eo on eo.id = op.id_estatus_operacion where op.estado = 1 and op.id_puesto = ? and op.id_estatus_operacion in (1,2,3) group by idpuesto, descripcionpuesto, idaniofiscal, descripcionaniofiscal, idperiodo, descripcionperiodo, idcategoriaoperacion, descripcioncategoriaoperacion) as pendiente " + 
-		"left join (select op.id_puesto as idpuesto, pu.descripcion  as descripcionpuesto, pe.id_anio_fiscal as idaniofiscal, af.descripcion as descripcionaniofiscal, pe.id as idperiodo, pe.descripcion as descripcionperiodo, op.id_categoria_operacion as idcategoriaoperacion, co.descripcion as descripcioncategoriaoperacion, sum(op.monto) as montototal from operacion op left join puesto pu on pu.id = op.id_puesto left join periodo pe on pe.id = op.id_periodo left join anio_fiscal af on af.id = pe.id_anio_fiscal left join categoria_operacion co on co.id =  op.id_categoria_operacion left join estatus_operacion eo on eo.id = op.id_estatus_operacion where op.estado = 1 and op.id_puesto = ? and op.id_estatus_operacion = 2 group by idpuesto, descripcionpuesto, idaniofiscal, descripcionaniofiscal, idperiodo, descripcionperiodo, idcategoriaoperacion, descripcioncategoriaoperacion) as  efectuado on pendiente.idpuesto = efectuado.idpuesto and  pendiente.idaniofiscal = efectuado.idaniofiscal and  pendiente.idperiodo = efectuado.idperiodo and pendiente.idcategoriaoperacion = efectuado.idcategoriaoperacion " + 
-		"order by idcategoriaoperacion asc, idaniofiscal asc, idperiodo asc";
-		
+
+		String nativeQuery = "select " + "pendiente.idpuesto, " + "pendiente.descripcionpuesto, "
+				+ "pendiente.idaniofiscal, " + "pendiente.descripcionaniofiscal, " + "pendiente.idperiodo, "
+				+ "pendiente.descripcionperiodo, "
+				+ "pendiente.descripcionaniofiscal || pendiente.descripcionperiodo as aniofiscalperiodo, "
+				+ "pendiente.idcategoriaoperacion, " + "pendiente.descripcioncategoriaoperacion, "
+				+ "COALESCE(pendiente.montototal,0.00) as montodeuda, "
+				+ "COALESCE(efectuado.montototal,0.00) as montopagado, "
+				+ "(COALESCE(pendiente.montototal,0.00) - COALESCE(efectuado.montototal,0.00)) as saldodeuda "
+				+ "from (select op.id_puesto as idpuesto, pu.descripcion  as descripcionpuesto, pe.id_anio_fiscal as idaniofiscal, af.descripcion as descripcionaniofiscal, pe.id as idperiodo, pe.descripcion as descripcionperiodo, op.id_categoria_operacion as idcategoriaoperacion, co.descripcion as descripcioncategoriaoperacion, sum(op.monto) as montototal from operacion op left join puesto pu on pu.id = op.id_puesto left join periodo pe on pe.id = op.id_periodo left join anio_fiscal af on af.id = pe.id_anio_fiscal left join categoria_operacion co on co.id =  op.id_categoria_operacion left join estatus_operacion eo on eo.id = op.id_estatus_operacion where op.estado = 1 and op.id_puesto = ? and op.id_estatus_operacion in (1,2,3) group by idpuesto, descripcionpuesto, idaniofiscal, descripcionaniofiscal, idperiodo, descripcionperiodo, idcategoriaoperacion, descripcioncategoriaoperacion) as pendiente "
+				+ "left join (select op.id_puesto as idpuesto, pu.descripcion  as descripcionpuesto, pe.id_anio_fiscal as idaniofiscal, af.descripcion as descripcionaniofiscal, pe.id as idperiodo, pe.descripcion as descripcionperiodo, op.id_categoria_operacion as idcategoriaoperacion, co.descripcion as descripcioncategoriaoperacion, sum(op.monto) as montototal from operacion op left join puesto pu on pu.id = op.id_puesto left join periodo pe on pe.id = op.id_periodo left join anio_fiscal af on af.id = pe.id_anio_fiscal left join categoria_operacion co on co.id =  op.id_categoria_operacion left join estatus_operacion eo on eo.id = op.id_estatus_operacion where op.estado = 1 and op.id_puesto = ? and op.id_estatus_operacion = 2 group by idpuesto, descripcionpuesto, idaniofiscal, descripcionaniofiscal, idperiodo, descripcionperiodo, idcategoriaoperacion, descripcioncategoriaoperacion) as  efectuado on pendiente.idpuesto = efectuado.idpuesto and  pendiente.idaniofiscal = efectuado.idaniofiscal and  pendiente.idperiodo = efectuado.idperiodo and pendiente.idcategoriaoperacion = efectuado.idcategoriaoperacion "
+				+ "order by idcategoriaoperacion asc, idaniofiscal asc, idperiodo asc";
+
 		Query query = em.createNativeQuery(nativeQuery);
 		query.setParameter(1, idPuesto);
 		query.setParameter(2, idPuesto);
-		
+
 		List<Object[]> list = query.getResultList();
 		ReporteDos reporte = new ReporteDos();
-		
+
 		for (Object[] objeto : list) {
 			reporte = new ReporteDos();
 			reporte.setIdPuesto(Integer.parseInt(objeto[0].toString()));
@@ -252,70 +247,53 @@ public class ReporteDaoImpl implements ReporteDao {
 			reporte.setMontoDeuda(Double.parseDouble(objeto[9].toString()));
 			reporte.setMontoPagado(Double.parseDouble(objeto[10].toString()));
 			reporte.setSaldoDeuda(Double.parseDouble(objeto[11].toString()));
-			
+
 			listaReporte.add(reporte);
 		}
-		
-		if(listaReporte.isEmpty() || listaReporte == null) {
+
+		if (listaReporte.isEmpty() || listaReporte == null) {
 			return null;
-		}else {
+		} else {
 			return listaReporte;
-		}		
-		
+		}
+
 	}
 
 	@Override
 	public List<ReporteTres> getReporteTresCategoriaAll(Integer idPuesto) {
 		// TODO Auto-generated method stub
 		List<ReporteTres> listaReporte = new ArrayList<>();
-		
-		String nativeQuery = "select " +
-		"af.id as idaniofiscal, " +
-		"af.descripcion as descripcionaniofiscal, " +
-		"pe.id as idperiodo, " +
-		"pe.descripcion as descripcionperiodo, " +
-		"co.id as idcategoriaoperacion, " +
-		"co.descripcion as descripcioncategoriaoperacion, " +
-		"to_date(to_char(op.registro, 'DD/MM/YYYY') ,'DD/MM/YYYY') as fecha, " +
-		"'' as descripciontipodoc, " +
-		"'' as nrodoc, " +
-		"sum(op.monto) as ingreso, " +
-		"0.00 as salida " +
-		"from operacion op " +
-		"left join categoria_operacion co on co.id  = op.id_categoria_operacion " +
-		"left join periodo pe ON pe.id = op.id_periodo " +
-		"left  join anio_fiscal af on af.id = pe.id_anio_fiscal " +
-		"where  op.estado = 1 and op.id_puesto = ? and op.id_estatus_operacion in (1,2,3) " +
-		"group by  idaniofiscal, descripcionaniofiscal, idperiodo, descripcionperiodo, idcategoriaoperacion, descripcioncategoriaoperacion, fecha, descripciontipodoc, nrodoc, salida " +
-		"union " +
-		"select " +
-		"af.id as idaniofiscal, " +
-		"af.descripcion as descripcionaniofiscal, " +
-		"pe.id as idperiodo, " +
-		"pe.descripcion as descripcionperiodo, " +
-		"co.id as idcategoriaoperacion, " +
-		"co.descripcion as descripcioncategoriaoperacion, " +
-		"to_date(to_char(op.fecha_pago, 'DD/MM/YYYY') ,'DD/MM/YYYY') as fecha, " +
-		"op.tipo_doc as descripciontipodoc, " +
-		"op.nro_doc as nrodoc, " +
-		"0.00 as ingreso, " +
-		"sum(op.monto) as salida " +
-		"from operacion op " +
-		"left join categoria_operacion co on co.id  = op.id_categoria_operacion " +
-		"left join periodo pe ON pe.id = op.id_periodo " +
-		"left  join anio_fiscal af on af.id = pe.id_anio_fiscal " +
-		"where  op.estado = 1 and op.id_puesto = ? and op.id_estatus_operacion = 2 " +
-		"group by  idaniofiscal, descripcionaniofiscal, idperiodo, descripcionperiodo, idcategoriaoperacion, descripcioncategoriaoperacion, fecha, descripciontipodoc, nrodoc, ingreso " +
-		"order by fecha asc, idperiodo asc";
-		
-		
+
+		String nativeQuery = "select " + "af.id as idaniofiscal, " + "af.descripcion as descripcionaniofiscal, "
+				+ "pe.id as idperiodo, " + "pe.descripcion as descripcionperiodo, " + "co.id as idcategoriaoperacion, "
+				+ "co.descripcion as descripcioncategoriaoperacion, "
+				+ "to_date(to_char(op.registro, 'DD/MM/YYYY') ,'DD/MM/YYYY') as fecha, " + "'' as descripciontipodoc, "
+				+ "'' as nrodoc, " + "sum(op.monto) as ingreso, " + "0.00 as salida " + "from operacion op "
+				+ "left join categoria_operacion co on co.id  = op.id_categoria_operacion "
+				+ "left join periodo pe ON pe.id = op.id_periodo "
+				+ "left  join anio_fiscal af on af.id = pe.id_anio_fiscal "
+				+ "where  op.estado = 1 and op.id_puesto = ? and op.id_estatus_operacion in (1,2,3) "
+				+ "group by  idaniofiscal, descripcionaniofiscal, idperiodo, descripcionperiodo, idcategoriaoperacion, descripcioncategoriaoperacion, fecha, descripciontipodoc, nrodoc, salida "
+				+ "union " + "select " + "af.id as idaniofiscal, " + "af.descripcion as descripcionaniofiscal, "
+				+ "pe.id as idperiodo, " + "pe.descripcion as descripcionperiodo, " + "co.id as idcategoriaoperacion, "
+				+ "co.descripcion as descripcioncategoriaoperacion, "
+				+ "to_date(to_char(op.fecha_pago, 'DD/MM/YYYY') ,'DD/MM/YYYY') as fecha, "
+				+ "op.tipo_doc as descripciontipodoc, " + "op.nro_doc as nrodoc, " + "0.00 as ingreso, "
+				+ "sum(op.monto) as salida " + "from operacion op "
+				+ "left join categoria_operacion co on co.id  = op.id_categoria_operacion "
+				+ "left join periodo pe ON pe.id = op.id_periodo "
+				+ "left  join anio_fiscal af on af.id = pe.id_anio_fiscal "
+				+ "where  op.estado = 1 and op.id_puesto = ? and op.id_estatus_operacion = 2 "
+				+ "group by  idaniofiscal, descripcionaniofiscal, idperiodo, descripcionperiodo, idcategoriaoperacion, descripcioncategoriaoperacion, fecha, descripciontipodoc, nrodoc, ingreso "
+				+ "order by fecha asc, idperiodo asc";
+
 		Query query = em.createNativeQuery(nativeQuery);
 		query.setParameter(1, idPuesto);
 		query.setParameter(2, idPuesto);
-		
+
 		List<Object[]> list = query.getResultList();
 		ReporteTres reporte = new ReporteTres();
-		
+
 		for (Object[] objeto : list) {
 			reporte = new ReporteTres();
 			reporte.setIdAnioFiscal(Integer.parseInt(objeto[0].toString()));
@@ -329,73 +307,54 @@ public class ReporteDaoImpl implements ReporteDao {
 			reporte.setNroDocumento(objeto[8].toString());
 			reporte.setIngreso(Double.parseDouble(objeto[9].toString()));
 			reporte.setEgreso(Double.parseDouble(objeto[10].toString()));
-			reporte.setSaldo(Double.parseDouble(objeto[11].toString()));
-			
+
 			listaReporte.add(reporte);
 		}
-		
-		if(listaReporte.isEmpty() || listaReporte == null) {
+
+		if (listaReporte.isEmpty() || listaReporte == null) {
 			return null;
-		}else {
-			return listaReporte;
-		}	
+		} else {
+			return completarSaldoReporteTres(listaReporte);
+		}
 	}
 
 	@Override
 	public List<ReporteTres> getReporteTresCategoriaOperacionId(Integer idPuesto, Integer idCategoriaOperacion) {
 		// TODO Auto-generated method stub
 		List<ReporteTres> listaReporte = new ArrayList<>();
-		
-		String nativeQuery = "select " + 
-		"af.id as idaniofiscal, " + 
-		"af.descripcion as descripcionaniofiscal, " + 
-		"pe.id as idperiodo, " + 
-		"pe.descripcion as descripcionperiodo, " + 
-		"co.id as idcategoriaoperacion, " + 
-		"co.descripcion as descripcioncategoriaoperacion, " + 
-		"to_date(to_char(op.registro, 'DD/MM/YYYY') ,'DD/MM/YYYY') as fecha, " + 
-		"'' as descripciontipodoc, " + 
-		"'' as nrodoc, " + 
-		"sum(op.monto) as ingreso, " + 
-		"0.00 as salida " + 
-		"from operacion op " + 
-		"left join categoria_operacion co on co.id  = op.id_categoria_operacion " + 
-		"left join periodo pe ON pe.id = op.id_periodo " + 
-		"left  join anio_fiscal af on af.id = pe.id_anio_fiscal " + 
-		"where op.estado = 1 and op.id_puesto = ? and op.id_categoria_operacion = ? and op.id_estatus_operacion in (1,2,3) " + 
-		"group by  idaniofiscal, descripcionaniofiscal, idperiodo, descripcionperiodo, idcategoriaoperacion, descripcioncategoriaoperacion, fecha, descripciontipodoc, nrodoc, salida " + 
-		"union " + 
-		"select " + 
-		"af.id as idaniofiscal, " + 
-		"af.descripcion as descripcionaniofiscal, " + 
-		"pe.id as idperiodo, " + 
-		"pe.descripcion as descripcionperiodo, " + 
-		"co.id as idcategoriaoperacion, " + 
-		"co.descripcion as descripcioncategoriaoperacion, " + 
-		"to_date(to_char(op.fecha_pago, 'DD/MM/YYYY') ,'DD/MM/YYYY') as fecha, " + 
-		"op.tipo_doc as descripciontipodoc, " + 
-		"op.nro_doc as nrodoc, " + 
-		"0.00 as ingreso, " + 
-		"sum(op.monto) as salida " + 
-		"from operacion op " + 
-		"left join categoria_operacion co on co.id  = op.id_categoria_operacion " + 
-		"left join periodo pe ON pe.id = op.id_periodo " + 
-		"left  join anio_fiscal af on af.id = pe.id_anio_fiscal " + 
-		"where  op.estado = 1 and op.id_puesto = ? and op.id_categoria_operacion = ? and op.id_estatus_operacion = 2 " + 
-		"group by  idaniofiscal, descripcionaniofiscal, idperiodo, descripcionperiodo, idcategoriaoperacion, descripcioncategoriaoperacion, fecha, descripciontipodoc, nrodoc, ingreso " + 
-		"order by fecha asc, idperiodo asc";
-				
-		
-		
+
+		String nativeQuery = "select " + "af.id as idaniofiscal, " + "af.descripcion as descripcionaniofiscal, "
+				+ "pe.id as idperiodo, " + "pe.descripcion as descripcionperiodo, " + "co.id as idcategoriaoperacion, "
+				+ "co.descripcion as descripcioncategoriaoperacion, "
+				+ "to_date(to_char(op.registro, 'DD/MM/YYYY') ,'DD/MM/YYYY') as fecha, " + "'' as descripciontipodoc, "
+				+ "'' as nrodoc, " + "sum(op.monto) as ingreso, " + "0.00 as salida " + "from operacion op "
+				+ "left join categoria_operacion co on co.id  = op.id_categoria_operacion "
+				+ "left join periodo pe ON pe.id = op.id_periodo "
+				+ "left  join anio_fiscal af on af.id = pe.id_anio_fiscal "
+				+ "where op.estado = 1 and op.id_puesto = ? and op.id_categoria_operacion = ? and op.id_estatus_operacion in (1,2,3) "
+				+ "group by  idaniofiscal, descripcionaniofiscal, idperiodo, descripcionperiodo, idcategoriaoperacion, descripcioncategoriaoperacion, fecha, descripciontipodoc, nrodoc, salida "
+				+ "union " + "select " + "af.id as idaniofiscal, " + "af.descripcion as descripcionaniofiscal, "
+				+ "pe.id as idperiodo, " + "pe.descripcion as descripcionperiodo, " + "co.id as idcategoriaoperacion, "
+				+ "co.descripcion as descripcioncategoriaoperacion, "
+				+ "to_date(to_char(op.fecha_pago, 'DD/MM/YYYY') ,'DD/MM/YYYY') as fecha, "
+				+ "op.tipo_doc as descripciontipodoc, " + "op.nro_doc as nrodoc, " + "0.00 as ingreso, "
+				+ "sum(op.monto) as salida " + "from operacion op "
+				+ "left join categoria_operacion co on co.id  = op.id_categoria_operacion "
+				+ "left join periodo pe ON pe.id = op.id_periodo "
+				+ "left  join anio_fiscal af on af.id = pe.id_anio_fiscal "
+				+ "where  op.estado = 1 and op.id_puesto = ? and op.id_categoria_operacion = ? and op.id_estatus_operacion = 2 "
+				+ "group by  idaniofiscal, descripcionaniofiscal, idperiodo, descripcionperiodo, idcategoriaoperacion, descripcioncategoriaoperacion, fecha, descripciontipodoc, nrodoc, ingreso "
+				+ "order by fecha asc, idperiodo asc";
+
 		Query query = em.createNativeQuery(nativeQuery);
 		query.setParameter(1, idPuesto);
 		query.setParameter(2, idCategoriaOperacion);
 		query.setParameter(3, idPuesto);
 		query.setParameter(4, idCategoriaOperacion);
-		
+
 		List<Object[]> list = query.getResultList();
 		ReporteTres reporte = new ReporteTres();
-		
+
 		for (Object[] objeto : list) {
 			reporte = new ReporteTres();
 			reporte.setIdAnioFiscal(Integer.parseInt(objeto[0].toString()));
@@ -409,166 +368,188 @@ public class ReporteDaoImpl implements ReporteDao {
 			reporte.setNroDocumento(objeto[8].toString());
 			reporte.setIngreso(Double.parseDouble(objeto[9].toString()));
 			reporte.setEgreso(Double.parseDouble(objeto[10].toString()));
-			reporte.setSaldo(Double.parseDouble(objeto[11].toString()));
-			
+
 			listaReporte.add(reporte);
 		}
-		
-		if(listaReporte.isEmpty() || listaReporte == null) {
+
+		if (listaReporte.isEmpty() || listaReporte == null) {
 			return null;
-		}else {
+		} else {
 			return completarSaldoReporteTres(listaReporte);
 		}
 	}
-	
-	
-	public List<ReporteTres> completarSaldoReporteTres(List<ReporteTres> listaIn){
-		
+
+	public List<ReporteTres> completarSaldoReporteTres(List<ReporteTres> listaIn) {
+
 		List<ReporteTres> listaResultado = new ArrayList<>();
 		ReporteTres reporte = new ReporteTres();
-		
-		for(int i=0; i<= listaIn.size()-1; i++) {
+
+		for (int i = 0; i <= listaIn.size() - 1; i++) {
 			reporte = new ReporteTres();
 			reporte = listaIn.get(i);
-			
-			Double saldoAnterior = (i==0)?0.0:listaIn.get(i-1).getSaldo();
-			
-			Double ingresoActual =  (listaIn.get(i).getIngreso() == null)?0.0:listaIn.get(i).getIngreso();
-			Double egresoActual =  (listaIn.get(i).getEgreso() == null)?0.0:listaIn.get(i).getEgreso();
-			
-			Double saldoActual = (saldoAnterior + ingresoActual) - egresoActual; 
+
+			Double saldoAnterior = (i == 0) ? 0.0 : listaIn.get(i - 1).getSaldo();
+
+			Double ingresoActual = (listaIn.get(i).getIngreso() == null) ? 0.0 : listaIn.get(i).getIngreso();
+			Double egresoActual = (listaIn.get(i).getEgreso() == null) ? 0.0 : listaIn.get(i).getEgreso();
+
+			Double saldoActual = (saldoAnterior + ingresoActual) - egresoActual;
 			reporte.setSaldo(saldoActual);
-			
+
 			listaResultado.add(reporte);
 		}
-		
+
 		return listaResultado;
-		
+
 	}
 
 	@Override
 	public List<ReporteCuatro> getReporteCuatroDiaNoAnulados(String dia) {
 		// TODO Auto-generated method stub
-		
+
 		List<ReporteCuatro> listaReporte = new ArrayList<>();
-		
-		String nativeQuery = "select " + 
-		"to_date('2020-12-01', 'YYYY/MM/DD')-1  as fechapagodate, " + 
-		"null as idtipooperacion, " + 
-		"null as idcategoriaoperacion, " + 
-		"'' as fechapagocadena, " + 
-		"'' as tipodocumento, " + 
-		"'' as nrodocumento, " + 
-		"'' as descripcioncategoriaoperacion, " + 
-		"'' as periodoaniofiscal, " + 
-		"'' as concepto, " + 
-		"COALESCE(sum(op.monto),0.0) as montoingreso, " + 
-		"(select COALESCE(sum(op.monto),0.0) as montoegreso from operacion op where op.fecha_pago < to_date(?, 'YYYY/MM/DD' ) and op.estado = 1 and op.id_tipo_operacion = 2 and op.id_estatus_operacion = 2) " + 
-		"from operacion op " + 
-		"where op.fecha_pago < to_date(?, 'YYYY/MM/DD' ) and op.estado = 1 and op.id_tipo_operacion = 1 and op.id_estatus_operacion = 2 " + 
-		"UNION " + 
-		"select " + 
-		"op.fecha_pago as fechapagodate, " + 
-		"op.id_tipo_operacion as idtipooperacion, " + 
-		"op.id_categoria_operacion as idcategoriaoperacion, " + 
-		"to_char(op.fecha_pago , 'YYYY-MM-DD') as fechapagocadena, " + 
-		"op.tipo_doc as tipodocumento, " + 
-		"op.nro_doc as nrodocumento, " + 
-		"co.descripcion as descripcioncategoriaoperacion, " + 
-		"af.descripcion || peri.descripcion as periodoaniofiscal, " + 
-		"pu.descripcion ||' '||pe.nombre  ||' '|| pe.paterno  ||' '|| pe.materno as concepto, " + 
-		"COALESCE(sum(op.monto),0.0) as montoingreso, " + 
-		"0.00 as montoegreso " + 
-		"from operacion op " + 
-		"left join puesto pu on pu.id = op.id_puesto " + 
-		"left join persona pe on pe.id = op.id_persona_responsable_operacion " + 
-		"left join categoria_operacion co on co.id = op.id_categoria_operacion " + 
-		"left join periodo peri on peri.id = op.id_periodo " + 
-		"left join anio_fiscal af on af.id = peri.id_anio_fiscal " + 
-		"where to_char(op.fecha_pago , 'YYYY-MM-DD')  = ? and op.estado = 1 and op.id_tipo_operacion = 1 and op.id_estatus_operacion = 2 " + 
-		"group by fechapagodate, idtipooperacion, idcategoriaoperacion, fechapagocadena, tipodocumento, nrodocumento, descripcioncategoriaoperacion, periodoaniofiscal, concepto, montoegreso " + 
-		"UNION " + 
-		"select " + 
-		"op.fecha_pago as fechapagodate, " + 
-		"op.id_tipo_operacion as idtipooperacion, " + 
-		"op.id_categoria_operacion as idcategoriaoperacion, " + 
-		"to_char(op.fecha_pago , 'YYYY-MM-DD') as fechapagocadena, " + 
-		"op.tipo_doc as tipodocumento, " + 
-		"op.nro_doc as nrodocumento, " + 
-		"co.descripcion as descripcioncategoriaoperacion, " + 
-		"af.descripcion || peri.descripcion as periodoaniofiscal, " + 
-		"pu.descripcion ||' '||pe.nombre  ||' '|| pe.paterno  ||' '|| pe.materno as concepto, " + 
-		"COALESCE(sum(op.monto),0.0) as montoingreso, " + 
-		"0.00 as montoegreso " + 
-		"from operacion op " + 
-		"left join puesto pu on pu.id = op.id_puesto " + 
-		"left join persona pe on pe.id = op.id_persona_responsable_operacion " + 
-		"left join categoria_operacion co on co.id = op.id_categoria_operacion " + 
-		"left join periodo peri on peri.id = op.id_periodo " + 
-		"left join anio_fiscal af on af.id = peri.id_anio_fiscal " + 
-		"where to_char(op.fecha_pago , 'YYYY-MM-DD')  = ? and op.estado = 1 and op.id_tipo_operacion = 2 and op.id_estatus_operacion = 2 " + 
-		"group by fechapagodate, idtipooperacion, idcategoriaoperacion, fechapagocadena, tipodocumento, nrodocumento, descripcioncategoriaoperacion, periodoaniofiscal, concepto, montoegreso " + 
-		"order by fechapagodate asc, idtipooperacion asc, idcategoriaoperacion asc";
-		
-		
+
+		String nativeQuery = "select " + "to_date('2020-12-01', 'YYYY/MM/DD')-1  as fechapagodate, "
+				+ "null as idtipooperacion, " + "null as idcategoriaoperacion, " + "'' as fechapagocadena, " + "'' as descripciontipooperacion, "
+				+ "'' as tipodocumento, " + "'' as nrodocumento, " + "'' as descripcioncategoriaoperacion, "
+				+ "'' as periodoaniofiscal, " + "'' as descripcionpuesto, 'SALDO ANTERIOR' as persona, " + "COALESCE(sum(op.monto),0.0) as montoingreso, "
+				+ "(select COALESCE(sum(op.monto),0.0) as montoegreso from operacion op where op.fecha_pago < to_date(?, 'YYYY/MM/DD' ) and op.estado = 1 and op.id_tipo_operacion = 2 and op.id_estatus_operacion = 2) "
+				+ "from operacion op "
+				+ "where op.fecha_pago < to_date(?, 'YYYY/MM/DD' ) and op.estado = 1 and op.id_tipo_operacion = 1 and op.id_estatus_operacion = 2 "
+				+ "UNION " + "select " + "op.fecha_pago as fechapagodate, "
+				+ "op.id_tipo_operacion as idtipooperacion, " + "op.id_categoria_operacion as idcategoriaoperacion, "
+				+ "to_char(op.fecha_pago , 'YYYY-MM-DD') as fechapagocadena, " + "tp.descripcion as descripciontipooperacion, " + "op.tipo_doc as tipodocumento, "
+				+ "op.nro_doc as nrodocumento, " + "co.descripcion as descripcioncategoriaoperacion, "
+				+ "af.descripcion || peri.descripcion as periodoaniofiscal, "
+				+ "pu.descripcion as descripcionpuesto, pe.nombre ||' '|| pe.paterno  ||' '|| pe.materno as persona, "
+				+ "COALESCE(sum(op.monto),0.0) as montoingreso, " + "0.00 as montoegreso " + "from operacion op "
+				+ "left join puesto pu on pu.id = op.id_puesto "
+				+ "left join persona pe on pe.id = op.id_persona_responsable_operacion "
+				+ "left join categoria_operacion co on co.id = op.id_categoria_operacion "
+				+ "left join periodo peri on peri.id = op.id_periodo "
+				+ "left join anio_fiscal af on af.id = peri.id_anio_fiscal "
+				+ "left join tipo_operacion tp on tp.id = op.id_tipo_operacion  "
+				+ "where to_char(op.fecha_pago , 'YYYY-MM-DD')  = ? and op.estado = 1 and op.id_tipo_operacion = 1 and op.id_estatus_operacion = 2 "
+				+ "group by fechapagodate, idtipooperacion, idcategoriaoperacion, fechapagocadena, descripciontipooperacion, tipodocumento, nrodocumento, descripcioncategoriaoperacion, periodoaniofiscal, descripcionpuesto, persona, montoegreso "
+				+ "UNION " + "select " + "op.fecha_pago as fechapagodate, "
+				+ "op.id_tipo_operacion as idtipooperacion, " + "op.id_categoria_operacion as idcategoriaoperacion, "
+				+ "to_char(op.fecha_pago , 'YYYY-MM-DD') as fechapagocadena, " + "tp.descripcion as descripciontipooperacion, "+ "op.tipo_doc as tipodocumento, "
+				+ "op.nro_doc as nrodocumento, " + "co.descripcion as descripcioncategoriaoperacion, "
+				+ "af.descripcion || peri.descripcion as periodoaniofiscal, "
+				+ "pu.descripcion as descripcionpuesto, pe.nombre ||' '|| pe.paterno  ||' '|| pe.materno as persona, "
+				+ "COALESCE(sum(op.monto),0.0) as montoingreso, " + "0.00 as montoegreso " + "from operacion op "
+				+ "left join puesto pu on pu.id = op.id_puesto "
+				+ "left join persona pe on pe.id = op.id_persona_responsable_operacion "
+				+ "left join categoria_operacion co on co.id = op.id_categoria_operacion "
+				+ "left join periodo peri on peri.id = op.id_periodo "
+				+ "left join anio_fiscal af on af.id = peri.id_anio_fiscal "
+				+ "left join tipo_operacion tp on tp.id = op.id_tipo_operacion "
+				+ "where to_char(op.fecha_pago , 'YYYY-MM-DD')  = ? and op.estado = 1 and op.id_tipo_operacion = 2 and op.id_estatus_operacion = 2 "
+				+ "group by fechapagodate, idtipooperacion, idcategoriaoperacion, fechapagocadena, descripciontipooperacion, tipodocumento, nrodocumento, descripcioncategoriaoperacion, periodoaniofiscal, descripcionpuesto, persona, montoegreso "
+				+ "order by fechapagodate asc, idtipooperacion asc, idcategoriaoperacion asc";
+
 		Query query = em.createNativeQuery(nativeQuery);
 		query.setParameter(1, dia);
 		query.setParameter(2, dia);
 		query.setParameter(3, dia);
 		query.setParameter(4, dia);
-		
+
 		List<Object[]> list = query.getResultList();
-		ReporteCuatro reporte = new ReporteCuatro();
 		
+		System.out.println("Lisra Obtenida: "+ list.toString());
+		ReporteCuatro reporte = new ReporteCuatro();
+
 		for (Object[] objeto : list) {
 			reporte = new ReporteCuatro();
 			reporte.setFechaPagoCadena(objeto[0].toString());
-			reporte.setIdTipoOperacion(Integer.parseInt(objeto[1].toString()));
-			reporte.setIdCategoriaOperacion(Integer.parseInt(objeto[2].toString()));
+			reporte.setIdTipoOperacion((objeto[1]==null)? null:Integer.parseInt(objeto[1].toString()));
+			reporte.setIdCategoriaOperacion((objeto[2]==null)? null:Integer.parseInt(objeto[2].toString()));
 			reporte.setFechaPagoCadena(objeto[3].toString());
-			reporte.setTipoDocumento(objeto[4].toString());
-			reporte.setNroDocumento(objeto[5].toString());
-			reporte.setDescripcionCategoriaOperacion(objeto[6].toString());
-			reporte.setPeriodoAnioFiscal(objeto[7].toString());
-			reporte.setConcepto(objeto[8].toString());
-			reporte.setMontoIngreso(Double.parseDouble(objeto[9].toString()));
-			reporte.setMontoEgreso(Double.parseDouble(objeto[10].toString()));
-			reporte.setMontoSaldo(Double.parseDouble(objeto[11].toString()));
-			
+			reporte.setDescripcionTipoOperacion(objeto[4].toString());
+			reporte.setTipoDocumento(objeto[5].toString());
+			reporte.setNroDocumento(objeto[6].toString());
+			reporte.setDescripcionCategoriaOperacion(objeto[7].toString());
+			reporte.setPeriodoAnioFiscal(objeto[8].toString());
+			reporte.setDescripcionPuesto(objeto[9].toString());
+			reporte.setPersona(objeto[10].toString());
+			reporte.setMontoIngreso(Double.parseDouble(objeto[11].toString()));
+			reporte.setMontoEgreso(Double.parseDouble(objeto[12].toString()));
+
 			listaReporte.add(reporte);
 		}
-		
-		if(listaReporte.isEmpty() || listaReporte == null) {
+
+		if (listaReporte.isEmpty() || listaReporte == null) {
 			return null;
-		}else {
+		} else {
 			return completarSaldoReporteCuatro(listaReporte);
-		}		
+		}
 
 	}
-	
-	
-	public List<ReporteCuatro> completarSaldoReporteCuatro(List<ReporteCuatro> listaIn){
-		
+
+	public List<ReporteCuatro> completarSaldoReporteCuatro(List<ReporteCuatro> listaIn) {
+
 		List<ReporteCuatro> listaResultado = new ArrayList<>();
 		ReporteCuatro reporte = new ReporteCuatro();
-		
-		for(int i=0; i<= listaIn.size()-1; i++) {
+
+		for (int i = 0; i <= listaIn.size() - 1; i++) {
 			reporte = new ReporteCuatro();
 			reporte = listaIn.get(i);
-			
-			Double saldoAnterior = (i==0)?0.0:listaIn.get(i-1).getMontoSaldo();
-			
-			Double ingresoActual =  (listaIn.get(i).getMontoIngreso() == null)?0.0:listaIn.get(i).getMontoIngreso();
-			Double egresoActual =  (listaIn.get(i).getMontoEgreso() == null)?0.0:listaIn.get(i).getMontoEgreso();
-			
-			Double saldoActual = (saldoAnterior + ingresoActual) - egresoActual; 
+
+			Double saldoAnterior = (i == 0) ? 0.0 : listaIn.get(i - 1).getMontoSaldo();
+
+			Double ingresoActual = (listaIn.get(i).getMontoIngreso() == null) ? 0.0 : listaIn.get(i).getMontoIngreso();
+			Double egresoActual = (listaIn.get(i).getMontoEgreso() == null) ? 0.0 : listaIn.get(i).getMontoEgreso();
+
+			Double saldoActual = (saldoAnterior + ingresoActual) - egresoActual;
 			reporte.setMontoSaldo(saldoActual);
-			
+
 			listaResultado.add(reporte);
 		}
-		
+
 		return listaResultado;
-		
+
+	}
+
+	@Override
+	public List<ReporteCuatroAnulado> getReporteCuatroDiaAnulados(String dia) {
+		// TODO Auto-generated method stub
+		List<ReporteCuatroAnulado> listaReporte = new ArrayList<>();
+
+		String nativeQuery = "select " + 
+		"op.tipo_doc as tipodocumento, " + 
+		"op.nro_doc as nrodocumento, " + 
+		"co.descripcion as categoriaoperacion, " + 
+		"op.descripcion as motivo, " + 
+		"tp.descripcion as tipooperacion, " + 
+		"op.monto as importe " + 
+		"from operacion op " + 
+		"left join categoria_operacion co on co.id = op.id_categoria_operacion " + 
+		"left join tipo_operacion tp on  tp.id = op.id_tipo_operacion " + 
+		"where to_char(op.fecha_pago , 'YYYY-MM-DD') = ? and op.estado = 1 and op.id_estatus_operacion = 4";
+
+		Query query = em.createNativeQuery(nativeQuery);
+		query.setParameter(1, dia);
+
+		List<Object[]> list = query.getResultList();
+		ReporteCuatroAnulado reporte = new ReporteCuatroAnulado();
+
+		for (Object[] objeto : list) {
+			reporte = new ReporteCuatroAnulado();
+			reporte.setAnuTipoDocumento(objeto[0].toString());
+			reporte.setAnuNroDocumento(objeto[1].toString());
+			reporte.setAnuCategoriaOperacion(objeto[2].toString());
+			reporte.setAnuMotivoAnulacion(objeto[3].toString());
+			reporte.setAnuTipoOperacion(objeto[4].toString());
+			reporte.setAnuImporte(Double.parseDouble(objeto[5].toString()));
+
+			listaReporte.add(reporte);
+		}
+
+		if (listaReporte.isEmpty() || listaReporte == null) {
+			return null;
+		} else {
+			return listaReporte;
+		}
 	}
 
 }

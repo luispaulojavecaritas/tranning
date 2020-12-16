@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ejb.Local;
 
 import pe.com.gesadmin.entity.transfer.ReporteCuatro;
+import pe.com.gesadmin.entity.transfer.ReporteCuatroAnulado;
 import pe.com.gesadmin.entity.transfer.ReporteDos;
 import pe.com.gesadmin.entity.transfer.ReporteTres;
 import pe.com.gesadmin.entity.transfer.ReporteUno;
@@ -23,5 +24,7 @@ public interface ReporteService {
 	public List<ReporteTres> obtenerReporteTresCategoriaOperacionId(Integer idPuesto, Integer idCategoriaOperacion);
 
 	public List<ReporteCuatro> obtenerReporteCuatroDiaNoAnulados(String dia);
+	
+	public List<ReporteCuatroAnulado> obtenerReporteCuatroDiaAnulados(String dia);
 
 }

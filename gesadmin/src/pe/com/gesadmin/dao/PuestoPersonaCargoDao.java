@@ -7,9 +7,7 @@ package pe.com.gesadmin.dao;
 
 import java.util.List;
 
-import pe.com.gesadmin.entity.Puesto;
 import pe.com.gesadmin.entity.PuestoPersonaCargo;
-import pe.com.gesadmin.transfer.PuestoPersonaTransfer;
 
 /**
  *
