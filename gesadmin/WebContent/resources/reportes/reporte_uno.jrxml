@@ -138,6 +138,8 @@
 			<variableExpression><![CDATA[$F{julio}]]></variableExpression>
 		</variable>
 	</subDataset>
+	<parameter name="param_categoria" class="java.lang.String"/>
+	<parameter name="param_anio" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -151,6 +153,84 @@
 		<band splitType="Stretch"/>
 	</background>
 	<detail>
+		<band height="43">
+			<staticText>
+				<reportElement x="0" y="2" width="555" height="20" uuid="4c30663b-0ad1-443f-8edd-46915d775fdc"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial Black" size="11" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[ASOCIACION DE COMERCIANTES "CENTRO COMERCIAL SARITA COLONIA"]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="22" width="555" height="10" uuid="d7bdd235-f65f-442b-bb13-82b5e2a42800"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[REPORTE GENERAL DE SOCIOS]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="470" y="35" width="85" height="8" uuid="d362b326-baf0-45ff-8912-9f257dfbcb39">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Top">
+					<font fontName="Arial" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new java.util.Date())]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="418" y="35" width="50" height="8" uuid="0e94051e-88d3-4908-a012-d08d8a41d293">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font fontName="Arial" size="6"/>
+				</textElement>
+				<text><![CDATA[FECHA Y HORA:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="209" y="35" width="190" height="8" uuid="72e9781f-7d22-4568-b216-ddd619f72fe7">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Top">
+					<font fontName="Arial" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{param_categoria}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="125" y="35" width="84" height="8" uuid="1b5f08e4-fcbb-4a40-bcb5-64d8989645ea">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font fontName="Arial" size="6"/>
+				</textElement>
+				<text><![CDATA[CATEGORIA A CONSULTAR:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="40" y="35" width="80" height="8" uuid="0c11558c-0161-4855-b57c-d841c7e01a16">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Top">
+					<font fontName="Arial" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{param_anio}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="35" width="40" height="8" uuid="0e18c39a-9f37-4f78-bf94-19b9c336af56">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font fontName="Arial" size="6"/>
+				</textElement>
+				<text><![CDATA[AÑO FISCAL:]]></text>
+			</staticText>
+		</band>
 		<band height="33" splitType="Stretch">
 			<componentElement>
 				<reportElement isPrintRepeatedValues="false" x="0" y="0" width="555" height="33" uuid="7faff529-d335-48de-b78a-e45d74b54b3d">

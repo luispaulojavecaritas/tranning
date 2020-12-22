@@ -254,7 +254,7 @@ pendiente.ANIO_PERIO = efectuado.ANIO_PERIO;
 
 ---Primer bloque, saldo de los dias anterior al dia solicitado del reporte----
 select 
-to_date('2020-12-01', 'YYYY/MM/DD')-1  as fechapagodate, 
+to_date('2020-09-21', 'YYYY/MM/DD')-1  as fechapagodate, 
 null as idtipooperacion, 
 null as idcategoriaoperacion, 
 '' as fechapagocadena, 
@@ -266,9 +266,9 @@ null as idcategoriaoperacion,
 '' as descripcionpuesto, 
 'SALDO ANTERIOR' as persona, 
 COALESCE(sum(op.monto),0.0) as montoingreso, 
-(select COALESCE(sum(op.monto),0.0) as montoegreso from operacion op where op.fecha_pago < to_date('2020-12-08', 'YYYY/MM/DD' ) and op.estado = 1 and op.id_tipo_operacion = 2 and op.id_estatus_operacion = 2) 
+(select COALESCE(sum(op.monto),0.0) as montoegreso from operacion op where op.fecha_pago < to_date('2020-09-21', 'YYYY/MM/DD' ) and op.estado = 1 and op.id_tipo_operacion = 2 and op.id_estatus_operacion = 2) 
 from operacion op 
-where op.fecha_pago < to_date('2020-12-08', 'YYYY/MM/DD' ) and op.estado = 1 and op.id_tipo_operacion = 1 and op.id_estatus_operacion = 2 
+where op.fecha_pago < to_date('2020-09-21', 'YYYY/MM/DD' ) and op.estado = 1 and op.id_tipo_operacion = 1 and op.id_estatus_operacion = 2 
 
 union 
 
@@ -294,7 +294,7 @@ left join categoria_operacion co on co.id = op.id_categoria_operacion
 left join periodo peri on peri.id = op.id_periodo 
 left join anio_fiscal af on af.id = peri.id_anio_fiscal 
 left join tipo_operacion tp on tp.id = op.id_tipo_operacion 
-where to_char(op.fecha_pago , 'YYYY-MM-DD')  = '2020-12-08' and op.estado = 1 and op.id_tipo_operacion = 1 and op.id_estatus_operacion = 2 
+where to_char(op.fecha_pago , 'YYYY-MM-DD')  = '2020-09-21' and op.estado = 1 and op.id_tipo_operacion = 1 and op.id_estatus_operacion = 2 
 group by fechapagodate, idtipooperacion, idcategoriaoperacion, fechapagocadena, descripciontipooperacion, tipodocumento, nrodocumento, descripcioncategoriaoperacion, periodoaniofiscal, descripcionpuesto, persona, montoegreso 
 
 union 
@@ -321,7 +321,7 @@ left join categoria_operacion co on co.id = op.id_categoria_operacion
 left join periodo peri on peri.id = op.id_periodo 
 left join anio_fiscal af on af.id = peri.id_anio_fiscal 
 left join tipo_operacion tp on tp.id = op.id_tipo_operacion 
-where to_char(op.fecha_pago , 'YYYY-MM-DD')  = '2020-12-08' and op.estado = 1 and op.id_tipo_operacion = 2 and op.id_estatus_operacion = 2 
+where to_char(op.fecha_pago , 'YYYY-MM-DD')  = '2020-09-21' and op.estado = 1 and op.id_tipo_operacion = 2 and op.id_estatus_operacion = 2 
 group by fechapagodate, idtipooperacion, idcategoriaoperacion, fechapagocadena, descripciontipooperacion, tipodocumento, nrodocumento, descripcioncategoriaoperacion, periodoaniofiscal, descripcionpuesto, persona, montoegreso 
 order by fechapagodate asc, idtipooperacion asc, idcategoriaoperacion asc 
 ;

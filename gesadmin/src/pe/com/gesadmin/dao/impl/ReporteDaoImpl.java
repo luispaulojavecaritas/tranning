@@ -409,7 +409,7 @@ public class ReporteDaoImpl implements ReporteDao {
 
 		List<ReporteCuatro> listaReporte = new ArrayList<>();
 
-		String nativeQuery = "select " + "to_date('2020-12-01', 'YYYY/MM/DD')-1  as fechapagodate, "
+		String nativeQuery = "select " + "to_date(?, 'YYYY/MM/DD')-1  as fechapagodate, "
 				+ "null as idtipooperacion, " + "null as idcategoriaoperacion, " + "'' as fechapagocadena, " + "'' as descripciontipooperacion, "
 				+ "'' as tipodocumento, " + "'' as nrodocumento, " + "'' as descripcioncategoriaoperacion, "
 				+ "'' as periodoaniofiscal, " + "'' as descripcionpuesto, 'SALDO ANTERIOR' as persona, " + "COALESCE(sum(op.monto),0.0) as montoingreso, "
@@ -453,6 +453,7 @@ public class ReporteDaoImpl implements ReporteDao {
 		query.setParameter(2, dia);
 		query.setParameter(3, dia);
 		query.setParameter(4, dia);
+		query.setParameter(5, dia);
 
 		List<Object[]> list = query.getResultList();
 		

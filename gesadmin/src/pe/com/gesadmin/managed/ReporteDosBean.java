@@ -1,7 +1,10 @@
 package pe.com.gesadmin.managed;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -9,13 +12,28 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import pe.com.gesadmin.entity.AnioFiscal;
+import pe.com.gesadmin.entity.CategoriaOperacion;
 import pe.com.gesadmin.entity.Puesto;
+import pe.com.gesadmin.entity.PuestoPersonaCargo;
 import pe.com.gesadmin.entity.transfer.ReporteDos;
+import pe.com.gesadmin.entity.transfer.ReportePruebaDos;
+import pe.com.gesadmin.entity.transfer.ReportePruebaDos;
 import pe.com.gesadmin.service.AnioFiscalService;
+import pe.com.gesadmin.service.PuestoPersonaCargoService;
 import pe.com.gesadmin.service.PuestoService;
 import pe.com.gesadmin.service.ReporteService;
 import pe.com.gesadmin.service.impl.AnioFiscalServiceImpl;
+import pe.com.gesadmin.service.impl.PuestoPersonaCargoServiceImpl;
 import pe.com.gesadmin.service.impl.PuestoServiceImpl;
 import pe.com.gesadmin.service.impl.ReporteServiceImpl;
 
@@ -27,6 +45,10 @@ public class ReporteDosBean {
 	private List<ReporteDos> listafiltro;
 	private ReporteDos entidad = new ReporteDos();
 	private Integer idPuesto;
+	
+	private boolean booReporte;
+	
+	JasperPrint reportePrintLocal;
 
 	private String filtro;
 
@@ -39,12 +61,16 @@ public class ReporteDosBean {
 	private AnioFiscalService anioFiscalService = new AnioFiscalServiceImpl();
 	@EJB
 	private PuestoService puestoService = new PuestoServiceImpl();
+	@EJB
+	private PuestoPersonaCargoService puestoPersonaCargoService = new PuestoPersonaCargoServiceImpl();
 
 	public ReporteDosBean() {
 		// TODO Auto-generated constructor stub
 		filtro = null;
 		entidad = new ReporteDos();
 		idPuesto = null;
+		
+		booReporte= false;
 	}
 
 	@PostConstruct
@@ -121,6 +147,26 @@ public class ReporteDosBean {
 		this.puestoService = puestoService;
 	}
 
+	public boolean isBooReporte() {
+		return booReporte;
+	}
+
+	public void setBooReporte(boolean booReporte) {
+		this.booReporte = booReporte;
+	}
+
+	public JasperPrint getReportePrintLocal() {
+		return reportePrintLocal;
+	}
+
+	public void setReportePrintLocal(JasperPrint reportePrintLocal) {
+		this.reportePrintLocal = reportePrintLocal;
+	}
+
+	public void setPuestoPersonaCargoService(PuestoPersonaCargoService puestoPersonaCargoService) {
+		this.puestoPersonaCargoService = puestoPersonaCargoService;
+	}
+
 	public void listarAnioFiscales() {
 		listaAnioFiscal = new ArrayList<>();
 
@@ -151,6 +197,8 @@ public class ReporteDosBean {
 		lista = null;
 		listafiltro = null;
 		idPuesto = null;
+		
+		booReporte = false;
 	}
 
 	public String filtrar() {
@@ -190,6 +238,15 @@ public class ReporteDosBean {
 
 			return "";
 		}
+		
+		if(lista == null || lista.size() == 0) {
+			booReporte = false;
+		}else {
+			booReporte = true;
+		}
+		
+		listafiltro = new ArrayList<>();
+		listafiltro = lista;
 
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito.", "Registros encontrados"));
@@ -197,5 +254,96 @@ public class ReporteDosBean {
 		return "";
 
 	}
+	
+	public String vercertificadoFinal(ActionEvent actionEvent) throws JRException, IOException {
+		
+
+		String absolutePathCerdp = "C:\\Users\\paulo\\Documents\\reportes_sistemas\\reporte_dos.jasper";
+		 
+		 String personaSocio = "";
+		 
+		 List<PuestoPersonaCargo> listaPuestoPersonaCargos = new ArrayList<>();
+		 
+		 listaPuestoPersonaCargos = puestoPersonaCargoService.listarPuestoId(idPuesto);
+		 
+		 if(listaPuestoPersonaCargos == null || listaPuestoPersonaCargos.size()==0) {
+			 personaSocio = "";
+			 System.out.println("No se encontraron datos de personas asociadas a los puestos");
+		 }
+		 
+		 String nombre = (listaPuestoPersonaCargos.get(0).getPersona().getNombre()==null)?"":listaPuestoPersonaCargos.get(0).getPersona().getNombre();
+		 String paterno = (listaPuestoPersonaCargos.get(0).getPersona().getPaterno()==null)?"":listaPuestoPersonaCargos.get(0).getPersona().getPaterno();
+		 String materno = (listaPuestoPersonaCargos.get(0).getPersona().getMaterno()==null)?"":listaPuestoPersonaCargos.get(0).getPersona().getMaterno();
+		 String puesto = (listaPuestoPersonaCargos.get(0).getPuesto().getDescripcion()==null)?"":listaPuestoPersonaCargos.get(0).getPuesto().getDescripcion();
+		 
+		 personaSocio = puesto + " " + nombre + " "+ paterno + " " + materno;
+		 		 
+
+		System.out.println("Ruta del reporte: " + absolutePathCerdp);
+
+		// --- MAPEO DE PARAMETROS
+		Map<String, Object> parametros = new HashMap<>();
+		parametros.put("param_socio", personaSocio);
+		
+		ReportePruebaDos reportePruebaDos =  new ReportePruebaDos();
+		reportePruebaDos.setListaReporte(lista);
+		
+		List<ReportePruebaDos> listaPruebaReporteUno = new ArrayList<>();
+		listaPruebaReporteUno.add(reportePruebaDos);
+
+		// --- CARGA DE DATOS EN LA COLECCION
+		JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(listaPruebaReporteUno);
+		System.out.println();
+
+		try {
+			reportePrintLocal = JasperFillManager.fillReport(absolutePathCerdp, parametros, beanCollectionDataSource);
+		} catch (JRException e) {
+			// TODO Auto-generated catch block
+			System.out
+					.println("Error en creacion instancia jasperPrint: " + e.toString() + " TRACE: " + e.getStackTrace());
+			e.printStackTrace();
+			reportePrintLocal = null;
+		}	
+		
+		
+		if(reportePrintLocal == null) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", "Problemas al generar reporte"));
+			return "";
+		}
+
+		try {
+			HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance()
+					.getExternalContext().getResponse();
+			httpServletResponse.addHeader("Content-disposition", "attachment; filename=cerdp_online.pdf");
+
+			byte[] fichero = JasperExportManager.exportReportToPdf(reportePrintLocal);
+
+			httpServletResponse.setContentType("application/pdf");
+			httpServletResponse.setHeader("Content-disposition", "inline; filename=estado_de_cuenta.pdf");
+			httpServletResponse.setHeader("Cache-Control", "max-age=30");
+			httpServletResponse.setHeader("Pragma", "No-cache");
+			httpServletResponse.setDateHeader("Expires", 0);
+			httpServletResponse.setContentLength(fichero.length);
+
+			ServletOutputStream out;
+			out = httpServletResponse.getOutputStream();
+
+			out.write(fichero, 0, fichero.length);
+			out.flush();
+			out.close();
+
+			FacesContext.getCurrentInstance().responseComplete();
+			return "";
+		} catch (Exception e) {
+			System.out.println("Error en responder vista: " + e.toString());
+
+			FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error en mostrar reporte", "");
+			FacesContext.getCurrentInstance().addMessage(null, fm);
+			return "";
+		}
+
+	}
+	
 
 }

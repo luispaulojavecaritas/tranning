@@ -349,7 +349,7 @@ public class ReporteUnoBean {
 		} catch (Exception e) {
 			System.out.println("Error en responder vista: " + e.toString());
 
-			FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error en mostrar certificado CERDP Digital", "");
+			FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error en mostrar reporte", "");
 			FacesContext.getCurrentInstance().addMessage(null, fm);
 			return "";
 		}

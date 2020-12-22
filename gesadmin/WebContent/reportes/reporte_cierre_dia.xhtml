@@ -190,6 +190,12 @@ body {
 											</p:column>
 
 										</p:dataTable>
+										
+										<p:commandButton value="Ver Certificado" ajax="false" 
+											styleClass="GreenButton" 
+											rendered="#{reporteCuatroBean.booReporte}" 
+											actionListener="#{reporteCuatroBean.vercertificadoFinal}" />
+											
 									</div>
 								</div>
 							</p:panel>
