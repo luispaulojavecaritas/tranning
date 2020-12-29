@@ -18,7 +18,7 @@ public class PuestoPersonaCargoDaoImpl implements PuestoPersonaCargoDao {
 	@Override
 	public List<PuestoPersonaCargo> findAll() {
 		// TODO Auto-generated method stub
-		String query = "select b FROM PuestoPersonaCargo b";
+		String query = "select b FROM PuestoPersonaCargo b order by b.id desc";
         TypedQuery<PuestoPersonaCargo> tq = em.createQuery(query, PuestoPersonaCargo.class);
         List<PuestoPersonaCargo> lista = tq.getResultList();
         return lista;

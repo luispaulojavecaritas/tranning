@@ -10,7 +10,9 @@ import java.util.List;
 
 import javax.ejb.Local;
 
+import pe.com.gesadmin.entity.ComprobanteCorreccion;
 import pe.com.gesadmin.entity.Operacion;
+import pe.com.gesadmin.entity.Usuario;
 import pe.com.gesadmin.entity.transfer.LecturasMedidasPreOperacion;
 import pe.com.gesadmin.entity.transfer.OperacionAdministracionTransfer;
 import pe.com.gesadmin.transfer.OrdenTransfer;
@@ -45,7 +47,12 @@ public interface OperacionService {
     
     public void registrarPago(Integer idOperacion, Integer IdPersona, Integer idEstatusOperacion, String tipoDoc, String nroDoc);
     
+    public void registrarPagoDos(Integer idOperacion, Integer IdPersona, Integer idEstatusOperacion, String tipoDoc,
+			String nroDoc, Usuario usuario, String motivo, String montoLetras, Integer estado);
+    
     public void cancelarPago(Integer idOperacion, Integer IdPersona, Integer idEstatusOperacion);
+    
+    public void cancelarPagoDos(Integer idOperacion, Usuario usuario, String motivo, String montoLetras, Integer idEstatusOperacion, Integer estado);
   
     public void crear (Operacion entidad); 
     

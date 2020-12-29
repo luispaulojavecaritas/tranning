@@ -29,7 +29,7 @@ public class MedidaServicioDaoImpl implements MedidaServicioDao{
 	@Override
 	public List<MedidaServicio> findAllActive() {
 		// TODO Auto-generated method stub
-		String query = "select b FROM MedidaServicio b where b.estado = 1";
+		String query = "select b FROM MedidaServicio b where b.estado = 1 order by b.periodo.anioFiscal.id, b.periodo.id, b.id desc";
         TypedQuery<MedidaServicio> tq = em.createQuery(query, MedidaServicio.class);
         List<MedidaServicio> lista = tq.getResultList();
         return lista;
@@ -64,7 +64,17 @@ public class MedidaServicioDaoImpl implements MedidaServicioDao{
 	@Override
 	public List<MedidaServicio> findByPeriodoId(Integer idPeriodo) {
 		// TODO Auto-generated method stub
-		String query = "select b FROM MedidaServicio b where b.estado = 1 and b.periodo.id = :idPeriodo";
+		String query = "select b FROM MedidaServicio b where b.estado = 1 and b.periodo.id = :idPeriodo order by b.periodo.anioFiscal.id, b.periodo.id, b.id desc";
+        TypedQuery<MedidaServicio> tq = em.createQuery(query, MedidaServicio.class);
+        tq.setParameter("idPeriodo", idPeriodo);
+        List<MedidaServicio> lista = tq.getResultList();
+        return lista;
+	}
+	
+	@Override
+	public List<MedidaServicio> findByPeriodoIdAll(Integer idPeriodo) {
+		// TODO Auto-generated method stub
+		String query = "select b FROM MedidaServicio b where b.periodo.id = :idPeriodo order by b.periodo.anioFiscal.id, b.periodo.id, b.id desc";
         TypedQuery<MedidaServicio> tq = em.createQuery(query, MedidaServicio.class);
         tq.setParameter("idPeriodo", idPeriodo);
         List<MedidaServicio> lista = tq.getResultList();
@@ -83,7 +93,17 @@ public class MedidaServicioDaoImpl implements MedidaServicioDao{
 	@Override
 	public List<MedidaServicio> findByAnioId(Integer idAnioFiscal) {
 		// TODO Auto-generated method stub
-		String query = "select b FROM MedidaServicio b where b.estado = 1 and b.periodo.anioFiscal.id = :idAnioFiscal";
+		String query = "select b FROM MedidaServicio b where b.estado = 1 and b.periodo.anioFiscal.id = :idAnioFiscal order by b.periodo.anioFiscal.id, b.periodo.id, b.id desc";
+        TypedQuery<MedidaServicio> tq = em.createQuery(query, MedidaServicio.class);
+        tq.setParameter("idAnioFiscal", idAnioFiscal);
+        List<MedidaServicio> lista = tq.getResultList();
+        return lista;
+	}
+	
+	@Override
+	public List<MedidaServicio> findByAnioIdAll(Integer idAnioFiscal) {
+		// TODO Auto-generated method stub
+		String query = "select b FROM MedidaServicio b where b.periodo.anioFiscal.id = :idAnioFiscal order by b.periodo.anioFiscal.id, b.periodo.id, b.id desc";
         TypedQuery<MedidaServicio> tq = em.createQuery(query, MedidaServicio.class);
         tq.setParameter("idAnioFiscal", idAnioFiscal);
         List<MedidaServicio> lista = tq.getResultList();

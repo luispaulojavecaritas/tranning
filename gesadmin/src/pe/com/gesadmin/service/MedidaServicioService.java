@@ -27,9 +27,13 @@ public interface MedidaServicioService {
     
     public List<MedidaServicio> listarPorPeriodoId(Integer idPeriodo);
     
+    public List<MedidaServicio> listarPorPeriodoIdAll(Integer idPeriodo);
+    
     public List<MedidaServicio> listarPorPeriodoIdTipoServicio(Integer idPeriodo, Integer idTipoServicio);
     
     public List<MedidaServicio> listarPorAnioId(Integer idAnioFiscal);
+    
+    public List<MedidaServicio> listarPorAnioIdAll(Integer idAnioFiscal);
     
     public void crear (MedidaServicio entidad); 
     

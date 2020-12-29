@@ -8,7 +8,9 @@ import javax.ejb.Stateless;
 
 import pe.com.gesadmin.dao.OperacionDao;
 import pe.com.gesadmin.dao.impl.OperacionDaoImpl;
+import pe.com.gesadmin.entity.ComprobanteCorreccion;
 import pe.com.gesadmin.entity.Operacion;
+import pe.com.gesadmin.entity.Usuario;
 import pe.com.gesadmin.entity.transfer.LecturasMedidasPreOperacion;
 import pe.com.gesadmin.entity.transfer.OperacionAdministracionTransfer;
 import pe.com.gesadmin.service.OperacionService;
@@ -147,6 +149,21 @@ public class OperacionServiceImpl implements OperacionService {
 	public List<Operacion> listarPorAnioId(Integer idAnioFiscal) {
 		// TODO Auto-generated method stub
 		return ordenDao.listarByAnioId(idAnioFiscal);
+	}
+
+	@Override
+	public void cancelarPagoDos(Integer idOperacion, Usuario usuario, String motivo,
+			String montoLetras, Integer idEstatusOperacion, Integer estado) {
+		// TODO Auto-generated method stub
+		ordenDao.cancelPaymentDos(idOperacion, usuario, motivo, montoLetras, idEstatusOperacion, estado);
+
+	}
+
+	@Override
+	public void registrarPagoDos(Integer idOperacion, Integer IdPersona, Integer idEstatusOperacion, String tipoDoc,
+			String nroDoc, Usuario usuario, String motivo, String montoLetras, Integer estado) {
+		// TODO Auto-generated method stub
+		ordenDao.savePaymentDos(idOperacion, IdPersona, idEstatusOperacion, tipoDoc, nroDoc, usuario, motivo, montoLetras, estado);
 	}
 
 }

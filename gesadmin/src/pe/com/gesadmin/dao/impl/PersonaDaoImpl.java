@@ -22,7 +22,7 @@ public class PersonaDaoImpl implements PersonaDao{
 	public List<Persona> findAll() {
 		// TODO Auto-generated method stub
 		List<Persona> lista = new ArrayList<>();
-		String query = "SELECT b FROM Persona b";
+		String query = "SELECT b FROM Persona b order by b.id desc";
 		TypedQuery<Persona> tq = em.createQuery(query, Persona.class);
 		lista = tq.getResultList();
 		return lista;

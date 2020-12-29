@@ -7,7 +7,10 @@ package pe.com.gesadmin.dao;
 
 import java.util.Date;
 import java.util.List;
+
+import pe.com.gesadmin.entity.ComprobanteCorreccion;
 import pe.com.gesadmin.entity.Operacion;
+import pe.com.gesadmin.entity.Usuario;
 import pe.com.gesadmin.entity.transfer.LecturasMedidasPreOperacion;
 import pe.com.gesadmin.entity.transfer.OperacionAdministracionTransfer;
 
@@ -41,8 +44,13 @@ public interface OperacionDao {
     
     public void savePayment (Integer idOperacion, Integer IdPersona,  Integer idEstatusOperacion, String tipoDoc, String nroDoc);
     
+    public void savePaymentDos(Integer idOperacion, Integer IdPersona, Integer idEstatusOperacion, String tipoDoc,
+			String nroDoc, Usuario usuario, String motivo, String montoLetras, Integer estado);
+    
     public void cancelPayment (Integer idOperacion, Integer IdPersona,  Integer idEstatusOperacion);
     
+    public void cancelPaymentDos(Integer idOperacion, Usuario usuario, String motivo, String montoLetras, Integer idEstatusOperacion, Integer estado);
+        
     public void createList (List<Operacion> lista);
     
     public void update (Operacion entidad); 

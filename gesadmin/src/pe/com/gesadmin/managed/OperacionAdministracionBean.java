@@ -409,7 +409,6 @@ public class OperacionAdministracionBean {
 				Operacion operacionLocalIn = new Operacion();
 				operacionLocalIn = servicio.recuperar(entidadseleccionada.getId());
 				operacionLocalIn.setEstado(0);
-				operacionLocalIn.setRegistro(new Date());
 				operacionLocalIn.setIdUsuario(usuarioSesionBean.getUsuario().getId());
 				servicio.actualizar(operacionLocalIn);	
 				FacesContext.getCurrentInstance().addMessage(null,
@@ -574,7 +573,7 @@ public class OperacionAdministracionBean {
 	public void listarPuestos() {
 		listaPuesto = new ArrayList<>();
 		try {
-			listaPuesto = puestoService.listarFiltro(true);
+			listaPuesto = puestoService.listarFiltroNoAdminNiPropiedad();
 			System.out.println("listaResumen Puesto: " + listaPuesto.toString());
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -694,7 +693,7 @@ public class OperacionAdministracionBean {
 				operacionTransfer.setCategoriaDes(descricionCategoria);
 				operacionTransfer.setCategoriaId(idCategoria);
 				operacionTransfer.setDias(periodoActual.getDias());
-				operacionTransfer.setMontoTotal(conversiones.formatoMontos(periodoActual.getDias() * variableCostoAdministracion.getMonto()));
+				operacionTransfer.setMontoTotal(conversiones.formatoMontos_a(periodoActual.getDias() * variableCostoAdministracion.getMonto()));
 				operacionTransfer.setMontoUnitario(variableCostoAdministracion.getMonto());
 				operacionTransfer.setPuestoDes(listaPuestoFiltro.get(i).getDescripcion());
 				operacionTransfer.setPuestoId(listaPuestoFiltro.get(i).getId());
@@ -709,7 +708,7 @@ public class OperacionAdministracionBean {
 				operacionTransfer.setCategoriaId(idCategoria);
 				operacionTransfer.setDias(periodoActual.getDias() - listalocal.get(0).getDias());
 				Integer diasPendientes = periodoActual.getDias() - listalocal.get(0).getDias();
-				operacionTransfer.setMontoTotal(conversiones.formatoMontos(diasPendientes * variableCostoAdministracion.getMonto()));
+				operacionTransfer.setMontoTotal(conversiones.formatoMontos_a(diasPendientes * variableCostoAdministracion.getMonto()));
 				operacionTransfer.setMontoUnitario(variableCostoAdministracion.getMonto());
 				operacionTransfer.setPuestoDes(listaPuestoFiltro.get(i).getDescripcion());
 				operacionTransfer.setPuestoId(listaPuestoFiltro.get(i).getId());

@@ -19,7 +19,7 @@ public class CargoDaoImpl implements CargoDao {
 	@Override
 	public List<Cargo> findAll() {
 		// TODO Auto-generated method stub
-		String query = "select b FROM Cargo b";
+		String query = "select b FROM Cargo b order by b.id desc";
         TypedQuery<Cargo> tq = em.createQuery(query, Cargo.class);
         List<Cargo> lista = tq.getResultList();
         return lista;

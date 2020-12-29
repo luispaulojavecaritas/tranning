@@ -881,7 +881,7 @@ public class MedidaServicioBean {
 
 		medidaAnterior = entidadAnterior.getMedida();
 
-		Double consumoActual = conversiones.formatoMontos(medidaActual - medidaAnterior);
+		Double consumoActual = conversiones.formatoMontos_a(medidaActual - medidaAnterior);
 
 		return consumoActual;
 

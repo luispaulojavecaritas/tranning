@@ -19,7 +19,7 @@ public class BloqueDaoImpl implements BloqueDao{
 	@Override
 	public List<Bloque> findAll() {
 		// TODO Auto-generated method stub
-		String query = "select b FROM Bloque b";
+		String query = "select b FROM Bloque b order by b.id desc";
         TypedQuery<Bloque> tq = em.createQuery(query, Bloque.class);
         List<Bloque> lista = tq.getResultList();
         return lista;

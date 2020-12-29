@@ -64,4 +64,10 @@ public class PuestoServiceImpl implements PuestoService {
 		}
 	}
 
+	@Override
+	public List<Puesto> listarFiltroNoAdminNiPropiedad() {
+		// TODO Auto-generated method stub
+		return puestoDao.findByBoqueNotIsADMNotPropiedad();
+	}
+
 }

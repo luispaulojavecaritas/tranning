@@ -374,7 +374,7 @@ public class PeriodoBean {
 		List<Puesto> listaPuestos = new ArrayList<>();
 		List<Operacion> listaOperaciones = new ArrayList<>();
 
-		listaPuestos = puestoService.listarFiltro(true);
+		listaPuestos = puestoService.listarFiltroNoAdminNiPropiedad();
 		listaOperaciones = operacionService.listarPorPeriodoactualCategoriaAdministracion();
 
 		int cantidadDias = periodoActual.getDias();

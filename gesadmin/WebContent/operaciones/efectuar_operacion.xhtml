@@ -167,7 +167,11 @@ body {
 													<f:selectItem itemLabel="RECIBO" itemValue="RECIBO" />
 													<f:selectItem itemLabel="BOLETA" itemValue="BOLETA" />
 													<f:selectItem itemLabel="FACTURA" itemValue="FACTURA" />
-													<f:selectItem itemLabel="REC. HONO." itemValue="REC. HONO." />
+													<f:selectItem itemLabel="TIKET" itemValue="TIKET" />
+													<f:selectItem itemLabel="GUIA.REM" itemValue="GUIA.REM"/>
+													<f:selectItem itemLabel="DEP.BANC" itemValue="DEP.BANC" />
+													<f:selectItem itemLabel="TRAN.BANC" itemValue="TRAN.BANC" />
+													<f:selectItem itemLabel="REC.HON." itemValue="REC.HONO." />
 												</p:selectOneMenu>
 													
 												<p:outputLabel for="txtPagoNroDoc" value="Nro Documento:" />
@@ -191,7 +195,7 @@ body {
 											</p:panelGrid>
 
 											<p:commandButton value="Registrar Pago"
-												actionListener="#{operacionPagoBean.registrar_Pago()}" styleClass="GreenButton" 
+												actionListener="#{operacionPagoBean.registrar_Pago2()}" styleClass="GreenButton" 
 												update="frm1 frm2 frm3 message" icon="fa fa-save" />
 										</div>
 									</div>

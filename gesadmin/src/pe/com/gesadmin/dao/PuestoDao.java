@@ -24,6 +24,8 @@ public interface PuestoDao {
     
     public List<Puesto> findByBoqueNotIsADM(); 
     
+    public List<Puesto> findByBoqueNotIsADMNotPropiedad();
+    
     public List<PuestoTransfer> findTransferAll(); 
   
     public void create (Puesto entidad); 

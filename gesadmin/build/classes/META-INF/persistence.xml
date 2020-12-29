@@ -30,6 +30,8 @@
 		<class>pe.com.gesadmin.entity.TipoAmonestacion</class>
 		<class>pe.com.gesadmin.entity.Variable</class>
 		<class>pe.com.gesadmin.entity.TipoServicio</class>
+		<class>pe.com.gesadmin.entity.ComprobanteCorreccion</class>
+		<class>pe.com.gesadmin.entity.ReciboEgreso</class>
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 		<shared-cache-mode>NONE</shared-cache-mode>
 	</persistence-unit>

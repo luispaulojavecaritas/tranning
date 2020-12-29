@@ -1,12 +1,14 @@
 package pe.com.gesadmin.managed;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
@@ -14,6 +16,7 @@ import org.primefaces.event.SelectEvent;
 import org.primefaces.event.UnselectEvent;
 
 import pe.com.gesadmin.entity.AnioFiscal;
+import pe.com.gesadmin.entity.ComprobanteCorreccion;
 import pe.com.gesadmin.entity.Operacion;
 import pe.com.gesadmin.entity.Periodo;
 import pe.com.gesadmin.entity.Puesto;
@@ -28,10 +31,15 @@ import pe.com.gesadmin.service.impl.OperacionServiceImpl;
 import pe.com.gesadmin.service.impl.PeriodoServiceImpl;
 import pe.com.gesadmin.service.impl.PuestoPersonaCargoServiceImpl;
 import pe.com.gesadmin.service.impl.PuestoServiceImpl;
+import pe.com.gesadmin.util.Conversiones;
+import pe.com.gesadmin.util.DescriptivoNumero;
 
 @ManagedBean
 @ViewScoped
 public class OperacionCancelarPagoBean {
+	
+	@ManagedProperty("#{usuarioSesionBean}")
+	private UsuarioSesionBean usuarioSesionBean;
 
 	private List<Operacion> lista = new ArrayList<>();
 	private List<Operacion> listafiltro;
@@ -47,6 +55,8 @@ public class OperacionCancelarPagoBean {
 	private Integer idPeriodo;
 	private Integer idPuesto;
 	private Integer idPersona;
+	
+	private String motivo;
 
 	private Integer cantidadRegistros;
 
@@ -83,6 +93,7 @@ public class OperacionCancelarPagoBean {
 		idPeriodo = null;
 		idPuesto = null;
 		idPersona = null;
+		motivo = null;
 		cantidadRegistros = 0;
 	}
 
@@ -242,6 +253,22 @@ public class OperacionCancelarPagoBean {
 		this.cantidadRegistros = cantidadRegistros;
 	}
 
+	public String getMotivo() {
+		return motivo;
+	}
+
+	public void setMotivo(String motivo) {
+		this.motivo = motivo;
+	}
+	
+	public UsuarioSesionBean getUsuarioSesionBean() {
+		return usuarioSesionBean;
+	}
+
+	public void setUsuarioSesionBean(UsuarioSesionBean usuarioSesionBean) {
+		this.usuarioSesionBean = usuarioSesionBean;
+	}
+
 	public String cancelar_Pago() {
 
 		Integer idEstatusOperacionCancelada = 4;
@@ -265,18 +292,67 @@ public class OperacionCancelarPagoBean {
 		return "";
 
 	}
+	
+	public String cancelar_Pago2() {
+
+		Conversiones conversiones = new Conversiones();
+		
+		Integer idEstatusOperacion = 4;
+		
+		String numerodes =  conversiones.descripcionLiteral(conversiones.formatoMontos(entidadseleccionada.getMonto())+"", "SOLES");
+		
+		
+		try {
+			servicio.cancelarPagoDos(entidadseleccionada.getId(), usuarioSesionBean.getUsuario(), motivo, numerodes, idEstatusOperacion, 1);
+			booDetalle = false;
+			entidad = new Operacion();
+			entidadseleccionada = new Operacion();
+			idPersona = null;
+		} catch (Exception e) {
+			// TODO: handle exception
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al realizar cancelacion de pago", ""));
+			return "";
+		}
+
+		listarEntidad();
+		
+		FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage(FacesMessage.SEVERITY_INFO, "Se procedio a Anular la Operacion, Puede consultar el comprobante en el modulo Consultas de Operaciones", ""));
+		return "";
+
+	}
 
 	public String eliminar() {
 
-		if (entidad.getId() == null) {
+		Conversiones conversiones = new Conversiones();
+		
+		if (entidadseleccionada.getId() == null) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_WARN, "Seleccione registro a eliminar", ""));
 			limpiar();
 			listarEntidad();
 			return "";
 		}
-
+		
+		
+		String numerodes = null;
+		numerodes =  conversiones.descripcionLiteral(conversiones.formatoMontos(entidadseleccionada.getMonto())+"", "SOLES");
+		String nombreUsuarioEliminacion = usuarioSesionBean.getUsuario().getPersona().getNombre()+" "+usuarioSesionBean.getUsuario().getPersona().getPaterno()+" "+usuarioSesionBean.getUsuario().getPersona().getMaterno();
+		
+		entidad = new Operacion();
+		entidad = entidadseleccionada;
+		
+		entidad.setIdUsuarioEliminacion(usuarioSesionBean.getUsuario().getId());
+		entidad.setDescripcionMonto(numerodes);
+		entidad.setRegistroEliminacion(new Date());
 		entidad.setEstado(0);
+		
+		ComprobanteCorreccion comprobanteCorreccion = new ComprobanteCorreccion();
+		comprobanteCorreccion.setOperacion(new Operacion(entidad.getId()));
+		comprobanteCorreccion.setEstado(1);
+		
+		
 
 		try {
 			servicio.actualizar(entidad);
@@ -321,10 +397,10 @@ public class OperacionCancelarPagoBean {
 
 	public void listarEntidad() {
 		lista = new ArrayList<>();
-		Integer estatusOperacionEfectuada = 2;
+		Integer estatusOperacionNoEfectuada = 1;
 		try {
 			lista = servicio.listarPorPeriodoIdPuestoIdEstatusOperacionId(idPeriodo, idPuesto,
-					estatusOperacionEfectuada);
+					estatusOperacionNoEfectuada);
 		} catch (Exception e) {
 			// TODO: handle exception
 			lista = null;
@@ -390,6 +466,7 @@ public class OperacionCancelarPagoBean {
 		idAnioFiscal = null;
 		idPeriodo = null;
 		idPersona = null;
+		motivo = null;
 		idPuesto = null;
 
 		FacesContext.getCurrentInstance().addMessage(null,
@@ -404,6 +481,7 @@ public class OperacionCancelarPagoBean {
 		idPeriodo = null;
 		idPuesto = null;
 		idPersona = null;
+		motivo = null;
 		
 		cantidadRegistros = 0;
 

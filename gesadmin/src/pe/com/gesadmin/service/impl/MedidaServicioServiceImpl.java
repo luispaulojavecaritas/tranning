@@ -82,6 +82,18 @@ public class MedidaServicioServiceImpl implements MedidaServicioService {
 		return medidaServicioDao.findByPeriodoidTiposervicioid(idPeriodo, idTipoServicio);
 	}
 
+	@Override
+	public List<MedidaServicio> listarPorPeriodoIdAll(Integer idPeriodo) {
+		// TODO Auto-generated method stub
+		return medidaServicioDao.findByPeriodoIdAll(idPeriodo);
+	}
+
+	@Override
+	public List<MedidaServicio> listarPorAnioIdAll(Integer idAnioFiscal) {
+		// TODO Auto-generated method stub
+		return medidaServicioDao.findByAnioIdAll(idAnioFiscal);
+	}
+
 
 
 }

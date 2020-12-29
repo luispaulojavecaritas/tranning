@@ -305,7 +305,7 @@ public class ConsultaConsumoServicioBean {
 			
 			
 		}else if(booperiodo == false && booanio == false) {
-			System.out.println("Consultar por Registros Activos");
+			System.out.println("Consultar por Registros");
 			
 			try {
 				lista = servicio.listarActivo();

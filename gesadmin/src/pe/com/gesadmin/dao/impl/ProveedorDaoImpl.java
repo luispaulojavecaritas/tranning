@@ -19,7 +19,7 @@ public class ProveedorDaoImpl implements ProveedorDao{
 	@Override
 	public List<Proveedor> findAll() {
 		// TODO Auto-generated method stub
-		String query = "select b FROM Proveedor b";
+		String query = "select b FROM Proveedor b order by b.id desc";
         TypedQuery<Proveedor> tq = em.createQuery(query, Proveedor.class);
         List<Proveedor> lista = tq.getResultList();
         return lista;

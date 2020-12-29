@@ -311,20 +311,29 @@ public class PuestoPersonaCargoBean {
 	}
 
 	public String filtrar() {
+		
+		if(filtro.isEmpty() || filtro == null || filtro == "") {
+			listafiltro = null;
+			listafiltro = lista;
+			filtro = null;
+			return "";
+		}
 
 		if (lista == null || lista.isEmpty() || lista.size() == 0) {
 			filtro = null;
 			return "";
 		}
+		
+		
 		listafiltro = null;
 		listafiltro = new ArrayList<>();
 		System.out.println("Texto a filtra: " + filtro);
 		for (int i = 0; i <= lista.size() - 1; i++) {
-			if (lista.get(i).getPuesto().getDescripcion().contains(filtro)
-					|| lista.get(i).getPuesto().getBloque().getDescripcion().contains(filtro)
-					|| lista.get(i).getPersona().getNombre().contains(filtro)
-					|| lista.get(i).getPersona().getPaterno().contains(filtro)
-					|| lista.get(i).getPersona().getMaterno().contains(filtro)) {
+			if (lista.get(i).getPuesto().getDescripcion().equalsIgnoreCase(filtro)
+					|| lista.get(i).getPuesto().getBloque().getDescripcion().equalsIgnoreCase(filtro)
+					|| lista.get(i).getPersona().getNombre().equalsIgnoreCase(filtro)
+					|| lista.get(i).getPersona().getPaterno().equalsIgnoreCase(filtro)
+					|| lista.get(i).getPersona().getMaterno().equalsIgnoreCase(filtro)) {
 				System.out.println("lista: " + lista.get(i).toString());
 				listafiltro.add(lista.get(i));
 			}

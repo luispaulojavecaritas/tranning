@@ -50,6 +50,11 @@ public class Testfechas {
 		System.out.println("Resultado: " + resultado1);
 		
 		System.out.println("Resultado: " + conversiones.formatoMontos(resultado1));
+		
+		
+		String numerodes = null;
+		numerodes =  conversiones.descripcionLiteral( conversiones.formatoMontos(resultado1)+"", "SOLES");
+		System.out.println("Descripcion Numeros: " + numerodes);
 	}
 
 }

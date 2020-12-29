@@ -298,9 +298,9 @@ body {
 												listener="#{consultaOperacionBean.onRowUnselect}"
 												update="frm1 frm2 frm3 frm4" />
 
-											<p:column headerText="Periodo - Anio Fiscal">
+											<p:column headerText="Periodo">
 												<h:outputText
-													value="#{per.periodo.descripcion} - #{per.periodo.anioFiscal.descripcion}" />
+													value="#{per.periodo.anioFiscal.descripcion}#{per.periodo.descripcion}" />
 											</p:column>
 
 											<p:column headerText="Categoria">

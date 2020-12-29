@@ -1,6 +1,8 @@
 package pe.com.gesadmin.entity;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -19,12 +21,22 @@ public class Operacion implements Serializable {
 	private Integer id;
 
 	private String descripcion;
+	
+	@Column(name="descripcion_eliminacion")
+	private String descripcionEliminacion;
+	
+	@Column(name="descripcion_monto")
+	private String descripcionMonto;
 
 	private Integer estado;
 
 	@Column(name="fecha_pago")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date fechaPago;
+	
+	@Column(name="registro_eliminacion")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date registroEliminacion;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name="fecha_vencimiento")
@@ -32,8 +44,8 @@ public class Operacion implements Serializable {
 
 	private Double monto;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date registro;
+	@Column(insertable=false, updatable=false)
+	private Timestamp  registro;
 
 	//uni-directional many-to-one association to Persona
 	@ManyToOne
@@ -70,6 +82,9 @@ public class Operacion implements Serializable {
 	
 	@Column(name = "id_usuario")
 	private Integer idUsuario; 
+	
+	@Column(name = "id_usuario_eliminacion")
+	private Integer idUsuarioEliminacion; 
 	
 	@Column(name = "tipo_doc")
 	private String tipoDoc; 
@@ -139,11 +154,11 @@ public class Operacion implements Serializable {
 		this.monto = monto;
 	}
 
-	public Date getRegistro() {
+	public Timestamp getRegistro() {
 		return this.registro;
 	}
 
-	public void setRegistro(Date registro) {
+	public void setRegistro(Timestamp registro) {
 		this.registro = registro;
 	}
 
@@ -225,6 +240,38 @@ public class Operacion implements Serializable {
 
 	public void setNroDoc(String nroDoc) {
 		this.nroDoc = nroDoc;
+	}
+
+	public String getDescripcionEliminacion() {
+		return descripcionEliminacion;
+	}
+
+	public void setDescripcionEliminacion(String descripcionEliminacion) {
+		this.descripcionEliminacion = descripcionEliminacion;
+	}
+
+	public Date getRegistroEliminacion() {
+		return registroEliminacion;
+	}
+
+	public void setRegistroEliminacion(Date registroEliminacion) {
+		this.registroEliminacion = registroEliminacion;
+	}
+
+	public Integer getIdUsuarioEliminacion() {
+		return idUsuarioEliminacion;
+	}
+
+	public void setIdUsuarioEliminacion(Integer idUsuarioEliminacion) {
+		this.idUsuarioEliminacion = idUsuarioEliminacion;
+	}
+
+	public String getDescripcionMonto() {
+		return descripcionMonto;
+	}
+
+	public void setDescripcionMonto(String descripcionMonto) {
+		this.descripcionMonto = descripcionMonto;
 	}
 
 	@Override

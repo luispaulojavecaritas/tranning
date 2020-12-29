@@ -31,7 +31,7 @@ COALESCE(listanoviembre.noviembre,0.00) as noviembre,
 COALESCE(listadiciembre.diciembre,0.00) as diciembre, 
 COALESCE(listatotal.total,0.00) as total
 from (select pu.id as idpuesto, pu.descripcion as descripcionpuesto, pu.id_bloque  as idbloque, blo.descripcion as bloquedescripcion from puesto pu left join bloque blo on blo.id = pu.id_bloque where pu.id_bloque not in (1) and pu.estado = 1) as listapuesto 
-left join (select pu.id as idpuesto, per.nombre||' '||per.paterno||' '||per.materno as nombres from puesto pu left join puesto_persona_cargo ppc on ppc.id_puesto = pu.id left join persona per on per.id = ppc.id_persona where pu.id_bloque not in (1) and pu.estado = 1 and ppc.id_cargo = 1) as listanombre on listapuesto.idpuesto = listanombre.idpuesto 
+left join (select subconsulta.idpuesto, subconsulta.nombres FROM (select pu.id as idpuesto, per.nombre||' '||per.paterno||' '||per.materno as nombres, ROW_NUMBER() OVER (PARTITION BY ppc.id_puesto ORDER BY ppc.id_puesto ASC) as cantidad from puesto pu left join puesto_persona_cargo ppc on ppc.id_puesto = pu.id left join persona per on per.id = ppc.id_persona where pu.id_bloque not in (1) and pu.estado = 1 and ppc.id_cargo = 1 and ppc.estado = 1) as subconsulta where subconsulta.cantidad = 1) as listanombre on listapuesto.idpuesto = listanombre.idpuesto 
 left join (SELECT pu.id as idpuesto, sum(op.monto) as anterior FROM operacion op left JOIN puesto pu on pu.id = op.id_puesto LEFT JOIN periodo pe on pe.id = op.id_periodo where pe.id_anio_fiscal < 1 and op.id_estatus_operacion IN (1,3) and pu.estado = 1 group by idpuesto) as listaanterior on listapuesto.idpuesto = listaanterior.idpuesto
 left join (SELECT pu.id as idpuesto, sum(op.monto) as enero FROM operacion op left JOIN puesto pu on pu.id = op.id_puesto LEFT JOIN periodo pe on pe.id = op.id_periodo where pe.id_anio_fiscal = 1 and pe.descripcion = 'ENE' and op.id_estatus_operacion IN (1,3) and pu.estado = 1 group by idpuesto) as listaenero on listapuesto.idpuesto = listaenero.idpuesto 
 left join (SELECT pu.id as idpuesto, sum(op.monto) as febrero FROM operacion op left JOIN puesto pu on pu.id = op.id_puesto LEFT JOIN periodo pe on pe.id = op.id_periodo where pe.id_anio_fiscal = 1 and pe.descripcion = 'FEB' and op.id_estatus_operacion IN (1,3) and pu.estado = 1 group by idpuesto) as listafebrero on listapuesto.idpuesto = listafebrero.idpuesto 
@@ -72,7 +72,7 @@ COALESCE(listanoviembre.noviembre,0.00) as noviembre,
 COALESCE(listadiciembre.diciembre,0.00) as diciembre, 
 COALESCE(listatotal.total,0.00) as total
 from (select pu.id as idpuesto, pu.descripcion as descripcionpuesto, pu.id_bloque  as idbloque, blo.descripcion as bloquedescripcion from puesto pu left join bloque blo on blo.id = pu.id_bloque where pu.id_bloque not in (1) and pu.estado = 1) as listapuesto 
-left join (select pu.id as idpuesto, per.nombre||' '||per.paterno||' '||per.materno as nombres from puesto pu left join puesto_persona_cargo ppc on ppc.id_puesto = pu.id left join persona per on per.id = ppc.id_persona where pu.id_bloque not in (1) and pu.estado = 1 and ppc.id_cargo = 1) as listanombre on listapuesto.idpuesto = listanombre.idpuesto 
+left join (select subconsulta.idpuesto, subconsulta.nombres FROM (select pu.id as idpuesto, per.nombre||' '||per.paterno||' '||per.materno as nombres, ROW_NUMBER() OVER (PARTITION BY ppc.id_puesto ORDER BY ppc.id_puesto ASC) as cantidad from puesto pu left join puesto_persona_cargo ppc on ppc.id_puesto = pu.id left join persona per on per.id = ppc.id_persona where pu.id_bloque not in (1) and pu.estado = 1 and ppc.id_cargo = 1 and ppc.estado = 1) as subconsulta where subconsulta.cantidad = 1) as listanombre on listapuesto.idpuesto = listanombre.idpuesto 
 left join (SELECT pu.id as idpuesto, sum(op.monto) as anterior FROM operacion op left JOIN puesto pu on pu.id = op.id_puesto LEFT JOIN periodo pe on pe.id = op.id_periodo where pe.id_anio_fiscal < 1 and op.id_categoria_operacion = 2 and op.id_estatus_operacion IN (1,3) and pu.estado = 1 group by idpuesto) as listaanterior on listapuesto.idpuesto = listaanterior.idpuesto 
 left join (SELECT pu.id as idpuesto, sum(op.monto) as enero FROM operacion op left JOIN puesto pu on pu.id = op.id_puesto LEFT JOIN periodo pe on pe.id = op.id_periodo where pe.id_anio_fiscal = 1 and op.id_categoria_operacion = 2 and pe.descripcion = 'ENE' and op.id_estatus_operacion IN (1,3) and pu.estado = 1 group by idpuesto) as listaenero on listapuesto.idpuesto = listaenero.idpuesto 
 left join (SELECT pu.id as idpuesto, sum(op.monto) as febrero FROM operacion op left JOIN puesto pu on pu.id = op.id_puesto LEFT JOIN periodo pe on pe.id = op.id_periodo where pe.id_anio_fiscal = 1 and op.id_categoria_operacion = 2 and pe.descripcion = 'FEB' and op.id_estatus_operacion IN (1,3) and pu.estado = 1 group by idpuesto) as listafebrero on listapuesto.idpuesto = listafebrero.idpuesto 
@@ -201,6 +201,62 @@ where  op.estado = 1 and op.id_puesto = 2 and op.id_categoria_operacion = 1 and 
 group by  idaniofiscal, descripcionaniofiscal, idperiodo, descripcionperiodo, idcategoriaoperacion, descripcioncategoriaoperacion, fecha, descripciontipodoc, nrodoc, ingreso 
 order by fecha asc, idperiodo asc
 ;
+
+
+
+
+------REPORTE COMPROBANTE CORRECCION - SE DEBE PARAMETRIZAR EL ID OPERACION
+
+select 
+cc.id, 
+to_char(cc.registro, 'DD/MM/YYYY HH24:MI:SS'), 
+cc.descripcion_usuario, 
+cc.monto, 
+cc.monto_descripcion, 
+cc.motivo, 
+topp.descripcion,
+co.descripcion, 
+pu.descripcion 
+from comprobante_correccion cc 
+left join operacion op ON op.id = cc.id_operacion 
+left join categoria_operacion co ON co.id = op.id_categoria_operacion 
+left join tipo_operacion topp ON topp.id = op.id_tipo_operacion 
+left join puesto pu on pu.id = op.id_puesto 
+where 
+cc.estado =1 and 
+cc.id_operacion = 39; 
+
+
+
+
+------REPORTE RECIBO EGRESO- SE DEBE PARAMETRIZAR EL ID OPERACION
+
+select 
+re.id as id, 
+to_char(re.registro, 'DD/MM/YYYY HH24:MI:SS') as fechaRegistroTexto, 
+re.descripcion_usuario as usuarioRegistro, 
+re.monto as monto, 
+re.monto_descripcion as montoLiteral,
+re.motivo as motivo,
+topp.descripcion,
+co.descripcion, 
+pu.descripcion, 
+proo.razon_social 
+from recibo_egreso re 
+left join operacion op ON op.id = re.id_operacion
+left join categoria_operacion co ON co.id = op.id_categoria_operacion 
+left join tipo_operacion topp ON topp.id = op.id_tipo_operacion 
+left join puesto pu on pu.id = op.id_puesto 
+left join proveedor proo on op.id_proveedor = proo.id 
+where re.estado =1 and re.id_operacion = 19; 
+
+
+
+
+
+
+
+
 
 
 

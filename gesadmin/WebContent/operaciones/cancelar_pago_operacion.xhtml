@@ -167,26 +167,16 @@ body {
 												<f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss"
 													timeZone="GMT-5" />
 											</h:outputText>
-
-											<p:outputLabel value="Persona Cancela Pago: " />
-											<p:selectOneMenu
-												value="#{operacionCancelarPagoBean.idPersona}"
-												required="true"
-												requiredMessage="Seleccione persona que cancela el pago"
-												label="responsable cancelacion pago" filter="true"
-												filterMatchMode="contains">
-												<f:selectItem itemLabel="Seleccione" itemValue="" />
-												<f:selectItems
-													value="#{operacionCancelarPagoBean.listaPuestoPersonaCargo}"
-													var="lista"
-													itemLabel="#{lista.persona.nombre} #{lista.persona.paterno} #{lista.persona.materno} - #{lista.cargo.descripcion}"
-													itemValue="#{lista.persona.id}" />
-											</p:selectOneMenu>
+											
+											<p:outputLabel for="txtvar3" value="Motivo:" />											
+											<p:inputTextarea value="#{operacionCancelarPagoBean.motivo}" id="txtvar3" required="true" requiredMessage="Ingrese motivo"                                     
+                                             style="width: 100%" rows="3" label="motivo" placeholder="Ingrese Motivo" onkeyup="this.value = this.value.toUpperCase();"
+                                             maxlength="500"/>	
 
 										</p:panelGrid>
 
 										<p:commandButton value="Cancelar Pago"
-											actionListener="#{operacionCancelarPagoBean.cancelar_Pago()}"
+											actionListener="#{operacionCancelarPagoBean.cancelar_Pago2()}"
 											update="frm1 frm2 frm3 message" icon="fa fa-save"
 											styleClass="RedButton" />
 									</div>

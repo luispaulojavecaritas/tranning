@@ -23,7 +23,7 @@ body {
 						<div
 							class="Wid100 MarAuto DispBlock OvHidden FontMerriWeatherRegular BlueDarkest TexAlCenter"
 							style="font-size: 3.0rem; padding-top: 0rem; padding-bottom: 0rem;">CONSULTAR
-							CONSUMO SERVICIOS</div>
+							LECTURA SERVICIOS</div>
 						<div class="Wid100 OvHidden" style="height: 1rem;"></div>
 
 						<h:form id="frm1">
@@ -177,24 +177,24 @@ body {
 											<h:outputText
 												value="#{consultaConsumoServicioBean.entidadseleccionada.puesto.bloque.descripcion}" />
 
-											<p:outputLabel value="Puesto " />
+											<p:outputLabel value="Puesto: " />
 											<h:outputText
 												value="#{consultaConsumoServicioBean.entidadseleccionada.puesto.descripcion}" />
 
-											<p:outputLabel value="Tipo Servicio" />
+											<p:outputLabel value="Tipo Servicio:" />
 											<h:outputText
 												value="#{consultaConsumoServicioBean.entidadseleccionada.tipoServicio.descripcion}" />
 
-											<p:outputLabel value="Lectura" />
+											<p:outputLabel value="Lectura:" />
 											<h:outputText
 												value="#{consultaConsumoServicioBean.entidadseleccionada.medida}" />
 
-											<p:outputLabel value="Estado" />
+											<p:outputLabel value="Estado:" />
 											<h:outputText
 												value="#{consultaConsumoServicioBean.entidadseleccionada.estado}" />
 
 
-											<p:outputLabel value="Fecha Creacion Amonestación" />
+											<p:outputLabel value="Fecha Registro:" />
 											<h:outputText
 												value="#{consultaConsumoServicioBean.entidadseleccionada.registro}">
 												<f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss"
@@ -233,9 +233,20 @@ body {
 											selectionMode="single"
 											selection="#{consultaConsumoServicioBean.entidadseleccionada}"
 											rowKey="#{per.id}" rows="25" paginator="true"
-											paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+											paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
 											rowsPerPageTemplate="25,50,75"
 											emptyMessage="No se encontraron registros" reflow="true">
+											
+											<f:facet name="{Exporters}">
+												<div style="float: right; padding-top: 5px; padding-right: 20px;">
+													<h:commandLink ajax="false">
+														<p:graphicImage name="excel.png" library="images"
+															width="30" />
+														<p:dataExporter type="xls" target="tbl" 
+															fileName="lectura_servicios" />
+													</h:commandLink>
+												</div>
+											</f:facet>
 
 											<p:ajax event="rowSelect"
 												listener="#{consultaConsumoServicioBean.onRowSelect}"
@@ -247,8 +258,29 @@ body {
 											<p:column headerText="Id">
 												<h:outputText value="#{per.id}" />
 											</p:column>
-											<p:column headerText="Puesto">
+											
+											<p:column headerText="Año" visible="false" exportable="true">
+												<h:outputText value="#{per.periodo.anioFiscal.descripcion}"/>
+											</p:column>
+											
+											<p:column headerText="Periodo" visible="false" exportable="true">
+												<h:outputText value="#{per.periodo.descripcion}" />
+											</p:column>
+											
+											<p:column headerText="Año-Periodo">
+												<h:outputText value="#{per.periodo.anioFiscal.descripcion}-#{per.periodo.descripcion}" />
+											</p:column>
+											
+											<p:column headerText="Bloque" visible="false" exportable="true">
+												<h:outputText value="#{per.puesto.bloque.descripcion}" />
+											</p:column>
+											
+											<p:column headerText="Puesto" visible="false" exportable="true">
 												<h:outputText value="#{per.puesto.descripcion}" />
+											</p:column>
+											
+											<p:column headerText="Bloque-Puesto">
+												<h:outputText value="#{per.puesto.bloque.descripcion}-#{per.puesto.descripcion}" />
 											</p:column>
 
 											<p:column headerText="Servicio">

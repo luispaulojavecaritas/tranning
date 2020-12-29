@@ -112,7 +112,7 @@ public class ContactoProveedorDaoImpl implements ContactoProveedorDao{
 	@Override
 	public List<ContactoProveedor> findAll() {
 		// TODO Auto-generated method stub
-		String query = "select b FROM ContactoProveedor b";
+		String query = "select b FROM ContactoProveedor b order by b.id desc";
         TypedQuery<ContactoProveedor> tq = em.createQuery(query, ContactoProveedor.class);
         List<ContactoProveedor> lista = tq.getResultList();
         return lista;

@@ -121,7 +121,7 @@ body {
 											
 											<p:outputLabel for="txtvar3" value="Observaciones:" />											
 											<p:inputTextarea value="#{operacionConsumoServicioBean.entidad.descripcion}" id="txtvar3"                                        
-                                             style="width: 100%" rows="3" label="descripcion" placeholder="Ingrese observaciones"
+                                             style="width: 100%" rows="3" label="descripcion" placeholder="Ingrese observaciones" onkeyup="this.value = this.value.toUpperCase();"
                                              maxlength="200"/>											
 
 										</p:panelGrid>
@@ -201,6 +201,10 @@ body {
 											<p:outputLabel value="Puesto:" />
 											<h:outputText
 												value="#{operacionConsumoServicioBean.entidadseleccionada.puesto.descripcion}" />
+												
+											<p:outputLabel value="Observaciones:" />
+											<h:outputText
+												value="#{operacionConsumoServicioBean.entidadseleccionada.descripcion}" />
 
 											<p:outputLabel value="Registro: " />
 											<h:outputText

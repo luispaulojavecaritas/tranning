@@ -28,7 +28,7 @@ public class Persona implements Serializable {
 	private String nombre;
 
 	@Column(name="nro_documento")
-	private Integer nroDocumento;
+	private String nroDocumento;
 
 	private String paterno;
 
@@ -108,11 +108,11 @@ public class Persona implements Serializable {
 		this.nombre = nombre;
 	}
 
-	public Integer getNroDocumento() {
+	public String getNroDocumento() {
 		return this.nroDocumento;
 	}
 
-	public void setNroDocumento(Integer nroDocumento) {
+	public void setNroDocumento(String nroDocumento) {
 		this.nroDocumento = nroDocumento;
 	}
 

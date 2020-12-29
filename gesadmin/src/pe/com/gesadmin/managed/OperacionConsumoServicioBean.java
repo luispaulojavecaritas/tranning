@@ -406,7 +406,6 @@ public class OperacionConsumoServicioBean {
 		System.out.println("Periodo: " + periodoActual.toString());
 		System.out.println("Tipo Servicio: " + tipoServicioActual.toString());
 		System.out.println("Entidad: " + entidad.toString());
-		entidad.setRegistro(new Date());
 		entidad.setEstado(1);
 
 		if (entidad.getId() == null) {
@@ -470,7 +469,6 @@ public class OperacionConsumoServicioBean {
 				operacionServicioLocal = servicio.recuperar(entidadseleccionada.getId());
 				operacionServicioLocal.setEstado(0);
 				operacionServicioLocal.setIdUsuario(usuarioSesionBean.getUsuario().getId());
-				operacionServicioLocal.setRegistro(new Date());
 				servicio.actualizar(operacionServicioLocal);
 
 				FacesContext.getCurrentInstance().addMessage(null,
@@ -546,13 +544,13 @@ public class OperacionConsumoServicioBean {
 		if (cantidadLuz == listaPuesto.size()) {
 			System.out.println("Registro de lectura de consumo de Distribucion electrica");
 			claseLuz = "GreenBack";
-			mensajeLuz = "Todos los Puestos tienen registrado su lectura del servicio de Distribucion electrica";
+			mensajeLuz = "Todos los Puestos tienen registrado su operacion de Distribucion electrica";
 		} else {
 			System.out.println("Registro incompleta lectura de consumo de Distribucion electrica");
 			int diferencia = listaPuesto.size() - cantidadLuz;
 			claseLuz = "RedBack";
 			mensajeLuz = "(" + diferencia
-					+ ") Puestos no tienen registrado su lectura del servicio de Distribucion electrica";
+					+ ") Puestos no tienen registrado su operacion de Distribucion electrica";
 		}
 	}
 
@@ -569,12 +567,12 @@ public class OperacionConsumoServicioBean {
 		if (cantidadAgua == listaPuesto.size()) {
 			System.out.println("Registro de lectura de consumo de agua completa");
 			claseAgua = "GreenBack";
-			mensajeAgua = "Todos los Puestos tienen registrado su lectura del servicio de Agua Potable";
+			mensajeAgua = "Todos los Puestos tienen registrado su operacion de Distribucion de Agua Potable";
 		} else {
 			System.out.println("Registro incompleta lectura de consumo de agua completa");
 			int diferencia = listaPuesto.size() - cantidadAgua;
 			claseAgua = "RedBack";
-			mensajeAgua = "(" + diferencia + ") Puestos no tienen registrado su lectura del servicio de Agua Potable";
+			mensajeAgua = "(" + diferencia + ") Puestos no tienen registrado su operacion de Distribucion de Agua Potable";
 		}
 	}
 
@@ -892,9 +890,9 @@ public class OperacionConsumoServicioBean {
 
 				Double costoUnitario = variableCostoConsumoLuz.getMonto();
 				Double costoSubtotal = conversiones
-						.formatoMontos(costoUnitario * listaMedidaFiltrada.get(i).getConsumo());
+						.formatoMontos_a(costoUnitario * listaMedidaFiltrada.get(i).getConsumo());
 				Double costoFijo = variableCostoAlumbradoLuz.getMonto();
-				Double costoTotal = conversiones.formatoMontos(costoSubtotal + costoFijo);
+				Double costoTotal = conversiones.formatoMontos_a(costoSubtotal + costoFijo);
 
 				pre.setProveedorAcreedor(idProveedorLuz);
 
@@ -906,9 +904,9 @@ public class OperacionConsumoServicioBean {
 			} else {
 				Double costoUnitario = variableCostoConsumoAgua.getMonto();
 				Double costoSubtotal = conversiones
-						.formatoMontos(costoUnitario * listaMedidaFiltrada.get(i).getConsumo());
+						.formatoMontos_a(costoUnitario * listaMedidaFiltrada.get(i).getConsumo());
 				Double costoFijo = 0.00;
-				Double costoTotal = conversiones.formatoMontos(costoSubtotal + costoFijo);
+				Double costoTotal = conversiones.formatoMontos_a(costoSubtotal + costoFijo);
 
 				pre.setProveedorAcreedor(idProveedorAgua);
 

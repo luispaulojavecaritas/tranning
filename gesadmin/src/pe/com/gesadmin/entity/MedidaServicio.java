@@ -44,6 +44,8 @@ public class MedidaServicio implements Serializable {
 	
 	private Double consumo;
 	
+	private String descripcion;
+	
 	@Column(name = "medida_anterior")
 	private Double medidaAnterior;
 
@@ -137,6 +139,14 @@ public class MedidaServicio implements Serializable {
 		this.idUsuario = idUsuario;
 	}
 
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -165,8 +175,11 @@ public class MedidaServicio implements Serializable {
 	@Override
 	public String toString() {
 		return "MedidaServicio [id=" + id + ", estado=" + estado + ", periodo=" + periodo + ", tipoServicio="
-				+ tipoServicio + ", puesto=" + puesto + ", medida=" + medida + ", registro=" + registro + ", consumo="
-				+ consumo + ", medidaAnterior=" + medidaAnterior + "]";
+				+ tipoServicio + ", puesto=" + puesto + ", idUsuario=" + idUsuario + ", medida=" + medida
+				+ ", registro=" + registro + ", consumo=" + consumo + ", descripcion=" + descripcion
+				+ ", medidaAnterior=" + medidaAnterior + "]";
 	}
+
+
 
 }

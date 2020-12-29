@@ -7,6 +7,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
@@ -28,11 +29,15 @@ import pe.com.gesadmin.service.impl.OperacionServiceImpl;
 import pe.com.gesadmin.service.impl.PeriodoServiceImpl;
 import pe.com.gesadmin.service.impl.PuestoPersonaCargoServiceImpl;
 import pe.com.gesadmin.service.impl.PuestoServiceImpl;
+import pe.com.gesadmin.util.Conversiones;
 
 @ManagedBean
 @ViewScoped
 public class OperacionPagoBean {
 
+	@ManagedProperty("#{usuarioSesionBean}")
+	private UsuarioSesionBean usuarioSesionBean;
+	
 	private List<Operacion> lista = new ArrayList<>();
 	private List<Operacion> listafiltro;
 	private Operacion entidad = new Operacion();
@@ -268,6 +273,14 @@ public class OperacionPagoBean {
 		this.cantidadRegistros = cantidadRegistros;
 	}
 
+	public UsuarioSesionBean getUsuarioSesionBean() {
+		return usuarioSesionBean;
+	}
+
+	public void setUsuarioSesionBean(UsuarioSesionBean usuarioSesionBean) {
+		this.usuarioSesionBean = usuarioSesionBean;
+	}
+
 	public String registrar_Pago() {
 		
 		Integer idEstatusOperacion = 2;
@@ -290,6 +303,37 @@ public class OperacionPagoBean {
 		
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO,"Registro de pago exitoso", ""));
+		return "";
+		
+	}
+	
+public String registrar_Pago2() {
+		
+		Integer idEstatusOperacion = 2;
+		
+		Conversiones conversiones = new Conversiones();
+				
+		String numerodes =  conversiones.descripcionLiteral(conversiones.formatoMontos(entidadseleccionada.getMonto())+"", "SOLES");
+		
+		try {
+			servicio.registrarPagoDos(entidadseleccionada.getId(), idPersona, idEstatusOperacion, tipoDocumento, nroDocumento, usuarioSesionBean.getUsuario(), entidadseleccionada.getDescripcion(), numerodes, 1);
+			booDetalle = false;
+			entidad = new Operacion();
+			entidadseleccionada = new Operacion();
+			idPersona = null;
+			nroDocumento = null;
+			tipoDocumento = null;
+		} catch (Exception e) {
+			// TODO: handle exception
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al realizar registro de pago", ""));
+			return "";
+		}
+		
+		listarEntidad();
+		
+		FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage(FacesMessage.SEVERITY_INFO,"Registro de pago exitoso, si realizo el pago de un EGRESO, puedo consultar el Recibo de Egresos en el modulo de consulta de operaciones", ""));
 		return "";
 		
 		
