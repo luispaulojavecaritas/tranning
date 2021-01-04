@@ -19,10 +19,15 @@
 
 <h:body styleClass="BlueBody GrayDarkBack"
 	style="background-image:url(#{resource['titan-layout:images/loginback.svg']}); background-size:cover; background-position:right top;  background-attachment:fixed;">
+	
 	<div
 		class="Container30 WhiteBack DispTable Hei100 OvAuto Responsive ShadowEffect">
 		<div class="Container100">
+			
 			<div class="EmptyBox10"></div>
+			<div class="Container100" align="center">
+				<h:graphicImage name="images/logo_sarita.png" library="titan-layout" width="150px" />
+			</div>
 
 			<div class="Container100 FontSourceSansLight Fs30 BlueDarker">
 				Sistema de Gestión Administrativa  <i class="icon-organization Fright GrayLightest"></i>
@@ -39,7 +44,7 @@
 					<div class="DispBlock FontSourceSansBold Gray Fs16">Nombre de
 						usuario</div>
 					<div class="EmptyBox10"></div>
-					<input type="text" name="usernameE"
+					<input type="text" name="usernameE" autocomplete="false" 
 						placeholder="Ingrese su nombre de usuario"
 						class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" />
 
@@ -49,7 +54,7 @@
 					<div class="DispBlock FontSourceSansBold Gray Fs16">Clave de
 						acceso</div>
 					<div class="EmptyBox10"></div>
-					<input type="password" name="passwordE"
+					<input type="password" name="passwordE" autocomplete="false" 
 						placeholder="Ingrese su clave de acceso"
 						class="ui-inputfield ui-password ui-widget ui-state-default ui-corner-all" />
 				</div>

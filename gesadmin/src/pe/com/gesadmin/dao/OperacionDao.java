@@ -10,6 +10,7 @@ import java.util.List;
 
 import pe.com.gesadmin.entity.ComprobanteCorreccion;
 import pe.com.gesadmin.entity.Operacion;
+import pe.com.gesadmin.entity.ReciboEgreso;
 import pe.com.gesadmin.entity.Usuario;
 import pe.com.gesadmin.entity.transfer.LecturasMedidasPreOperacion;
 import pe.com.gesadmin.entity.transfer.OperacionAdministracionTransfer;
@@ -23,6 +24,8 @@ public interface OperacionDao {
     public List<Operacion> findByPeriodoId(Integer idPeriodo);    
     
     public List<Operacion> listarByAnioId(Integer idAnioFiscal);
+    
+    public List<Operacion> listarByReciboPago(String tipodoc, String nroDoc);
     
     public List<Operacion> findByPeriodoIdPuestoIdEstatusOperacionId(Integer idPeriodo, Integer idPuesto, Integer idEstatusOperacion);
     
@@ -42,14 +45,14 @@ public interface OperacionDao {
   
     public void create (Operacion entidad);
     
-    public void savePayment (Integer idOperacion, Integer IdPersona,  Integer idEstatusOperacion, String tipoDoc, String nroDoc);
+    public void savePayment (Integer idOperacion, Integer IdPersona,  Integer idEstatusOperacion, String tipoDoc, String nroDoc, String observaciones);
     
-    public void savePaymentDos(Integer idOperacion, Integer IdPersona, Integer idEstatusOperacion, String tipoDoc,
-			String nroDoc, Usuario usuario, String motivo, String montoLetras, Integer estado);
+    public ReciboEgreso savePaymentDos(Integer idOperacion, Integer IdPersona, Integer idEstatusOperacion, String tipoDoc,
+			String nroDoc, Usuario usuario, String motivo, String montoLetras, Integer estado, Date fechaPago, String observacion);
     
     public void cancelPayment (Integer idOperacion, Integer IdPersona,  Integer idEstatusOperacion);
     
-    public void cancelPaymentDos(Integer idOperacion, Usuario usuario, String motivo, String montoLetras, Integer idEstatusOperacion, Integer estado);
+    public ComprobanteCorreccion cancelPaymentDos(Integer idOperacion, Usuario usuario, String motivo, String montoLetras, Integer idEstatusOperacion, Integer estado);
         
     public void createList (List<Operacion> lista);
     
@@ -66,6 +69,10 @@ public interface OperacionDao {
 	public void deleteByPeriodoidPuestoidCategoriaid(Integer periodoId, Integer puestoId, Integer categoriaId);
 	
 	public void updateByPeriodoidPuestoidCategoriaid(Integer periodoId, Integer puestoId, Integer categoriaId, Integer usuarioId);
+	
+	public List<Operacion> findByPeriodoIdPuestoIdCorreccion(Integer idPeriodo, Integer idPuesto);
+	
+	public List<Operacion> findByPeriodoIdPuestoIdCorreccion2(Integer idPeriodo, Integer idPuesto);
 
     
 }

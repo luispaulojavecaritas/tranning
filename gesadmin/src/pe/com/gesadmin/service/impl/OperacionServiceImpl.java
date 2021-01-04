@@ -10,6 +10,7 @@ import pe.com.gesadmin.dao.OperacionDao;
 import pe.com.gesadmin.dao.impl.OperacionDaoImpl;
 import pe.com.gesadmin.entity.ComprobanteCorreccion;
 import pe.com.gesadmin.entity.Operacion;
+import pe.com.gesadmin.entity.ReciboEgreso;
 import pe.com.gesadmin.entity.Usuario;
 import pe.com.gesadmin.entity.transfer.LecturasMedidasPreOperacion;
 import pe.com.gesadmin.entity.transfer.OperacionAdministracionTransfer;
@@ -79,9 +80,9 @@ public class OperacionServiceImpl implements OperacionService {
 	}
 
 	@Override
-	public void registrarPago(Integer idOperacion, Integer IdPersona, Integer idEstatusOperacion, String tipoDoc, String nroDoc) {
+	public void registrarPago(Integer idOperacion, Integer IdPersona, Integer idEstatusOperacion, String tipoDoc, String nroDoc, String observaciones) {
 		// TODO Auto-generated method stub
-		ordenDao.savePayment(idOperacion, IdPersona, idEstatusOperacion, tipoDoc, nroDoc);
+		ordenDao.savePayment(idOperacion, IdPersona, idEstatusOperacion, tipoDoc, nroDoc, observaciones);
 	}
 
 	@Override
@@ -152,18 +153,37 @@ public class OperacionServiceImpl implements OperacionService {
 	}
 
 	@Override
-	public void cancelarPagoDos(Integer idOperacion, Usuario usuario, String motivo,
+	public ComprobanteCorreccion cancelarPagoDos(Integer idOperacion, Usuario usuario, String motivo,
 			String montoLetras, Integer idEstatusOperacion, Integer estado) {
 		// TODO Auto-generated method stub
-		ordenDao.cancelPaymentDos(idOperacion, usuario, motivo, montoLetras, idEstatusOperacion, estado);
+		return ordenDao.cancelPaymentDos(idOperacion, usuario, motivo, montoLetras, idEstatusOperacion, estado);
 
 	}
 
 	@Override
-	public void registrarPagoDos(Integer idOperacion, Integer IdPersona, Integer idEstatusOperacion, String tipoDoc,
-			String nroDoc, Usuario usuario, String motivo, String montoLetras, Integer estado) {
+	public ReciboEgreso registrarPagoDos(Integer idOperacion, Integer IdPersona, Integer idEstatusOperacion, String tipoDoc,
+			String nroDoc, Usuario usuario, String motivo, String montoLetras, Integer estado, Date fechaPago, String observacion) {
 		// TODO Auto-generated method stub
-		ordenDao.savePaymentDos(idOperacion, IdPersona, idEstatusOperacion, tipoDoc, nroDoc, usuario, motivo, montoLetras, estado);
+		return ordenDao.savePaymentDos(idOperacion, IdPersona, idEstatusOperacion, tipoDoc, nroDoc, usuario, motivo, montoLetras, estado, fechaPago, observacion);
+	}
+
+	@Override
+	public List<Operacion> buscarPorPeriodoIdPuestoIdCorreccion(Integer idPeriodo, Integer idPuesto) {
+		// TODO Auto-generated method stub
+		return ordenDao.findByPeriodoIdPuestoIdCorreccion(idPeriodo, idPuesto);
+	}
+
+	@Override
+	public List<Operacion> listarPorReciboPago(String tipodoc, String nroDoc) {
+		// TODO Auto-generated method stub
+		return ordenDao.listarByReciboPago(tipodoc, nroDoc);
+	}
+
+	@Override
+	public List<Operacion> buscarPorPeriodoIdPuestoIdCorreccion2(Integer idPeriodo, Integer idPuesto) {
+		// TODO Auto-generated method stub
+		System.out.println("mETODO 2 CREADO");
+		return ordenDao.findByPeriodoIdPuestoIdCorreccion2(idPeriodo, idPuesto);
 	}
 
 }

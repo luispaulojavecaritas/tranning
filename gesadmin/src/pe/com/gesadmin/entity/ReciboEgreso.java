@@ -18,9 +18,8 @@ public class ReciboEgreso implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@ManyToOne
-	@JoinColumn(name = "id_operacion", referencedColumnName = "id")
-	private Operacion operacion;
+	@Column(name = "id_operacion")
+	private Integer idOperacion;
 
 	@Column(name = "id_usuario")
 	private Integer idUsuario;
@@ -39,9 +38,15 @@ public class ReciboEgreso implements Serializable {
 
 	@Column(insertable = false, updatable = false)
 	private Timestamp registro;
+	
+	@Column(name = "tipo_comprobante")
+	private String tipoComprobante;
+	
+	@Column(name = "nro_comprobante")
+	private String nroComprobante;	
+	
 
 	public ReciboEgreso() {
-		operacion = new Operacion();
 	}
 
 	public Integer getId() {
@@ -50,14 +55,6 @@ public class ReciboEgreso implements Serializable {
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public Operacion getOperacion() {
-		return operacion;
-	}
-
-	public void setOperacion(Operacion operacion) {
-		this.operacion = operacion;
 	}
 
 	public Integer getIdUsuario() {
@@ -116,6 +113,30 @@ public class ReciboEgreso implements Serializable {
 		this.registro = registro;
 	}
 
+	public String getTipoComprobante() {
+		return tipoComprobante;
+	}
+
+	public void setTipoComprobante(String tipoComprobante) {
+		this.tipoComprobante = tipoComprobante;
+	}
+
+	public String getNroComprobante() {
+		return nroComprobante;
+	}
+
+	public void setNroComprobante(String nroComprobante) {
+		this.nroComprobante = nroComprobante;
+	}
+	
+	public Integer getIdOperacion() {
+		return idOperacion;
+	}
+
+	public void setIdOperacion(Integer idOperacion) {
+		this.idOperacion = idOperacion;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -144,7 +165,7 @@ public class ReciboEgreso implements Serializable {
 	@Override
 	public String toString() {
 		return "ReciboEgreso [id=" + id + ", montoDescripcion=" + montoDescripcion + ", descripcionUsuario="
-				+ descripcionUsuario + ", motivo=" + motivo + ", operacion=" + operacion + ", estado="
+				+ descripcionUsuario + ", motivo=" + motivo + ", operacion=" + idOperacion + ", estado="
 				+ estado + ", registro=" + registro + "]";
 	}
 

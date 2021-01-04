@@ -190,7 +190,7 @@ public class PeriodoBean {
 						System.out.println("Cumple validacion operacion servicios luz y agua");
 					} else {
 						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
-								"Antes de aperturar un nuevo Periodo, culmine la creacion registros de operaciones referente a la medida de consumo de servicios de luz y agua",
+								"Antes de aperturar un nuevo Periodo, culmine la creacion registros de programacion de deuda referente a la medida de consumo de servicios de luz y agua",
 								""));
 						return "";
 					}
@@ -199,7 +199,7 @@ public class PeriodoBean {
 						System.out.println("Cumple validacion operacion de categoria administrativo");
 					} else {
 						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
-								"Antes de aperturar un nuevo Periodo, culmine la creacion registros de operaciones referente a gastos administrativos",
+								"Antes de aperturar un nuevo Periodo, culmine la creacion registros de programacion de deuda referente a gastos administrativos",
 								""));
 						return "";
 					}
@@ -346,20 +346,28 @@ public class PeriodoBean {
 		} catch (Exception e) {
 			// TODO: handle exception
 			listaAnioFiscal = null;
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.",
-					"Problemas al recuperar registros año fiscal"));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error. Problemas al recuperar registros año fiscal",
+					""));
 		}
 	}
 
 	public boolean validarOperacionesLuzAgua() {
 
-		List<Puesto> listaPuestos = new ArrayList<>();
+		List<Puesto> listaPuestosAgua = new ArrayList<>();
+		List<Puesto> listaPuestosLuz = new ArrayList<>();
 		List<Operacion> listaOperaciones = new ArrayList<>();
 
-		listaPuestos = puestoService.listarFiltro(true);
+		listaPuestosAgua = puestoService.listarActivoAgua();
+		listaPuestosLuz = puestoService.listarActivoLuz();
+		
+		Integer cantidadAgua = (listaPuestosAgua==null ||listaPuestosAgua.isEmpty())?0:listaPuestosAgua.size();
+		Integer cantidadLuz = (listaPuestosLuz==null ||listaPuestosLuz.isEmpty())?0:listaPuestosLuz.size();
+		
 		listaOperaciones = operacionService.listarPorPeriodoactualCategoriaLuzAgua();
 
-		Integer diferencia = (listaPuestos.size() * 2) - listaOperaciones.size();
+		Integer diferencia = (cantidadAgua+cantidadLuz) - listaOperaciones.size();
+		
+		System.out.println("vALORES DE oPERACIONES LUZ Y AGUA: AGUA "+ cantidadAgua + " LUZ "+ cantidadLuz +" DIFERENCIA " + diferencia);
 
 		if (diferencia == 0) {
 			return true;

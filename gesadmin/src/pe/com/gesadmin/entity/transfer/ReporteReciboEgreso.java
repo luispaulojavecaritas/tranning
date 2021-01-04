@@ -2,26 +2,29 @@ package pe.com.gesadmin.entity.transfer;
 
 public class ReporteReciboEgreso {
 
-	private Integer id;
+	private String id;
 	private String fechaTexto;
 	private String usuarioRegistro;
-	private Double monto;
+	private String monto;
 	private String montoLiteral;
 	private String motivo;
 	private String tipoOperacion;
 	private String categoriaOperacion;
 	private String puestoOperacion;
 	private String proveedorOperacion;
+	private String tipoComprobante;
+	private String nroComprobante;
+	private String observacionPago;
 
 	public ReporteReciboEgreso() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Integer getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -41,11 +44,11 @@ public class ReporteReciboEgreso {
 		this.usuarioRegistro = usuarioRegistro;
 	}
 
-	public Double getMonto() {
+	public String getMonto() {
 		return monto;
 	}
 
-	public void setMonto(Double monto) {
+	public void setMonto(String monto) {
 		this.monto = monto;
 	}
 
@@ -55,6 +58,22 @@ public class ReporteReciboEgreso {
 
 	public void setMontoLiteral(String montoLiteral) {
 		this.montoLiteral = montoLiteral;
+	}
+
+	public String getTipoComprobante() {
+		return tipoComprobante;
+	}
+
+	public void setTipoComprobante(String tipoComprobante) {
+		this.tipoComprobante = tipoComprobante;
+	}
+
+	public String getNroComprobante() {
+		return nroComprobante;
+	}
+
+	public void setNroComprobante(String nroComprobante) {
+		this.nroComprobante = nroComprobante;
 	}
 
 	public String getMotivo() {
@@ -95,6 +114,14 @@ public class ReporteReciboEgreso {
 
 	public void setProveedorOperacion(String proveedorOperacion) {
 		this.proveedorOperacion = proveedorOperacion;
+	}
+
+	public String getObservacionPago() {
+		return observacionPago;
+	}
+
+	public void setObservacionPago(String observacionPago) {
+		this.observacionPago = observacionPago;
 	}
 
 }

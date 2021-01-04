@@ -22,8 +22,7 @@ body {
 					<div class="Container100">
 						<div
 							class="Wid100 MarAuto DispBlock OvHidden FontMerriWeatherRegular BlueDarkest TexAlCenter"
-							style="font-size: 3.0rem; padding-top: 0rem; padding-bottom: 0rem;">GENERAR
-							OPERACION CONSUMO SERVICIOS</div>
+							style="font-size: 3.0rem; padding-top: 0rem; padding-bottom: 0rem;">PROGRAMAR DEUDA CONCEPTO SERVICIOS</div>
 						<div class="Wid100 OvHidden" style="height: 1rem;"></div>
 
 						<h:form id="frmEstadistica">
@@ -70,7 +69,7 @@ body {
 						<h:form id="frmTipoServicio">
 							<p:panel id="pnlTipoServicio"
 								rendered="#{operacionConsumoServicioBean.booTipoServicio}"
-								header="Tipo de servicio a gestionar" style="margin-bottom:20px">
+								header="Soleccione Tipo de Servicio a Programar Deuda" style="margin-bottom:20px">
 								<p:panelGrid columns="2" layout="grid"
 									styleClass="ui-panelgrid-blank"
 									style="border:0px none; background-color:transparent;">
@@ -121,7 +120,7 @@ body {
 											
 											<p:outputLabel for="txtvar3" value="Observaciones:" />											
 											<p:inputTextarea value="#{operacionConsumoServicioBean.entidad.descripcion}" id="txtvar3"                                        
-                                             style="width: 100%" rows="3" label="descripcion" placeholder="Ingrese observaciones" onkeyup="this.value = this.value.toUpperCase();"
+                                             style="width: 100%" rows="5" label="descripcion" placeholder="Ingrese observaciones" onkeyup="this.value = this.value.toUpperCase();"
                                              maxlength="200"/>											
 
 										</p:panelGrid>
@@ -166,7 +165,7 @@ body {
 
 										<div class="EmptyBox5" />
 
-										<p:commandButton value="Generar Operaciones"
+										<p:commandButton value="Generar Movimientos"
 											actionListener="#{operacionConsumoServicioBean.generarOperaciones()}"
 											update="frmEntidad frmDetalle frmTipoServicio frmTabla frmEstadistica"
 											icon="fa fa-save" styleClass="GreenButton" />
@@ -181,7 +180,7 @@ body {
 
 						<h:form id="frmDetalle">
 							<p:panel id="pnlDetalle"
-								header="Detalle de Operacion de consumo servicio"
+								header="Detalle de Movimiento por Concepto de Servicios"
 								style="margin-bottom:20px"
 								rendered="#{operacionConsumoServicioBean.booBtnEliminar}">
 								<div class="Container">
@@ -194,7 +193,7 @@ body {
 											<h:outputText
 												value="#{operacionConsumoServicioBean.entidadseleccionada.id}" />
 
-											<p:outputLabel value="Anio - Periodo Fiscal:" />
+											<p:outputLabel value="Año - Periodo Fiscal:" />
 											<h:outputText
 												value="#{operacionConsumoServicioBean.entidadseleccionada.periodo.anioFiscal.descripcion} - #{operacionConsumoServicioBean.entidadseleccionada.periodo.descripcion}" />
 
@@ -214,16 +213,11 @@ body {
 											</h:outputText>
 
 										</p:panelGrid>
+
 									</div>
 									<div class="Container20 Responsive100">
 
-										<p:commandButton value="Eliminar" id="btnEliminar"
-											actionListener="#{operacionConsumoServicioBean.eliminar()}"
-											update="frmEntidad frmTabla frmDetalle frmTipoServicio frmFiscalizacion frmEstadistica"
-											icon="fa fa-refresh" styleClass="RedButton" process="@this"
-											immediate="true" />
-										<div class="EmptyBox5" />
-										<p:commandButton value="Cancelar"
+										<p:commandButton value="Cerrar"
 											actionListener="#{operacionConsumoServicioBean.cancelarEliminacionEntidad()}"
 											update="frmEntidad frmTabla frmDetalle frmTipoServicio frmFiscalizacion frmEstadistica"
 											icon="fa fa-refresh" process="@this" immediate="true" />
@@ -244,7 +238,7 @@ body {
 							<f:passThroughAttribute name="autocomplete" value="off" />
 
 							<p:panel id="panFiltro"
-								header="Lista de Operaciones de consumo servicios registradas">
+								header="Lista de Movimientos de Consumo de Servicios Registrados">
 								<div class="Container">
 									<div class="Container60 Responsive100"></div>
 									<div class="Container40 Responsive100">
@@ -293,7 +287,7 @@ body {
 												<h:outputText value="#{per.proveedor.razonSocial}" />
 											</p:column>
 
-											<p:column headerText="Categoria">
+											<p:column headerText="Concepto">
 												<h:outputText value="#{per.categoriaOperacion.descripcion}" />
 											</p:column>
 

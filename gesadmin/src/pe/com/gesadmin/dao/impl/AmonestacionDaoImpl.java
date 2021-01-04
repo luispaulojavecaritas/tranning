@@ -55,7 +55,7 @@ public class AmonestacionDaoImpl implements AmonestacionDao{
 	@Override
 	public List<Amonestacion> findByPeriodoId(Integer idPeriodo) {
 		// TODO Auto-generated method stub
-		String query = "select b FROM Amonestacion b where b.estado = 1 and b.periodo.id = :idPeriodo";
+		String query = "select b FROM Amonestacion b where b.periodo.id = :idPeriodo";
         TypedQuery<Amonestacion> tq = em.createQuery(query, Amonestacion.class);
         tq.setParameter("idPeriodo", idPeriodo);
         List<Amonestacion> lista = tq.getResultList();
@@ -65,7 +65,7 @@ public class AmonestacionDaoImpl implements AmonestacionDao{
 	@Override
 	public List<Amonestacion> findByAnioId(Integer idAnio) {
 		// TODO Auto-generated method stub
-		String query = "select b FROM Amonestacion b where b.estado = 1 and b.periodo.anioFiscal.id = :idAnio";
+		String query = "select b FROM Amonestacion b where b.periodo.anioFiscal.id = :idAnio";
         TypedQuery<Amonestacion> tq = em.createQuery(query, Amonestacion.class);
         tq.setParameter("idAnio", idAnio);
         List<Amonestacion> lista = tq.getResultList();

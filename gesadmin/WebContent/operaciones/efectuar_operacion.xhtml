@@ -22,8 +22,8 @@ body {
 					<div class="Container100">
 						<div
 							class="Wid100 MarAuto DispBlock OvHidden FontMerriWeatherRegular BlueDarkest TexAlCenter"
-							style="font-size: 3.0rem; padding-top: 0rem; padding-bottom: 0rem;">EFECTUAR
-							PAGO - COBRO OPERACION</div>
+							style="font-size: 3.0rem; padding-top: 0rem; padding-bottom: 0rem;">CANCELAR
+							DEUDA PROGRAMADA</div>
 						<div class="Wid100 OvHidden" style="height: 1rem;"></div>
 
 						<h:form id="frm1">
@@ -82,7 +82,7 @@ body {
 									<div class="Container20 Responsive100">
 										<p:commandButton value="Consultar"
 											actionListener="#{operacionPagoBean.listarEntidad()}"
-											update="frm1 frm2 frm3 message" icon="fa fa-save"/>
+											update="frm1 frm2 frm3 message" icon="fa fa-save" />
 										<div class="EmptyBox5" />
 										<p:commandButton value="Limpiar"
 											actionListener="#{operacionPagoBean.limpiar()}"
@@ -97,109 +97,133 @@ body {
 
 
 						<h:form id="frm3">
-								<p:panel id="panel" header="Información Detallada de Operacion "
-									rendered="#{operacionPagoBean.booDetalle}"
-									style="margin-bottom:20px">
-									<div class="Container">
-										<div class="Container100 Responsive100">
-											<p:panelGrid columns="4"
-												columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
-												layout="grid" styleClass="ui-panelgrid-blank"
-												style="border:0px none; background-color:transparent;">
+							<p:panel id="panel"
+								header="Información Detallada de Movimientos "
+								rendered="#{operacionPagoBean.booDetalle}"
+								style="margin-bottom:20px">
+								<div class="Container">
+									<div class="Container100 Responsive100">
+										<p:panelGrid columns="4"
+											columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+											layout="grid" styleClass="ui-panelgrid-blank"
+											style="border:0px none; background-color:transparent;">
 
-												<p:outputLabel value="Id: " />
-												<h:outputText
-													value="#{operacionPagoBean.entidadseleccionada.id}" />
+											<p:outputLabel value="Id: " />
+											<h:outputText
+												value="#{operacionPagoBean.entidadseleccionada.id}" />
 
-												<p:outputLabel value="Tipo Operacion: " />
-												<h:outputText
-													value="#{operacionPagoBean.entidadseleccionada.tipoOperacion.descripcion}" />
+											<p:outputLabel value="Tipo:" />
+											<h:outputText
+												value="#{operacionPagoBean.entidadseleccionada.tipoOperacion.descripcion}" />
 
-												<p:outputLabel value="Categoría Operacion: " />
-												<h:outputText
-													value="#{operacionPagoBean.entidadseleccionada.categoriaOperacion.descripcion}" />
+											<p:outputLabel value="Concepto: " />
+											<h:outputText
+												value="#{operacionPagoBean.entidadseleccionada.categoriaOperacion.descripcion}" />
 
-												<p:outputLabel value="Descripcion:" />
-												<h:outputText
-													value="#{operacionPagoBean.entidadseleccionada.descripcion}" />
+											<p:outputLabel value="Observaciones" />
+											<h:outputText
+												value="#{operacionPagoBean.entidadseleccionada.descripcion}" />
 
-												<p:outputLabel value="Periodo" />
-												<h:outputText
-													value="#{operacionPagoBean.entidadseleccionada.periodo.descripcion} - #{operacionPagoBean.entidadseleccionada.periodo.anioFiscal.descripcion}" />
+											<p:outputLabel value="Periodo" />
+											<h:outputText
+												value="#{operacionPagoBean.entidadseleccionada.periodo.descripcion} - #{operacionPagoBean.entidadseleccionada.periodo.anioFiscal.descripcion}" />
 
-												<p:outputLabel value="Deudor:" />
-												<h:outputText
-													value="#{operacionPagoBean.entidadseleccionada.puesto.descripcion}" />
+											<p:outputLabel value="Deudor:" />
+											<h:outputText
+												value="#{operacionPagoBean.entidadseleccionada.puesto.descripcion}" />
 
-												<p:outputLabel value="Acreedor:" />
-												<h:outputText
-													value="#{operacionPagoBean.entidadseleccionada.proveedor.razonSocial}" />
+											<p:outputLabel value="Acreedor:" />
+											<h:outputText
+												value="#{operacionPagoBean.entidadseleccionada.proveedor.razonSocial}" />
 
-												<p:outputLabel value="Fecha Creacion Operacion:" />
-												<h:outputText
-													value="#{operacionPagoBean.entidadseleccionada.registro}">
-													<f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss"
-														timeZone="GMT-5" />
-												</h:outputText>
+											<p:outputLabel value="Fecha Registro:" />
+											<h:outputText
+												value="#{operacionPagoBean.entidadseleccionada.registro}">
+												<f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss"
+													timeZone="GMT-5" />
+											</h:outputText>
 
-												<p:outputLabel value="Ultimo Dia de Pago" />
-												<h:outputText
-													value="#{operacionPagoBean.entidadseleccionada.fechaVencimiento}">
-													<f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss"
-														timeZone="GMT-5" />
-												</h:outputText>
+											<p:outputLabel value="Fecha Vencimiento:" />
+											<h:outputText
+												value="#{operacionPagoBean.entidadseleccionada.fechaVencimiento}">
+												<f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss"
+													timeZone="GMT-5" />
+											</h:outputText>
 
-
-												<p:outputLabel value="Estatus Operacion:" />
-												<h:outputText
-													value="#{operacionPagoBean.entidadseleccionada.estatusOperacion.descripcion}" />
-													
-													
-												<p:outputLabel value="Estatus Operacion:" />
-												<h:outputText
-													value="#{operacionPagoBean.entidadseleccionada.estatusOperacion.descripcion}" />
+											<p:outputLabel value="Estatus Operacion:" />
+											<h:outputText
+												value="#{operacionPagoBean.entidadseleccionada.estatusOperacion.descripcion}" />
 												
-												<p:outputLabel for="txtPagoTipoDoc" value="Tipo Documento:" />	
-												<p:selectOneMenu id="txtPagoTipoDoc" value="#{operacionPagoBean.tipoDocumento}"
-													required="true" requiredMessage="Seleccione tipo documento"
-													label="Tipo Documento" filter="true" filterMatchMode="contains">
-													<f:selectItem itemLabel="Seleccione" itemValue="" />
-													<f:selectItem itemLabel="RECIBO" itemValue="RECIBO" />
-													<f:selectItem itemLabel="BOLETA" itemValue="BOLETA" />
-													<f:selectItem itemLabel="FACTURA" itemValue="FACTURA" />
-													<f:selectItem itemLabel="TIKET" itemValue="TIKET" />
-													<f:selectItem itemLabel="GUIA.REM" itemValue="GUIA.REM"/>
-													<f:selectItem itemLabel="DEP.BANC" itemValue="DEP.BANC" />
-													<f:selectItem itemLabel="TRAN.BANC" itemValue="TRAN.BANC" />
-													<f:selectItem itemLabel="REC.HON." itemValue="REC.HONO." />
-												</p:selectOneMenu>
-													
-												<p:outputLabel for="txtPagoNroDoc" value="Nro Documento:" />
-												<p:inputText id="txtPagoNroDoc" required="true"   requiredMessage="Ingrese nro documento"
-													value="#{operacionPagoBean.nroDocumento}" />
+											<p:outputLabel value="Fecha pago:" for="txtFechaPago" />
+											<p:calendar id="txtFechaPago" pattern="dd-MM-yyyy" mask="true"
+												autocomplete="off" placeholder="dd-mm-aaaa" navigator="true"
+												maxdate="#{operacionPagoBean.fechaMaxima}" locale="es"
+												value="#{operacionPagoBean.fechaPago}"
+												required="true"
+												requiredMessage="Ingrese fecha de vencimieto">
+												<f:validateRequired for="txtFechaPago" />
+											</p:calendar>
 
-												<p:outputLabel for="txtPagoPersona" value="Efectúa Pago: " />
-												<p:selectOneMenu value="#{operacionPagoBean.idPersona}"
-													required="true" id="txtPagoPersona"
-													requiredMessage="Seleccione persona que efectúa el pago"
-													label="responsable pago" filter="true"
-													filterMatchMode="contains">
-													<f:selectItem itemLabel="Seleccione" itemValue="" />
-													<f:selectItems
-														value="#{operacionPagoBean.listaPuestoPersonaCargo}"
-														var="lista"
-														itemLabel="#{lista.persona.nombre} #{lista.persona.paterno} #{lista.persona.materno} - #{lista.cargo.descripcion}"
-														itemValue="#{lista.persona.id}" />
-												</p:selectOneMenu>
+											<p:outputLabel for="txtPagoTipoDoc" value="Tipo Documento:" />
+											<p:selectOneMenu id="txtPagoTipoDoc"
+												value="#{operacionPagoBean.tipoDocumento}" required="true"
+												requiredMessage="Seleccione tipo documento"
+												label="Tipo Documento" filter="true"
+												filterMatchMode="contains">
+												<f:selectItem itemLabel="Seleccione" itemValue="" />
+												<f:selectItem itemLabel="RECIBO INGRESO" itemValue="RECIBO" />
+												<f:selectItem itemLabel="RECIBO EGRESO" itemValue="RECIBO" />
+												<f:selectItem itemLabel="TIKET" itemValue="TIKET" />
+												<f:selectItem itemLabel="BOLETA" itemValue="BOLETA" />
+												<f:selectItem itemLabel="FACTURA" itemValue="FACTURA" />
+												<f:selectItem itemLabel="GUIA.REM" itemValue="GUIA.REM" />
+												<f:selectItem itemLabel="DEP.BANC" itemValue="DEP.BANC" />
+												<f:selectItem itemLabel="TRAN.BANC" itemValue="TRAN.BANC" />
+												<f:selectItem itemLabel="REC.HON." itemValue="REC.HONO." />
+												<f:selectItem itemLabel="OTROS" itemValue="OTROS" />
+											</p:selectOneMenu>
 
-											</p:panelGrid>
+											<p:outputLabel for="txtPagoNroDoc" value="Nro Documento:" />
+											<p:inputText id="txtPagoNroDoc" required="true"
+												requiredMessage="Ingrese nro documento"
+												value="#{operacionPagoBean.nroDocumento}" />
 
-											<p:commandButton value="Registrar Pago"
-												actionListener="#{operacionPagoBean.registrar_Pago2()}" styleClass="GreenButton" 
-												update="frm1 frm2 frm3 message" icon="fa fa-save" />
-										</div>
+											<p:outputLabel for="txtPagoPersona" value="Efectúa Pago: " />
+											<p:selectOneMenu value="#{operacionPagoBean.idPersona}"
+												required="true" id="txtPagoPersona"
+												requiredMessage="Seleccione persona que efectúa el pago"
+												label="responsable pago" filter="true"
+												filterMatchMode="contains">
+												<f:selectItem itemLabel="Seleccione" itemValue="" />
+												<f:selectItems
+													value="#{operacionPagoBean.listaPuestoPersonaCargo}"
+													var="lista"
+													itemLabel="#{lista.persona.nombre} #{lista.persona.paterno} #{lista.persona.materno} - #{lista.cargo.descripcion}"
+													itemValue="#{lista.persona.id}" />
+											</p:selectOneMenu>
+											
+											
+											<p:outputLabel for="txtvar100" value="Observaciones:" />											
+											<p:inputTextarea value="#{operacionPagoBean.observaciones}" id="txtvar100"                                    
+                                             style="width: 100%" rows="5" label="motivo" placeholder="Ingrese observaciones que considere relevantes" onkeyup="this.value = this.value.toUpperCase();"
+                                             maxlength="500"/>	
+
+										</p:panelGrid>
+
+										<p:commandButton value="Cancelar Deuda"
+											actionListener="#{operacionPagoBean.registrar_Pago2()}"
+											styleClass="GreenButton" update="frm1 frm2 frm3 message"
+											icon="fa fa-save" />
+
+										<div class="EmptyBox5" />
+
+										<p:commandButton value="Recibo Egreso" ajax="false"
+											styleClass="GreenButton" immediate="true"
+											rendered="#{operacionPagoBean.booReporte}"
+											actionListener="#{operacionPagoBean.vercertificadoReciboEgreso}" />
 									</div>
-								</p:panel>
+								</div>
+							</p:panel>
 						</h:form>
 
 
@@ -212,7 +236,7 @@ body {
 						<h:form id="frm2">
 							<f:passThroughAttribute name="autocomplete" value="off" />
 
-							<p:panel id="panFiltro" header="Lista de operaciones registrados">
+							<p:panel id="panFiltro" header="Lista de movimientos registrados">
 								<div class="Container">
 									<div class="Container60 Responsive100"></div>
 									<div class="Container40 Responsive100">
@@ -246,27 +270,17 @@ body {
 											<p:ajax event="rowUnselect"
 												listener="#{operacionPagoBean.onRowUnselect}"
 												update="frm1 frm2 frm3" />
-												
+
 											<p:column headerText="Id">
-												<h:outputText
-													value="#{per.id}" />
+												<h:outputText value="#{per.id}" />
 											</p:column>
 
-											<p:column headerText="Periodo - Anio Fiscal">
-												<h:outputText
-													value="#{per.periodo.descripcion} - #{per.periodo.anioFiscal.descripcion}" />
-											</p:column>
-
-											<p:column headerText="Categoria">
+											<p:column headerText="Concepto">
 												<h:outputText value="#{per.categoriaOperacion.descripcion}" />
 											</p:column>
-
-											<p:column headerText="Deudor">
-												<h:outputText value="#{per.puesto.descripcion}" />
-											</p:column>
-
-											<p:column headerText="Beneficiario">
-												<h:outputText value="#{per.proveedor.razonSocial}" />
+											
+											<p:column headerText="Descripcion">
+												<h:outputText value="#{per.descripcion}" />
 											</p:column>
 
 											<p:column headerText="Monto">
@@ -275,10 +289,15 @@ body {
 														maxIntegerDigits="20" maxFractionDigits="2" />
 												</h:outputText>
 											</p:column>
+											
+											<p:column headerText="Tipo">
+												<h:outputText value="#{per.tipoOperacion.descripcion}" />
+											</p:column>
 
 											<p:column headerText="Estatus">
 												<h:outputText value="#{per.estatusOperacion.descripcion}" />
 											</p:column>
+	
 
 											<p:column headerText="Fecha registro">
 												<h:outputText value="#{per.registro}">
@@ -289,7 +308,7 @@ body {
 
 											<f:facet name="footer">
 												<h:outputText
-													value="En total hay #{operacionPagoBean.cantidadRegistros} operaciones" />
+													value="En total hay #{operacionPagoBean.cantidadRegistros} movimientos" />
 											</f:facet>
 
 										</p:dataTable>

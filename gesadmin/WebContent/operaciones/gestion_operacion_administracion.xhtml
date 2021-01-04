@@ -22,8 +22,7 @@ body {
 					<div class="Container100">
 						<div
 							class="Wid100 MarAuto DispBlock OvHidden FontMerriWeatherRegular BlueDarkest TexAlCenter"
-							style="font-size: 3.0rem; padding-top: 0rem; padding-bottom: 0rem;">GENERAR
-							OPERACION ADMINISTRACION</div>
+							style="font-size: 3.0rem; padding-top: 0rem; padding-bottom: 0rem;">PROGRAMAR DEUDA CONCEPTO ADMINISTRATIVO</div>
 						<div class="Wid100 OvHidden" style="height: 1rem;"></div>
 
 						<h:form id="frmEstadistica">
@@ -65,7 +64,7 @@ body {
 							<f:passThroughAttribute name="autocomplete" value="off" />
 
 							<p:panel id="panResumen"
-								header="Resumen de operaciones de administracion registradas">
+								header="Resumen Movimientos Administrativos Generados:">
 								<div class="Container">
 
 									<div class="Container100 Responsive100">
@@ -74,25 +73,25 @@ body {
 											value="#{operacionAdministracionBean.listaFiltroResumen}"
 											emptyMessage="No se encontraron registros">
 
-											<f:facet name="header">Operaciones con estado pendiente, efectuado, vencido</f:facet>
+											<f:facet name="header">Totalidad de movimientos generados</f:facet>
 
-											<p:column headerText="Deudor">
+											<p:column headerText="Deudor:">
 												<h:outputText value="#{per.puestoDes}" />
 											</p:column>
 
-											<p:column headerText="Categoria">
+											<p:column headerText="Concepto:">
 												<h:outputText value="#{per.categoriaDes}" />
 											</p:column>
 
-											<p:column headerText="Dias Registrados">
+											<p:column headerText="Dias Registrados:">
 												<h:outputText value="#{per.dias}" />
 											</p:column>
 
-											<p:column headerText="Monto Unitario">
+											<p:column headerText="Monto Unitario:">
 												<h:outputText value="#{per.montoUnitario}" />
 											</p:column>
 
-											<p:column headerText="Monto Total">
+											<p:column headerText="Monto Total:">
 												<h:outputText value="#{per.montoTotal}" />
 											</p:column>
 
@@ -119,7 +118,7 @@ body {
 											layout="grid" styleClass="ui-panelgrid-blank"
 											style="border:0px none; background-color:transparent;">
 
-											<p:outputLabel value="Fecha vencimiento:" for="txtvar11" />
+											<p:outputLabel value="Fecha Vencimiento:" for="txtvar11" />
 											<p:calendar id="txtvar11" pattern="dd-MM-yyyy" mask="true"
 												autocomplete="off" placeholder="dd-mm-aaaa" navigator="true"
 												yearRange="c-10:c+5" locale="es"
@@ -142,7 +141,7 @@ body {
 												<h:outputText value="#{per.puestoDes}" />
 											</p:column>
 
-											<p:column headerText="Dias Pendiente">
+											<p:column headerText="Dias Pendientes">
 												<h:outputText value="#{per.dias}" />
 											</p:column>
 
@@ -158,8 +157,8 @@ body {
 
 										<div class="EmptyBox5" />
 
-										<p:commandButton value="Generar Operaciones"
-											actionListener="#{operacionAdministracionBean.generarOperaciones()}"
+										<p:commandButton value="Generar Movimientos"
+											actionListener="#{operacionAdministracionBean.generarOperaciones2()}"
 											update="frmEntidad frmDetalle  frmTabla frmEstadistica frmResumen"
 											icon="fa fa-save" styleClass="GreenButton" />
 
@@ -174,7 +173,7 @@ body {
 
 						<h:form id="frmDetalle">
 							<p:panel id="pnlDetalle"
-								header="Detalle de operaciones de administracion"
+								header="Detalle de movimiento por concepto de administracion"
 								style="margin-bottom:20px"
 								rendered="#{operacionAdministracionBean.booBtnEliminar}">
 								<div class="Container">
@@ -187,11 +186,15 @@ body {
 											<h:outputText
 												value="#{operacionAdministracionBean.entidadseleccionada.puesto.descripcion}" />
 
-											<p:outputLabel value="Categoria Operacion:" />
+											<p:outputLabel value="Concepto:" />
 											<h:outputText
 												value="#{operacionAdministracionBean.entidadseleccionada.categoriaOperacion.descripcion}" />
 												
-											<p:outputLabel value="Estatus Operacion:" />
+											<p:outputLabel value= "Descripcion" />
+											<h:outputText
+												value="#{operacionAdministracionBean.entidadseleccionada.descripcion}" />
+												
+											<p:outputLabel value="Estatus:" />
 											<h:outputText
 												value="#{operacionAdministracionBean.entidadseleccionada.estatusOperacion.descripcion}" />
 
@@ -201,14 +204,8 @@ body {
 										</p:panelGrid>
 									</div>
 									<div class="Container20 Responsive100">
-
-										<p:commandButton value="Eliminar" id="btnEliminar"
-											actionListener="#{operacionAdministracionBean.eliminar()}"
-											update="frmEntidad frmTabla frmDetalle  frmFiscalizacion frmEstadistica frmResumen"
-											icon="fa fa-refresh" styleClass="RedButton" process="@this"
-											immediate="true" />
-										<div class="EmptyBox5" />
-										<p:commandButton value="Cancelar"
+										
+										<p:commandButton value="Cerrar"
 											actionListener="#{operacionAdministracionBean.cancelarEliminacionEntidad()}"
 											update="frmEntidad frmTabla frmDetalle  frmFiscalizacion frmResumen"
 											icon="fa fa-refresh" process="@this" immediate="true" />
@@ -227,7 +224,7 @@ body {
 							<f:passThroughAttribute name="autocomplete" value="off" />
 
 							<p:panel id="panFiltro"
-								header="Lista de operaciones de administracion registradas">
+								header="Lista de movmimientos por concepto de administración registradas">
 								<div class="Container">
 									<div class="Container60 Responsive100"></div>
 									<div class="Container40 Responsive100">
@@ -271,8 +268,12 @@ body {
 												<h:outputText value="#{per.puesto.descripcion}" />
 											</p:column>
 
-											<p:column headerText="Categoria">
+											<p:column headerText="Concepto">
 												<h:outputText value="#{per.categoriaOperacion.descripcion}" />
+											</p:column>
+											
+											<p:column headerText="Descripcion">
+												<h:outputText value="#{per.descripcion}" />
 											</p:column>
 											
 											<p:column headerText="Estatus">

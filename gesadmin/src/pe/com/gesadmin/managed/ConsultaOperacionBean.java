@@ -1,5 +1,6 @@
 package pe.com.gesadmin.managed;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -14,25 +15,39 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.UnselectEvent;
 
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import pe.com.gesadmin.entity.AnioFiscal;
 import pe.com.gesadmin.entity.Operacion;
 import pe.com.gesadmin.entity.Periodo;
 import pe.com.gesadmin.entity.transfer.FiltroTransfer;
 import pe.com.gesadmin.entity.transfer.PeriodoTransfer;
+import pe.com.gesadmin.entity.transfer.ReporteComprobanteCorreccion;
+import pe.com.gesadmin.entity.transfer.ReporteReciboEgreso;
 import pe.com.gesadmin.service.AnioFiscalService;
 import pe.com.gesadmin.service.OperacionService;
 import pe.com.gesadmin.service.PeriodoService;
 import pe.com.gesadmin.service.PuestoPersonaCargoService;
 import pe.com.gesadmin.service.PuestoService;
+import pe.com.gesadmin.service.ReporteService;
 import pe.com.gesadmin.service.impl.AnioFiscalServiceImpl;
 import pe.com.gesadmin.service.impl.OperacionServiceImpl;
 import pe.com.gesadmin.service.impl.PeriodoServiceImpl;
 import pe.com.gesadmin.service.impl.PuestoPersonaCargoServiceImpl;
 import pe.com.gesadmin.service.impl.PuestoServiceImpl;
+import pe.com.gesadmin.service.impl.ReporteServiceImpl;
+import pe.com.gesadmin.util.Constante;
+import pe.com.gesadmin.util.UtilFechas;
 
 @ManagedBean
 @ViewScoped
@@ -68,8 +83,17 @@ public class ConsultaOperacionBean {
 
 	private boolean booDetalle = false;
 	private boolean booFiltro = false;
+	
+	private boolean booComprobanteCorreccion = false;
+	private boolean booReciboEgreso = false;
+	
+	private ReporteComprobanteCorreccion reporteComprobanteCorreccion;
+	private ReporteReciboEgreso reporteReciboEgreso;
+	
 
 	private String filtro;
+	
+	JasperPrint reportePrintLocal;
 
 	@EJB
 	private OperacionService servicio = new OperacionServiceImpl();
@@ -85,6 +109,9 @@ public class ConsultaOperacionBean {
 
 	@EJB
 	private PuestoPersonaCargoService puestoPersonaCargoService = new PuestoPersonaCargoServiceImpl();
+	
+	@EJB
+	private ReporteService reporteService = new ReporteServiceImpl();
 
 	public ConsultaOperacionBean() {
 		// TODO Auto-generated constructor stub
@@ -105,6 +132,12 @@ public class ConsultaOperacionBean {
 
 		booDetalle = false;
 		booFiltro = false;
+		
+		booComprobanteCorreccion = false;
+		booReciboEgreso = false;
+		
+		reporteComprobanteCorreccion = new ReporteComprobanteCorreccion();
+		reporteReciboEgreso = new ReporteReciboEgreso(); 
 	}
 
 	@PostConstruct
@@ -324,6 +357,46 @@ public class ConsultaOperacionBean {
 		this.periodoTransfer = periodoTransfer;
 	}
 
+	public boolean isBooComprobanteCorreccion() {
+		return booComprobanteCorreccion;
+	}
+
+	public void setBooComprobanteCorreccion(boolean booComprobanteCorreccion) {
+		this.booComprobanteCorreccion = booComprobanteCorreccion;
+	}
+
+	public boolean isBooReciboEgreso() {
+		return booReciboEgreso;
+	}
+
+	public void setBooReciboEgreso(boolean booReciboEgreso) {
+		this.booReciboEgreso = booReciboEgreso;
+	}
+
+	public ReporteComprobanteCorreccion getReporteComprobanteCorreccion() {
+		return reporteComprobanteCorreccion;
+	}
+
+	public void setReporteComprobanteCorreccion(ReporteComprobanteCorreccion reporteComprobanteCorreccion) {
+		this.reporteComprobanteCorreccion = reporteComprobanteCorreccion;
+	}
+
+	public ReporteReciboEgreso getReporteReciboEgreso() {
+		return reporteReciboEgreso;
+	}
+
+	public void setReporteReciboEgreso(ReporteReciboEgreso reporteReciboEgreso) {
+		this.reporteReciboEgreso = reporteReciboEgreso;
+	}
+
+	public ReporteService getReporteService() {
+		return reporteService;
+	}
+
+	public void setReporteService(ReporteService reporteService) {
+		this.reporteService = reporteService;
+	}
+
 	public void recuperar() {
 
 		entidad = new Operacion();
@@ -347,7 +420,7 @@ public class ConsultaOperacionBean {
 			// TODO: handle exception
 			listaAnioFiscal = null;
 			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Problemas al recuperar registros aÃ±o fiscal", ""));
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Problemas al recuperar registros año fiscal", ""));
 		}
 	}
 
@@ -457,6 +530,46 @@ public class ConsultaOperacionBean {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "Seleccion de registro exitosa", ""));
 		}
+		
+		
+		if(entidad.getTipoOperacion().getId() == 2 && entidad.getEstatusOperacion().getId() == 2){
+			reporteReciboEgreso = new ReporteReciboEgreso();
+			List<ReporteReciboEgreso> listaLocal = new ArrayList<>();
+			listaLocal = reporteService.obtenerReporteReciboEgreso(entidad.getId());
+			
+			if(listaLocal == null || listaLocal.isEmpty()) {
+				reporteReciboEgreso = null;
+				booReciboEgreso = false;
+			}else {
+				reporteReciboEgreso = listaLocal.get(0);
+				booReciboEgreso = true;
+			}
+			
+		}else if(entidad.getTipoOperacion().getId() == 1 && entidad.getEstatusOperacion().getId() == 4) {
+			reporteComprobanteCorreccion = new ReporteComprobanteCorreccion();
+			List<ReporteComprobanteCorreccion> listaLocal = new ArrayList<>();
+			listaLocal = reporteService.obtenerReporteComprobanteCorreccion(entidad.getId());
+			
+			if(listaLocal == null || listaLocal.isEmpty()) {
+				reporteComprobanteCorreccion = null;
+				booComprobanteCorreccion = false;
+			}else {
+				reporteComprobanteCorreccion = listaLocal.get(0);
+				booComprobanteCorreccion = true;
+			}
+		}else { 
+			
+			List<ReporteComprobanteCorreccion> listaLocal = new ArrayList<>();
+			listaLocal = reporteService.obtenerReporteComprobanteCorreccion(entidad.getId());
+			
+			if(listaLocal == null || listaLocal.isEmpty()) {
+				reporteComprobanteCorreccion = null;
+				booComprobanteCorreccion = false;
+			}else {
+				reporteComprobanteCorreccion = listaLocal.get(0);
+				booComprobanteCorreccion = true;
+			}
+		}
 	}
 
 	public void onRowUnselect(UnselectEvent event) {
@@ -498,6 +611,11 @@ public class ConsultaOperacionBean {
 
 		booDetalle = false;
 		booFiltro = false;
+		booComprobanteCorreccion = false;
+		booReciboEgreso = false;
+		
+		reporteComprobanteCorreccion = new ReporteComprobanteCorreccion();
+		reporteReciboEgreso = new ReporteReciboEgreso();
 
 		lista = null;
 
@@ -506,6 +624,12 @@ public class ConsultaOperacionBean {
 	public void limpiarFiltro() {
 		booDetalle = false;
 		booFiltro = true;
+		
+		booComprobanteCorreccion = false;
+		booReciboEgreso = false;
+		
+		reporteComprobanteCorreccion = new ReporteComprobanteCorreccion();
+		reporteReciboEgreso = new ReporteReciboEgreso();
 
 		listafiltro = null;
 		listafiltro = lista;
@@ -729,7 +853,138 @@ public class ConsultaOperacionBean {
 	public void cerrarDetalle() {
 		booDetalle = false;
 		booFiltro = true;
+		
+		booComprobanteCorreccion = false;
+		booReciboEgreso = false;
+		
+		reporteComprobanteCorreccion = new ReporteComprobanteCorreccion();
+		reporteReciboEgreso = new ReporteReciboEgreso();
 	}
+	
+	
+	public String vercertificadoComprobanteCorreccion(ActionEvent actionEvent) throws JRException, IOException {
+		
+		String absolutePathCerdp = Constante.RUTA_REPORTES + "reporte_comprobante_correccion.jasper";		
+		
+		List<ReporteComprobanteCorreccion> listaPruebaReporteCuatro = new ArrayList<>();
+		listaPruebaReporteCuatro.add(reporteComprobanteCorreccion);
+
+		// --- CARGA DE DATOS EN LA COLECCION
+		JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(listaPruebaReporteCuatro);
+		System.out.println();
+
+		try {
+			reportePrintLocal = JasperFillManager.fillReport(absolutePathCerdp, null, beanCollectionDataSource);
+		} catch (JRException e) {
+			// TODO Auto-generated catch block
+			System.out
+					.println("Error en creacion instancia jasperPrint: " + e.toString() + " TRACE: " + e.getStackTrace());
+			e.printStackTrace();
+			reportePrintLocal = null;
+		}	
+		
+		
+		if(reportePrintLocal == null) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", "Problemas al generar reporte"));
+			return "";
+		}
+
+		try {
+			HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance()
+					.getExternalContext().getResponse();
+			httpServletResponse.addHeader("Content-disposition", "attachment; filename=comprobante_correccion.pdf");
+
+			byte[] fichero = JasperExportManager.exportReportToPdf(reportePrintLocal);
+
+			httpServletResponse.setContentType("application/pdf");
+			httpServletResponse.setHeader("Content-disposition", "inline; filename=comprobante_correccion.pdf");
+			httpServletResponse.setHeader("Cache-Control", "max-age=30");
+			httpServletResponse.setHeader("Pragma", "No-cache");
+			httpServletResponse.setDateHeader("Expires", 0);
+			httpServletResponse.setContentLength(fichero.length);
+
+			ServletOutputStream out;
+			out = httpServletResponse.getOutputStream();
+
+			out.write(fichero, 0, fichero.length);
+			out.flush();
+			out.close();
+
+			FacesContext.getCurrentInstance().responseComplete();
+			return "";
+		} catch (Exception e) {
+			System.out.println("Error en responder vista: " + e.toString());
+
+			FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error en mostrar reporte", "");
+			FacesContext.getCurrentInstance().addMessage(null, fm);
+			return "";
+		}
+
+	}
+	
+	
+	
+	public String vercertificadoReciboEgreso(ActionEvent actionEvent) throws JRException, IOException {
+		
+		String absolutePathCerdp = Constante.RUTA_REPORTES + "reporte_recibo_egreso.jasper";		
+		
+		List<ReporteReciboEgreso> listaPruebaReporteCuatro = new ArrayList<>();
+		listaPruebaReporteCuatro.add(reporteReciboEgreso);
+
+		// --- CARGA DE DATOS EN LA COLECCION
+		JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(listaPruebaReporteCuatro);
+		System.out.println();
+
+		try {
+			reportePrintLocal = JasperFillManager.fillReport(absolutePathCerdp, null, beanCollectionDataSource);
+		} catch (JRException e) {
+			// TODO Auto-generated catch block
+			System.out
+					.println("Error en creacion instancia jasperPrint: " + e.toString() + " TRACE: " + e.getStackTrace());
+			e.printStackTrace();
+			reportePrintLocal = null;
+		}	
+		
+		
+		if(reportePrintLocal == null) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", "Problemas al generar reporte"));
+			return "";
+		}
+
+		try {
+			HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance()
+					.getExternalContext().getResponse();
+			httpServletResponse.addHeader("Content-disposition", "attachment; filename=recibo_egreso.pdf");
+
+			byte[] fichero = JasperExportManager.exportReportToPdf(reportePrintLocal);
+
+			httpServletResponse.setContentType("application/pdf");
+			httpServletResponse.setHeader("Content-disposition", "inline; filename=recibo_egreso.pdf");
+			httpServletResponse.setHeader("Cache-Control", "max-age=30");
+			httpServletResponse.setHeader("Pragma", "No-cache");
+			httpServletResponse.setDateHeader("Expires", 0);
+			httpServletResponse.setContentLength(fichero.length);
+
+			ServletOutputStream out;
+			out = httpServletResponse.getOutputStream();
+
+			out.write(fichero, 0, fichero.length);
+			out.flush();
+			out.close();
+
+			FacesContext.getCurrentInstance().responseComplete();
+			return "";
+		} catch (Exception e) {
+			System.out.println("Error en responder vista: " + e.toString());
+
+			FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error en mostrar reporte", "");
+			FacesContext.getCurrentInstance().addMessage(null, fm);
+			return "";
+		}
+
+	}	
 
 
 	public void actualizarListaEntidadFiltroCategoria() {

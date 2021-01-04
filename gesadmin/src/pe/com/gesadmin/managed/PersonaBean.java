@@ -175,7 +175,7 @@ public class PersonaBean {
 				System.out.println("No cumple formato");
 				
 				FacesContext.getCurrentInstance().addMessage(null,
-						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Formato de correo inválido", ""));
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Formato de correo invalido", ""));
 				listarEntidad();
 				return "";
 				
@@ -196,7 +196,7 @@ public class PersonaBean {
 				System.out.println("No cumple formato");
 				
 				FacesContext.getCurrentInstance().addMessage(null,
-						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Formato de telefono celular inválido, se espera nueve digitos numéricos", ""));
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Formato de telefono celular invalido, se espera nueve digitos numericos", ""));
 				listarEntidad();
 				return "";
 				
@@ -217,7 +217,7 @@ public class PersonaBean {
 				System.out.println("No cumple formato");
 				
 				FacesContext.getCurrentInstance().addMessage(null,
-						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Formato de telefono fijo inválido, se espera siete digitos numéricos", ""));
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Formato de telefono fijo invalido, se espera siete digitos numericos", ""));
 				listarEntidad();
 				return "";
 				
@@ -393,8 +393,8 @@ public class PersonaBean {
 		} catch (Exception e) {
 			// TODO: handle exception
 			listaTipoDocumento = null;
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.",
-					"Problemas al recuperar lista de tipo de documento"));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error. Problemas al recuperar lista de tipo de documento",
+					""));
 		}
 
 	}

@@ -169,15 +169,15 @@ public class AnioFiscalBean {
 					System.out.println("Cumple validacion operaciones de categoria  servicios luz y agua");
 				} else {
 					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
-							"Complete registros de operaciones de categoria servicios de luz y agua", ""));
+							"Complete registros de programacion de deuda de concepto servicios de luz y agua", ""));
 					return "";
 				}
 
 				if (validacionAdministracion) {
-					System.out.println("Cumple validacion operaciones de categoria administrativo");
+					System.out.println("Cumple validacion programacion de deuda de concepto administrativo");
 				} else {
 					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
-							"Complete registros de operaciones de categoria administrativo", ""));
+							"Complete registros de programacion de deuda de concepto administrativo", ""));
 					return "";
 				}
 
@@ -316,13 +316,20 @@ public class AnioFiscalBean {
 	
 	public boolean validarOperacionesLuzAgua() {
 
-		List<Puesto> listaPuestos = new ArrayList<>();
+		List<Puesto> listaPuestosAgua = new ArrayList<>();
+		List<Puesto> listaPuestosLuz = new ArrayList<>();
 		List<Operacion> listaOperaciones = new ArrayList<>();
-
-		listaPuestos = puestoService.listarFiltro(true);
+		
+		listaPuestosAgua = puestoService.listarActivoAgua();
+		listaPuestosLuz = puestoService.listarActivoLuz();
+		
+		Integer cantidadAgua = (listaPuestosAgua==null ||listaPuestosAgua.isEmpty())?0:listaPuestosAgua.size();
+		Integer cantidadLuz = (listaPuestosLuz==null ||listaPuestosLuz.isEmpty())?0:listaPuestosLuz.size();
+		
 		listaOperaciones = operacionService.listarPorPeriodoactualCategoriaLuzAgua();
 
-		Integer diferencia = (listaPuestos.size() * 2) - listaOperaciones.size();
+		Integer diferencia = (cantidadAgua+cantidadLuz) - listaOperaciones.size();
+		System.out.println("vALORES DE oPERACIONES LUZ Y AGUA: AGUA "+ cantidadAgua + " LUZ "+ cantidadLuz +" DIFERENCIA " + diferencia);
 
 		if (diferencia == 0) {
 			return true;
@@ -337,7 +344,7 @@ public class AnioFiscalBean {
 		List<Puesto> listaPuestos = new ArrayList<>();
 		List<Operacion> listaOperaciones = new ArrayList<>();
 
-		listaPuestos = puestoService.listarFiltro(true);
+		listaPuestos = puestoService.listarFiltroNoAdminNiPropiedad();
 		listaOperaciones = operacionService.listarPorPeriodoactualCategoriaAdministracion();
 
 		UtilFechas utilFechas = new UtilFechas();

@@ -354,7 +354,7 @@ public class OperacionBean {
 			generarOperacionUnico();
 		} else {
 			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_WARN, "No se reconoce tipo de operacion a crear", ""));
+					new FacesMessage(FacesMessage.SEVERITY_WARN, "No se reconoce tipo de movimiento a crear", ""));
 		}
 
 		limpiar();
@@ -542,7 +542,7 @@ public class OperacionBean {
 			booDetalle = false;
 			booRegistro = true;
 			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", "Problemas al recuperar registro"));
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error. Problemas al recuperar registro", ""));
 		}
 	}
 
@@ -607,7 +607,7 @@ public class OperacionBean {
 		} catch (Exception e) {
 			// TODO: handle exception
 			listaTipoOrden = null;
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.",
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error. Problemas al recuperar registros tipos de movimiento",
 					"Problemas al recuperar registros tipos de orden"));
 
 		}
@@ -620,8 +620,8 @@ public class OperacionBean {
 		} catch (Exception e) {
 			// TODO: handle exception
 			listaPuesto = null;
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.",
-					"Problemas al recuperar registros puestos"));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error. Problemas al recuperar registros puestos",
+					""));
 
 		}
 	}
@@ -633,8 +633,8 @@ public class OperacionBean {
 		} catch (Exception e) {
 			// TODO: handle exception
 			listaEstatusOperacion = null;
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.",
-					"Problemas al recuperar registros situaciones orden"));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error. Problemas al recuperar registros situaciones orden",
+					""));
 
 		}
 	}
@@ -646,8 +646,8 @@ public class OperacionBean {
 		} catch (Exception e) {
 			// TODO: handle exception
 			listaPeriodo = null;
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.",
-					"Problemas al recuperar registros periodo"));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error. Problemas al recuperar registros periodo",
+					""));
 
 		}
 	}
@@ -659,8 +659,8 @@ public class OperacionBean {
 		} catch (Exception e) {
 			// TODO: handle exception
 			listaCategoriaOperacion = null;
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.",
-					"Problemas al recuperar registros categoria operacion"));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error. Problemas al recuperar registros categoria operacion",
+					""));
 
 		}
 	}
@@ -752,7 +752,12 @@ public class OperacionBean {
 
 		try {
 			listaDeudorFiltro = null;
+			
 			listaDeudorFiltro = puestoService.listarFiltro(booIngreso);
+			
+			if(booIngreso) {
+				listaDeudorFiltro = listaPuesto;
+			}
 
 			puestosLista = convertirListaPuestosToArray();
 
@@ -810,8 +815,8 @@ public class OperacionBean {
 		} catch (Exception e) {
 			// TODO: handle exception
 			listaProveedor = null;
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.",
-					"Problemas al recuperar registros proveedor"));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error. Problemas al recuperar registros proveedor",
+					""));
 		}
 	}
 

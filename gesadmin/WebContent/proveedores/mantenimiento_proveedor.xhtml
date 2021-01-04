@@ -43,11 +43,10 @@ body {
 
 											<p:outputLabel for="txtvar2" value="RUC:" />
 											<p:inputText id="txtvar2"
-												value="#{proveedorBean.entidad.ruc}" required="true"
+												value="#{proveedorBean.entidad.ruc}" required="false"
 												requiredMessage="Ingrese ruc" label="ruc"
 												onkeyup="this.value = this.value.toUpperCase();"
 												maxlength="11">
-												<f:validateRegex pattern="^[0-9]{11}$" />
 											</p:inputText>
 
 											<p:outputLabel for="txtvar3" value="Razon Social:" />
@@ -58,7 +57,7 @@ body {
 
 											<p:outputLabel for="txtvar4" value="Rubro:" />
 											<p:inputText id="txtvar4"
-												value="#{proveedorBean.entidad.rubro}" required="true"
+												value="#{proveedorBean.entidad.rubro}" required="false"
 												requiredMessage="Ingrese rubro" label="rubro"
 												onkeyup="this.value = this.value.toUpperCase();" />
 
@@ -89,7 +88,7 @@ body {
 											<p:outputLabel for="txtvar8" value="Domicilio Fiscal:" />
 											<p:inputText id="txtvar8"
 												value="#{proveedorBean.entidad.domicilioFiscal}"
-												required="true" requiredMessage="Ingrese domicilio fiscal"
+												required="false" requiredMessage="Ingrese domicilio fiscal"
 												label="domicilio fiscal"
 												onkeyup="this.value = this.value.toUpperCase();" />
 

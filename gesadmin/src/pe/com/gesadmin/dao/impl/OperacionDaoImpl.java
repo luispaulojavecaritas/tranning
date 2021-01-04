@@ -122,7 +122,7 @@ public class OperacionDaoImpl implements OperacionDao {
 
 	@Override
 	public void savePayment(Integer idOperacion, Integer IdPersona, Integer idEstatusOperacion, String tipoDoc,
-			String nroDoc) {
+			String nroDoc, String observacion) {
 		// TODO Auto-generated method stub
 
 		Operacion operacion = new Operacion();
@@ -134,6 +134,7 @@ public class OperacionDaoImpl implements OperacionDao {
 		operacion.setEstatusOperacion(new EstatusOperacion(idEstatusOperacion));
 		operacion.setTipoDoc(tipoDoc);
 		operacion.setNroDoc(nroDoc);
+		operacion.setDescripcionPago(observacion);
 
 		em.merge(operacion);
 
@@ -168,19 +169,20 @@ public class OperacionDaoImpl implements OperacionDao {
 	}
 	
 	@Override
-	public void savePaymentDos(Integer idOperacion, Integer IdPersona, Integer idEstatusOperacion, String tipoDoc,
-			String nroDoc, Usuario usuario, String motivo, String montoLetras, Integer estado) {
-		// TODO Auto-generated method stub
+	public ReciboEgreso savePaymentDos(Integer idOperacion, Integer IdPersona, Integer idEstatusOperacion, String tipoDoc,
+			String nroDoc, Usuario usuario, String motivo, String montoLetras, Integer estado, Date fechaPago, String observacion) {
+		// TODO Auto-generated method stub 
 
 		Operacion operacion = new Operacion();
 
 		operacion = em.find(Operacion.class, idOperacion);
 
 		operacion.setPersonaResponsableOperacion(new Persona(IdPersona));
-		operacion.setFechaPago(new Date());
+		operacion.setFechaPago(fechaPago);
 		operacion.setEstatusOperacion(new EstatusOperacion(idEstatusOperacion));
 		operacion.setTipoDoc(tipoDoc);
 		operacion.setNroDoc(nroDoc);
+		operacion.setDescripcionPago(observacion);
 
 		em.merge(operacion);
 
@@ -215,17 +217,25 @@ public class OperacionDaoImpl implements OperacionDao {
 		if(operacion.getTipoOperacion().getId()==2) {
 		//Egreso
 		ReciboEgreso reciboEgreso = new ReciboEgreso();
-		reciboEgreso.setOperacion(new Operacion(operacion.getId()));
+		reciboEgreso.setIdOperacion(operacion.getId());
 		reciboEgreso.setEstado(1);
 		reciboEgreso.setDescripcionUsuario(usuario.getPersona().getNombre() + " "
 				+ usuario.getPersona().getPaterno() + " " + usuario.getPersona().getMaterno());
 		reciboEgreso.setMontoDescripcion(montoLetras);
 		reciboEgreso.setMonto(operacion.getMonto());
+		reciboEgreso.setTipoComprobante(operacion.getTipoDoc());
+		reciboEgreso.setNroComprobante(operacion.getNroDoc());
 		reciboEgreso.setIdUsuario(usuario.getId());
-		reciboEgreso.setMotivo(motivo);
+		reciboEgreso.setMotivo(motivo+((observacion==null)?" ":observacion));
 		
 		em.persist(reciboEgreso);
+		
+		return reciboEgreso;
+		
+		
 		}
+		
+		return null;
 	}
 
 	@Override
@@ -268,36 +278,59 @@ public class OperacionDaoImpl implements OperacionDao {
 	}
 
 	@Override
-	public void cancelPaymentDos(Integer idOperacion, Usuario usuario, String motivo,
+	public ComprobanteCorreccion cancelPaymentDos(Integer idOperacion, Usuario usuario, String motivo,
 			String montoLetras, Integer idEstatusOperacion, Integer estado) {
 		// TODO Auto-generated method stub
 
 		Operacion operacion = new Operacion();
 
 		operacion = em.find(Operacion.class, idOperacion);
+		
+		String tipoDoc = operacion.getTipoDoc();
+		String nroDoc = operacion.getNroDoc();
+		
+		
+		if(operacion.getEstatusOperacion().getId()==1) {
+			//Pendiente
+			operacion.setDescripcionEliminacion(motivo);
+			operacion.setDescripcionMonto(montoLetras);
+			operacion.setRegistroEliminacion(new Date());
+			operacion.setIdUsuarioEliminacion(usuario.getId());
+			operacion.setEstatusOperacion(new EstatusOperacion(4));
+			operacion.setEstado(estado);
+			operacion.setDescripcionPago(null);
+			
+			em.merge(operacion);
+			
+		}else if (operacion.getEstatusOperacion().getId()==2) {
+			//Efectuada
+			operacion.setPersonaResponsableOperacion(null);
+			operacion.setEstatusOperacion(new EstatusOperacion(1));
 
-		operacion.setDescripcionEliminacion(motivo);
-		operacion.setDescripcionMonto(montoLetras);
-		operacion.setRegistroEliminacion(new Date());
-		operacion.setIdUsuarioEliminacion(usuario.getId());
-		operacion.setEstatusOperacion(new EstatusOperacion(idEstatusOperacion));
-		operacion.setEstado(estado);
-
-		em.merge(operacion);
+			operacion.setPersonaResponsableOperacion(null);
+			operacion.setFechaPago(null);
+			operacion.setTipoDoc(null);
+			operacion.setNroDoc(null);
+			operacion.setDescripcionPago(null);
+			
+			em.merge(operacion);
+		}
 
 		ComprobanteCorreccion comprobanteCorreccion = new ComprobanteCorreccion();
-		comprobanteCorreccion.setOperacion(new Operacion(operacion.getId()));
+		comprobanteCorreccion.setIdOperacion(operacion.getId());
 		comprobanteCorreccion.setEstado(1);
 		comprobanteCorreccion.setDescripcionUsuario(usuario.getPersona().getNombre() + " "
 				+ usuario.getPersona().getPaterno() + " " + usuario.getPersona().getMaterno());
 		comprobanteCorreccion.setMontoDescripcion(montoLetras);
 		comprobanteCorreccion.setMonto(operacion.getMonto());
 		comprobanteCorreccion.setIdUsuario(usuario.getId());
+		comprobanteCorreccion.setTipoComprobante(tipoDoc);
+		comprobanteCorreccion.setNroComprobante(nroDoc);
 		comprobanteCorreccion.setMotivo(motivo);
 
 		em.persist(comprobanteCorreccion);
-
-
+		
+		return comprobanteCorreccion;
 	}
 
 	@Override
@@ -377,11 +410,11 @@ public class OperacionDaoImpl implements OperacionDao {
 			Integer cantidadRegistros = 0;
 			cantidadRegistros = lista.get(i).getDias();
 
-			for (int j = 0; j <= cantidadRegistros - 1; j++) {
+			for (int j = 1; j <= cantidadRegistros; j++) {
 
 				operacion = new Operacion();
 				operacion.setCategoriaOperacion(new CategoriaOperacion(lista.get(i).getCategoriaId()));
-				operacion.setDescripcion("COBRO ADMINISTRATIVO " + descripcion);
+				operacion.setDescripcion(((j+"").length()==2?j+"":"0"+j) +" " +descripcion);
 				operacion.setEstado(1);
 				operacion.setEstatusOperacion(new EstatusOperacion(lista.get(i).getEstatusOperacionId()));
 				operacion.setFechaVencimiento(fechaVencimiento);
@@ -499,6 +532,44 @@ public class OperacionDaoImpl implements OperacionDao {
 		String query = "SELECT b FROM Operacion b where b.estado = 1 and b.periodo.anioFiscal.id = :idAnioFiscal order by b.periodo.anioFiscal.id, b.periodo.id, b.id desc";
 		TypedQuery<Operacion> tq = em.createQuery(query, Operacion.class);
 		tq.setParameter("idAnioFiscal", idAnioFiscal);
+		lista = tq.getResultList();
+		return lista;
+	}
+	
+	@Override
+	public List<Operacion> findByPeriodoIdPuestoIdCorreccion(Integer idPeriodo, Integer idPuesto) {
+		// TODO Auto-generated method stub
+		List<Operacion> lista = new ArrayList<>();
+		String query = "SELECT b FROM Operacion b where b.estado = 1 and b.periodo.id = :idPeriodo and b.puesto.id = :idPuesto and b.estatusOperacion.id in (1,2,3) ORDER BY b.id desc";
+		TypedQuery<Operacion> tq = em.createQuery(query, Operacion.class);
+		tq.setParameter("idPeriodo", idPeriodo);
+		tq.setParameter("idPuesto", idPuesto);
+		lista = tq.getResultList();
+		return lista;
+	}
+	
+	@Override
+	public List<Operacion> findByPeriodoIdPuestoIdCorreccion2(Integer idPeriodo, Integer idPuesto) {
+		// TODO Auto-generated method stub
+		System.out.println("findByPeriodoIdPuestoIdCorreccion2");
+		List<Operacion> lista = new ArrayList<>();
+		String query = "SELECT b FROM Operacion b where b.estado = 1 and b.periodo.id = :idPeriodo and b.puesto.id = :idPuesto and b.estatusOperacion.id = 1 and b.categoriaOperacion.id = 60 ORDER BY b.id desc";
+		TypedQuery<Operacion> tq = em.createQuery(query, Operacion.class);
+		tq.setParameter("idPeriodo", idPeriodo);
+		tq.setParameter("idPuesto", idPuesto);
+		lista = tq.getResultList();
+		System.out.println("Lista obtenida: " + lista.toString());
+		return lista;
+	}
+
+	@Override
+	public List<Operacion> listarByReciboPago(String tipodoc, String nroDoc) {
+		// TODO Auto-generated method stub
+		List<Operacion> lista = new ArrayList<>();
+		String query = "SELECT b FROM Operacion b where b.estado = 1 and b.tipoDoc = :tipodoc and b.nroDoc = :nroDoc and b.estatusOperacion.id = 2";
+		TypedQuery<Operacion> tq = em.createQuery(query, Operacion.class);
+		tq.setParameter("tipodoc", tipodoc);
+		tq.setParameter("nroDoc", nroDoc);
 		lista = tq.getResultList();
 		return lista;
 	}

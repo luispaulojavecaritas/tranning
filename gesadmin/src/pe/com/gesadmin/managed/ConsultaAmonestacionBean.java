@@ -304,7 +304,7 @@ public class ConsultaAmonestacionBean {
 			// TODO: handle exception
 			listaAnioFiscal = null;
 			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Problemas al recuperar registros aÃ±o fiscal", ""));
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Problemas al recuperar registros año fiscal", ""));
 		}
 	}
 
@@ -345,7 +345,7 @@ public class ConsultaAmonestacionBean {
 			System.out.println("Consultar por Registros Activos");
 			
 			try {
-				lista = servicio.listarActivo();
+				lista = servicio.listar();
 			} catch (Exception e) {
 				// TODO: handle exception
 				lista = null;
@@ -378,7 +378,7 @@ public class ConsultaAmonestacionBean {
 
 			listaPeriodo = null;
 			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_WARN, "Seleccione periodo de anio fiscal", ""));
+					new FacesMessage(FacesMessage.SEVERITY_WARN, "Seleccione periodo de año fiscal", ""));
 		} else {
 
 			listaPeriodo = new ArrayList<>();

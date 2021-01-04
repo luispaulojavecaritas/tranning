@@ -22,6 +22,9 @@ public class Operacion implements Serializable {
 
 	private String descripcion;
 	
+	@Column(name="descripcion_pago")
+	private String descripcionPago;
+	
 	@Column(name="descripcion_eliminacion")
 	private String descripcionEliminacion;
 	
@@ -272,6 +275,14 @@ public class Operacion implements Serializable {
 
 	public void setDescripcionMonto(String descripcionMonto) {
 		this.descripcionMonto = descripcionMonto;
+	}
+
+	public String getDescripcionPago() {
+		return descripcionPago;
+	}
+
+	public void setDescripcionPago(String descripcionPago) {
+		this.descripcionPago = descripcionPago;
 	}
 
 	@Override

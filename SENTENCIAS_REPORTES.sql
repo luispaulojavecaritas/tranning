@@ -1,5 +1,8 @@
 
 
+TRUNCATE persona RESTART identity cascade;
+
+
 select * from periodo p;
 select * from puesto p2;
 select  * from estatus_operacion eo;
@@ -94,13 +97,26 @@ order by idbloque, idpuesto asc
 
 ------REPORTE CODIGO = 02 - SE DEBE PARAMETRIZAR EL PUESTO, MUESTRA LA DEUDA VS LO PAGADO A NIVEL DE AGRUPACION DE CATEGORIA DE OPERACION CON ANIO PERIDO FISCAL (TODOS LO SPERIODOS FISCALES)
 select 
+dfFinal.idpuesto, 
+dfFinal.descripcionpuesto, 
+dfFinal.idaniofiscal, 
+dfFinal.descripcionaniofiscal, 
+dfFinal.idperiodo, 
+dfFinal.descripcionperiodo, 
+dfFinal.aniofiscalperiodo, 
+dfFinal.idcategoriaoperacion, 
+dfFinal.descripcioncategoriaoperacion, 
+dfFinal.montodeuda, 
+dfFinal.montopagado, 
+dfFinal.saldodeuda  
+from (select 
 pendiente.idpuesto, 
 pendiente.descripcionpuesto, 
-pendiente.idaniofiscal,
+pendiente.idaniofiscal, 
 pendiente.descripcionaniofiscal, 
-pendiente.idperiodo,
+pendiente.idperiodo, 
 pendiente.descripcionperiodo, 
-pendiente.descripcionaniofiscal || pendiente.descripcionperiodo as aniofiscalperiodo,
+pendiente.descripcionaniofiscal || pendiente.descripcionperiodo as aniofiscalperiodo, 
 pendiente.idcategoriaoperacion, 
 pendiente.descripcioncategoriaoperacion, 
 COALESCE(pendiente.montototal,0.00) as montodeuda, 
@@ -108,8 +124,8 @@ COALESCE(efectuado.montototal,0.00) as montopagado,
 (COALESCE(pendiente.montototal,0.00) - COALESCE(efectuado.montototal,0.00)) as saldodeuda 
 from (select op.id_puesto as idpuesto, pu.descripcion  as descripcionpuesto, pe.id_anio_fiscal as idaniofiscal, af.descripcion as descripcionaniofiscal, pe.id as idperiodo, pe.descripcion as descripcionperiodo, op.id_categoria_operacion as idcategoriaoperacion, co.descripcion as descripcioncategoriaoperacion, sum(op.monto) as montototal from operacion op left join puesto pu on pu.id = op.id_puesto left join periodo pe on pe.id = op.id_periodo left join anio_fiscal af on af.id = pe.id_anio_fiscal left join categoria_operacion co on co.id =  op.id_categoria_operacion left join estatus_operacion eo on eo.id = op.id_estatus_operacion where op.estado = 1 and op.id_puesto = 2 and op.id_estatus_operacion in (1,2,3) group by idpuesto, descripcionpuesto, idaniofiscal, descripcionaniofiscal, idperiodo, descripcionperiodo, idcategoriaoperacion, descripcioncategoriaoperacion) as pendiente
 left join (select op.id_puesto as idpuesto, pu.descripcion  as descripcionpuesto, pe.id_anio_fiscal as idaniofiscal, af.descripcion as descripcionaniofiscal, pe.id as idperiodo, pe.descripcion as descripcionperiodo, op.id_categoria_operacion as idcategoriaoperacion, co.descripcion as descripcioncategoriaoperacion, sum(op.monto) as montototal from operacion op left join puesto pu on pu.id = op.id_puesto left join periodo pe on pe.id = op.id_periodo left join anio_fiscal af on af.id = pe.id_anio_fiscal left join categoria_operacion co on co.id =  op.id_categoria_operacion left join estatus_operacion eo on eo.id = op.id_estatus_operacion where op.estado = 1 and op.id_puesto = 2 and op.id_estatus_operacion = 2 group by idpuesto, descripcionpuesto, idaniofiscal, descripcionaniofiscal, idperiodo, descripcionperiodo, idcategoriaoperacion, descripcioncategoriaoperacion) as  efectuado on pendiente.idpuesto = efectuado.idpuesto and  pendiente.idaniofiscal = efectuado.idaniofiscal and  pendiente.idperiodo = efectuado.idperiodo and pendiente.idcategoriaoperacion = efectuado.idcategoriaoperacion 
-order by idcategoriaoperacion asc, idaniofiscal asc, idperiodo asc
-;
+order by idcategoriaoperacion asc, idaniofiscal asc, idperiodo asc) as dfFinal
+where dfFinal.saldodeuda > 0;
 
 
 
@@ -205,6 +221,111 @@ order by fecha asc, idperiodo asc
 
 
 
+
+
+------REPORTE CODIGO = 04 INICIAL NO SUMA AGRUPACION
+
+---Primer bloque, saldo de los dias anterior al dia solicitado del reporte----
+select 
+'' as fechapagodate, 
+0 as idtipooperacion, 
+null as idcategoriaoperacion, 
+'' as fechapagocadena, 
+'' as descripciontipooperacion, 
+'' as tipodocumento, 
+CAST('0' AS numeric) as nrodocumentoooo, 
+'' as nrodocumento, 
+'' as descripcioncategoriaoperacion, 
+'' as periodoaniofiscal, 
+'' as descripcionpuesto, 
+'SALDO ANTERIOR' as persona, 
+COALESCE(sum(op.monto),0.0) as montoingreso, 
+(select COALESCE(sum(op.monto),0.0) as montoegreso from operacion op where op.fecha_pago < to_date(?, 'YYYY/MM/DD' ) and op.estado = 1 and op.id_tipo_operacion = 2 and op.id_estatus_operacion = 2) 
+from operacion op 
+where op.fecha_pago < to_date(?, 'YYYY/MM/DD' ) and op.estado = 1 and op.id_tipo_operacion = 1 and op.id_estatus_operacion = 2 
+
+UNION 
+---Segundo bloque, ingresos del dia solicitado del reporte----
+select 
+to_char(op.fecha_pago, 'YYYY-MM-DD') as fechapagodate, 
+op.id_tipo_operacion as idtipooperacion, 
+op.id_categoria_operacion as idcategoriaoperacion, 
+to_char(op.fecha_pago , 'YYYY-MM-DD') as fechapagocadena, 
+tp.descripcion as descripciontipooperacion, 
+op.tipo_doc as tipodocumento, 
+CAST(COALESCE(NULLIF(op.nro_doc, ''),'0') AS numeric) as nrodocumentoooo, 
+op.nro_doc as nrodocumento, 
+co.descripcion as descripcioncategoriaoperacion, 
+af.descripcion || peri.descripcion as periodoaniofiscal, 
+pu.descripcion as descripcionpuesto, 
+pe.nombre ||' '|| pe.paterno ||' '|| pe.materno as persona, 
+COALESCE(sum(op.monto),0.0) as montoingreso, 
+sum(0.00) as montoegreso 
+from operacion op 
+left join puesto pu on pu.id = op.id_puesto 
+left join persona pe on pe.id = op.id_persona_responsable_operacion 
+left join categoria_operacion co on co.id = op.id_categoria_operacion 
+left join periodo peri on peri.id = op.id_periodo 
+left join anio_fiscal af on af.id = peri.id_anio_fiscal 
+left join tipo_operacion tp on tp.id = op.id_tipo_operacion 
+where to_char(op.fecha_pago , 'YYYY-MM-DD') = ? and op.estado = 1 and op.id_tipo_operacion = 1 and op.id_estatus_operacion = 2 
+group by fechapagodate, idtipooperacion, idcategoriaoperacion, fechapagocadena, descripciontipooperacion, tipodocumento, nrodocumentoooo, nrodocumento, descripcioncategoriaoperacion, periodoaniofiscal, descripcionpuesto, persona 
+
+UNION 
+---Tercer bloque, egresos del dia solicitado del reporte----
+select 
+to_char(op.fecha_pago, 'YYYY-MM-DD') as fechapagodate, 
+op.id_tipo_operacion as idtipooperacion, 
+op.id_categoria_operacion as idcategoriaoperacion, 
+to_char(op.fecha_pago , 'YYYY-MM-DD') as fechapagocadena, 
+tp.descripcion as descripciontipooperacion, 
+re.tipo_comprobante as tipodocumento, 
+CAST(COALESCE(NULLIF(re.nro_comprobante, ''),'0') AS numeric) as nrodocumentoooo, 
+re.nro_comprobante as nrodocumento, 
+co.descripcion as descripcioncategoriaoperacion, 
+af.descripcion || peri.descripcion as periodoaniofiscal, 
+pu.descripcion as descripcionpuesto, 
+pe.nombre ||' '|| pe.paterno ||' '|| pe.materno as persona, 
+sum(0.00) as montoigreso, 
+COALESCE(sum(op.monto),0.0) as montoegreso 
+from recibo_egreso re 
+left join operacion op on op.id = re.id_operacion 
+left join puesto pu on pu.id = op.id_puesto 
+left join persona pe on pe.id = op.id_persona_responsable_operacion 
+left join categoria_operacion co on co.id = op.id_categoria_operacion 
+left join periodo peri on peri.id = op.id_periodo 
+left join anio_fiscal af on af.id = peri.id_anio_fiscal 
+left join tipo_operacion tp on tp.id = op.id_tipo_operacion 
+where to_char(op.fecha_pago , 'YYYY-MM-DD') = ? and op.estado = 1 and op.id_tipo_operacion = 2 and re.estado = 1 
+group by fechapagodate, idtipooperacion, idcategoriaoperacion, fechapagocadena, descripciontipooperacion, tipodocumento, nrodocumentoooo, nrodocumento, descripcioncategoriaoperacion, periodoaniofiscal, descripcionpuesto, persona 
+order by idtipooperacion asc, descripcioncategoriaoperacion asc,  nrodocumento asc
+
+
+---Cuarto bloque, operaciones anuladas (segundo cuadro)----
+
+select 
+coalesce (re.tipo_comprobante,'N/I')  as tipodocumento,
+coalesce (re.nro_comprobante,'N/I') as nrodocumento, 
+co.descripcion as categoriaoperacion, 
+re.motivo as motivo,
+tp.descripcion as tipooperacion, 
+sum (op.monto) as importe
+from comprobante_correccion re 
+left join operacion op on op.id = re.id_operacion 
+left join categoria_operacion co on co.id = op.id_categoria_operacion 
+left join tipo_operacion tp on  tp.id = op.id_tipo_operacion 
+where re.estado =1 and to_char(re.registro, 'YYYY-MM-DD') = ? 
+group by tipodocumento, nrodocumento, categoriaoperacion, motivo, tipooperacion
+order by nrodocumento asc;
+
+
+
+
+-- UPDATE operacion SET ContactName = 'Alfred Schmidt', City= 'Frankfurt' WHERE CustomerID = 1;
+
+
+
+
 ------REPORTE COMPROBANTE CORRECCION - SE DEBE PARAMETRIZAR EL ID OPERACION
 
 select 
@@ -249,6 +370,109 @@ left join tipo_operacion topp ON topp.id = op.id_tipo_operacion
 left join puesto pu on pu.id = op.id_puesto 
 left join proveedor proo on op.id_proveedor = proo.id 
 where re.estado =1 and re.id_operacion = 19; 
+
+
+
+
+
+---------Buscar Recibo por Nro de Documento
+select 
+op.id, 
+af.descripcion || pe.descripcion, 
+cp.descripcion, 
+op.descripcion, 
+tope.descripcion, 
+eo.descripcion, 
+op.fecha_pago,
+op.monto 
+from operacion op 
+left join categoria_operacion cp on cp.id = op.id_categoria_operacion 
+left join tipo_operacion tope on tope.id = op.id_tipo_operacion 
+left join estatus_operacion eo on eo.id = op.id_estatus_operacion 
+left join puesto pu on pu.id = op.id_puesto 
+left join periodo pe on pe.id = op.id_periodo 
+left join anio_fiscal af on af.id = pe.id_anio_fiscal 
+where 
+op.estado = 1 and 
+op.nro_doc = '205040';
+
+
+select 
+op.id, 
+af.descripcion, 
+pe.descripcion, 
+cp.descripcion, 
+op.descripcion, 
+tope.descripcion, 
+eo.descripcion, 
+op.fecha_pago, 
+op.registro, 
+op.monto 
+from operacion op 
+left join categoria_operacion cp on cp.id = op.id_categoria_operacion 
+left join tipo_operacion tope on tope.id = op.id_tipo_operacion 
+left join estatus_operacion eo on eo.id = op.id_estatus_operacion 
+left join puesto pu on pu.id = op.id_puesto 
+left join periodo pe on pe.id = op.id_periodo 
+left join anio_fiscal af on af.id = pe.id_anio_fiscal 
+where 
+op.estado = 1 and 
+op.nro_doc = '205040';
+
+---------Buscar Recibo egreso por Nro de Documento
+select 
+re.tipo_comprobante as nrocomprobante, 
+re.nro_comprobante as tipocomprobante, 
+op.id, 
+cp.descripcion, 
+op.descripcion, 
+tope.descripcion, 
+eo.descripcion, 
+op.fecha_pago,
+op.monto, 
+re.descripcion_usuario,
+re.monto, 
+re.monto_descripcion 
+from recibo_egreso re 
+left join operacion op on op.id = re.id_operacion 
+left join categoria_operacion cp on cp.id = op.id_categoria_operacion 
+left join tipo_operacion tope on tope.id = op.id_tipo_operacion 
+left join estatus_operacion eo on eo.id = op.id_estatus_operacion 
+where 
+op.estado = 1 and 
+re.estado = 1 and 
+re.nro_comprobante = '3200';
+
+---------Buscar Comprobante correccion por Nro de Documento
+select 
+re.tipo_comprobante as nrocomprobante, 
+re.nro_comprobante as tipocomprobante, 
+op.id, 
+cp.descripcion, 
+op.descripcion, 
+tope.descripcion, 
+eo.descripcion, 
+op.fecha_pago,
+op.monto, 
+re.descripcion_usuario,
+re.monto, 
+re.monto_descripcion 
+from comprobante_correccion re 
+left join operacion op on op.id = re.id_operacion 
+left join categoria_operacion cp on cp.id = op.id_categoria_operacion 
+left join tipo_operacion tope on tope.id = op.id_tipo_operacion 
+left join estatus_operacion eo on eo.id = op.id_estatus_operacion 
+where 
+op.estado = 1 and 
+re.estado = 1 and 
+re.nro_comprobante = '205041';
+
+
+
+
+
+
+
 
 
 
@@ -306,95 +530,10 @@ pendiente.ANIO_PERIO = efectuado.ANIO_PERIO;
 
 
 
-------REPORTE CODIGO = 04
 
----Primer bloque, saldo de los dias anterior al dia solicitado del reporte----
-select 
-to_date('2020-09-21', 'YYYY/MM/DD')-1  as fechapagodate, 
-null as idtipooperacion, 
-null as idcategoriaoperacion, 
-'' as fechapagocadena, 
-'' as descripciontipooperacion, 
-'' as tipodocumento, 
-'' as nrodocumento, 
-'' as descripcioncategoriaoperacion, 
-'' as periodoaniofiscal, 
-'' as descripcionpuesto, 
-'SALDO ANTERIOR' as persona, 
-COALESCE(sum(op.monto),0.0) as montoingreso, 
-(select COALESCE(sum(op.monto),0.0) as montoegreso from operacion op where op.fecha_pago < to_date('2020-09-21', 'YYYY/MM/DD' ) and op.estado = 1 and op.id_tipo_operacion = 2 and op.id_estatus_operacion = 2) 
-from operacion op 
-where op.fecha_pago < to_date('2020-09-21', 'YYYY/MM/DD' ) and op.estado = 1 and op.id_tipo_operacion = 1 and op.id_estatus_operacion = 2 
 
-union 
 
----Segundo bloque, ingresos del dia solicitado del reporte----
-select 
-op.fecha_pago as fechapagodate, 
-op.id_tipo_operacion as idtipooperacion, 
-op.id_categoria_operacion as idcategoriaoperacion, 
-to_char(op.fecha_pago , 'YYYY-MM-DD') as fechapagocadena, 
-tp.descripcion as descripciontipooperacion, 
-op.tipo_doc as tipodocumento, 
-op.nro_doc as nrodocumento, 
-co.descripcion as descripcioncategoriaoperacion, 
-af.descripcion || peri.descripcion as periodoaniofiscal, 
-pu.descripcion as descripcionpuesto, 
-pe.nombre ||' '|| pe.paterno  ||' '|| pe.materno as persona, 
-COALESCE(sum(op.monto),0.0) as montoingreso, 
-0.00 as montoegreso 
-from operacion op 
-left join puesto pu on pu.id = op.id_puesto 
-left join persona pe on pe.id = op.id_persona_responsable_operacion 
-left join categoria_operacion co on co.id = op.id_categoria_operacion 
-left join periodo peri on peri.id = op.id_periodo 
-left join anio_fiscal af on af.id = peri.id_anio_fiscal 
-left join tipo_operacion tp on tp.id = op.id_tipo_operacion 
-where to_char(op.fecha_pago , 'YYYY-MM-DD')  = '2020-09-21' and op.estado = 1 and op.id_tipo_operacion = 1 and op.id_estatus_operacion = 2 
-group by fechapagodate, idtipooperacion, idcategoriaoperacion, fechapagocadena, descripciontipooperacion, tipodocumento, nrodocumento, descripcioncategoriaoperacion, periodoaniofiscal, descripcionpuesto, persona, montoegreso 
 
-union 
-
----Tercer bloque, egresos del dia solicitado del reporte----
-select 
-op.fecha_pago as fechapagodate, 
-op.id_tipo_operacion as idtipooperacion, 
-op.id_categoria_operacion as idcategoriaoperacion, 
-to_char(op.fecha_pago , 'YYYY-MM-DD') as fechapagocadena, 
-tp.descripcion as descripciontipooperacion, 
-op.tipo_doc as tipodocumento, 
-op.nro_doc as nrodocumento, 
-co.descripcion as descripcioncategoriaoperacion, 
-af.descripcion || peri.descripcion as periodoaniofiscal, 
-pu.descripcion as descripcionpuesto, 
-pe.nombre ||' '|| pe.paterno  ||' '|| pe.materno as persona, 
-COALESCE(sum(op.monto),0.0) as montoingreso, 
-0.00 as montoegreso 
-from operacion op 
-left join puesto pu on pu.id = op.id_puesto 
-left join persona pe on pe.id = op.id_persona_responsable_operacion 
-left join categoria_operacion co on co.id = op.id_categoria_operacion 
-left join periodo peri on peri.id = op.id_periodo 
-left join anio_fiscal af on af.id = peri.id_anio_fiscal 
-left join tipo_operacion tp on tp.id = op.id_tipo_operacion 
-where to_char(op.fecha_pago , 'YYYY-MM-DD')  = '2020-09-21' and op.estado = 1 and op.id_tipo_operacion = 2 and op.id_estatus_operacion = 2 
-group by fechapagodate, idtipooperacion, idcategoriaoperacion, fechapagocadena, descripciontipooperacion, tipodocumento, nrodocumento, descripcioncategoriaoperacion, periodoaniofiscal, descripcionpuesto, persona, montoegreso 
-order by fechapagodate asc, idtipooperacion asc, idcategoriaoperacion asc 
-;
-
----Cuarto bloque, operaciones anuladas (segundo cuadro)----
-
-select 
-op.tipo_doc as tipodocumento,
-op.nro_doc as nrodocumento, 
-co.descripcion as categoriaoperacion, 
-op.descripcion as motivo,
-tp.descripcion as tipooperacion, 
-op.monto as importe
-from operacion op 
-left join categoria_operacion co on co.id = op.id_categoria_operacion 
-left join tipo_operacion tp on  tp.id = op.id_tipo_operacion 
-where to_char(op.fecha_pago , 'YYYY-MM-DD') = '2020-12-08' and op.estado = 1 and op.id_estatus_operacion = 4;
 
 
 

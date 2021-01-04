@@ -120,5 +120,23 @@ public class PuestoDaoImpl implements PuestoDao {
 		return list;          
         
 	}
+
+	@Override
+	public List<Puesto> findAllActiveLuz() {
+		// TODO Auto-generated method stub
+		String query = "select b FROM Puesto b where b.estado = 1 and b.flagLuz = 1";
+        TypedQuery<Puesto> tq = em.createQuery(query, Puesto.class);
+        List<Puesto> lista = tq.getResultList();
+        return lista;
+	}
+
+	@Override
+	public List<Puesto> findAllActiveAgua() {
+		// TODO Auto-generated method stub
+		String query = "select b FROM Puesto b where b.estado = 1  and b.flagAgua = 1";
+        TypedQuery<Puesto> tq = em.createQuery(query, Puesto.class);
+        List<Puesto> lista = tq.getResultList();
+        return lista;
+	}
 	
 }

@@ -22,8 +22,7 @@ body {
 					<div class="Container100">
 						<div
 							class="Wid100 MarAuto DispBlock OvHidden FontMerriWeatherRegular BlueDarkest TexAlCenter"
-							style="font-size: 3.0rem; padding-top: 0rem; padding-bottom: 0rem;">CREACION
-							DE OPERACION MONTO FIJO</div>
+							style="font-size: 3.0rem; padding-top: 0rem; padding-bottom: 0rem;">PROGRAMACION DEUDA MONTO FIJO</div>
 						<div class="Wid100 OvHidden" style="height: 1rem;"></div>
 
 						<h:form id="frmFiscalizacion">
@@ -47,7 +46,7 @@ body {
 						<h:form id="frm1">
 							<f:passThroughAttribute name="autocomplete" value="off" />
 							<p:panel id="pnlTipoServicio"
-								header="Tipo de servicio a gestionar" style="margin-bottom:20px"
+								header="Tipo de Movimiento a Gestionar" style="margin-bottom:20px"
 								rendered="#{operacionBean.booRegistro}">
 								<div class="Container">
 									<div class="Container80 Responsive100">
@@ -75,7 +74,7 @@ body {
 
 											</p:selectOneMenu>
 
-											<p:outputLabel for="txtvar7" value="Categoria:" />
+											<p:outputLabel for="txtvar7" value="Concepto:" />
 											<p:selectOneMenu id="txtvar7"
 												value="#{operacionBean.entidad.categoriaOperacion.id}"
 												required="true"
@@ -127,9 +126,9 @@ body {
 											</p:calendar>
 											
 											<p:outputLabel for="txtvar3" value="Observaciones:" />											
-											<p:inputTextarea value="#{operacionBean.entidad.descripcion}" id="txtvar3"                                        
-                                             style="width: 100%" rows="3" label="descripcion" placeholder="Ingrese observaciones"
-                                             maxlength="200"/>
+											<p:inputTextarea value="#{operacionBean.entidad.descripcion}" id="txtvar3"                                 
+                                             style="width: 100%" rows="5" label="motivo" placeholder="Ingrese observaciones que considere de valor significativo" onkeyup="this.value = this.value.toUpperCase();"
+                                             maxlength="500"/>
 
 										</p:panelGrid>
 
@@ -137,7 +136,7 @@ body {
 									</div>
 
 									<div class="Container20 Responsive100">
-										<p:commandButton value="Guardar"
+										<p:commandButton value="Generar Movimientos"
 											actionListener="#{operacionBean.guardar()}"
 											update="frm1 frm2 message" icon="fa fa-save"
 											styleClass="GreenButton" />
@@ -155,7 +154,7 @@ body {
 
 
 						<h:form id="frm3">
-							<p:panel id="panel" header="Información Detallada de Operacion "
+							<p:panel id="panel" header="Información Detallada de Movimiento"
 								rendered="#{operacionBean.booDetalle}"
 								style="margin-bottom:20px">
 								<div class="Container">
@@ -168,15 +167,15 @@ body {
 											<p:outputLabel value="Id: " />
 											<h:outputText value="#{operacionBean.entidadseleccionada.id}" />
 
-											<p:outputLabel value="Tipo Operacion: " />
+											<p:outputLabel value="Tipo: " />
 											<h:outputText
 												value="#{operacionBean.entidadseleccionada.tipoOperacion.descripcion}" />
 
-											<p:outputLabel value="Categoría Operacion: " />
+											<p:outputLabel value="Concepto: " />
 											<h:outputText
 												value="#{operacionBean.entidadseleccionada.categoriaOperacion.descripcion}" />
 
-											<p:outputLabel value="Descripcion:" />
+											<p:outputLabel value="Bobservaciones:" />
 											<h:outputText
 												value="#{operacionBean.entidadseleccionada.descripcion}" />
 
@@ -192,32 +191,32 @@ body {
 											<h:outputText
 												value="#{operacionBean.entidadseleccionada.proveedor.razonSocial}" />
 
-											<p:outputLabel value="Ultimo Dia de Pago" />
+											<p:outputLabel value="Fecha Vencimiento" />
 											<h:outputText
 												value="#{operacionBean.entidadseleccionada.fechaVencimiento}">
 												<f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss"
 													timeZone="GMT-5" />
 											</h:outputText>
 
-											<p:outputLabel value="Fecha Creacion Operacion:" />
+											<p:outputLabel value="Fecha Registro" />
 											<h:outputText
 												value="#{operacionBean.entidadseleccionada.registro}">
 												<f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss"
 													timeZone="GMT-5" />
 											</h:outputText>
 
-											<p:outputLabel value="Estatus Operacion:" />
+											<p:outputLabel value="Estatus:" />
 											<h:outputText
 												value="#{operacionBean.entidadseleccionada.estatusOperacion.descripcion}" />
 
-											<p:outputLabel value="Fecha relizacion pago" />
+											<p:outputLabel value="Fecha Cancelacion Pago:" />
 											<h:outputText
 												value="#{operacionBean.entidadseleccionada.fechaPago}">
 												<f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss"
 													timeZone="GMT-5" />
 											</h:outputText>
 
-											<p:outputLabel value="Persona realizacion pago:" />
+											<p:outputLabel value="Persona Encargada Cancelación:" />
 											<h:outputText
 												value="#{operacionBean.entidadseleccionada.personaResponsableOperacion.nombre} #{operacionBean.entidadseleccionada.personaResponsableOperacion.paterno} #{operacionBean.entidadseleccionada.personaResponsableOperacion.materno}" />
 										</p:panelGrid>
@@ -225,13 +224,7 @@ body {
 
 									<div class="Container20 Responsive100">
 
-										<p:commandButton value="Eliminar" id="btnEliminar"
-											actionListener="#{operacionBean.eliminar()}"
-											update="frm1 frm2 message frm3"
-											icon="fa fa-refresh" styleClass="RedButton" process="@this"
-											immediate="true" />
-										<div class="EmptyBox5" />
-										<p:commandButton value="Cancelar"
+										<p:commandButton value="Cerrar"
 											actionListener="#{operacionBean.cancelarEliminacionEntidad()}"
 											update="frm1 frm2 message frm3"
 											icon="fa fa-refresh" process="@this" immediate="true" />
@@ -285,10 +278,10 @@ body {
 
 											<p:column headerText="Periodo - Anio Fiscal">
 												<h:outputText
-													value="#{per.periodo.descripcion} - #{per.periodo.anioFiscal.descripcion}" />
+													value="#{per.periodo.anioFiscal.descripcion}-#{per.periodo.descripcion}" />
 											</p:column>
 
-											<p:column headerText="Tipo - Categoria">
+											<p:column headerText="Tipo - Concepto">
 												<h:outputText
 													value="#{per.tipoOperacion.descripcion} - #{per.categoriaOperacion.descripcion}" />
 											</p:column>
@@ -314,7 +307,7 @@ body {
 												</h:outputText>
 											</p:column>
 
-											<p:column headerText="Fecha registro">
+											<p:column headerText="Fecha Registro">
 												<h:outputText value="#{per.registro}">
 													<f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss"
 														timeZone="GMT-5" />

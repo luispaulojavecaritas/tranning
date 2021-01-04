@@ -36,6 +36,7 @@ import pe.com.gesadmin.service.impl.AnioFiscalServiceImpl;
 import pe.com.gesadmin.service.impl.PuestoPersonaCargoServiceImpl;
 import pe.com.gesadmin.service.impl.PuestoServiceImpl;
 import pe.com.gesadmin.service.impl.ReporteServiceImpl;
+import pe.com.gesadmin.util.Constante;
 
 @ManagedBean
 @ViewScoped
@@ -174,8 +175,8 @@ public class ReporteDosBean {
 			listaAnioFiscal = anioFiscalService.listar();
 		} catch (Exception e) {
 			// TODO: handle exception
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.",
-					"Problemas al recuperar lista de años fiscales"));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error. Problemas al recuperar lista de años fiscales",
+					""));
 		}
 	}
 
@@ -186,7 +187,7 @@ public class ReporteDosBean {
 			listaPuesto = puestoService.listarFiltro(true);
 		} catch (Exception e) {
 			// TODO: handle exception
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.",
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error. Problemas al recuperar lista de categorias de operaciones",
 					"Problemas al recuperar lista de categorias de operaciones"));
 		}
 	}
@@ -233,7 +234,7 @@ public class ReporteDosBean {
 		} catch (Exception e) {
 			// TODO: handle exception
 			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", "Problemas al recuperar registros"));
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error. Problemas al recuperar registros", ""));
 			limpiar();
 
 			return "";
@@ -249,7 +250,7 @@ public class ReporteDosBean {
 		listafiltro = lista;
 
 		FacesContext.getCurrentInstance().addMessage(null,
-				new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito.", "Registros encontrados"));
+				new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito. Registros encontrados", ""));
 
 		return "";
 
@@ -258,7 +259,7 @@ public class ReporteDosBean {
 	public String vercertificadoFinal(ActionEvent actionEvent) throws JRException, IOException {
 		
 
-		String absolutePathCerdp = "C:\\Users\\paulo\\Documents\\reportes_sistemas\\reporte_dos.jasper";
+		String absolutePathCerdp =  Constante.RUTA_REPORTES+"reporte_dos.jasper";
 		 
 		 String personaSocio = "";
 		 
@@ -308,19 +309,19 @@ public class ReporteDosBean {
 		
 		if(reportePrintLocal == null) {
 			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", "Problemas al generar reporte"));
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error. Problemas al generar reporte", ""));
 			return "";
 		}
 
 		try {
 			HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance()
 					.getExternalContext().getResponse();
-			httpServletResponse.addHeader("Content-disposition", "attachment; filename=cerdp_online.pdf");
+			httpServletResponse.addHeader("Content-disposition", "attachment; filename=estado_de_cuenta_socio.pdf");
 
 			byte[] fichero = JasperExportManager.exportReportToPdf(reportePrintLocal);
 
 			httpServletResponse.setContentType("application/pdf");
-			httpServletResponse.setHeader("Content-disposition", "inline; filename=estado_de_cuenta.pdf");
+			httpServletResponse.setHeader("Content-disposition", "inline; filename=estado_de_cuenta_socio.pdf");
 			httpServletResponse.setHeader("Cache-Control", "max-age=30");
 			httpServletResponse.setHeader("Pragma", "No-cache");
 			httpServletResponse.setDateHeader("Expires", 0);

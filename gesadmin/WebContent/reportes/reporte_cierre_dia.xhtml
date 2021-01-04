@@ -82,28 +82,19 @@ body {
 											paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
 											paginator="true" rows="80" style="margin-bottom:20px">
 
+											<f:facet name="header">
+											Lista de movimientos (Ingresos y Egresos)
+											</f:facet>
+
 											<f:facet name="{Exporters}">
-												<div style="float: right; padding-top: 5px;">
+												<div
+													style="float: right; padding-top: 5px; padding-right: 20px;">
 													<h:commandLink ajax="false">
 														<p:graphicImage name="excel.png" library="images"
-															width="24" />
+															width="30" />
 														<p:dataExporter type="xls" target="tbl"
-															fileName="reporte_cierre_diario" />
+															fileName="cierre_diario" />
 													</h:commandLink>
-
-													<h:commandLink ajax="false">
-														<p:graphicImage name="xlsx.png" library="images"
-															width="24" />
-														<p:dataExporter type="xlsxstream" target="tbl"
-															fileName="reporte_cierre_diario" />
-													</h:commandLink>
-
-													<h:commandLink ajax="false">
-														<p:graphicImage name="pdf.png" library="images" width="24" />
-														<p:dataExporter type="pdf" target="tbl" encoding="utf-8"
-															fileName="reporte_cierre_diario" />
-													</h:commandLink>
-
 												</div>
 											</f:facet>
 
@@ -144,29 +135,20 @@ body {
 											value="#{reporteCuatroBean.listaAnulado}"
 											paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
 											paginator="true" rows="80" style="margin-bottom:20px">
+											
+											<f:facet name="header">
+											Lista de movimientos (Reversados)
+											</f:facet>
 
 											<f:facet name="{Exporters}">
-												<div style="float: right; padding-top: 5px;">
+												<div
+													style="float: right; padding-top: 5px; padding-right: 20px;">
 													<h:commandLink ajax="false">
 														<p:graphicImage name="excel.png" library="images"
-															width="24" />
-														<p:dataExporter type="xls" target="tbl2"
-															fileName="reporte_cierre_diario_anulados" />
+															width="30" />
+														<p:dataExporter type="xls" target="tbl"
+															fileName="cierre_diario" />
 													</h:commandLink>
-
-													<h:commandLink ajax="false">
-														<p:graphicImage name="xlsx.png" library="images"
-															width="24" />
-														<p:dataExporter type="xlsxstream" target="tbl2"
-															fileName="reporte_cierre_diario_anulados" />
-													</h:commandLink>
-
-													<h:commandLink ajax="false">
-														<p:graphicImage name="pdf.png" library="images" width="24" />
-														<p:dataExporter type="pdf" target="tbl2" encoding="utf-8"
-															fileName="reporte_cierre_diario_anulados" />
-													</h:commandLink>
-
 												</div>
 											</f:facet>
 
@@ -176,7 +158,7 @@ body {
 											<p:column headerText="NroDoc">
 												<h:outputText value="#{anu.anuNroDocumento}" />
 											</p:column>
-											<p:column headerText="Categ.">
+											<p:column headerText="Concepto">
 												<h:outputText value="#{anu.anuCategoriaOperacion}" />
 											</p:column>
 											<p:column headerText="Motivo">
@@ -190,12 +172,12 @@ body {
 											</p:column>
 
 										</p:dataTable>
-										
-										<p:commandButton value="Ver Certificado" ajax="false" 
-											styleClass="GreenButton" 
-											rendered="#{reporteCuatroBean.booReporte}" 
+
+										<p:commandButton value="Ver Certificado" ajax="false"
+											styleClass="GreenButton"
+											rendered="#{reporteCuatroBean.booReporte}"
 											actionListener="#{reporteCuatroBean.vercertificadoFinal}" />
-											
+
 									</div>
 								</div>
 							</p:panel>

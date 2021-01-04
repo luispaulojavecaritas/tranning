@@ -160,7 +160,7 @@ public class TipoAmonestacionBean {
 			entidad = null;
 			entidadseleccionada = null;
 			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", "Problemas al recuperar registro"));
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error. Problemas al recuperar registro", ""));
 		}
 	}
 
@@ -172,7 +172,7 @@ public class TipoAmonestacionBean {
 			// TODO: handle exception
 			lista = null;
 			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", "Problemas al recuperar registros"));
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error. Problemas al recuperar registros", ""));
 		}
 		
 		listafiltro = lista;

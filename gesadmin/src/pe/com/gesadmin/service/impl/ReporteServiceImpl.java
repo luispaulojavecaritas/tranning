@@ -7,9 +7,12 @@ import javax.ejb.Stateless;
 
 import pe.com.gesadmin.dao.ReporteDao;
 import pe.com.gesadmin.dao.impl.ReporteDaoImpl;
+import pe.com.gesadmin.entity.transfer.ReciboTransfers;
+import pe.com.gesadmin.entity.transfer.ReporteComprobanteCorreccion;
 import pe.com.gesadmin.entity.transfer.ReporteCuatro;
 import pe.com.gesadmin.entity.transfer.ReporteCuatroAnulado;
 import pe.com.gesadmin.entity.transfer.ReporteDos;
+import pe.com.gesadmin.entity.transfer.ReporteReciboEgreso;
 import pe.com.gesadmin.entity.transfer.ReporteTres;
 import pe.com.gesadmin.entity.transfer.ReporteUno;
 import pe.com.gesadmin.service.ReporteService;
@@ -60,6 +63,36 @@ public class ReporteServiceImpl implements ReporteService{
 	public List<ReporteCuatroAnulado> obtenerReporteCuatroDiaAnulados(String dia) {
 		// TODO Auto-generated method stub
 		return reporteDao.getReporteCuatroDiaAnulados(dia);
+	}
+
+	@Override
+	public List<ReporteComprobanteCorreccion> obtenerReporteComprobanteCorreccion(Integer idOperacion) {
+		// TODO Auto-generated method stub
+		return reporteDao.getReporteComprobanteCorreccion(idOperacion);
+	}
+
+	@Override
+	public List<ReporteReciboEgreso> obtenerReporteReciboEgreso(Integer idOperacion) {
+		// TODO Auto-generated method stub
+		return reporteDao.getReporteReciboEgreso(idOperacion);
+	}
+
+	@Override
+	public List<ReciboTransfers> obtenerReporteRecegre(String nroDoc) {
+		// TODO Auto-generated method stub
+		return reporteDao.getReporteRecegre(nroDoc);
+	}
+
+	@Override
+	public List<ReciboTransfers> obtenerReporteCompCorr(String nroDoc) {
+		// TODO Auto-generated method stub
+		return reporteDao.getReporteCompCorr(nroDoc);
+	}
+
+	@Override
+	public List<ReciboTransfers> obtenerReporteRec(String nroDoc) {
+		// TODO Auto-generated method stub
+		return reporteDao.getReporteRec(nroDoc);
 	}
 
 }

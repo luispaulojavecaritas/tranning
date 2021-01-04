@@ -22,8 +22,7 @@ body {
 					<div class="Container100">
 						<div
 							class="Wid100 MarAuto DispBlock OvHidden FontMerriWeatherRegular BlueDarkest TexAlCenter"
-							style="font-size: 3.0rem; padding-top: 0rem; padding-bottom: 0rem;">REPORTE
-							GENERAL DE SOCIOS</div>
+							style="font-size: 3.0rem; padding-top: 0rem; padding-bottom: 0rem;">REPORTE ESTADO DE CUENTA GENERAL DE SOCIOS</div>
 						<div class="Wid100 OvHidden" style="height: 1rem;"></div>
 
 
@@ -49,7 +48,7 @@ body {
 													itemValue="#{lista.id}" />
 											</p:selectOneMenu>
 
-											<p:outputLabel for="txtvar2" value="Categoria Operación:" />
+											<p:outputLabel for="txtvar2" value="Concepto:" />
 											<p:selectOneMenu id="txtvar2"
 												value="#{reporteUnoBean.idCategoriaOperacion}"
 												label="categoria operacion" filter="true"
@@ -86,7 +85,7 @@ body {
 						<h:form id="frm2">
 							<f:passThroughAttribute name="autocomplete" value="off" />
 
-							<p:panel id="panFiltro" header="Lista de personas registradas">
+							<p:panel id="panFiltro" header="Estado de cuenta">
 								<div class="Container">
 									<div class="Container60 Responsive100"></div>
 									<div class="Container40 Responsive100">
@@ -116,22 +115,8 @@ body {
 														<p:graphicImage name="excel.png" library="images"
 															width="24" />
 														<p:dataExporter type="xls" target="tbl"
-															fileName="reporte_general_socios" />
+															fileName="estado_cuenta_general_socios" />
 													</h:commandLink>
-
-													<h:commandLink ajax="false">
-														<p:graphicImage name="xlsx.png" library="images"
-															width="24" />
-														<p:dataExporter type="xlsxstream" target="tbl"
-															fileName="reporte_general_socios" />
-													</h:commandLink>
-
-													<h:commandLink ajax="false">
-														<p:graphicImage name="pdf.png" library="images" width="24" />
-														<p:dataExporter type="pdf" target="tbl" encoding="utf-8"
-															fileName="reporte_general_socios" />
-													</h:commandLink>
-
 												</div>
 											</f:facet>
 

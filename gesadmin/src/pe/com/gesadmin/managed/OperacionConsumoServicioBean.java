@@ -56,7 +56,10 @@ public class OperacionConsumoServicioBean {
 	private TipoServicio tipoServicioActual = new TipoServicio();
 
 	private List<TipoServicio> listaTipoServicio = new ArrayList<>();
-	private List<Puesto> listaPuesto = new ArrayList<>();
+	
+	private List<Puesto> listaPuestoAgua = new ArrayList<>();
+	private List<Puesto> listaPuestoLuz = new ArrayList<>();
+	
 	private List<Puesto> listaPuestoFiltro = new ArrayList<>();
 
 	List<LecturasMedidasPreOperacion> listaPreOperacion = new ArrayList<>();
@@ -110,7 +113,9 @@ public class OperacionConsumoServicioBean {
 
 		tipoServicio = new TipoServicio();
 		tipoServicioActual = new TipoServicio();
-		listaPuesto = new ArrayList<>();
+	//	listaPuesto = new ArrayList<>();
+		listaPuestoAgua = new ArrayList<>();
+		listaPuestoLuz = new ArrayList<>();
 
 		cantidadAgua = 0;
 		cantidadLuz = 0;
@@ -222,12 +227,20 @@ public class OperacionConsumoServicioBean {
 		this.tipoServicio = tipoServicio;
 	}
 
-	public List<Puesto> getListaPuesto() {
-		return listaPuesto;
+	public List<Puesto> getListaPuestoAgua() {
+		return listaPuestoAgua;
 	}
 
-	public void setListaPuesto(List<Puesto> listaPuesto) {
-		this.listaPuesto = listaPuesto;
+	public void setListaPuestoAgua(List<Puesto> listaPuestoAgua) {
+		this.listaPuestoAgua = listaPuestoAgua;
+	}
+
+	public List<Puesto> getListaPuestoLuz() {
+		return listaPuestoLuz;
+	}
+
+	public void setListaPuestoLuz(List<Puesto> listaPuestoLuz) {
+		this.listaPuestoLuz = listaPuestoLuz;
 	}
 
 	public void setPuestoService(PuestoService puestoService) {
@@ -442,7 +455,7 @@ public class OperacionConsumoServicioBean {
 		} else if (tipoServicioActual.getId() == 2) {
 			filtrarPuestosAgua();
 		} else {
-			listaPuestoFiltro = listaPuesto;
+			listaPuestoFiltro = new ArrayList<>();
 		}
 
 		return "";
@@ -477,7 +490,7 @@ public class OperacionConsumoServicioBean {
 			} else {
 
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
-						"Solo puede eliminar operaciones con estatus pendiente o vencida", ""));
+						"Solo puede eliminar movimientos con estatus pendiente o vencida", ""));
 				return "";
 
 			}
@@ -508,7 +521,7 @@ public class OperacionConsumoServicioBean {
 			entidad = null;
 			entidadseleccionada = null;
 			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", "Problemas al recuperar registro"));
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error. Problemas al recuperar registro", ""));
 		}
 	}
 
@@ -520,7 +533,7 @@ public class OperacionConsumoServicioBean {
 			// TODO: handle exception
 			lista = null;
 			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", "Problemas al recuperar registros"));
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error. Problemas al recuperar registros", ""));
 		}
 
 		listafiltro = lista;
@@ -541,13 +554,13 @@ public class OperacionConsumoServicioBean {
 		cantidadLuz = listaEntidadLuz.size();
 		System.out.println("Cantidad Luz registros: " + cantidadLuz);
 
-		if (cantidadLuz == listaPuesto.size()) {
+		if (cantidadLuz == listaPuestoLuz.size()) {
 			System.out.println("Registro de lectura de consumo de Distribucion electrica");
 			claseLuz = "GreenBack";
 			mensajeLuz = "Todos los Puestos tienen registrado su operacion de Distribucion electrica";
 		} else {
 			System.out.println("Registro incompleta lectura de consumo de Distribucion electrica");
-			int diferencia = listaPuesto.size() - cantidadLuz;
+			int diferencia = listaPuestoLuz.size() - cantidadLuz;
 			claseLuz = "RedBack";
 			mensajeLuz = "(" + diferencia
 					+ ") Puestos no tienen registrado su operacion de Distribucion electrica";
@@ -564,13 +577,13 @@ public class OperacionConsumoServicioBean {
 				.collect(Collectors.toList());
 		cantidadAgua = listaEntidadAgua.size();
 
-		if (cantidadAgua == listaPuesto.size()) {
+		if (cantidadAgua == listaPuestoAgua.size()) {
 			System.out.println("Registro de lectura de consumo de agua completa");
 			claseAgua = "GreenBack";
 			mensajeAgua = "Todos los Puestos tienen registrado su operacion de Distribucion de Agua Potable";
 		} else {
 			System.out.println("Registro incompleta lectura de consumo de agua completa");
-			int diferencia = listaPuesto.size() - cantidadAgua;
+			int diferencia = listaPuestoAgua.size() - cantidadAgua;
 			claseAgua = "RedBack";
 			mensajeAgua = "(" + diferencia + ") Puestos no tienen registrado su operacion de Distribucion de Agua Potable";
 		}
@@ -631,28 +644,28 @@ public class OperacionConsumoServicioBean {
 
 		listaPuestoFiltro = new ArrayList<>();
 
-		for (int i = 0; i <= listaPuesto.size() - 1; i++) {
+		for (int i = 0; i <= listaPuestoLuz.size() - 1; i++) {
 
 			boolean consideracion = false;
 
 			for (int j = 0; j <= listaEntidadLuz.size() - 1; j++) {
-				if (listaPuesto.get(i).getId() == listaEntidadLuz.get(j).getPuesto().getId()) {
-					System.out.println("El valor " + listaPuesto.get(i).getId() + " SI Coincide con: "
+				if (listaPuestoLuz.get(i).getId() == listaEntidadLuz.get(j).getPuesto().getId()) {
+					System.out.println("El valor " + listaPuestoLuz.get(i).getId() + " SI Coincide con: "
 							+ listaEntidadLuz.get(j).getPuesto().getId());
 					consideracion = false;
 					break;
 				} else {
-					System.out.println("El valor " + listaPuesto.get(i).getId() + " NO Coincide con: "
+					System.out.println("El valor " + listaPuestoLuz.get(i).getId() + " NO Coincide con: "
 							+ listaEntidadLuz.get(j).getPuesto().getId());
 					consideracion = true;
 				}
 			}
 
 			if (consideracion) {
-				System.out.println("SI Agregaremos el puesto: " + listaPuesto.get(i).toString());
-				listaPuestoFiltro.add(listaPuesto.get(i));
+				System.out.println("SI Agregaremos el puesto: " + listaPuestoLuz.get(i).toString());
+				listaPuestoFiltro.add(listaPuestoLuz.get(i));
 			} else {
-				System.out.println("NO Agregaremos el puesto: " + listaPuesto.get(i).toString());
+				System.out.println("NO Agregaremos el puesto: " + listaPuestoLuz.get(i).toString());
 			}
 		}
 
@@ -686,28 +699,28 @@ public class OperacionConsumoServicioBean {
 
 		listaPuestoFiltro = new ArrayList<>();
 
-		for (int i = 0; i <= listaPuesto.size() - 1; i++) {
+		for (int i = 0; i <= listaPuestoAgua.size() - 1; i++) {
 
 			boolean consideracion = false;
 
 			for (int j = 0; j <= listaEntidadAgua.size() - 1; j++) {
-				if (listaPuesto.get(i).getId() == listaEntidadAgua.get(j).getPuesto().getId()) {
-					System.out.println("El valor " + listaPuesto.get(i).getId() + " SI Coincide con: "
+				if (listaPuestoAgua.get(i).getId() == listaEntidadAgua.get(j).getPuesto().getId()) {
+					System.out.println("El valor " + listaPuestoAgua.get(i).getId() + " SI Coincide con: "
 							+ listaEntidadAgua.get(j).getPuesto().getId());
 					consideracion = false;
 					break;
 				} else {
-					System.out.println("El valor " + listaPuesto.get(i).getId() + " NO Coincide con: "
+					System.out.println("El valor " + listaPuestoAgua.get(i).getId() + " NO Coincide con: "
 							+ listaEntidadAgua.get(j).getPuesto().getId());
 					consideracion = true;
 				}
 			}
 
 			if (consideracion) {
-				System.out.println("SI Agregaremos el puesto: " + listaPuesto.get(i).toString());
-				listaPuestoFiltro.add(listaPuesto.get(i));
+				System.out.println("SI Agregaremos el puesto: " + listaPuestoAgua.get(i).toString());
+				listaPuestoFiltro.add(listaPuestoAgua.get(i));
 			} else {
-				System.out.println("NO Agregaremos el puesto: " + listaPuesto.get(i).toString());
+				System.out.println("NO Agregaremos el puesto: " + listaPuestoAgua.get(i).toString());
 			}
 		}
 
@@ -720,20 +733,23 @@ public class OperacionConsumoServicioBean {
 		} catch (Exception e) {
 			// TODO: handle exception
 			listaTipoServicio = null;
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.",
-					"Problemas al recuperar registros tipo servicio"));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error. Problemas al recuperar registros tipo servicio",
+					""));
 		}
 	}
 
 	public void listarPuestos() {
-		listaPuesto = new ArrayList<>();
+		listaPuestoAgua = new ArrayList<>();
+		listaPuestoLuz = new ArrayList<>();
 		try {
-			listaPuesto = puestoService.listarFiltro(true);
+			listaPuestoAgua = puestoService.listarActivoAgua();
+			listaPuestoLuz = puestoService.listarActivoLuz();
 		} catch (Exception e) {
 			// TODO: handle exception
-			listaPuesto = null;
+			listaPuestoAgua = null;
+			listaPuestoLuz = null;
 			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", "Problemas al recuperar registros puesto"));
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error. Problemas al recuperar registros puesto", ""));
 		}
 	}
 
@@ -854,7 +870,7 @@ public class OperacionConsumoServicioBean {
 		} catch (Exception e) {
 			// TODO: handle exception
 			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error en obtener lestura de servicios.", ""));
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error en obtener lectura de servicios.", ""));
 			return "";
 		}
 
@@ -942,11 +958,11 @@ public class OperacionConsumoServicioBean {
 			servicio.generarOperacionConsumoServicios(listaPreOperacion, entidad.getDescripcion(),
 					entidad.getFechaVencimiento(), usuarioSesionBean.getUsuario().getId());
 			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO, "Creacion exitosa de operaciones", ""));
+					new FacesMessage(FacesMessage.SEVERITY_INFO, "Creacion exitosa de programacion de deuda de servicio", ""));
 		} catch (Exception e) {
 			// TODO: handle exception
 			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error en creacion de operaciones", ""));
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error en creacion de programacion de deuda de servicio", ""));
 			return "";
 		}
 
@@ -1023,9 +1039,9 @@ public class OperacionConsumoServicioBean {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_WARN, "No existe periodo fiscal activo en curso ", ""));
 			claseLuz = "RedBack";
-			mensajeLuz = "Registre un periodo fiscal para calcular situacion de operacion lectura del servicio de Distribucion electrica";
+			mensajeLuz = "Registre un periodo fiscal para calcular situacion de programacion de deuda y lectura del servicio de Distribucion electrica";
 			claseAgua = "RedBack";
-			mensajeAgua = "Registre un periodo fiscal para calcular situacion de operacion lectura del servicio de Agua y Alcantarillado";
+			mensajeAgua = "Registre un periodo fiscal para calcular situacion de programacion de deuda y lectura del servicio de Agua y Alcantarillado";
 
 			booTipoServicio = false;
 			booEntidadRegistro = false;

@@ -24,6 +24,10 @@ public interface PuestoService {
     
     public List<Puesto> listarActivo();  
     
+    public List<Puesto> listarActivoLuz(); 
+    
+    public List<Puesto> listarActivoAgua(); 
+    
     public List<Puesto> listarFiltro(boolean flag);
     
     public List<Puesto> listarFiltroNoAdminNiPropiedad();

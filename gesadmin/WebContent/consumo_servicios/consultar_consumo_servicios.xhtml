@@ -267,19 +267,19 @@ body {
 												<h:outputText value="#{per.periodo.descripcion}" />
 											</p:column>
 											
-											<p:column headerText="Año-Periodo">
-												<h:outputText value="#{per.periodo.anioFiscal.descripcion}-#{per.periodo.descripcion}" />
+											<p:column headerText="Periodo">
+												<h:outputText value="#{per.periodo.anioFiscal.descripcion}#{per.periodo.descripcion}" />
 											</p:column>
 											
 											<p:column headerText="Bloque" visible="false" exportable="true">
 												<h:outputText value="#{per.puesto.bloque.descripcion}" />
 											</p:column>
 											
-											<p:column headerText="Puesto" visible="false" exportable="true">
+											<p:column headerText="Puesto">
 												<h:outputText value="#{per.puesto.descripcion}" />
 											</p:column>
 											
-											<p:column headerText="Bloque-Puesto">
+											<p:column headerText="Bloque-Puesto" visible="false" exportable="true">
 												<h:outputText value="#{per.puesto.bloque.descripcion}-#{per.puesto.descripcion}" />
 											</p:column>
 
@@ -287,8 +287,16 @@ body {
 												<h:outputText value="#{per.tipoServicio.descripcion}" />
 											</p:column>
 
-											<p:column headerText="Lectura">
+											<p:column headerText="Lectura Actual">
 												<h:outputText value="#{per.medida}" />
+											</p:column>
+											
+											<p:column headerText="Lectura Anterior">
+												<h:outputText value="#{per.medidaAnterior}" />
+											</p:column>
+											
+											<p:column headerText="Consumo">
+												<h:outputText value="#{per.consumo}" />
 											</p:column>
 
 											<p:column headerText="Estado">

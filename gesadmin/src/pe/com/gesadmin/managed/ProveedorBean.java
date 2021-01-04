@@ -108,7 +108,7 @@ public class ProveedorBean {
 				System.out.println("No cumple formato");
 
 				FacesContext.getCurrentInstance().addMessage(null,
-						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Formato de teléfono celular inválido", ""));
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Formato de tel�fono celular inv�lido", ""));
 				listarEntidad();
 				return "";
 
@@ -129,7 +129,7 @@ public class ProveedorBean {
 				System.out.println("No cumple formato");
 
 				FacesContext.getCurrentInstance().addMessage(null,
-						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Formato de teléfono fijo inválido", ""));
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Formato de telefono fijo invalido", ""));
 				listarEntidad();
 				return "";
 
@@ -150,7 +150,7 @@ public class ProveedorBean {
 				System.out.println("No cumple formato");
 
 				FacesContext.getCurrentInstance().addMessage(null,
-						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Formato de correo electrónico inválido", ""));
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Formato de correo electronico invalido", ""));
 				listarEntidad();
 				return "";
 

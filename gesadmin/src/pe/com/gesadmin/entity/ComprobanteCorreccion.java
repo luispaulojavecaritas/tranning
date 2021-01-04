@@ -17,10 +17,9 @@ public class ComprobanteCorreccion implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-
-	@ManyToOne
-	@JoinColumn(name = "id_operacion", referencedColumnName = "id")
-	private Operacion operacion;
+	
+	@Column(name = "id_operacion")
+	private Integer idOperacion;
 
 	@Column(name = "id_usuario")
 	private Integer idUsuario;
@@ -30,10 +29,16 @@ public class ComprobanteCorreccion implements Serializable {
 
 	private String motivo;
 
-	private Double monto;
+	private Double monto; 
 
 	@Column(name = "monto_descripcion")
 	private String montoDescripcion;
+	
+	@Column(name = "tipo_comprobante")
+	private String tipoComprobante;
+	
+	@Column(name = "nro_comprobante")
+	private String nroComprobante;	
 
 	private Integer estado;
 
@@ -41,7 +46,6 @@ public class ComprobanteCorreccion implements Serializable {
 	private Timestamp registro;
 
 	public ComprobanteCorreccion() {
-		operacion = new Operacion();
 	}
 
 	public Integer getId() {
@@ -51,13 +55,13 @@ public class ComprobanteCorreccion implements Serializable {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
-	public Operacion getOperacion() {
-		return operacion;
+	
+	public Integer getIdOperacion() {
+		return idOperacion;
 	}
 
-	public void setOperacion(Operacion operacion) {
-		this.operacion = operacion;
+	public void setIdOperacion(Integer idOperacion) {
+		this.idOperacion = idOperacion;
 	}
 
 	public Integer getIdUsuario() {
@@ -116,6 +120,22 @@ public class ComprobanteCorreccion implements Serializable {
 		this.registro = registro;
 	}
 
+	public String getTipoComprobante() {
+		return tipoComprobante;
+	}
+
+	public void setTipoComprobante(String tipoComprobante) {
+		this.tipoComprobante = tipoComprobante;
+	}
+
+	public String getNroComprobante() {
+		return nroComprobante;
+	}
+
+	public void setNroComprobante(String nroComprobante) {
+		this.nroComprobante = nroComprobante;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -143,9 +163,11 @@ public class ComprobanteCorreccion implements Serializable {
 
 	@Override
 	public String toString() {
-		return "ComprobanteCorreccion [id=" + id + ", montoDescripcion=" + montoDescripcion + ", descripcionUsuario="
-				+ descripcionUsuario + ", motivo=" + motivo + ", operacion=" + operacion + ", estado="
-				+ estado + ", registro=" + registro + "]";
+		return "ComprobanteCorreccion [id=" + id + ", idOperacion=" + idOperacion + ", idUsuario=" + idUsuario
+				+ ", descripcionUsuario=" + descripcionUsuario + ", motivo=" + motivo + ", monto=" + monto
+				+ ", montoDescripcion=" + montoDescripcion + ", estado=" + estado + ", registro=" + registro + "]";
 	}
+	
+	
 
 }

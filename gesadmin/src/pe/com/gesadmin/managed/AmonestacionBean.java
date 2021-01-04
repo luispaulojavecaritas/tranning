@@ -218,7 +218,7 @@ public class AmonestacionBean {
 		puestoPersonaCargo = puestoPersonaCargoService.recuperar(entidad.getPuestoPersonaCargo().getId());
 
 		amonestacion.setPersona(new Persona(puestoPersonaCargo.getPersona().getId()));
-		amonestacion.setPuestoPersonaCargo(new PuestoPersonaCargo(entidad.getPuestoPersonaCargo().getId()));
+		amonestacion.setPuestoPersonaCargo(new PuestoPersonaCargo(puestoPersonaCargo.getPuesto().getId()));
 		amonestacion.setPeriodo(new Periodo(periodoActual.getId()));		
 		amonestacion.setIdUsuario(usuarioSesionBean.getUsuario().getId());
 		amonestacion.setEstado(1);

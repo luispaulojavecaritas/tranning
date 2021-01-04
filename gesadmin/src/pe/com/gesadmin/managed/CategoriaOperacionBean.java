@@ -248,7 +248,7 @@ public class CategoriaOperacionBean {
 			// TODO: handle exception
 			listaTipoOperacion = null;
 			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", "Problemas al recuperar registros tipo de operacion"));
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", "Problemas al recuperar registros tipo de movimiento"));
 			
 		}
 	}

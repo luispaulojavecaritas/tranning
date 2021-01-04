@@ -26,6 +26,7 @@ import pe.com.gesadmin.entity.transfer.ReporteCuatroAnulado;
 import pe.com.gesadmin.entity.transfer.ReportePruebaCuatro;
 import pe.com.gesadmin.service.ReporteService;
 import pe.com.gesadmin.service.impl.ReporteServiceImpl;
+import pe.com.gesadmin.util.Constante;
 import pe.com.gesadmin.util.UtilFechas;
 
 @ManagedBean
@@ -133,7 +134,7 @@ public class ReporteCuatroBean {
 		} catch (Exception e) {
 			// TODO: handle exception
 			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", "Problemas al recuperar registros"));
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error. Problemas al recuperar registros", ""));
 			limpiar();
 
 			return "";
@@ -146,7 +147,7 @@ public class ReporteCuatroBean {
 		}
 
 		FacesContext.getCurrentInstance().addMessage(null,
-				new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito.", "Registros encontrados"));
+				new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito. Registros encontrados", ""));
 
 		return "";
 
@@ -156,7 +157,7 @@ public class ReporteCuatroBean {
 	public String vercertificadoFinal(ActionEvent actionEvent) throws JRException, IOException {
 		
 		UtilFechas utilFechas = new UtilFechas();
-		String absolutePathCerdp = "C:\\Users\\paulo\\Documents\\reportes_sistemas\\reporte_cuatro.jasper";
+		String absolutePathCerdp =  Constante.RUTA_REPORTES+"reporte_cuatro.jasper";
 		 
 		 String dia = "";
 		 dia = utilFechas.converDateToString2(fechaConsulta);
@@ -200,12 +201,12 @@ public class ReporteCuatroBean {
 		try {
 			HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance()
 					.getExternalContext().getResponse();
-			httpServletResponse.addHeader("Content-disposition", "attachment; filename=cerdp_online.pdf");
+			httpServletResponse.addHeader("Content-disposition", "attachment; filename=cierre_diario.pdf");
 
 			byte[] fichero = JasperExportManager.exportReportToPdf(reportePrintLocal);
 
 			httpServletResponse.setContentType("application/pdf");
-			httpServletResponse.setHeader("Content-disposition", "inline; filename=estado_de_cuenta.pdf");
+			httpServletResponse.setHeader("Content-disposition", "inline; filename=cierre_diario.pdf");
 			httpServletResponse.setHeader("Cache-Control", "max-age=30");
 			httpServletResponse.setHeader("Pragma", "No-cache");
 			httpServletResponse.setDateHeader("Expires", 0);

@@ -29,6 +29,12 @@ public class Puesto implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="id_bloque", referencedColumnName = "id")
 	private Bloque bloque;
+	
+	@Column(name="flag_luz")
+	private Integer flagLuz;
+	
+	@Column(name="flag_agua")
+	private Integer flagAgua;
 
 	public Puesto() {
 		bloque = new Bloque();
@@ -81,6 +87,22 @@ public class Puesto implements Serializable {
 
 	public void setBloque(Bloque bloque) {
 		this.bloque = bloque;
+	}
+
+	public Integer getFlagLuz() {
+		return flagLuz;
+	}
+
+	public void setFlagLuz(Integer flagLuz) {
+		this.flagLuz = flagLuz;
+	}
+
+	public Integer getFlagAgua() {
+		return flagAgua;
+	}
+
+	public void setFlagAgua(Integer flagAgua) {
+		this.flagAgua = flagAgua;
 	}
 
 	@Override

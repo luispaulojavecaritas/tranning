@@ -11,15 +11,20 @@
         <intercept-url pattern="/login*" access="permitAll" />
         <intercept-url pattern="/access-denied.xhtml" access="isAuthenticated()" />
         <intercept-url pattern="/inicio.xhtml" access="isAuthenticated()" />
-        <intercept-url pattern="/seguridad/*" access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')" />        
         <intercept-url pattern="/mantenimiento_catalogo/*" access="hasRole('ROLE_ADMIN')" /> 
-        <intercept-url pattern="/amonestaciones/*" access="hasRole('ROLE_ADMIN')" /> 
-        <intercept-url pattern="/operaciones/*" access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')" />
-        <intercept-url pattern="/puestos/*" access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')" />
-        <intercept-url pattern="/proveedores/*" access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')" />
+        <intercept-url pattern="/fiscalizacion/*" access="hasRole('ROLE_ADMIN')" />
         <intercept-url pattern="/personas/*" access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')" />
-        <intercept-url pattern="/fiscalizacion/*" access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')" />
+        <intercept-url pattern="/proveedores/*" access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')" />
+        <intercept-url pattern="/puestos/*" access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')" />
         <intercept-url pattern="/consumo_servicios/*" access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')" />
+        <intercept-url pattern="/operaciones/consultar_operacion*" access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')" />    
+        <intercept-url pattern="/operaciones/gestion_operacion*" access="hasRole('ROLE_ADMIN')" /> 
+        <intercept-url pattern="/operaciones/gestion_operacion_consumo_servicios*" access="hasRole('ROLE_ADMIN')" /> 
+        <intercept-url pattern="/operaciones/gestion_operacion_administracion*" access="hasRole('ROLE_ADMIN')" /> 
+        <intercept-url pattern="/operaciones/efectuar_operacion*" access="hasRole('ROLE_ADMIN')" /> 
+        <intercept-url pattern="/operaciones/cancelar_pago_operacion*" access="hasRole('ROLE_ADMIN')" /> 
+        <intercept-url pattern="/operaciones/mantenimiento_*" access="hasRole('ROLE_ADMIN')" /> 
+        <intercept-url pattern="/recibos/*" access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')" />
         <intercept-url pattern="/reportes/*" access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')" />
         <intercept-url pattern="/cuenta/*" access="isAuthenticated()"/> 
         
@@ -34,12 +39,9 @@
         <logout invalidate-session="true" 
                 logout-success-url="/login.xhtml?status=logout" 
                 logout-url="/springSecurityLogout" />
-                
-                
+ 
         <access-denied-handler error-page="/access-denied.xhtml" /> 
-                
-        
-        
+             
         <csrf disabled="true" />
     </http>
 

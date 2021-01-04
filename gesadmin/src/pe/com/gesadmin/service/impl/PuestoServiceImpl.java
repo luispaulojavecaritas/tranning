@@ -70,4 +70,16 @@ public class PuestoServiceImpl implements PuestoService {
 		return puestoDao.findByBoqueNotIsADMNotPropiedad();
 	}
 
+	@Override
+	public List<Puesto> listarActivoLuz() {
+		// TODO Auto-generated method stub
+		return puestoDao.findAllActiveLuz();
+	}
+
+	@Override
+	public List<Puesto> listarActivoAgua() {
+		// TODO Auto-generated method stub
+		return puestoDao.findAllActiveAgua();
+	}
+
 }

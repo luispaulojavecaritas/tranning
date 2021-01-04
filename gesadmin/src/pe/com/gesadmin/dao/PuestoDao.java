@@ -19,6 +19,10 @@ public interface PuestoDao {
     public List<Puesto> findAll();  
     
     public List<Puesto> findAllActive(); 
+    
+    public List<Puesto> findAllActiveLuz(); 
+    
+    public List<Puesto> findAllActiveAgua(); 
         
     public List<Puesto> findByBoqueIsADM(); 
     

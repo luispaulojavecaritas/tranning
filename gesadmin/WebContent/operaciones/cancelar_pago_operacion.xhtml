@@ -22,8 +22,7 @@ body {
 					<div class="Container100">
 						<div
 							class="Wid100 MarAuto DispBlock OvHidden FontMerriWeatherRegular BlueDarkest TexAlCenter"
-							style="font-size: 3.0rem; padding-top: 0rem; padding-bottom: 0rem;">CANCELAR
-							PAGO DE OPERACION</div>
+							style="font-size: 3.0rem; padding-top: 0rem; padding-bottom: 0rem;">REVERSAR MOVIMIENTO</div>
 						<div class="Wid100 OvHidden" style="height: 1rem;"></div>
 
 						<h:form id="frm1">
@@ -115,21 +114,21 @@ body {
 											<h:outputText
 												value="#{operacionCancelarPagoBean.entidadseleccionada.id}" />
 
-											<p:outputLabel value="Tipo Operacion: " />
+											<p:outputLabel value="Tipo: " />
 											<h:outputText
 												value="#{operacionCancelarPagoBean.entidadseleccionada.tipoOperacion.descripcion}" />
 
-											<p:outputLabel value="Categoría Operacion: " />
+											<p:outputLabel value="Concepto: " />
 											<h:outputText
 												value="#{operacionCancelarPagoBean.entidadseleccionada.categoriaOperacion.descripcion}" />
 
-											<p:outputLabel value="Descripcion:" />
+											<p:outputLabel value="Observaciones" />
 											<h:outputText
 												value="#{operacionCancelarPagoBean.entidadseleccionada.descripcion}" />
 
-											<p:outputLabel value="Periodo" />
+											<p:outputLabel value="Año-Periodo" />
 											<h:outputText
-												value="#{operacionCancelarPagoBean.entidadseleccionada.periodo.descripcion} - #{operacionCancelarPagoBean.entidadseleccionada.periodo.anioFiscal.descripcion}" />
+												value="#{operacionCancelarPagoBean.entidadseleccionada.periodo.anioFiscal.descripcion}-#{operacionCancelarPagoBean.entidadseleccionada.periodo.descripcion}" />
 
 											<p:outputLabel value="Deudor:" />
 											<h:outputText
@@ -139,46 +138,53 @@ body {
 											<h:outputText
 												value="#{operacionCancelarPagoBean.entidadseleccionada.proveedor.razonSocial}" />
 
-											<p:outputLabel value="Fecha Creacion Operacion:" />
+											<p:outputLabel value="Fecha Registro:" />
 											<h:outputText
 												value="#{operacionCancelarPagoBean.entidadseleccionada.registro}">
 												<f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss"
 													timeZone="GMT-5" />
 											</h:outputText>
 
-											<p:outputLabel value="Ultimo Dia de Pago" />
+											<p:outputLabel value="Fecha Vencimiento" />
 											<h:outputText
 												value="#{operacionCancelarPagoBean.entidadseleccionada.fechaVencimiento}">
 												<f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss"
 													timeZone="GMT-5" />
 											</h:outputText>
 
-											<p:outputLabel value="Estatus Operacion:" />
+											<p:outputLabel value="Estatus:" />
 											<h:outputText
 												value="#{operacionCancelarPagoBean.entidadseleccionada.estatusOperacion.descripcion}" />
 
-											<p:outputLabel value="Persona Efectuo Pago:" />
+											<p:outputLabel value="Persona Cancela:" />
 											<h:outputText
 												value="#{operacionCancelarPagoBean.entidadseleccionada.personaResponsableOperacion.nombre} #{operacionCancelarPagoBean.entidadseleccionada.personaResponsableOperacion.paterno} #{operacionCancelarPagoBean.entidadseleccionada.personaResponsableOperacion.materno}" />
 
-											<p:outputLabel value="Fecha Efectuó Pago:" />
+											<p:outputLabel value="Fecha Cancelacion Deuda:" />
 											<h:outputText
 												value="#{operacionCancelarPagoBean.entidadseleccionada.fechaPago}">
 												<f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss"
 													timeZone="GMT-5" />
 											</h:outputText>
 											
-											<p:outputLabel for="txtvar3" value="Motivo:" />											
+											<p:outputLabel for="txtvar3" value="Motivo Anulación:" />											
 											<p:inputTextarea value="#{operacionCancelarPagoBean.motivo}" id="txtvar3" required="true" requiredMessage="Ingrese motivo"                                     
-                                             style="width: 100%" rows="3" label="motivo" placeholder="Ingrese Motivo" onkeyup="this.value = this.value.toUpperCase();"
+                                             style="width: 100%" rows="5" label="motivo" placeholder="Ingrese motivo que justifique la anulacion del movimiento" onkeyup="this.value = this.value.toUpperCase();"
                                              maxlength="500"/>	
 
 										</p:panelGrid>
 
-										<p:commandButton value="Cancelar Pago"
+										<p:commandButton value="Cancelar Movimiento"
 											actionListener="#{operacionCancelarPagoBean.cancelar_Pago2()}"
 											update="frm1 frm2 frm3 message" icon="fa fa-save"
 											styleClass="RedButton" />
+										
+										<div class="EmptyBox5" />
+											
+										<p:commandButton value="Comprobante Correccion" ajax="false"
+											styleClass="GreenButton"
+											rendered="#{operacionCancelarPagoBean.booReporte}"
+											actionListener="#{operacionCancelarPagoBean.vercertificadoComprobanteCorreccion}" />
 									</div>
 								</div>
 							</p:panel>
@@ -195,7 +201,7 @@ body {
 							<f:passThroughAttribute name="autocomplete" value="off" />
 
 							<p:panel id="panFiltro"
-								header="Lista de operaciones con estatus efectuados">
+								header="Lista de movimientos registrados">
 								<div class="Container">
 									<div class="Container60 Responsive100"></div>
 									<div class="Container40 Responsive100">
@@ -231,12 +237,12 @@ body {
 												listener="#{operacionCancelarPagoBean.onRowUnselect}"
 												update="frm1 frm2 frm3" />
 
-											<p:column headerText="Periodo - Anio Fiscal">
+											<p:column headerText="Año-Periodo">
 												<h:outputText
-													value="#{per.periodo.descripcion} - #{per.periodo.anioFiscal.descripcion}" />
+													value="#{per.periodo.anioFiscal.descripcion}-#{per.periodo.descripcion}" />
 											</p:column>
 
-											<p:column headerText="Categoria">
+											<p:column headerText="Concepto">
 												<h:outputText value="#{per.categoriaOperacion.descripcion}" />
 											</p:column>
 

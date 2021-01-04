@@ -1,0 +1,238 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="head">
+		<style type="text/css">
+body {
+	background-color: #F1F1F1;
+}
+</style>
+	</ui:define>
+
+	<ui:define name="content">
+
+		<div class="Section">
+
+			<div class="Container100 ShadowEffect WhiteBack">
+
+				<div class="Container100 ui-fluid">
+					<div class="Container100">
+						<div
+							class="Wid100 MarAuto DispBlock OvHidden FontMerriWeatherRegular BlueDarkest TexAlCenter"
+							style="font-size: 3.0rem; padding-top: 0rem; padding-bottom: 0rem;">CONSULTAR
+							RECIBO INGRESO</div>
+						<div class="Wid100 OvHidden" style="height: 1rem;"></div>
+
+						<h:form id="frm1">
+							<f:passThroughAttribute name="autocomplete" value="off" />
+							<p:panel id="pnlfiscalizacion" header="Periodo fiscal"
+								style="margin-bottom:20px">
+								<div class="Container">
+									<div class="Container80 Responsive100">
+										<p:panelGrid columns="4" id="pnl"
+											columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+											layout="grid" styleClass="ui-panelgrid-blank"
+											style="border:0px none; background-color:transparent;">
+
+											<p:outputLabel for="txtvar1"
+												value="Nro de Recibo (Ingreso): " />
+											<p:inputText id="txtvar1"
+												value="#{consultaReciboIngresoBean.nroDoc}" required="true"
+												requiredMessage="Ingrese nro recibo" label="recibo ingreso" />
+										</p:panelGrid>
+									</div>
+
+									<div class="Container20 Responsive100">
+										<p:commandButton value="Consultar"
+											actionListener="#{consultaReciboIngresoBean.consultar()}"
+											update="frm1 frm3 " icon="fa fa-save" />
+										<div class="EmptyBox5" />
+										<p:commandButton value="Limpiar"
+											actionListener="#{consultaReciboIngresoBean.limpiar()}"
+											update="frm1  frm3 " icon="fa fa-refresh" process="@this"
+											immediate="true" />
+									</div>
+								</div>
+							</p:panel>
+						</h:form>
+
+						<div class="EmptyBox5" />
+
+						<h:form id="frm3">
+
+							<p:panel id="panel" header="Información Detallada "
+								rendered="#{consultaReciboIngresoBean.booDetalle}"
+								style="margin-bottom:20px">
+								<div class="Container">
+									<div class="Container100 Responsive100">
+										<p:panelGrid columns="4"
+											columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+											layout="grid" styleClass="ui-panelgrid-blank"
+											style="border:0px none; background-color:transparent;">
+
+											<p:outputLabel value="Id: " />
+											<h:outputText
+												value="#{consultaReciboIngresoBean.entidadOperacion.id}" />
+
+											<p:outputLabel value="Tipo: " />
+											<h:outputText
+												value="#{consultaReciboIngresoBean.entidadOperacion.tipoOperacion.descripcion}" />
+
+											<p:outputLabel value="Categoría: " />
+											<h:outputText
+												value="#{consultaReciboIngresoBean.entidadOperacion.categoriaOperacion.descripcion}" />
+
+											<p:outputLabel value="Observaciones:" />
+											<h:outputText
+												value="#{consultaReciboIngresoBean.entidadOperacion.descripcion}" />
+
+											<p:outputLabel value="Periodo Fiscal:" />
+											<h:outputText
+												value="#{consultaReciboIngresoBean.entidadOperacion.periodo.anioFiscal.descripcion} - #{consultaReciboIngresoBean.entidadOperacion.periodo.descripcion}" />
+
+											<p:outputLabel value="Deudor:" />
+											<h:outputText
+												value="#{consultaReciboIngresoBean.entidadOperacion.puesto.descripcion}" />
+
+											<p:outputLabel value="Acreedor:" />
+											<h:outputText
+												value="#{consultaReciboIngresoBean.entidadOperacion.proveedor.razonSocial}" />
+
+											<p:outputLabel value="Fecha Registro" />
+											<h:outputText
+												value="#{consultaReciboIngresoBean.entidadOperacion.registro}">
+												<f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss"
+													timeZone="GMT-5" />
+											</h:outputText>
+
+											<p:outputLabel value="Fecha Vencimiento:" />
+											<h:outputText
+												value="#{consultaReciboIngresoBean.entidadOperacion.fechaVencimiento}">
+												<f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss"
+													timeZone="GMT-5" />
+											</h:outputText>
+
+											<p:outputLabel value="Estatus:" />
+											<h:outputText
+												value="#{consultaReciboIngresoBean.entidadOperacion.estatusOperacion.descripcion}" />
+
+											<p:outputLabel value="Tipo Comprobante:" />
+											<h:outputText
+												value="#{consultaReciboIngresoBean.entidadOperacion.tipoDoc}" />
+
+											<p:outputLabel value="Nro Comprobante:" />
+											<h:outputText
+												value="#{consultaReciboIngresoBean.entidadOperacion.nroDoc}" />
+
+
+											<p:outputLabel value="Persona Cancelación Pago:" />
+											<h:outputText
+												value="#{consultaReciboIngresoBean.entidadOperacion.personaResponsableOperacion.nombre} #{consultaReciboIngresoBean.entidadOperacion.personaResponsableOperacion.paterno} #{consultaReciboIngresoBean.entidadOperacion.personaResponsableOperacion.materno}" />
+
+											<p:outputLabel value="Fecha Cancelación Pago:" />
+											<h:outputText
+												value="#{consultaReciboIngresoBean.entidadOperacion.fechaPago}">
+												<f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss"
+													timeZone="GMT-5" />
+											</h:outputText>
+										</p:panelGrid>
+									</div>
+								</div>
+							</p:panel>
+
+							<div class="Container">
+								<div class="Container100 Responsive100">
+									<p:messages autoUpdate="true" closable="true" />
+								</div>
+							</div>
+
+							<p:panel id="panel2" header="Conceptos encontrados "
+								rendered="#{consultaReciboIngresoBean.booTabla}"
+								style="margin-bottom:20px">
+								<div class="Container">
+									<div class="Container100 Responsive100">
+										<p:dataTable id="tbl" var="per"
+											rendered="#{consultaReciboIngresoBean.booTabla}"
+											value="#{consultaReciboIngresoBean.lista}"
+											selectionMode="single"
+											selection="#{consultaReciboIngresoBean.entidadseleccionada}"
+											rowKey="#{per.opeId}" rows="25" paginator="true"
+											paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
+											rowsPerPageTemplate="25,50,75"
+											emptyMessage="No se encontraron registros" reflow="true">
+
+											<f:facet name="{Exporters}">
+												<div
+													style="float: right; padding-top: 5px; padding-right: 20px;">
+													<h:commandLink ajax="false">
+														<p:graphicImage name="excel.png" library="images"
+															width="30" />
+														<p:dataExporter type="xls" target="tbl"
+															fileName="estado_cuenta_general_socios" />
+													</h:commandLink>
+												</div>
+											</f:facet>
+
+											<p:ajax event="rowSelect"
+												listener="#{consultaReciboIngresoBean.onRowSelect}"
+												update="frm1 frm3" />
+											<p:ajax event="rowUnselect"
+												listener="#{consultaReciboIngresoBean.onRowUnselect}"
+												update="frm1 frm3" />
+
+											<p:column headerText="Periodo">
+												<h:outputText value="#{per.opeAnio}#{per.opePeriodo}" />
+											</p:column>
+
+											<p:column headerText="Puesto">
+												<h:outputText value="#{per.opePuesto}" />
+											</p:column>
+
+											<p:column headerText="Categoria">
+												<h:outputText value="#{per.opCategoria}" />
+											</p:column>
+
+											<p:column headerText="Monto">
+												<h:outputText value="#{per.opeMonto}">
+													<f:convertNumber type="currency" currencySymbol="S/."
+														maxIntegerDigits="20" maxFractionDigits="2" />
+												</h:outputText>
+											</p:column>
+
+											<p:column headerText="Estatus">
+												<h:outputText value="#{per.opeEstatus}" />
+											</p:column>
+
+											<p:column headerText="Fecha pago">
+												<h:outputText value="#{per.opeFechaPago}">
+													<f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss"
+														timeZone="GMT-5" />
+												</h:outputText>
+											</p:column>
+
+											<p:column headerText="Fecha registro">
+												<h:outputText value="#{per.opeFechaRegistro}">
+													<f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss"
+														timeZone="GMT-5" />
+												</h:outputText>
+											</p:column>
+										</p:dataTable>
+									</div>
+								</div>
+
+							</p:panel>
+
+						</h:form>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+	</ui:define>
+
+</ui:composition>

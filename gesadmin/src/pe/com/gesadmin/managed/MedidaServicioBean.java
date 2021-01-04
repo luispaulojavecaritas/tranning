@@ -53,7 +53,11 @@ public class MedidaServicioBean {
 	private TipoServicio tipoServicioActual = new TipoServicio();
 
 	private List<TipoServicio> listaTipoServicio = new ArrayList<>();
-	private List<Puesto> listaPuesto = new ArrayList<>();
+	
+	private List<Puesto> listaPuestoAgua = new ArrayList<>();
+	private List<Puesto> listaPuestoLuz = new ArrayList<>();
+	
+	
 	private List<Puesto> listaPuestoFiltro = new ArrayList<>();
 
 	private Integer cantidadAgua;
@@ -103,7 +107,6 @@ public class MedidaServicioBean {
 
 		tipoServicio = new TipoServicio();
 		tipoServicioActual = new TipoServicio();
-		listaPuesto = new ArrayList<>();
 
 		cantidadAgua = 0;
 		cantidadLuz = 0;
@@ -122,6 +125,9 @@ public class MedidaServicioBean {
 		booRegistro = false;
 
 		lecturaAnterior = "No registra";
+		
+		listaPuestoAgua = new ArrayList<>();
+		listaPuestoLuz = new ArrayList<>();
 	}
 
 	@PostConstruct
@@ -205,12 +211,20 @@ public class MedidaServicioBean {
 		this.tipoServicio = tipoServicio;
 	}
 
-	public List<Puesto> getListaPuesto() {
-		return listaPuesto;
+	public List<Puesto> getListaPuestoAgua() {
+		return listaPuestoAgua;
 	}
 
-	public void setListaPuesto(List<Puesto> listaPuesto) {
-		this.listaPuesto = listaPuesto;
+	public void setListaPuestoAgua(List<Puesto> listaPuestoAgua) {
+		this.listaPuestoAgua = listaPuestoAgua;
+	}
+
+	public List<Puesto> getListaPuestoLuz() {
+		return listaPuestoLuz;
+	}
+
+	public void setListaPuestoLuz(List<Puesto> listaPuestoLuz) {
+		this.listaPuestoLuz = listaPuestoLuz;
 	}
 
 	public void setPuestoService(PuestoService puestoService) {
@@ -374,21 +388,6 @@ public class MedidaServicioBean {
 		entidad.setEstado(1);
 
 		Double consumo = 0.00;
-		/*
-		 * if (booLecturaAnterior) {
-		 * System.out.println("SI Validaremos lectura anterior vs actual"); if
-		 * (entidad.getMedida() >= entidadAnterior.getMedida()) { System.out.println(
-		 * "SI Paso validacion de comparacion de medida actual tiene que ser superior o igual a la medida anterior"
-		 * ); consumo = obtener_consumo(); } else { System.out.println(
-		 * "NO Paso validacion de comparacion de medida actual tiene que ser superior o igual a la medida anterior"
-		 * ); FacesContext.getCurrentInstance().addMessage(null, new
-		 * FacesMessage(FacesMessage.SEVERITY_WARN,
-		 * "La lectura del presente periodo tiene que se mayor o igual a la lectura del anterior periodo"
-		 * , "")); return ""; } } else {
-		 * System.out.println("NO Validaremos lectura anterior vs actual"); consumo =
-		 * entidad.getMedida(); entidadAnterior = new MedidaServicio();
-		 * entidadAnterior.setMedida(0.00); }
-		 */
 
 		System.out.println("Validaremos lectura anterior vs actual");
 		if (entidad.getMedida() >= entidadAnterior.getMedida()) {
@@ -471,7 +470,8 @@ public class MedidaServicioBean {
 		} else if (tipoServicioActual.getId() == 2) {
 			filtrarPuestosAgua();
 		} else {
-			listaPuestoFiltro = listaPuesto;
+			System.out.println("Lista filtro array");
+			listaPuestoFiltro = new ArrayList<>();
 		}
 
 		if (claseLuz.equalsIgnoreCase("GreenBack") && claseAgua.equalsIgnoreCase("GreenBack")) {
@@ -511,64 +511,8 @@ public class MedidaServicioBean {
 
 		} else {
 
-			Operacion operacionLocalMedida = new Operacion();
-			operacionLocalMedida = listaOperacionAsociada.get(0);
-			
-			System.out.println("Operacion entidad = " + operacionLocalMedida.toString());
-
-			if (operacionLocalMedida.getEstatusOperacion().getId() == 1
-					|| operacionLocalMedida.getEstatusOperacion().getId() == 3) {
-				// estado pendiente o vencida
-				try {
-
-					MedidaServicio medidaServicio = new MedidaServicio();
-					medidaServicio = servicio.recuperar(entidadseleccionada.getId());
-					medidaServicio.setEstado(0);
-					medidaServicio.setIdUsuario(usuarioSesionBean.getUsuario().getId());
-					medidaServicio.setRegistro(new Date());
-					servicio.actualizar(medidaServicio);
-
-					FacesContext.getCurrentInstance().addMessage(null,
-							new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro eliminado", ""));
-				} catch (Exception e) {
-					// TODO: handle exception
-					FacesContext.getCurrentInstance().addMessage(null,
-							new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al eliminar registro", ""));
-				}
-				
-				System.out.println("Evaluando eliminar operacion relacionada a medida de servicio (pendiente o vencida)");
-				operacionService.actualizarPorPeriodoidPuestoidCategoriaid(entidadseleccionada.getPeriodo().getId(),
-						entidadseleccionada.getPuesto().getId(), entidadseleccionada.getTipoServicio().getId(),
-						usuarioSesionBean.getUsuario().getId());
-				
-			} else if (operacionLocalMedida.getEstatusOperacion().getId() == 4) {
-				// Estado cancelada
-				
-				try {
-
-					MedidaServicio medidaServicio = new MedidaServicio();
-					medidaServicio = servicio.recuperar(entidadseleccionada.getId());
-					medidaServicio.setEstado(0);
-					medidaServicio.setIdUsuario(usuarioSesionBean.getUsuario().getId());
-					medidaServicio.setRegistro(new Date());
-					servicio.actualizar(medidaServicio);
-
-					FacesContext.getCurrentInstance().addMessage(null,
-							new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro eliminado", ""));
-				} catch (Exception e) {
-					// TODO: handle exception
-					FacesContext.getCurrentInstance().addMessage(null,
-							new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al eliminar registro", ""));
-				}
-				
-				System.out.println("Evaluando eliminar operacion relacionada a medida de servicio (cancelada)");
-			} else {
-				// Estado efectuada
-				System.out.println("Evaluando eliminar operacion relacionada a medida de servicio (efectuada)");				
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
-						"Solo puede eliminar mediciones que tengan operaciones con estatus pendiente o vencida", ""));
-				return "";
-			}
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_WARN, "No puede eliminar lectura de servicio. Debera primero anular la deuda programada existente, diríjase a la opción Anular Programación de Deuda", ""));
 		}
 
 		booBtnEliminar = false;
@@ -625,13 +569,13 @@ public class MedidaServicioBean {
 		cantidadLuz = listaEntidadLuz.size();
 		System.out.println("Cantidad Luz registros: " + cantidadLuz);
 
-		if (cantidadLuz == listaPuesto.size()) {
+		if (cantidadLuz == listaPuestoLuz.size()) {
 			System.out.println("Registro de lectura de consumo de Distribucion electrica");
 			claseLuz = "GreenBack";
 			mensajeLuz = "Todos los Puestos tienen registrado su lectura del servicio de Distribucion electrica";
 		} else {
 			System.out.println("Registro incompleta lectura de consumo de Distribucion electrica");
-			int diferencia = listaPuesto.size() - cantidadLuz;
+			int diferencia = listaPuestoLuz.size() - cantidadLuz;
 			claseLuz = "RedBack";
 			mensajeLuz = "(" + diferencia
 					+ ") Puestos no tienen registrado su lectura del servicio de Distribucion electrica";
@@ -648,13 +592,13 @@ public class MedidaServicioBean {
 				.collect(Collectors.toList());
 		cantidadAgua = listaEntidadAgua.size();
 
-		if (cantidadAgua == listaPuesto.size()) {
+		if (cantidadAgua == listaPuestoAgua.size()) {
 			System.out.println("Registro de lectura de consumo de agua completa");
 			claseAgua = "GreenBack";
 			mensajeAgua = "Todos los Puestos tienen registrado su lectura del servicio de Agua Potable";
 		} else {
 			System.out.println("Registro incompleta lectura de consumo de agua completa");
-			int diferencia = listaPuesto.size() - cantidadAgua;
+			int diferencia = listaPuestoAgua.size() - cantidadAgua;
 			claseAgua = "RedBack";
 			mensajeAgua = "(" + diferencia + ") Puestos no tienen registrado su lectura del servicio de Agua Potable";
 		}
@@ -666,28 +610,28 @@ public class MedidaServicioBean {
 
 		listaPuestoFiltro = new ArrayList<>();
 
-		for (int i = 0; i <= listaPuesto.size() - 1; i++) {
+		for (int i = 0; i <= listaPuestoLuz.size() - 1; i++) {
 
 			boolean consideracion = false;
 
 			for (int j = 0; j <= listaEntidadLuz.size() - 1; j++) {
-				if (listaPuesto.get(i).getId() == listaEntidadLuz.get(j).getPuesto().getId()) {
-					System.out.println("El valor " + listaPuesto.get(i).getId() + " SI Coincide con: "
+				if (listaPuestoLuz.get(i).getId() == listaEntidadLuz.get(j).getPuesto().getId()) {
+					System.out.println("El valor " + listaPuestoLuz.get(i).getId() + " SI Coincide con: "
 							+ listaEntidadLuz.get(j).getPuesto().getId());
 					consideracion = false;
 					break;
 				} else {
-					System.out.println("El valor " + listaPuesto.get(i).getId() + " NO Coincide con: "
+					System.out.println("El valor " + listaPuestoLuz.get(i).getId() + " NO Coincide con: "
 							+ listaEntidadLuz.get(j).getPuesto().getId());
 					consideracion = true;
 				}
 			}
 
 			if (consideracion) {
-				System.out.println("SI Agregaremos el puesto: " + listaPuesto.get(i).toString());
-				listaPuestoFiltro.add(listaPuesto.get(i));
+				System.out.println("SI Agregaremos el puesto: " + listaPuestoLuz.get(i).toString());
+				listaPuestoFiltro.add(listaPuestoLuz.get(i));
 			} else {
-				System.out.println("NO Agregaremos el puesto: " + listaPuesto.get(i).toString());
+				System.out.println("NO Agregaremos el puesto: " + listaPuestoLuz.get(i).toString());
 			}
 		}
 
@@ -699,28 +643,28 @@ public class MedidaServicioBean {
 
 		listaPuestoFiltro = new ArrayList<>();
 
-		for (int i = 0; i <= listaPuesto.size() - 1; i++) {
+		for (int i = 0; i <= listaPuestoAgua.size() - 1; i++) {
 
 			boolean consideracion = false;
 
 			for (int j = 0; j <= listaEntidadAgua.size() - 1; j++) {
-				if (listaPuesto.get(i).getId() == listaEntidadAgua.get(j).getPuesto().getId()) {
-					System.out.println("El valor " + listaPuesto.get(i).getId() + " SI Coincide con: "
+				if (listaPuestoAgua.get(i).getId() == listaEntidadAgua.get(j).getPuesto().getId()) {
+					System.out.println("El valor " + listaPuestoAgua.get(i).getId() + " SI Coincide con: "
 							+ listaEntidadAgua.get(j).getPuesto().getId());
 					consideracion = false;
 					break;
 				} else {
-					System.out.println("El valor " + listaPuesto.get(i).getId() + " NO Coincide con: "
+					System.out.println("El valor " + listaPuestoAgua.get(i).getId() + " NO Coincide con: "
 							+ listaEntidadAgua.get(j).getPuesto().getId());
 					consideracion = true;
 				}
 			}
 
 			if (consideracion) {
-				System.out.println("SI Agregaremos el puesto: " + listaPuesto.get(i).toString());
-				listaPuestoFiltro.add(listaPuesto.get(i));
+				System.out.println("SI Agregaremos el puesto: " + listaPuestoAgua.get(i).toString());
+				listaPuestoFiltro.add(listaPuestoAgua.get(i));
 			} else {
-				System.out.println("NO Agregaremos el puesto: " + listaPuesto.get(i).toString());
+				System.out.println("NO Agregaremos el puesto: " + listaPuestoAgua.get(i).toString());
 			}
 		}
 
@@ -739,12 +683,14 @@ public class MedidaServicioBean {
 	}
 
 	public void listarPuestos() {
-		listaPuesto = new ArrayList<>();
 		try {
-			listaPuesto = puestoService.listarFiltro(true);
+			listaPuestoAgua = puestoService.listarActivoAgua();
+			listaPuestoLuz = puestoService.listarActivoLuz();
+			//listaPuesto = puestoService.listarFiltro(true);
 		} catch (Exception e) {
 			// TODO: handle exception
-			listaPuesto = null;
+			listaPuestoAgua = null;
+			listaPuestoLuz = null;
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al recuperar registros puesto", ""));
 		}
@@ -912,13 +858,13 @@ public class MedidaServicioBean {
 
 		if (tipoServicioActual.getId() == 1) {
 			if (listaEntidadLuz == null || listaEntidadLuz.isEmpty()) {
-				listaPuestoFiltro = listaPuesto;
+				listaPuestoFiltro = listaPuestoLuz;
 			} else {
 				filtrarPuestosLuz();
 			}
 		} else if (tipoServicioActual.getId() == 2) {
 			if (listaEntidadAgua == null || listaEntidadAgua.isEmpty()) {
-				listaPuestoFiltro = listaPuesto;
+				listaPuestoFiltro = listaPuestoAgua;
 			} else {
 				filtrarPuestosAgua();
 			}
@@ -947,13 +893,13 @@ public class MedidaServicioBean {
 
 		if (tipoServicioActual.getId() == 1) {
 			if (listaEntidadLuz == null || listaEntidadLuz.isEmpty()) {
-				listaPuestoFiltro = listaPuesto;
+				listaPuestoFiltro = listaPuestoLuz;
 			} else {
 				filtrarPuestosLuz();
 			}
 		} else if (tipoServicioActual.getId() == 2) {
 			if (listaEntidadAgua == null || listaEntidadAgua.isEmpty()) {
-				listaPuestoFiltro = listaPuesto;
+				listaPuestoFiltro = listaPuestoAgua;
 			} else {
 				filtrarPuestosAgua();
 			}

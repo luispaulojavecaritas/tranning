@@ -99,9 +99,9 @@
 		<band splitType="Stretch"/>
 	</background>
 	<detail>
-		<band height="43" splitType="Stretch">
+		<band height="82" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="2" width="555" height="20" uuid="922a39a5-b359-4cef-9d41-fe00c4d64c96"/>
+				<reportElement x="22" y="25" width="514" height="20" uuid="922a39a5-b359-4cef-9d41-fe00c4d64c96"/>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial Black" size="11" isBold="true"/>
@@ -110,49 +110,49 @@
 				<text><![CDATA[ASOCIACION DE COMERCIANTES "CENTRO COMERCIAL SARITA COLONIA"]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="22" width="555" height="10" uuid="3e26733a-f335-4259-a595-9c904e694922"/>
+				<reportElement x="0" y="47" width="555" height="10" uuid="3e26733a-f335-4259-a595-9c904e694922"/>
 				<textElement textAlignment="Center">
 					<font fontName="Arial" size="8" isBold="true"/>
 				</textElement>
-				<text><![CDATA[ESTADO DE CUENTA]]></text>
+				<text><![CDATA[ESTADO DE CUENTA RESUMIDO SOCIO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="398" y="35" width="50" height="8" uuid="63cbe30b-e9aa-4457-ad2b-63760c14cd78">
+				<reportElement x="350" y="69" width="90" height="10" uuid="63cbe30b-e9aa-4457-ad2b-63760c14cd78">
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
-				<textElement textAlignment="Left">
-					<font fontName="Arial" size="6"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="7" isBold="true"/>
 				</textElement>
-				<text><![CDATA[FECHA Y HORA:]]></text>
+				<text><![CDATA[FECHA Y HORA IMP:]]></text>
 			</staticText>
 			<textField isStretchWithOverflow="true">
-				<reportElement x="450" y="35" width="85" height="8" uuid="4d46e93e-46cf-4efa-a872-aff00d55a592">
+				<reportElement x="440" y="69" width="95" height="10" uuid="4d46e93e-46cf-4efa-a872-aff00d55a592">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
-				<textElement verticalAlignment="Top">
-					<font fontName="Arial" size="6"/>
+				<textElement textAlignment="Right" verticalAlignment="Top">
+					<font fontName="Arial" size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new java.util.Date())]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="23" y="35" width="40" height="8" uuid="54b5d53f-f7ee-4757-ae0d-e4aa8049b07f">
+				<reportElement x="23" y="69" width="40" height="10" uuid="54b5d53f-f7ee-4757-ae0d-e4aa8049b07f">
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left">
-					<font fontName="Arial" size="6"/>
+					<font fontName="Arial" size="7" isBold="true"/>
 				</textElement>
-				<text><![CDATA[SOCIO]]></text>
+				<text><![CDATA[SOCIO:]]></text>
 			</staticText>
 			<textField isStretchWithOverflow="true">
-				<reportElement x="63" y="35" width="220" height="8" uuid="32dde895-e6b3-44e3-88eb-d9bb98703f96">
+				<reportElement x="63" y="69" width="220" height="10" uuid="32dde895-e6b3-44e3-88eb-d9bb98703f96">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement verticalAlignment="Top">
-					<font fontName="Arial" size="6"/>
+					<font fontName="Arial" size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{param_socio}]]></textFieldExpression>
 			</textField>
@@ -169,42 +169,42 @@
 					<datasetRun subDataset="Dataset1" uuid="44a9becd-2444-4cf0-a56f-dc22f233df40">
 						<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{listaReporte})]]></dataSourceExpression>
 					</datasetRun>
-					<jr:column width="90" uuid="f6b98ef2-2846-4b39-8e31-350d70747441">
+					<jr:column width="50" uuid="f6b98ef2-2846-4b39-8e31-350d70747441">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
 						<jr:columnHeader style="Table_CH" height="20" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="90" height="20" uuid="cad9ae53-db37-4b8f-b3a7-9006f1bbc47d"/>
+								<reportElement x="0" y="0" width="50" height="20" uuid="cad9ae53-db37-4b8f-b3a7-9006f1bbc47d"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Arial" size="6" isBold="true"/>
+									<font fontName="Arial" size="7" isBold="true"/>
 								</textElement>
 								<text><![CDATA[PERIODO]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="10">
 							<textField isStretchWithOverflow="true">
-								<reportElement x="0" y="0" width="90" height="10" uuid="e6099a00-9060-43bc-86dc-8090c6a90c94"/>
+								<reportElement x="0" y="0" width="50" height="10" uuid="e6099a00-9060-43bc-86dc-8090c6a90c94"/>
 								<box leftPadding="1"/>
 								<textElement verticalAlignment="Middle">
 									<font fontName="Arial" size="6"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{anioFiscalPeriodo}+""+$F{descripcionPeriodo}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{anioFiscalPeriodo}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="170" uuid="5d0a5940-39bc-4f76-beb3-3a1512102209">
+					<jr:column width="210" uuid="5d0a5940-39bc-4f76-beb3-3a1512102209">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
 						<jr:columnHeader style="Table_CH" height="20" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="170" height="20" uuid="b2b9e99a-fb37-4e9b-8cab-67c5d57be7d1"/>
+								<reportElement x="0" y="0" width="210" height="20" uuid="b2b9e99a-fb37-4e9b-8cab-67c5d57be7d1"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Arial" size="6" isBold="true"/>
+									<font fontName="Arial" size="7" isBold="true"/>
 								</textElement>
-								<text><![CDATA[CATEGORIA OPERACION]]></text>
+								<text><![CDATA[CONCEPTO]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="10">
 							<textField isStretchWithOverflow="true">
-								<reportElement x="0" y="0" width="170" height="10" uuid="fdb1449d-3dc2-4870-9513-79560d0b0ec2"/>
+								<reportElement x="0" y="0" width="210" height="10" uuid="fdb1449d-3dc2-4870-9513-79560d0b0ec2"/>
 								<box leftPadding="1"/>
 								<textElement verticalAlignment="Middle">
 									<font fontName="Arial" size="6"/>
@@ -219,7 +219,7 @@
 							<staticText>
 								<reportElement x="0" y="0" width="80" height="20" uuid="255ea18d-e8de-499f-a781-211ce6f407d5"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Arial" size="6" isBold="true"/>
+									<font fontName="Arial" size="7" isBold="true"/>
 								</textElement>
 								<text><![CDATA[PENDIENTE]]></text>
 							</staticText>
@@ -231,7 +231,7 @@
 								<textElement textAlignment="Right" verticalAlignment="Middle">
 									<font fontName="Arial" size="6"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{montoDeuda}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[BigDecimal.valueOf($F{montoDeuda}).setScale(2, BigDecimal.ROUND_HALF_UP)]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -241,7 +241,7 @@
 							<staticText>
 								<reportElement x="0" y="0" width="80" height="20" uuid="a0df36a6-189d-4e0d-b704-3b14312cdefe"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Arial" size="6" isBold="true"/>
+									<font fontName="Arial" size="7" isBold="true"/>
 								</textElement>
 								<text><![CDATA[PAGADO]]></text>
 							</staticText>
@@ -255,10 +255,10 @@
 									<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 									<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 								</box>
-								<textElement textAlignment="Right" verticalAlignment="Middle">
+								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Arial" size="6" isBold="true"/>
 								</textElement>
-								<text><![CDATA[TOTAL]]></text>
+								<text><![CDATA[TOTAL SALDO]]></text>
 							</staticText>
 						</jr:columnFooter>
 						<jr:detailCell style="Table_TD" height="10">
@@ -268,7 +268,7 @@
 								<textElement textAlignment="Right" verticalAlignment="Middle">
 									<font fontName="Arial" size="6"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{montoPagado}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[BigDecimal.valueOf($F{montoPagado}).setScale(2, BigDecimal.ROUND_HALF_UP)]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -278,7 +278,7 @@
 							<staticText>
 								<reportElement x="0" y="0" width="94" height="20" uuid="2dc5a1e6-8024-4f2e-9fea-6db97cee3787"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Arial" size="6" isBold="true"/>
+									<font fontName="Arial" size="7" isBold="true"/>
 								</textElement>
 								<text><![CDATA[SALDO]]></text>
 							</staticText>
@@ -288,7 +288,7 @@
 								<reportElement x="0" y="0" width="94" height="20" uuid="455d81fd-2a11-4e81-8d22-1fed9d292bfb"/>
 								<box rightPadding="1"/>
 								<textElement textAlignment="Right" verticalAlignment="Middle">
-									<font fontName="Arial" size="6"/>
+									<font fontName="Arial" size="7" isBold="true"/>
 								</textElement>
 								<textFieldExpression><![CDATA[BigDecimal.valueOf($V{Variable_total}).setScale(2, BigDecimal.ROUND_HALF_UP)]]></textFieldExpression>
 							</textField>
@@ -300,7 +300,7 @@
 								<textElement textAlignment="Right" verticalAlignment="Middle">
 									<font fontName="Arial" size="6"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{saldoDeuda}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[BigDecimal.valueOf($F{saldoDeuda}).setScale(2, BigDecimal.ROUND_HALF_UP)]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>

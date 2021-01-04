@@ -17,10 +17,14 @@ import org.primefaces.event.SelectEvent;
 import org.primefaces.event.UnselectEvent;
 
 import pe.com.gesadmin.entity.Amonestacion;
+import pe.com.gesadmin.entity.CategoriaOperacion;
+import pe.com.gesadmin.entity.EstatusOperacion;
 import pe.com.gesadmin.entity.MedidaServicio;
 import pe.com.gesadmin.entity.Operacion;
 import pe.com.gesadmin.entity.Periodo;
+import pe.com.gesadmin.entity.Proveedor;
 import pe.com.gesadmin.entity.Puesto;
+import pe.com.gesadmin.entity.TipoOperacion;
 import pe.com.gesadmin.entity.TipoServicio;
 import pe.com.gesadmin.entity.Variable;
 import pe.com.gesadmin.entity.transfer.LecturasMedidasPreOperacion;
@@ -417,7 +421,7 @@ public class OperacionAdministracionBean {
 			}else {
 				
 				FacesContext.getCurrentInstance().addMessage(null,
-						new FacesMessage(FacesMessage.SEVERITY_WARN, "Solo puede eliminar operaciones con estatus pendiente o vencida", ""));
+						new FacesMessage(FacesMessage.SEVERITY_WARN, "Solo puede eliminar movimientos con estatus pendiente o vencida", ""));
 				return "";
 				
 			}
@@ -579,7 +583,7 @@ public class OperacionAdministracionBean {
 			// TODO: handle exception
 			listaPuesto = null;
 			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error.", "Problemas al recuperar registros puesto"));
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error. Problemas al recuperar registros puesto", ""));
 		}
 	}
 
@@ -739,11 +743,11 @@ public class OperacionAdministracionBean {
 			servicio.generarOperacionAdministracion(listaPreOperacion, descripcionOperacion,
 					entidad.getFechaVencimiento(), usuarioSesionBean.getUsuario().getId());
 			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO, "Creacion exitosa de operaciones", ""));
+					new FacesMessage(FacesMessage.SEVERITY_INFO, "Creacion exitosa de deuda", ""));
 		} catch (Exception e) {
 			// TODO: handle exception
 			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error en creacion de operaciones", ""));
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error en creacion de deuda", ""));
 			return "";
 		}
 
@@ -755,6 +759,37 @@ public class OperacionAdministracionBean {
 		obtenerCantidadAdministracion();
 
 		return "";
+	}
+	
+	
+public String generarOperaciones2() {
+		
+		String descripcionOperacion = periodoActual.getDescripcion() + " " + periodoActual.getAnioFiscal().getDescripcion();
+		
+
+		try {
+			grabarMasivo(listaPreOperacion, descripcionOperacion,
+					entidad.getFechaVencimiento(), usuarioSesionBean.getUsuario().getId());
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error en creacion de deuda", ""));
+			return "";
+		}
+
+		FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage(FacesMessage.SEVERITY_INFO, "Creacion exitosa de deuda", ""));
+		
+		limpiarEntidad();
+		listarEntidad();
+
+		filtrarPuestosAdministracionSinCompletarOperacion();
+		obtenerInputPeriodo();
+		obtenerCantidadAdministracion();
+
+		return "";
+		
 	}
 
 	public String filtrar() {
@@ -832,6 +867,40 @@ public class OperacionAdministracionBean {
 			obtenerInputPeriodo();
 			obtenerCantidadAdministracion();
 		}
+	}
+	
+	
+	public void grabarMasivo(List<OperacionAdministracionTransfer> listaLocalMas, String descripcionLocalMas, Date fechaVencimientoLocalMas, Integer idUsuarioLocalMas) {
+		
+
+		for (int i = 0; i <= listaLocalMas.size() - 1; i++) {
+			
+			System.out.println("ListaLocalMas: " + listaLocalMas.toString());
+
+			Integer cantidadRegistros = 0;
+			cantidadRegistros = listaLocalMas.get(i).getDias();
+
+			for (int j = 1; j <= cantidadRegistros; j++) {
+
+				Operacion operacionLocall = new Operacion();
+				operacionLocall.setCategoriaOperacion(new CategoriaOperacion(listaLocalMas.get(i).getCategoriaId()));
+				operacionLocall.setDescripcion(((j+"").length()==2?j+"":"0"+j) +" " +descripcionLocalMas);
+				operacionLocall.setEstado(1);
+				operacionLocall.setEstatusOperacion(new EstatusOperacion(listaLocalMas.get(i).getEstatusOperacionId()));
+				operacionLocall.setFechaVencimiento(fechaVencimientoLocalMas);
+				operacionLocall.setMonto(listaLocalMas.get(i).getMontoUnitario());
+				operacionLocall.setPeriodo(new Periodo(listaLocalMas.get(i).getIdPeriodo()));
+				operacionLocall.setProveedor(new Proveedor(listaLocalMas.get(i).getIdProveedorAdministracion()));
+				operacionLocall.setPuesto(new Puesto(listaLocalMas.get(i).getPuestoId()));
+				operacionLocall.setTipoOperacion(new TipoOperacion(listaLocalMas.get(i).getTipoOperacionId()));
+				operacionLocall.setPersonaResponsableOperacion(null);
+				operacionLocall.setIdUsuario(idUsuarioLocalMas);
+				System.out.println("operacionLocall: " + operacionLocall.toString());
+				servicio.crear(operacionLocall);
+
+			}
+		}
+		
 	}
 
 }
