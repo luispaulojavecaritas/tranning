@@ -169,11 +169,13 @@ public class OperacionDaoImpl implements OperacionDao {
 	}
 	
 	@Override
-	public ReciboEgreso savePaymentDos(Integer idOperacion, Integer IdPersona, Integer idEstatusOperacion, String tipoDoc,
+	public ReciboEgreso savePaymentDos(Integer idOperacion, Integer IdPersona, Integer idEstatusOperacion, String tipoDoc2,
 			String nroDoc, Usuario usuario, String motivo, String montoLetras, Integer estado, Date fechaPago, String observacion) {
 		// TODO Auto-generated method stub 
 
 		Operacion operacion = new Operacion();
+		
+		String tipoDoc = tipoDoc2.replace("INGRESO", "").replace("EGRESO", "");
 
 		operacion = em.find(Operacion.class, idOperacion);
 
@@ -304,16 +306,50 @@ public class OperacionDaoImpl implements OperacionDao {
 			
 		}else if (operacion.getEstatusOperacion().getId()==2) {
 			//Efectuada
-			operacion.setPersonaResponsableOperacion(null);
-			operacion.setEstatusOperacion(new EstatusOperacion(1));
-
-			operacion.setPersonaResponsableOperacion(null);
-			operacion.setFechaPago(null);
-			operacion.setTipoDoc(null);
-			operacion.setNroDoc(null);
-			operacion.setDescripcionPago(null);
 			
-			em.merge(operacion);
+			if(operacion.getCategoriaOperacion().getId() == 102 && operacion.getTipoOperacion().getId() ==1) {
+				
+				Date dateLocal = new Date();
+				Date datePago = operacion.getFechaPago();
+				
+				
+				UtilFechas utilFechas = new UtilFechas();
+				
+				String dateLocalCadena = utilFechas.converDateToString2(dateLocal);
+				String datePagoCadena = utilFechas.converDateToString2(datePago);
+				
+				if(dateLocalCadena.equalsIgnoreCase(datePagoCadena)) {
+					System.out.println("Se procede a la anulacion del nro de comprobante emitido en el dia, y la operacion apsa a anulada");
+					
+					operacion.setDescripcionEliminacion(motivo);
+					operacion.setDescripcionMonto(montoLetras);
+					operacion.setRegistroEliminacion(new Date());
+					operacion.setIdUsuarioEliminacion(usuario.getId());
+					operacion.setEstatusOperacion(new EstatusOperacion(4));
+					operacion.setEstado(1);
+					
+					em.merge(operacion);
+					
+				}else {
+					System.out.println("Se procede a la anulacion del nro de comprobante emitido en el dia ya la operacion pasa a pendiente");
+				}
+				
+				
+				
+			}else {
+				operacion.setPersonaResponsableOperacion(null);
+				operacion.setEstatusOperacion(new EstatusOperacion(1));
+
+				operacion.setPersonaResponsableOperacion(null);
+				operacion.setFechaPago(null);
+				operacion.setTipoDoc(null);
+				operacion.setNroDoc(null);
+				operacion.setDescripcionPago(null);
+				
+				em.merge(operacion);
+			}
+			
+			
 		}
 
 		ComprobanteCorreccion comprobanteCorreccion = new ComprobanteCorreccion();
@@ -571,6 +607,85 @@ public class OperacionDaoImpl implements OperacionDao {
 		tq.setParameter("tipodoc", tipodoc);
 		tq.setParameter("nroDoc", nroDoc);
 		lista = tq.getResultList();
+		return lista;
+	}
+
+	@Override
+	public Operacion recuperarPorNroRecTipoDocFechaActual(String nrodoc, String tipoDoc, String fechaActual, Integer idPeriodo, Integer idEStatus, Integer idTipo) {
+		// TODO Auto-generated method stub
+		
+		
+		List<Operacion> list = null;
+
+		String query = "select op.id "
+				+ "from operacion op "
+				+ "where "
+				+ "op.estado = 1 and "
+				+ "op.nro_doc = ? and "
+				+ "op.tipo_doc = ? and "
+				+ "to_char(op.registro, 'YYYY-MM-DD') = ? and "
+				+ "op.id_periodo = ? and "
+				+ "op.id_estatus_operacion = ? and "
+				+ "op.id_tipo_operacion = ?";
+
+		Query q = em.createNativeQuery(query);
+		q.setParameter(1, nrodoc);
+		q.setParameter(2, tipoDoc);
+		q.setParameter(3, fechaActual);
+		q.setParameter(4, idPeriodo);
+		q.setParameter(5, idEStatus);
+		q.setParameter(6, idTipo);
+
+		List<Object[]> resultado = q.getResultList();
+
+		if (resultado == null || resultado.isEmpty()) {
+			System.out.println("lista OperacionAdministracionTransfer nula o vacia");
+			list = new ArrayList<>();
+			list = null;
+		} else {
+
+			System.out.println("lista OperacionAdministracionTransfer NO es nula o vacia");
+
+			list = new ArrayList<>();
+
+			for (Object[] obj : resultado) {
+				Operacion entidad = new Operacion();
+				entidad.setId(Integer.parseInt(obj[0] + ""));
+				list.add(entidad);
+			}
+		}
+		
+		if(list == null || list.isEmpty()) {
+			return null;
+		}else {
+			
+			return em.find(Operacion.class, list.get(0).getId());
+		}
+		
+	}
+
+	@Override
+	public List<Operacion> findByAdministracionesPuestoId(Integer idPuesto) {
+		// TODO Auto-generated method stub
+		List<Operacion> lista = new ArrayList<>();
+		String query = "SELECT b FROM Operacion b where b.estado = 1 and b.puesto.id = :idPuesto and b.estatusOperacion.id = 1 and b.categoriaOperacion.id = 3 ORDER BY b.id asc";
+		TypedQuery<Operacion> tq = em.createQuery(query, Operacion.class);
+		tq.setParameter("idPuesto", idPuesto);
+		lista = tq.getResultList();
+		System.out.println("Lista obtenida: " + lista.toString());
+		return lista;
+	}
+
+	@Override
+	public List<Operacion> findByAdministracionesPuestoIdPeridooId(Integer idPuesto, Integer periodoId) {
+		// TODO Auto-generated method stub
+		List<Operacion> lista = new ArrayList<>();
+		String query = "SELECT b FROM Operacion b where b.estado = 1 and b.puesto.id = :idPuesto and b.periodo.id = :periodoId and b.estatusOperacion.id = 1 and b.categoriaOperacion.id = 3 ORDER BY b.id asc";
+		TypedQuery<Operacion> tq = em.createQuery(query, Operacion.class);
+		tq.setParameter("periodoId", periodoId);
+		tq.setParameter("idPuesto", idPuesto);
+		lista = tq.getResultList();
+		System.out.println("Lista obtenida: " + lista.toString());
 		return lista;
 	}
 

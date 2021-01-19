@@ -186,4 +186,20 @@ public class OperacionServiceImpl implements OperacionService {
 		return ordenDao.findByPeriodoIdPuestoIdCorreccion2(idPeriodo, idPuesto);
 	}
 
+	@Override
+	public Operacion recuperarPorNroRecTipoDocFechaActual(String nrodoc, String tipoDoc, String fechaActual, Integer idPeriodo, Integer idEStatus, Integer idTipo) {
+		// TODO Auto-generated method stub
+		return ordenDao.recuperarPorNroRecTipoDocFechaActual(nrodoc, tipoDoc, fechaActual, idPeriodo, idEStatus, idTipo);
+	}
+
+	@Override
+	public List<Operacion> listarAdministracionesPuestoIdPeridooId(Integer idPuesto, Integer periodoId) {
+		// TODO Auto-generated method stub
+		if (periodoId == null) {
+			return ordenDao.findByAdministracionesPuestoId(idPuesto);
+		} else {
+			return ordenDao.findByAdministracionesPuestoIdPeridooId(idPuesto, periodoId);			
+		}
+	}
+
 }

@@ -50,6 +50,8 @@ public class ReporteTresBean {
 	JasperPrint reportePrintLocal;
 
 	private String filtro;
+	
+	private String propietario;
 
 	private List<Puesto> listaPuesto = new ArrayList<>();
 	private List<CategoriaOperacion> listaCategoriaOperacion = new ArrayList<>();
@@ -69,6 +71,7 @@ public class ReporteTresBean {
 		entidad = new ReporteTres();
 		idPuesto = null;
 		idCategoriaOperacion = null;
+		propietario = "";
 
 		booReporte = false;
 	}
@@ -89,6 +92,14 @@ public class ReporteTresBean {
 
 	public List<ReporteTres> getListafiltro() {
 		return listafiltro;
+	}
+
+	public String getPropietario() {
+		return propietario;
+	}
+
+	public void setPropietario(String propietario) {
+		this.propietario = propietario;
 	}
 
 	public void setListafiltro(List<ReporteTres> listafiltro) {
@@ -206,6 +217,7 @@ public class ReporteTresBean {
 		listafiltro = null;
 		idPuesto = null;
 		idCategoriaOperacion = null;
+		propietario = "";
 
 		booReporte = false;
 	}
@@ -229,6 +241,21 @@ public class ReporteTresBean {
 		}
 		filtro = null;
 		return "";
+	}
+	
+	public void obtenerPropietario() {
+		
+		List<PuestoPersonaCargo> lista = new ArrayList<>();
+		
+		lista= puestoPersonaCargoService.listarPuestoIdPropietarioActivo(idPuesto);
+		
+		if(lista == null || lista.isEmpty()) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "No hay socio asociado en este puestoError. Problemas al recuperar lista de categorias de operaciones",""));
+			
+			propietario = "No registrado";
+		}else {
+			propietario = lista.get(0).getPersona().getNombre() + " " + lista.get(0).getPersona().getPaterno() + " " + lista.get(0).getPersona().getMaterno();
+		}
 	}
 
 	public String consultar() {

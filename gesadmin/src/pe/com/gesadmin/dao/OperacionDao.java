@@ -73,6 +73,12 @@ public interface OperacionDao {
 	public List<Operacion> findByPeriodoIdPuestoIdCorreccion(Integer idPeriodo, Integer idPuesto);
 	
 	public List<Operacion> findByPeriodoIdPuestoIdCorreccion2(Integer idPeriodo, Integer idPuesto);
+	
+	public Operacion recuperarPorNroRecTipoDocFechaActual(String nrodoc, String tipoDoc, String fechaActual, Integer idPeriodo, Integer idEStatus, Integer idTipo);
+	
+	public List<Operacion> findByAdministracionesPuestoId(Integer idPuesto);
+	
+	public List<Operacion> findByAdministracionesPuestoIdPeridooId(Integer idPuesto, Integer periodoId);
 
     
 }

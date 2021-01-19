@@ -40,6 +40,7 @@ public class Testfechas {
 		System.out.println("Cantidad de dias presente mes: " + utilFechas.obtenerCantidadDiasPorMesActual1());
 		*/
 		
+		/*
 		Conversiones conversiones = new Conversiones();
 		
 		
@@ -55,6 +56,12 @@ public class Testfechas {
 		String numerodes = null;
 		numerodes =  conversiones.descripcionLiteral( conversiones.formatoMontos(resultado1)+"", "SOLES");
 		System.out.println("Descripcion Numeros: " + numerodes);
+		*/
+		String tipoDoc2 = "TICKET";
+		
+		String tipoDoc = tipoDoc2.replace("INGRESO", "").replace("EGRESO", "");
+		
+		System.out.println("TipoDOc FINAL: "+ tipoDoc);
 	}
 
 }

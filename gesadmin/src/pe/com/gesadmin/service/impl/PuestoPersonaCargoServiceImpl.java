@@ -53,4 +53,10 @@ public class PuestoPersonaCargoServiceImpl implements PuestoPersonaCargoService 
 		return puestoPersonaCargoDao.findbyPuestoId(idPuesto);
 	}
 
+	@Override
+	public List<PuestoPersonaCargo> listarPuestoIdPropietarioActivo(Integer idPuesto) {
+		// TODO Auto-generated method stub
+		return puestoPersonaCargoDao.findPuestoIdPropietarioActivo(idPuesto);
+	}
+
 }

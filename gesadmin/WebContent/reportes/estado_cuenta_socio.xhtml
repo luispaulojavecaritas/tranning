@@ -47,7 +47,13 @@ body {
 													value="#{reporteDosBean.listaPuesto}"
 													var="lista" itemLabel="#{lista.descripcion}"
 													itemValue="#{lista.id}" />
+												<p:ajax listener="#{reporteDosBean.obtenerPropietario()}"
+													update="frm1" />
 											</p:selectOneMenu>
+											
+											<p:outputLabel value="Socio:" />
+											<h:outputText value="#{reporteDosBean.propietario}" />
+											
 										</p:panelGrid>
 									</div>
 

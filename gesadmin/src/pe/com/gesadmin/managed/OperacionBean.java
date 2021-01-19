@@ -358,7 +358,7 @@ public class OperacionBean {
 		}
 
 		limpiar();
-		listarEntidad();
+
 
 		return "";
 	}
@@ -574,6 +574,12 @@ public class OperacionBean {
 		booDetalle = false;
 		booEgreso = false;
 		booIngreso = false;
+		
+		listarEntidad();
+		listarPuesto();
+		listarSituacionOrden();
+		listarTipoOrden();
+		listarProveedor();
 
 	}
 
@@ -723,7 +729,8 @@ public class OperacionBean {
 		TipoOperacion tipoOperacionLocal = new TipoOperacion();
 
 		try {
-			listaCategoriaOperacion = categoriaOperacionService.listarPordTipoOperacionNoServiciosNoAdministrativos(codigoTipoOperacion);
+			//listaCategoriaOperacion = categoriaOperacionService.listarPordTipoOperacionNoServiciosNoAdministrativos(codigoTipoOperacion);
+			listaCategoriaOperacion = categoriaOperacionService.listarActivo();
 			tipoOperacionLocal = tipoOperacionService.recuperar(codigoTipoOperacion);
 
 		} catch (Exception e) {

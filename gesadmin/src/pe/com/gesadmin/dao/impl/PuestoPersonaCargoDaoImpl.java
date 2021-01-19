@@ -62,5 +62,15 @@ public class PuestoPersonaCargoDaoImpl implements PuestoPersonaCargoDao {
         return lista;
 	}
 
+	@Override
+	public List<PuestoPersonaCargo> findPuestoIdPropietarioActivo(Integer idPuesto) {
+		// TODO Auto-generated method stub
+		String query = "select b FROM PuestoPersonaCargo b where b.estado = 1 and b.puesto.id = :idPuesto and b.cargo.id = 1 order by b.id desc";
+        TypedQuery<PuestoPersonaCargo> tq = em.createQuery(query, PuestoPersonaCargo.class);
+        tq.setParameter("idPuesto", idPuesto);
+        List<PuestoPersonaCargo> lista = tq.getResultList();
+        return lista;
+	}
+
 	
 }

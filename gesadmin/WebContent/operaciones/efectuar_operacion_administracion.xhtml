@@ -1,0 +1,222 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="head">
+		<style type="text/css">
+body {
+	background-color: #F1F1F1;
+}
+</style>
+	</ui:define>
+
+	<ui:define name="content">
+
+		<div class="Section">
+
+			<div class="Container100 ShadowEffect WhiteBack">
+
+				<div class="Container100 ui-fluid">
+					<div class="Container100">
+						<div
+							class="Wid100 MarAuto DispBlock OvHidden FontMerriWeatherRegular BlueDarkest TexAlCenter"
+							style="font-size: 3.0rem; padding-top: 0rem; padding-bottom: 0rem;">CANCELAR
+							DEUDA PROGRAMADA ADMINISTRACION</div>
+						<div class="Wid100 OvHidden" style="height: 1rem;"></div>
+
+						<h:form id="frm1">
+							<f:passThroughAttribute name="autocomplete" value="off" />
+							<p:panel id="panel1" header="Periodo fiscal y puesto a consultar"
+								style="margin-bottom:20px">
+
+								<div class="Container">
+									<div class="Container80 Responsive100">
+
+										<p:panelGrid columns="4" id="pnl"
+											columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+											layout="grid" styleClass="ui-panelgrid-blank"
+											style="border:0px none; background-color:transparent;">
+
+
+											<p:outputLabel for="txtvar1" value="Puesto: " />
+											<p:selectOneMenu id="txtvar1"
+												value="#{operacionEfectuarAdministracionBean.idPuesto}"
+												required="true" requiredMessage="Seleccione puesto"
+												label="puesto" filter="true" filterMatchMode="contains">
+												<f:selectItem itemLabel="Seleccione" itemValue="" />
+												<f:selectItems
+													value="#{operacionEfectuarAdministracionBean.listaPuesto}"
+													var="lista" itemLabel="#{lista.descripcion}"
+													itemValue="#{lista.id}" />
+
+												<p:ajax
+													listener="#{operacionEfectuarAdministracionBean.listarResponsablesPersonasPuesto()}"
+													update="frm1" />
+
+											</p:selectOneMenu>
+
+											<p:outputLabel for="txtvar2" value="Periodo:" />
+											<p:selectOneMenu id="txtvar2"
+												value="#{operacionEfectuarAdministracionBean.idPeriodo}"
+												label="periodo" filter="true" filterMatchMode="contains">
+												<f:selectItem itemLabel="Seleccione" itemValue="" />
+												<f:selectItems
+													value="#{operacionEfectuarAdministracionBean.listaPerido}"
+													var="lista" itemLabel="#{lista.descripcion}"
+													itemValue="#{lista.id}" />
+											</p:selectOneMenu>
+
+
+											<p:outputLabel value="Socio:" />
+											<h:outputText
+												value="#{operacionEfectuarAdministracionBean.socio}" />
+
+										</p:panelGrid>
+									</div>
+
+									<div class="Container20 Responsive100">
+										<p:commandButton value="Consultar"
+											actionListener="#{operacionEfectuarAdministracionBean.consultarDeudaAdministrativa()}"
+											update="frm1 frm2  message" icon="fa fa-save" />
+										<div class="EmptyBox5" />
+										<p:commandButton value="Limpiar"
+											actionListener="#{operacionEfectuarAdministracionBean.limpiar()}"
+											update="frm1 frm2 message " icon="fa fa-refresh"
+											process="@this" immediate="true" />
+									</div>
+								</div>
+							</p:panel>
+						</h:form>
+
+						<div class="EmptyBox5" />
+
+
+						<h:form id="frm2">
+							<f:passThroughAttribute name="autocomplete" value="off" />
+							<p:panel id="pnlTipoServicio"
+								header="Tipo de Movimiento a Gestionar"
+								style="margin-bottom:20px"
+								rendered="#{operacionEfectuarAdministracionBean.booregistro}">
+								<div class="Container">
+									<div class="Container100 Responsive100">
+										<p:panelGrid columns="4" id="pnl"
+											columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+											layout="grid" styleClass="ui-panelgrid-blank"
+											style="border:0px none; background-color:transparent;">
+
+											<p:outputLabel for="txtPagoNroDoc" value="Nro Documento:" />
+											<p:inputText id="txtPagoNroDoc" required="true"
+												requiredMessage="Ingrese nro documento" maxlength="6"
+												value="#{operacionEfectuarAdministracionBean.nroDoc}">
+												<f:validateRegex pattern="^[0-9]{1,6}$" />
+												<p:ajax event="blur" update="frm2" />
+											</p:inputText>
+
+											<p:outputLabel for="txtPagoTipoDoc" value="Tipo Documento:" />
+											<p:selectOneMenu id="txtPagoTipoDoc"
+												value="#{operacionEfectuarAdministracionBean.tipoDoc}"
+												required="true" requiredMessage="Seleccione tipo documento"
+												label="Tipo Documento" filter="true"
+												filterMatchMode="contains">
+												<f:selectItem itemLabel="Seleccione" itemValue="" />
+												<f:selectItem itemLabel="RECIBO INGRESO" itemValue="RECIBOINGRESO" />
+												<f:selectItem itemLabel="RECIBO EGRESO" itemValue="RECIBOEGRESO" />
+												<f:selectItem itemLabel="TICKET" itemValue="TICKET" />
+												<f:selectItem itemLabel="BOLETA" itemValue="BOLETA" />
+												<f:selectItem itemLabel="FACTURA" itemValue="FACTURA" />
+												<f:selectItem itemLabel="GUIA.REM" itemValue="GUIA.REM" />
+												<f:selectItem itemLabel="DEP.BANC" itemValue="DEP.BANC" />
+												<f:selectItem itemLabel="TRAN.BANC" itemValue="TRAN.BANC" />
+												<f:selectItem itemLabel="REC.HON." itemValue="REC.HONO." />
+												<f:selectItem itemLabel="OTROS" itemValue="OTROS" />
+											</p:selectOneMenu>
+
+											<p:outputLabel value="Fecha pago:" for="txtFechaPago" />
+											<p:calendar id="txtFechaPago" pattern="dd-MM-yyyy"
+												mask="true" autocomplete="off" placeholder="dd-mm-aaaa"
+												navigator="true"
+												maxdate="#{operacionEfectuarAdministracionBean.fechaMaxima}"
+												locale="es"
+												value="#{operacionEfectuarAdministracionBean.fechaPago}"
+												required="true"
+												requiredMessage="Ingrese fecha de vencimieto">
+												<f:validateRequired for="txtFechaPago" />
+											</p:calendar>
+
+											<p:outputLabel for="txtvar13" value="Deudas a Cancelar:" />
+											<p:selectCheckboxMenu id="txtvar13"
+												value="#{operacionEfectuarAdministracionBean.operacionesSeleccionados}"
+												label="deudas administrativas" filter="true"
+												filterMatchMode="contains" required="true"
+												requiredMessage="Seleccione deudas administrativas">
+												<f:selectItems
+													value="#{operacionEfectuarAdministracionBean.operacionesCadenas}" />
+											</p:selectCheckboxMenu>
+
+											<p:outputLabel for="txtPagoPersona" value="Efectúa Pago: " />
+											<p:selectOneMenu
+												value="#{operacionEfectuarAdministracionBean.idPersonaResponsable}"
+												required="true" id="txtPagoPersona"
+												requiredMessage="Seleccione persona que efectúa el pago"
+												label="responsable pago" filter="true"
+												filterMatchMode="contains">
+												<f:selectItem itemLabel="Seleccione" itemValue="" />
+												<f:selectItems
+													value="#{operacionEfectuarAdministracionBean.listaPuestoPersonaCargos}"
+													var="lista"
+													itemLabel="#{lista.persona.nombre} #{lista.persona.paterno} #{lista.persona.materno} - #{lista.cargo.descripcion}"
+													itemValue="#{lista.persona.id}" />
+											</p:selectOneMenu>
+
+
+											<p:outputLabel for="txtvar100" value="Observaciones:" />
+											<p:inputTextarea
+												value="#{operacionEfectuarAdministracionBean.observaciones}"
+												id="txtvar100" style="width: 100%" rows="5" label="motivo"
+												placeholder="Ingrese observaciones que considere relevantes"
+												onkeyup="this.value = this.value.toUpperCase();"
+												maxlength="500" />
+
+										</p:panelGrid>
+
+
+										<div class="EmptyBox5" />
+
+										<p:commandButton value="Cancelar Deudas"
+											actionListener="#{operacionEfectuarAdministracionBean.cancelarDeudasSeleccionadas()}"
+											styleClass="GreenButton" update="frm1 frm2 message"
+											icon="fa fa-save">
+											<p:confirm header="Confirmar Nro de Recibo"
+												message="Nro Comprobante: #{operacionEfectuarAdministracionBean.nroDoc}" />
+
+										</p:commandButton>
+
+										<p:confirmDialog global="true" showEffect="fade"
+											hideEffect="fade">
+											<p:commandButton value="Si" type="button"
+												styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+											<p:commandButton value="No" type="button"
+												styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+										</p:confirmDialog>
+
+									</div>
+								</div>
+							</p:panel>
+						</h:form>
+
+
+						<div class="Container100 ui-fluid">
+							<p:messages id="message" autoUpdate="true" closable="true" />
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+	</ui:define>
+
+</ui:composition>

@@ -31,6 +31,8 @@ public interface OperacionService {
     public List<Operacion> listarPorAnioId(Integer idAnioFiscal);
     
     public List<Operacion> listarPorReciboPago(String tipodoc, String nroDoc);
+        
+    public List<Operacion> listarAdministracionesPuestoIdPeridooId(Integer idPuesto, Integer periodoId);
     
     public List<Operacion> listarPorPeriodoIdPuestoIdEstatusOperacionId(Integer idPeriodo, Integer  idPuesto, Integer idEstatusOperacionId); 
     
@@ -64,6 +66,8 @@ public interface OperacionService {
     public void actualizar (Operacion entidad);
     
     public void eliminar (Integer id); 
+    
+    public Operacion recuperarPorNroRecTipoDocFechaActual(String nrodoc, String tipoDoc, String fechaActual, Integer idPeriodo, Integer idEStatus, Integer idTipo);
     
     public Operacion recuperar (Integer id); 
     

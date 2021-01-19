@@ -1,0 +1,87 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="head">
+		<style type="text/css">
+body {
+	background-color: #F1F1F1;
+}
+</style>
+	</ui:define>
+
+	<ui:define name="content">
+
+		<div class="Section">
+
+			<div class="Container100 ShadowEffect WhiteBack">
+
+				<div class="Container100 ui-fluid">
+					<div class="Container100">
+						<div
+							class="Wid100 MarAuto DispBlock OvHidden FontMerriWeatherRegular BlueDarkest TexAlCenter"
+							style="font-size: 3.0rem; padding-top: 0rem; padding-bottom: 0rem;">ANULACION COMPROBANTE</div>
+						<div class="Wid100 OvHidden" style="height: 1rem;"></div>
+
+						<h:form id="frm1">
+							<f:passThroughAttribute name="autocomplete" value="off" />
+							<p:panel id="panel1" header="Periodo fiscal y puesto a consultar"
+								style="margin-bottom:20px">
+
+								<div class="Container">
+									<div class="Container80 Responsive100">
+										<p:panelGrid columns="4" id="pnl"
+											columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+											layout="grid" styleClass="ui-panelgrid-blank"
+											style="border:0px none; background-color:transparent;">
+											
+											<p:outputLabel for="txtPagoNroDoc" value="Nro Documento:" />
+											<p:inputText id="txtPagoNroDoc" required="true"
+												requiredMessage="Ingrese nro documento" maxlength="6"
+												value="#{anulacionComprobanteBean.nroDoc}">
+												<f:validateRegex pattern="^[0-9]{1,6}$" />
+											</p:inputText>
+
+
+											<p:outputLabel for="txtPagoTipoDoc" value="Tipo Documento:" />
+											<p:selectOneMenu id="txtPagoTipoDoc"
+												value="#{anulacionComprobanteBean.tipoDoc}" required="true"
+												requiredMessage="Seleccione tipo documento"
+												label="Tipo Documento" filter="true"
+												filterMatchMode="contains">
+												<f:selectItem itemLabel="Seleccione" itemValue="" />
+												<f:selectItem itemLabel="RECIBO INGRESO" itemValue="RECIBO" />
+												<f:selectItem itemLabel="TICKET" itemValue="TICKET" />
+											</p:selectOneMenu>											
+										</p:panelGrid>
+									</div>
+
+									<div class="Container20 Responsive100">
+										<p:commandButton value="Anulor"
+											actionListener="#{anulacionComprobanteBean.anularNroDo()}"
+											update="frm1 message" icon="fa fa-save" />
+										<div class="EmptyBox5" />
+										<p:commandButton value="Limpiar"
+											actionListener="#{anulacionComprobanteBean.limpiar()}"
+											update="frm1 message" icon="fa fa-refresh"
+											process="@this" immediate="true" />
+									</div>
+								</div>
+							</p:panel>
+						</h:form>
+						
+						<div class="Container100 ui-fluid">
+							<p:messages id="message" autoUpdate="true" closable="true" />
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+	</ui:define>
+
+</ui:composition>

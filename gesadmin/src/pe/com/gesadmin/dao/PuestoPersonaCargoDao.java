@@ -27,4 +27,6 @@ public interface PuestoPersonaCargoDao {
     
     public PuestoPersonaCargo findById (Integer id);
     
+    public List<PuestoPersonaCargo> findPuestoIdPropietarioActivo(Integer idPuesto);
+    
 }

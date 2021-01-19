@@ -32,4 +32,6 @@ public interface PuestoPersonaCargoService {
     
     public PuestoPersonaCargo recuperar (Integer id);
     
+    public List<PuestoPersonaCargo> listarPuestoIdPropietarioActivo(Integer idPuesto);
+    
 }

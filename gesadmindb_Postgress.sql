@@ -5071,7 +5071,11 @@ insert into medida_servicio (id, id_periodo, id_puesto, id_tipo_servicio, medida
 insert into medida_servicio (id, id_periodo, id_puesto, id_tipo_servicio, medida, medida_anterior, consumo, estado) values (341, 37, 261, 1, 558, 556, 2, 1);
 insert into medida_servicio (id, id_periodo, id_puesto, id_tipo_servicio, medida, medida_anterior, consumo, estado) values (342, 37, 262, 1, 3241, 3216, 25, 1);
 insert into medida_servicio (id, id_periodo, id_puesto, id_tipo_servicio, medida, medida_anterior, consumo, estado) values (343, 37, 263, 1, 0, 0, 0, 1);
-SELECT pg_catalog.setval(pg_get_serial_sequence('medida_servicio', 'id'), (SELECT MAX(id) FROM medida_servicio));
+
+
+SELECT pg_catalog.setval(pg_get_serial_sequence('operacion', 'id'), (SELECT MAX(id) FROM rec)+1);
+
+select * from categoria_operacion co order by ID desc;
 
 
 

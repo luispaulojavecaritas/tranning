@@ -42,6 +42,13 @@ public class Conversiones {
 		String resultado = null;
 
 		DescriptivoNumero convertidor;
+		
+		System.out.println("monto: " + monto);
+		
+		if(monto.equalsIgnoreCase(".00")) {
+			String resultadofinalcero = "CERO  CON 00 / 100 SOLES.";
+			return resultadofinalcero;
+		}
 
 		String valorSinSeparador = monto.replace(",", "").replace(".", "-");
 

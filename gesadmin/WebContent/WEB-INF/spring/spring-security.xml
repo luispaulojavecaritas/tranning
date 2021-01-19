@@ -22,6 +22,7 @@
         <intercept-url pattern="/operaciones/gestion_operacion_consumo_servicios*" access="hasRole('ROLE_ADMIN')" /> 
         <intercept-url pattern="/operaciones/gestion_operacion_administracion*" access="hasRole('ROLE_ADMIN')" /> 
         <intercept-url pattern="/operaciones/efectuar_operacion*" access="hasRole('ROLE_ADMIN')" /> 
+        <intercept-url pattern="/operaciones/anulacion_comprobante*" access="hasRole('ROLE_ADMIN')" /> 
         <intercept-url pattern="/operaciones/cancelar_pago_operacion*" access="hasRole('ROLE_ADMIN')" /> 
         <intercept-url pattern="/operaciones/mantenimiento_*" access="hasRole('ROLE_ADMIN')" /> 
         <intercept-url pattern="/recibos/*" access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')" />

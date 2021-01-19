@@ -246,7 +246,7 @@ public class PuestoPersonaCargoBean {
 	public void listarPersonas() {
 		listaPersonas = new ArrayList<>();
 		try {
-			listaPersonas = personaService.listar();
+			listaPersonas = personaService.listarActivo();
 		} catch (Exception e) {
 			// TODO: handle exception
 			listaPersonas = null;
@@ -259,7 +259,7 @@ public class PuestoPersonaCargoBean {
 	public void listarPuestos() {
 		listaPuestos = new ArrayList<>();
 		try {
-			listaPuestos = puestoService.listar();
+			listaPuestos = puestoService.listarActivo();
 		} catch (Exception e) {
 			// TODO: handle exception
 			listaPuestos = null;
@@ -272,7 +272,7 @@ public class PuestoPersonaCargoBean {
 	public void listarCargos() {
 		listaCargos = new ArrayList<>();
 		try {
-			listaCargos = cargoService.listar();
+			listaCargos = cargoService.listarActivo();
 		} catch (Exception e) {
 			// TODO: handle exception
 			listaCargos = null;

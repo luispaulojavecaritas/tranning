@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -52,7 +53,7 @@ public class OperacionPagoBean {
 
 	@ManagedProperty("#{usuarioSesionBean}")
 	private UsuarioSesionBean usuarioSesionBean;
-	
+
 	private List<Operacion> lista = new ArrayList<>();
 	private List<Operacion> listafiltro;
 	private Operacion entidad = new Operacion();
@@ -62,29 +63,28 @@ public class OperacionPagoBean {
 	private List<Periodo> listaPeriodo;
 	private List<Puesto> listaPuesto;
 	private List<PuestoPersonaCargo> listaPuestoPersonaCargo;
-	
 
 	private Integer idAnioFiscal;
 	private Integer idPeriodo;
 	private Integer idPuesto;
 	private Integer idPersona;
-	
+
 	private String tipoDocumento;
 	private String nroDocumento;
 	private String observaciones;
-	
+
 	private Date fechaPago;
 	private Date fechaMaxima;
-	
+
 	private Integer cantidadRegistros;
-	
+
 	private boolean booDetalle;
 	private boolean booRegistro;
-	
+
 	private boolean booReporte;
-	
+
 	JasperPrint reportePrintLocal;
-	
+
 	private ReciboEgreso reciboEgreso;
 
 	private String filtro;
@@ -97,16 +97,15 @@ public class OperacionPagoBean {
 
 	@EJB
 	private PeriodoService periodoService = new PeriodoServiceImpl();
-	
+
 	@EJB
 	private PuestoService puestoService = new PuestoServiceImpl();
-	
+
 	@EJB
-	private PuestoPersonaCargoService puestoPersonaCargoService  = new PuestoPersonaCargoServiceImpl();
-	
+	private PuestoPersonaCargoService puestoPersonaCargoService = new PuestoPersonaCargoServiceImpl();
+
 	@EJB
 	private ReporteService reporteService = new ReporteServiceImpl();
-	
 
 	public OperacionPagoBean() {
 		// TODO Auto-generated constructor stub
@@ -116,21 +115,20 @@ public class OperacionPagoBean {
 		listaPeriodo = null;
 		listaPuesto = null;
 		listaPuestoPersonaCargo = null;
-		
-		
+
 		idAnioFiscal = null;
 		idPeriodo = null;
 		idPuesto = null;
 		idPersona = null;
-		
+
 		nroDocumento = null;
 		observaciones = null;
 		tipoDocumento = null;
 		fechaPago = null;
 		fechaMaxima = new Date();
-		
+
 		cantidadRegistros = 0;
-		
+
 		booReporte = false;
 		reciboEgreso = null;
 	}
@@ -140,7 +138,7 @@ public class OperacionPagoBean {
 		listarEntidad();
 		listarAnioFiscal();
 		listarPuestos();
-		
+
 	}
 
 	public List<Operacion> getLista() {
@@ -321,8 +319,8 @@ public class OperacionPagoBean {
 
 	public void setIdPersona(Integer idPersona) {
 		this.idPersona = idPersona;
-	}	
-	
+	}
+
 	public Integer getCantidadRegistros() {
 		return cantidadRegistros;
 	}
@@ -368,10 +366,11 @@ public class OperacionPagoBean {
 	}
 
 	public String registrar_Pago() {
-		
+
 		Integer idEstatusOperacion = 2;
 		try {
-			servicio.registrarPago(entidadseleccionada.getId(), idPersona, idEstatusOperacion, tipoDocumento, nroDocumento, observaciones);
+			servicio.registrarPago(entidadseleccionada.getId(), idPersona, idEstatusOperacion, tipoDocumento,
+					nroDocumento, observaciones);
 			booDetalle = false;
 			entidad = new Operacion();
 			entidadseleccionada = new Operacion();
@@ -383,29 +382,35 @@ public class OperacionPagoBean {
 		} catch (Exception e) {
 			// TODO: handle exception
 			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al realizar registro de pago", ""));
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al realizar registro de pago", ""));
 			return "";
 		}
-		
+
 		listarEntidad();
-		
+
 		FacesContext.getCurrentInstance().addMessage(null,
-				new FacesMessage(FacesMessage.SEVERITY_INFO,"Registro de pago exitoso", ""));
+				new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro de pago exitoso", ""));
 		return "";
-		
+
 	}
-	
-public String registrar_Pago2() {
-		
+
+	public String registrar_Pago2() {		
+
 		Integer idEstatusOperacion = 2;
 		reciboEgreso = new ReciboEgreso();
-		
+
 		Conversiones conversiones = new Conversiones();
-				
-		String numerodes =  conversiones.descripcionLiteral(conversiones.formatoMontos(entidadseleccionada.getMonto())+"", "SOLES");
 		
+		Integer nrodocInterno  = null;
+		nrodocInterno = Integer.parseInt(nroDocumento);
+
+		String numerodes = conversiones
+				.descripcionLiteral(conversiones.formatoMontos(entidadseleccionada.getMonto()) + "", "SOLES");
+
 		try {
-			reciboEgreso = servicio.registrarPagoDos(entidadseleccionada.getId(), idPersona, idEstatusOperacion, tipoDocumento, nroDocumento, usuarioSesionBean.getUsuario(), entidadseleccionada.getDescripcion(), numerodes, 1, fechaPago, observaciones);
+			reciboEgreso = servicio.registrarPagoDos(entidadseleccionada.getId(), idPersona, idEstatusOperacion,
+					tipoDocumento, nrodocInterno+"", usuarioSesionBean.getUsuario(), entidadseleccionada.getDescripcion(),
+					numerodes, 1, fechaPago, observaciones);
 			entidad = new Operacion();
 			entidadseleccionada = new Operacion();
 			idPersona = null;
@@ -414,91 +419,89 @@ public String registrar_Pago2() {
 			fechaPago = null;
 			booReporte = true;
 			observaciones = null;
-			
-			if(reciboEgreso == null) {
+			nrodocInterno = null;
+
+			if (reciboEgreso == null) {
 				booReporte = false;
 				booDetalle = false;
-			}else {
+			} else {
 				booReporte = true;
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
 			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al realizar registro de pago", ""));
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al realizar registro de pago", ""));
 			booReporte = false;
 			return "";
 		}
-		
+
 		listarEntidad();
-		
-		FacesContext.getCurrentInstance().addMessage(null,
-				new FacesMessage(FacesMessage.SEVERITY_INFO,"Registro de pago exitoso, si realizo el pago de un EGRESO, puedo consultar el Recibo de Egresos en el modulo de consulta de movimientos", ""));
+
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+				"Operacion realizada satisfactoriamente.",
+				""));
 		return "";
 	}
 
+	public String vercertificadoReciboEgreso(ActionEvent actionEvent) throws JRException, IOException {
 
+		String absolutePathCerdp = Constante.RUTA_REPORTES + "reporte_recibo_egreso.jasper";
+		List<ReporteReciboEgreso> listaLocalReporte = reporteService
+				.obtenerReporteReciboEgreso(reciboEgreso.getIdOperacion());
 
-public String vercertificadoReciboEgreso(ActionEvent actionEvent) throws JRException, IOException {
-	
-	String absolutePathCerdp = Constante.RUTA_REPORTES + "reporte_recibo_egreso.jasper";	
-	List<ReporteReciboEgreso> listaLocalReporte = reporteService.obtenerReporteReciboEgreso(reciboEgreso.getIdOperacion());
+		// --- CARGA DE DATOS EN LA COLECCION
+		JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(listaLocalReporte);
+		System.out.println();
 
+		try {
+			reportePrintLocal = JasperFillManager.fillReport(absolutePathCerdp, null, beanCollectionDataSource);
+		} catch (JRException e) {
+			// TODO Auto-generated catch block
+			System.out.println(
+					"Error en creacion instancia jasperPrint: " + e.toString() + " TRACE: " + e.getStackTrace());
+			e.printStackTrace();
+			reportePrintLocal = null;
+		}
 
-	// --- CARGA DE DATOS EN LA COLECCION
-	JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(listaLocalReporte);
-	System.out.println();
+		if (reportePrintLocal == null) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error. Problemas al generar reporte", ""));
+			return "";
+		}
 
-	try {
-		reportePrintLocal = JasperFillManager.fillReport(absolutePathCerdp, null, beanCollectionDataSource);
-	} catch (JRException e) {
-		// TODO Auto-generated catch block
-		System.out
-				.println("Error en creacion instancia jasperPrint: " + e.toString() + " TRACE: " + e.getStackTrace());
-		e.printStackTrace();
-		reportePrintLocal = null;
-	}	
-	
-	
-	if(reportePrintLocal == null) {
-		FacesContext.getCurrentInstance().addMessage(null,
-				new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error. Problemas al generar reporte", ""));
-		return "";
+		try {
+			HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance()
+					.getExternalContext().getResponse();
+			httpServletResponse.addHeader("Content-disposition", "attachment; filename=recibo_egreso.pdf");
+
+			byte[] fichero = JasperExportManager.exportReportToPdf(reportePrintLocal);
+
+			httpServletResponse.setContentType("application/pdf");
+			httpServletResponse.setHeader("Content-disposition", "inline; filename=recibo_egreso.pdf");
+			httpServletResponse.setHeader("Cache-Control", "max-age=30");
+			httpServletResponse.setHeader("Pragma", "No-cache");
+			httpServletResponse.setDateHeader("Expires", 0);
+			httpServletResponse.setContentLength(fichero.length);
+
+			ServletOutputStream out;
+			out = httpServletResponse.getOutputStream();
+
+			out.write(fichero, 0, fichero.length);
+			out.flush();
+			out.close();
+
+			FacesContext.getCurrentInstance().responseComplete();
+			return "";
+		} catch (Exception e) {
+			System.out.println("Error en responder vista: " + e.toString());
+
+			FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error en mostrar reporte", "");
+			FacesContext.getCurrentInstance().addMessage(null, fm);
+			return "";
+		}
+
 	}
 
-	try {
-		HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance()
-				.getExternalContext().getResponse();
-		httpServletResponse.addHeader("Content-disposition", "attachment; filename=recibo_egreso.pdf");
-
-		byte[] fichero = JasperExportManager.exportReportToPdf(reportePrintLocal);
-
-		httpServletResponse.setContentType("application/pdf");
-		httpServletResponse.setHeader("Content-disposition", "inline; filename=recibo_egreso.pdf");
-		httpServletResponse.setHeader("Cache-Control", "max-age=30");
-		httpServletResponse.setHeader("Pragma", "No-cache");
-		httpServletResponse.setDateHeader("Expires", 0);
-		httpServletResponse.setContentLength(fichero.length);
-
-		ServletOutputStream out;
-		out = httpServletResponse.getOutputStream();
-
-		out.write(fichero, 0, fichero.length);
-		out.flush();
-		out.close();
-
-		FacesContext.getCurrentInstance().responseComplete();
-		return "";
-	} catch (Exception e) {
-		System.out.println("Error en responder vista: " + e.toString());
-
-		FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error en mostrar reporte", "");
-		FacesContext.getCurrentInstance().addMessage(null, fm);
-		return "";
-	}
-
-}
-
-	
 	public String eliminar() {
 
 		if (entidad.getId() == null) {
@@ -556,7 +559,8 @@ public String vercertificadoReciboEgreso(ActionEvent actionEvent) throws JRExcep
 		lista = new ArrayList<>();
 		Integer estatusOperacionPendiente = 1;
 		try {
-			lista = servicio.listarPorPeriodoIdPuestoIdEstatusOperacionId(idPeriodo, idPuesto, estatusOperacionPendiente);
+			lista = servicio.listarPorPeriodoIdPuestoIdEstatusOperacionId(idPeriodo, idPuesto,
+					estatusOperacionPendiente);
 		} catch (Exception e) {
 			// TODO: handle exception
 			lista = null;
@@ -565,14 +569,14 @@ public String vercertificadoReciboEgreso(ActionEvent actionEvent) throws JRExcep
 		}
 
 		listafiltro = lista;
-		
+
 		obtenerCantidadRegistrosEntidad();
 	}
 
 	public void listarPeriodo() {
 
 		if (idAnioFiscal == null) {
-			
+
 			listaPeriodo = null;
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_WARN, "Seleccione periodo de anio fiscal", ""));
@@ -589,10 +593,9 @@ public String vercertificadoReciboEgreso(ActionEvent actionEvent) throws JRExcep
 			}
 		}
 	}
-	
 
 	public void onRowSelect(SelectEvent event) {
-		
+
 		if (entidadseleccionada == null) {
 			entidad = new Operacion();
 			entidadseleccionada = new Operacion();
@@ -601,8 +604,7 @@ public String vercertificadoReciboEgreso(ActionEvent actionEvent) throws JRExcep
 		} else {
 			entidad = entidadseleccionada;
 			booDetalle = true;
-			
-			
+
 			try {
 				listaPuestoPersonaCargo = new ArrayList<>();
 				listaPuestoPersonaCargo = puestoPersonaCargoService.listarPuestoId(idPuesto);
@@ -611,7 +613,7 @@ public String vercertificadoReciboEgreso(ActionEvent actionEvent) throws JRExcep
 				System.out.println("Excepcion al listar listaPuestoPersonaCargo: " + e.toString());
 				listaPuestoPersonaCargo = null;
 			}
-			
+
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "Seleccion de registro exitosa", ""));
 		}
@@ -620,7 +622,7 @@ public String vercertificadoReciboEgreso(ActionEvent actionEvent) throws JRExcep
 	public void onRowUnselect(UnselectEvent event) {
 		entidad = new Operacion();
 		entidadseleccionada = new Operacion();
-		
+
 		idAnioFiscal = null;
 		idPeriodo = null;
 		idPersona = null;
@@ -628,7 +630,7 @@ public String vercertificadoReciboEgreso(ActionEvent actionEvent) throws JRExcep
 		fechaPago = null;
 		tipoDocumento = null;
 		idPuesto = null;
-		
+
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO, "Se anulo seleccion de registro ", ""));
 	}
@@ -636,7 +638,7 @@ public String vercertificadoReciboEgreso(ActionEvent actionEvent) throws JRExcep
 	public void limpiar() {
 		entidad = new Operacion();
 		entidadseleccionada = new Operacion();
-		
+
 		idAnioFiscal = null;
 		idPeriodo = null;
 		idPuesto = null;
@@ -644,18 +646,18 @@ public String vercertificadoReciboEgreso(ActionEvent actionEvent) throws JRExcep
 		nroDocumento = null;
 		fechaPago = null;
 		tipoDocumento = null;
-		
+
 		cantidadRegistros = 0;
 
 		listafiltro = null;
 		listaPuestoPersonaCargo = null;
 		listaPeriodo = null;
-		
+
 		booDetalle = false;
 		booReporte = false;
-		
+
 		reciboEgreso = null;
-		
+
 		lista = null;
 
 	}
@@ -670,41 +672,40 @@ public String vercertificadoReciboEgreso(ActionEvent actionEvent) throws JRExcep
 		listafiltro = new ArrayList<>();
 		System.out.println("Texto a filtra: " + filtro);
 		for (int i = 0; i <= lista.size() - 1; i++) {
-			if (lista.get(i).getDescripcion().contains(filtro) || lista.get(i).getCategoriaOperacion().getDescripcion().contains(filtro)) {
+			if (lista.get(i).getDescripcion().contains(filtro)
+					|| lista.get(i).getCategoriaOperacion().getDescripcion().contains(filtro)) {
 				System.out.println("lista: " + lista.get(i).toString());
 				listafiltro.add(lista.get(i));
 			}
 		}
 		filtro = null;
-		
+
 		obtenerCantidadRegistrosEntidad();
-		
+
 		return "";
 	}
-	
+
 	public void listarPuestos() {
-		
+
 		listaPuesto = new ArrayList<>();
-		
+
 		try {
 			listaPuesto = puestoService.listarActivo();
 		} catch (Exception e) {
 			// TODO: handle exception
 			listaPuesto = null;
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Problemas al recuperar registros puestos (deudores)", ""));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					"Problemas al recuperar registros puestos (deudores)", ""));
 		}
 	}
-	
-	
+
 	public void obtenerCantidadRegistrosEntidad() {
-		
-		if(listafiltro == null || listafiltro.isEmpty()) {
+
+		if (listafiltro == null || listafiltro.isEmpty()) {
 			cantidadRegistros = 0;
-		}else {
+		} else {
 			cantidadRegistros = listafiltro.size();
 		}
 	}
-	
 
 }

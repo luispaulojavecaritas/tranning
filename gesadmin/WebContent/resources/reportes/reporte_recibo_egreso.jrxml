@@ -183,7 +183,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="8" isBold="true"/>
 				</textElement>
-				<text><![CDATA[CORRECCION POR]]></text>
+				<text><![CDATA[V.B. RECEPTOR]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="206" y="281" width="130" height="20" uuid="2e7a5d9a-6ffd-4879-8ea4-e381eb1249c9">

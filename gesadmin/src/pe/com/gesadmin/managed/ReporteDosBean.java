@@ -46,6 +46,7 @@ public class ReporteDosBean {
 	private List<ReporteDos> listafiltro;
 	private ReporteDos entidad = new ReporteDos();
 	private Integer idPuesto;
+	private String propietario;
 	
 	private boolean booReporte;
 	
@@ -70,6 +71,8 @@ public class ReporteDosBean {
 		filtro = null;
 		entidad = new ReporteDos();
 		idPuesto = null;
+		
+		propietario = "";
 		
 		booReporte= false;
 	}
@@ -168,6 +171,14 @@ public class ReporteDosBean {
 		this.puestoPersonaCargoService = puestoPersonaCargoService;
 	}
 
+	public String getPropietario() {
+		return propietario;
+	}
+
+	public void setPropietario(String propietario) {
+		this.propietario = propietario;
+	}
+
 	public void listarAnioFiscales() {
 		listaAnioFiscal = new ArrayList<>();
 
@@ -191,6 +202,21 @@ public class ReporteDosBean {
 					"Problemas al recuperar lista de categorias de operaciones"));
 		}
 	}
+	
+	public void obtenerPropietario() {
+		
+		List<PuestoPersonaCargo> lista = new ArrayList<>();
+		
+		lista= puestoPersonaCargoService.listarPuestoIdPropietarioActivo(idPuesto);
+		
+		if(lista == null || lista.isEmpty()) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "No hay socio asociado en este puestoError. Problemas al recuperar lista de categorias de operaciones",""));
+			
+			propietario = "No registrado";
+		}else {
+			propietario = lista.get(0).getPersona().getNombre() + " " + lista.get(0).getPersona().getPaterno() + " " + lista.get(0).getPersona().getMaterno();
+		}
+	}
 
 	public void limpiar() {
 		entidad = new ReporteDos();
@@ -198,6 +224,7 @@ public class ReporteDosBean {
 		lista = null;
 		listafiltro = null;
 		idPuesto = null;
+		propietario = "";
 		
 		booReporte = false;
 	}

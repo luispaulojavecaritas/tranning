@@ -113,7 +113,7 @@ public class ReporteCuatroBean {
 
 		lista = null;
 		listaAnulado = null;
-		fechaConsulta = new Date();
+		fechaConsulta = null;
 		
 		booReporte = false;
 		
@@ -128,10 +128,10 @@ public class ReporteCuatroBean {
 		
 		String fechaCadena = utilFechas.converDateToString(fechaConsulta);
 
-		try {
+		try { 
 			lista = servicio.obtenerReporteCuatroDiaNoAnulados(fechaCadena);
 			listaAnulado = servicio.obtenerReporteCuatroDiaAnulados(fechaCadena);
-		} catch (Exception e) {
+		} catch (Exception e) { 
 			// TODO: handle exception
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error. Problemas al recuperar registros", ""));
@@ -161,6 +161,22 @@ public class ReporteCuatroBean {
 		 
 		 String dia = "";
 		 dia = utilFechas.converDateToString2(fechaConsulta);
+		 
+		 Double ingresoDiario = null;
+		 Double egresoDiario = null;
+		 Double saldoDiario = null;
+		 
+		 if(lista.size()>1) {
+			 
+			 ingresoDiario = obtenerIngresoDiario();
+			 egresoDiario = obtenerEgresoDiario();
+			 saldoDiario = obtenerSaldoDiario(ingresoDiario, egresoDiario);
+			 
+		 }else {
+			 ingresoDiario = 0.0;
+			 egresoDiario = 0.0;
+			 saldoDiario = 0.0;
+		 }
 		 		 		 
 
 		System.out.println("Ruta del reporte: " + absolutePathCerdp);
@@ -168,6 +184,9 @@ public class ReporteCuatroBean {
 		// --- MAPEO DE PARAMETROS
 		Map<String, Object> parametros = new HashMap<>();
 		parametros.put("param_fecha", dia);
+		parametros.put("param_ingreso", ingresoDiario);
+		parametros.put("param_egreso", egresoDiario);
+		parametros.put("param_saldo", saldoDiario);
 		parametros.put("param_subreporte", "C:\\Users\\paulo\\Documents\\reportes_sistemas\\subuno.jasper");
 		
 		ReportePruebaCuatro reportePruebaCuatro =  new ReportePruebaCuatro();
@@ -230,5 +249,27 @@ public class ReporteCuatroBean {
 		}
 
 	}	
+	
+	private Double obtenerIngresoDiario() {
+		double monto= lista.stream()
+			      .mapToDouble(o -> o.getMontoIngreso())
+			      .sum();
+		double montoFinal = monto - lista.get(0).getMontoIngreso();
+		return montoFinal;
+	}
+	
+	private Double obtenerEgresoDiario() {
+		double monto= lista.stream()
+			      .mapToDouble(o -> o.getMontoEgreso())
+			      .sum();
+		double montoFinal = monto - lista.get(0).getMontoEgreso();
+		return montoFinal;
+	}
+	
+	private Double obtenerSaldoDiario(Double ingreso, Double egreso) {
+		double monto = ingreso - egreso;
+		return monto;
+	}
+	
 
 }

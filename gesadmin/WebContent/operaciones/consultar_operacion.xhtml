@@ -348,8 +348,12 @@ body {
 												<h:outputText value="#{per.estatusOperacion.descripcion}" />
 											</p:column>
 
-											<p:column headerText="Fecha registro">
-												<h:outputText value="#{per.registro}">
+											<p:column headerText="RC/EGRE/CC">
+												<h:outputText value="#{per.nroDoc}"/>
+											</p:column>
+											
+											<p:column headerText="Emision RC-EGRE/CC">
+												<h:outputText value="#{per.fechaPago}">
 													<f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss"
 														timeZone="GMT-5" />
 												</h:outputText>

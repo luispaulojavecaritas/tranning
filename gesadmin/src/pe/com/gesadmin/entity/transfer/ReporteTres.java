@@ -14,6 +14,7 @@ public class ReporteTres {
 	private Double ingreso;
 	private Double egreso;
 	private Double saldo;
+	private String observacion;
 
 	public ReporteTres() {
 		// TODO Auto-generated constructor stub
@@ -113,6 +114,14 @@ public class ReporteTres {
 
 	public void setSaldo(Double saldo) {
 		this.saldo = saldo;
+	}
+
+	public String getObservacion() {
+		return observacion;
+	}
+
+	public void setObservacion(String observacion) {
+		this.observacion = observacion;
 	}
 
 	@Override
